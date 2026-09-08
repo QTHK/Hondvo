@@ -784,7 +784,6 @@
 
   <div class="inner-hero mold-hero-video">
     <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="images/mold-hero-poster.jpg">
-      <source src="assets/video/mold-hero-hv.mp4" type='video/mp4; codecs="hvc1.1.6.L120.90"'>
       <source src="assets/video/mold-hero-h.mp4" type="video/mp4">
     </video>
     <span class="eyebrow" data-lang-key="mold_hero_eyebrow">医疗器械精密制造</span>
