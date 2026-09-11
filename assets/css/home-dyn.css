@@ -1,0 +1,380 @@
+/* ═══════════════════════════════════════════════════════════════
+   HOME DYNAMIC V1 — 首页动效 + 排版现代化（独立文件，可整体回滚）
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ────────── 1. HERO：交错入场（叠加在既有 ken-burns / char 之上） ────────── */
+#page-home .hero h1             { animation: dynHeroFade .8s cubic-bezier(.2,.7,.3,1) .22s both; }
+#page-home .hero .hero-tag       { animation: dynHeroFade .7s ease .08s both; }
+#page-home .hero .hero-sub       { animation: dynHeroFade .8s ease .40s both; }
+#page-home .hero .hero-actions   { animation: dynHeroFade .9s ease .60s both; }
+#page-home .hero .hero-scroll-hint { animation: dynHeroFade 1s ease 1.0s both; }
+
+@keyframes dynHeroFade {
+  from { opacity: 0; transform: translateY(24px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* 背景呼吸光晕，强化"守护生命"氛围 */
+#page-home .hero .hero-overlay {
+  background:
+    radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,.25) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.66) 100%);
+}
+
+/* ────────── 2. STATS：半叠毛玻璃浮卡 + 数字渐变 ────────── */
+#page-home .hero { height: auto; min-height: 100vh; padding-bottom: 84px; }
+
+#page-home .stats-bar {
+  position: relative;
+  z-index: 5;
+  margin-top: -58px;
+  width: calc(100% - clamp(48px, 8vw, 150px));
+  margin-left: auto;
+  margin-right: auto;
+  padding: clamp(20px, 3vw, 32px) clamp(24px, 4vw, 48px);
+  background: rgba(255, 255, 255, .72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, .65);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px -18px rgba(15, 23, 42, .22);
+  gap: clamp(18px, 4vw, 56px);
+}
+
+#page-home .stat-item .num {
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 700;
+  background: linear-gradient(115deg, var(--brand) 0%, var(--brand-200) 60%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ────────── 3. CLIENT LOGO WALL：无缝跑马灯 ────────── */
+#page-home .logo-wall-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  max-width: none;
+  width: 100%;
+  overflow: hidden;
+  padding: 4px 0 8px;
+}
+#page-home .logo-wall-grid .marquee-track {
+  display: flex;
+  gap: 20px;
+  flex-shrink: 0;
+  min-width: 100%;
+  width: max-content;
+  animation: dynLogoMarquee 44s linear infinite;
+  will-change: transform;
+}
+#page-home .logo-wall-grid:hover .marquee-track { animation-play-state: paused; }
+#page-home .logo-wall-grid .marquee-track .logo-wall-item { flex: 0 0 auto; width: 170px; }
+
+@keyframes dynLogoMarquee { to { transform: translateX(-50%); } }
+
+/* ────────── 4. CARD 3D TILT + 光晕跟随 ────────── */
+#page-home .prod-card,
+#page-home .sector-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform .16s ease-out, box-shadow .35s ease, border-color .35s ease;
+}
+#page-home .prod-card:hover,
+#page-home .sector-card:hover {
+  transform: perspective(920px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-6px);
+  box-shadow: 0 26px 52px -18px rgba(15, 23, 42, .28);
+}
+/* 光晕跟随指针 */
+#page-home .prod-card, #page-home .sector-card { position: relative; }
+#page-home .prod-card::after, #page-home .sector-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none; opacity: 0;
+  background: radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(30,90,200,.16), transparent 65%);
+  transition: opacity .3s ease;
+  z-index: 2;
+}
+#page-home .prod-card:hover::after, #page-home .sector-card:hover::after { opacity: 1; }
+
+/* ────────── 5. FLOW STEP：序号点亮 + 依次流光 ────────── */
+#page-home .flow-step { overflow: hidden; }
+#page-home .flow-step .flow-num {
+  display: inline-block;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--brand);
+  opacity: .9;
+  transition: transform .35s var(--ease), color .35s ease;
+  margin-bottom: 8px;
+}
+#page-home .flow-step:hover .flow-num {
+  transform: translateY(-3px) scale(1.06);
+  color: var(--brand-hover, var(--brand));
+}
+#page-home .home-flow { gap: 22px; }
+#page-home .flow-step:not(:last-child)::after { right: -15px; }
+
+/* ────────── 6. CTA：流光描边文字 ────────── */
+#page-home .cta-link {
+  background-image: linear-gradient(110deg,
+    transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%);
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: dynCtaShimmer 3.4s linear infinite;
+}
+@keyframes dynCtaShimmer { to { background-position: -220% 0; } }
+
+/* ────────── 7. 排版现代化：left-aligned editorial sec-header ────────── */
+#page-home .sec-header {
+  text-align: left;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: clamp(24px, 5vw, 80px);
+  padding-right: clamp(24px, 5vw, 80px);
+}
+#page-home .sec-header h2 { font-size: clamp(26px, 3.2vw, 40px); letter-spacing: .2px; line-height: 1.15; }
+#page-home .sec-header .line { margin: 16px 0 18px; }
+#page-home .sec-header .eyebrow { margin-bottom: 14px; }
+
+/* ────────── 8. 非对称产品栅格（首卡 feature） ────────── */
+#page-home .prod-grid { grid-template-columns: repeat(12, 1fr); }
+#page-home .prod-grid .prod-card { grid-column: span 4; }
+#page-home .prod-grid .prod-card:nth-child(1) { grid-column: span 8; }
+#page-home .prod-grid .prod-card .card-img { height: 236px; }
+#page-home .prod-grid .prod-card:nth-child(1) .card-img { height: 300px; }
+
+/* ────────── 响应式 ────────── */
+@media (max-width: 860px) {
+  #page-home .stats-bar { margin-top: -34px; width: calc(100% - 32px); flex-direction: row; flex-wrap: wrap; gap: 16px 28px; justify-content: space-around; }
+  #page-home .hero { padding-bottom: 60px; }
+  #page-home .prod-grid,
+  #page-home .prod-grid .prod-card,
+  #page-home .prod-grid .prod-card:nth-child(1) { grid-template-columns: 1fr; grid-column: 1 / -1; }
+  #page-home .prod-grid .prod-card .card-img,
+  #page-home .prod-grid .prod-card:nth-child(1) .card-img { height: 200px; }
+}
+
+@media (max-width: 767px) {
+  /* 移动端保留网格展示，跑马灯降级 */
+  #page-home .logo-wall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); overflow: visible; }
+  #page-home .logo-wall-grid .marquee-track { animation: none; flex-wrap: wrap; width: 100%; min-width: 0; }
+  #page-home .logo-wall-grid .marquee-track .logo-wall-item { width: auto; flex: 1 1 calc(50% - 10px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HOME DYNAMIC V2 — 更大胆排版（深色大卡 / 错落节奏 / 头条横跨）
+   标签：sectors 深色编号卡 · flow 锯齿流水线 · news 头条大卡
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ────────── 9. SECTORS：深色错落大卡 + 巨型描边编号 ────────── */
+#page-home .home-sectors {
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 2.4vw, 26px);
+  align-items: start; /* 允许错落 */
+}
+#page-home .sector-card {
+  background:
+    radial-gradient(140% 170% at 90% -20%, rgba(216,120,48,.28) 0%, rgba(216,120,48,0) 55%),
+    linear-gradient(155deg, #12253c 0%, #0e1c2f 55%, #0a1522 100%);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 20px;
+  padding: 34px 28px 30px;
+  min-height: 250px;
+  overflow: hidden;
+}
+#page-home .sector-card:nth-child(2) { margin-top: 46px; } /* 中间下沉，形成节奏 */
+#page-home .sector-card:nth-child(3) { margin-top: 12px; }
+
+/* 巨型描边编号水印 */
+#page-home .sector-card::before {
+  content: "";
+  position: absolute;
+  right: 12px; top: 4px;
+  font-size: clamp(64px, 7vw, 96px);
+  font-weight: 900;
+  line-height: 1;
+  font-family: var(--font-sans);
+  color: transparent;
+  -webkit-text-stroke: 1.6px rgba(255,255,255,.16);
+  pointer-events: none;
+  z-index: 0;
+}
+#page-home .sector-card:nth-child(1)::before { content: "01"; }
+#page-home .sector-card:nth-child(2)::before { content: "02"; }
+#page-home .sector-card:nth-child(3)::before { content: "03"; }
+
+#page-home .sector-card > * { position: relative; z-index: 1; }
+#page-home .sector-card h3 { color: #fff; font-size: clamp(20px, 2vw, 26px); letter-spacing: .3px; }
+#page-home .sector-card p  { color: rgba(255,255,255,.66); }
+#page-home .sector-card .sector-more {
+  color: var(--brand-200);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+#page-home .sector-card .sector-more::before { content: "→"; transition: transform .3s var(--ease); }
+#page-home .sector-card:hover .sector-more::before { transform: translateX(5px); }
+
+/* 图标放大 + 品牌霓虹 */
+#page-home .sector-card .sector-ic {
+  width: 62px; height: 62px; border-radius: 18px;
+  background: rgba(216,120,48,.16);
+  border: 1px solid rgba(216,120,48,.42);
+  color: var(--brand-200);
+  box-shadow: inset 0 0 26px rgba(216,120,48,.28), 0 0 24px rgba(216,120,48,.16);
+  margin-bottom: 24px;
+}
+#page-home .sector-card .sector-ic svg { width: 32px; height: 32px; }
+
+/* ────────── 10. FLOW：锯齿错落流水线 + 渐变拆线 ────────── */
+#page-home .home-flow {
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+  align-items: start; /* 允许锯齿 */
+}
+#page-home .flow-step:nth-child(even) { margin-top: 48px; } /* 交替下沉 */
+#page-home .flow-step {
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px 22px 26px;
+  min-height: 188px;
+}
+#page-home .flow-step .flow-num {
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  font-size: 20px; font-weight: 800; color: #fff;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-300) 100%);
+  box-shadow: 0 10px 22px -6px rgba(216,120,48,.5);
+  margin-bottom: 18px;
+}
+#page-home .flow-step h3 { font-size: clamp(19px, 1.8vw, 24px); }
+#page-home .flow-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -17px; top: 84px;
+  width: 26px; height: 2px;
+  background: linear-gradient(90deg, var(--brand) 0%, rgba(216,120,48,.15) 100%);
+  border: none; transform: none; margin-top: 0; z-index: 1;
+}
+
+/* ────────── 11. NEWS：头条大卡横跨 + 双列 ────────── */
+#page-home .home-news {
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(18px, 2vw, 24px);
+}
+#page-home .news-card { grid-column: span 3; border-radius: 16px; border-left: 3px solid var(--brand); }
+#page-home .news-card:nth-child(1) {
+  grid-column: 1 / span 6;
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(216,120,48,.22), transparent 60%),
+    linear-gradient(135deg, #101f33 0%, #0b1626 100%);
+  border: none; border-left: 4px solid var(--brand);
+  color: #fff;
+  padding: 36px 34px;
+  justify-content: center;
+}
+#page-home .news-card:nth-child(1) h3 { color: #fff; font-size: clamp(22px, 2.6vw, 32px); font-weight: 800; }
+#page-home .news-card:nth-child(1) .news-tag { background: var(--brand); color: #fff; }
+
+/* V2 标题张力：更大 + 渐变短线 */
+#page-home .sec-header h2 { font-size: clamp(32px, 4vw, 52px); }
+#page-home .sec-header .line {
+  width: 76px; height: 3px; margin: 18px 0 20px;
+  background: linear-gradient(90deg, var(--brand) 0%, rgba(216,120,48,0) 120%);
+  border-radius: 3px;
+}
+
+/* V2 响应式 */
+@media (max-width: 860px) {
+  #page-home .home-sectors { grid-template-columns: 1fr; }
+  #page-home .sector-card:nth-child(2),
+  #page-home .sector-card:nth-child(3) { margin-top: 0; }
+  #page-home .home-flow { grid-template-columns: 1fr 1fr; }
+  #page-home .flow-step:nth-child(even) { margin-top: 0; }
+  #page-home .flow-step:not(:last-child)::after { display: none; }
+  #page-home .home-news { grid-template-columns: 1fr; }
+  #page-home .news-card,
+  #page-home .news-card:nth-child(1) { grid-column: 1 / -1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-home .sector-card .sector-more::before { transition: none; }
+}
+
+/* ────────── reduced-motion：全部关闭 ────────── */
+@media (prefers-reduced-motion: reduce) {
+  #page-home .hero h1,
+  #page-home .hero .hero-tag,
+  #page-home .hero .hero-sub,
+  #page-home .hero .hero-actions,
+  #page-home .hero .hero-scroll-hint,
+  #page-home .logo-wall-grid .marquee-track,
+  #page-home .cta-link {
+    animation: none !important;
+  }
+  #page-home .prod-card, #page-home .sector-card { transition: none !important; }
+}
+
+/* ────────── 12. 首页"查看全部新闻"按钮 · 大胆设计版（大号饱和渐变+外扩光晕） ────────── */
+#page-home .home-news-more {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: max-content;
+  margin: 34px 0 56px auto; /* 左 auto 右对齐，底部留白衔接尾栏 */
+  padding: 15px 38px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: .6px;
+  color: #fff;
+  background: linear-gradient(120deg, #F0874A 0%, var(--brand) 48%, #C25A1A 100%);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 30px rgba(216, 120, 48, .42),
+    inset 0 1px 0 rgba(255, 255, 255, .35);
+  transition: transform var(--ease) var(--t), box-shadow var(--ease) var(--t), filter var(--ease) var(--t);
+}
+/* 外层柔光晕：悬停时扩散一圈品牌色虹晕 */
+#page-home .home-news-more::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 24px;
+  background: radial-gradient(70% 130% at 30% 0%, rgba(216, 120, 48, .38), transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--ease) var(--t);
+}
+/* 底部高亮渐变弧线，让按钮更跳 */
+#page-home .home-news-more::after {
+  content: "";
+  position: absolute;
+  left: 18px; right: 18px; bottom: -6px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(216,120,48,0), var(--brand), rgba(216,120,48,0));
+  filter: blur(2px);
+  opacity: .55;
+  transition: opacity var(--ease) var(--t);
+}
+#page-home .home-news-more:hover {
+  color: #fff;
+  transform: translateY(-3px) scale(1.03);
+  filter: brightness(1.08);
+  box-shadow:
+    0 16px 42px rgba(216, 120, 48, .52),
+    inset 0 1px 0 rgba(255, 255, 255, .5);
+}
+#page-home .home-news-more:hover::before { opacity: 1; }
+#page-home .home-news-more:hover::after { opacity: 1; }
+#page-home .home-news-more:active { transform: translateY(-1px) scale(.99); }
+#page-home .home-news-more:focus-visible { outline: 3px solid rgba(216, 120, 48, .4); outline-offset: 4px; }
