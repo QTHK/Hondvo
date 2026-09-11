@@ -1159,6 +1159,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
     }
 
+    window.HNDVO_closeSearch = closeSearch;
+
     function updateActive(t){
 
       t = t || results;
@@ -1173,6 +1175,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     toggle.addEventListener('click', function(e){
       e.stopPropagation();
+      var _hl = document.querySelector('.hnav-lang'); if (_hl) _hl.classList.remove('open');
       if (box.classList.contains('open')) closeSearch(); else openSearch();
       toggle.setAttribute('aria-expanded', box.classList.contains('open') ? 'true' : 'false');
     });
@@ -2668,6 +2671,7 @@ function setupGlobalInteractions(){
   });
   document.getElementById("lang-btn").addEventListener("click", e=>{
     e.stopPropagation();
+    window.HNDVO_closeSearch && window.HNDVO_closeSearch();
     document.querySelector(".hnav-lang").classList.toggle("open");
   });
   const burger = document.getElementById("hnav-burger");

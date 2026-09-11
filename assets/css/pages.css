@@ -134,76 +134,52 @@
 .hnav-lang:hover{color:var(--brand)}
 .hnav-lang.open{color:var(--brand)}
 
-/* ===== 询价 CTA（Uiverse cssbuttons-io learn-more 风格 · 品牌橙版 · 圆圈呼吸动效 · v24 居中修正） ===== */
+/* ===== 询价 CTA（Uiverse Creatlydev Payments 风 · 品牌橙 + 白底 · 图标+文字横卡 · hover 橙条滑入） ===== */
 .hnav-cta-new{
+  --clr:var(--brand);                      /* 左图标块：品牌橙 #D87830 */
   position:relative;
-  display:inline-block;       /* 关键：固定 width 生效，inline-flex 会自适应撑开 */
+  display:inline-flex;align-items:stretch;flex-shrink:0;
   cursor:pointer;
-  width:11rem;height:36px;    /* 固定高度让 absolute 子元素能对齐 */
-  background:transparent;border:0;padding:0;
-  border-radius:999px;
-  font-family:inherit;text-decoration:none;vertical-align:middle;
-  white-space:nowrap;overflow:hidden;
-  font-size:13.5px;font-weight:600;letter-spacing:.02em;
-  color:var(--brand-strong);
-  transition:color .45s cubic-bezier(.65,0,.076,1);
-  flex-shrink:0;
+  text-decoration:none;font-family:inherit;vertical-align:middle;
+  background-color:#fff;                   /* 蓝底 → 白底 */
+  border:0;padding:0;
+  border-radius:1.5rem;overflow:hidden;
+  box-shadow:10px 10px 20px rgba(0,0,0,.05);
+  line-height:1;color:var(--accent-hover);
 }
-.hnav-cta-new .circle{
-  position:absolute;top:0;left:0;
-  display:block;margin:0;
-  width:36px;height:36px;
-  background:linear-gradient(135deg,var(--brand) 0%,#F3914E 100%);
-  border-radius:999px;
-  transition:width .45s cubic-bezier(.65,0,.076,1), left .45s cubic-bezier(.65,0,.076,1);
-  box-shadow:0 6px 14px -6px rgba(216,120,48,.55);
-  animation:hnav-cta-circle-pulse 2.4s ease-in-out infinite;
-  z-index:1;
+/* hover 滑入的橙条（原 --clr 装饰条） */
+.hnav-cta-new .button-decor{
+  position:absolute;inset:0;
+  background-color:var(--clr);
+  transform:translateX(-100%);
+  transition:transform .3s;
+  z-index:0;pointer-events:none;
 }
-/* 圆圈内图标层（横线 + 三角箭头 · 整体居中 36x36 圆内） */
-.hnav-cta-new .circle .icon{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:18px;height:18px;
-  background:none;
-  transition:transform .45s cubic-bezier(.65,0,.076,1);
-}
-/* 箭头横线 */
-.hnav-cta-new .circle .icon.arrow::before{
-  content:"";position:absolute;top:8px;left:1px;
-  width:11px;height:1.5px;
-  background:#fff;border-radius:1px;
-}
-/* 箭头三角（→ 的头） */
-.hnav-cta-new .circle .icon.arrow::after{
-  content:"";position:absolute;top:4px;right:0;
-  width:7px;height:7px;
-  border-top:1.5px solid #fff;border-right:1.5px solid #fff;
-  transform:rotate(45deg);
-}
-/* 文字：absolute 全覆盖 + padding-left 让位圆圈，不重叠 */
-.hnav-cta-new .button-text{
-  position:absolute;top:0;left:0;right:0;bottom:0;
+.hnav-cta-new .button-content{
   display:flex;align-items:center;
-  padding:0 16px 0 48px;       /* 左 48px = 圆圈 36px + 间距 12px */
-  margin:0;
-  color:var(--brand-strong);font-weight:700;letter-spacing:.04em;
-  text-align:left;
-  transition:color .45s cubic-bezier(.65,0,.076,1);
-  z-index:0;
+  font-weight:600;position:relative;overflow:hidden;
 }
-.hnav-cta-new:hover .circle{
-  width:100%;left:0;
-  animation-play-state:paused;
+/* 左侧图标橙块 48x40 */
+.hnav-cta-new .button__icon{
+  width:48px;height:40px;
+  background-color:var(--clr);
+  display:grid;place-items:center;
+  flex-shrink:0;position:relative;z-index:1;
 }
-.hnav-cta-new:hover .button-text{color:#fff}
-.hnav-cta-new:hover .circle .icon{transform:translate(-50%,-50%) translateX(3px)}
-
-/* 圆圈呼吸：缩放 1 → 1.06 → 1 + 阴影起伏 */
-@keyframes hnav-cta-circle-pulse{
-  0%,100%{transform:scale(1);box-shadow:0 6px 14px -6px rgba(216,120,48,.55)}
-  50%{transform:scale(1.06);box-shadow:0 9px 20px -6px rgba(216,120,48,.72)}
+.hnav-cta-new .button__icon svg{display:block}
+/* 右侧文字（白底默认深蓝 → hover 橙底转白，保证均可读） */
+.hnav-cta-new .button__text{
+  position:relative;z-index:1;
+  display:inline-block;
+  transition:color .2s;
+  padding:2px 1.5rem 2px .75rem;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+  max-width:150px;
+  font-size:14px;font-weight:700;letter-spacing:.04em;
+  color:var(--accent-hover);               /* 白底上深蓝字 */
 }
+.hnav-cta-new:hover .button-decor{transform:translate(0)}
+.hnav-cta-new:hover .button__text{color:#fff}   /* 橙底上白字 */
 
 /* 顶栏语言文字切换：淡出-淡入 */
 #lang-label{
@@ -284,62 +260,28 @@
 .hnav-burger.open span::before{transform:translateY(6px) rotate(45deg)}
 .hnav-burger.open span::after{transform:translateY(-6px) rotate(-45deg)}
 
-/* ===== 搜索框（Uiverse boryanakrasteva 圆形展开式 · logo 双色：橙 #D87830 默认圆 / 橙 #D87830 展开下划线） ===== */
+/* ===== 搜索框（方案 A：橙实底圆钮+白图标 · 点击展开全宽 search-panel 全文搜索） ===== */
 .hnav-search{
   position:relative;
   display:flex;align-items:center;justify-content:flex-end;
   height:46px;
   margin-left:auto;            /* 推到 .hnav-tools 最右（与 CTA/lang 之间留空隙） */
 }
-.input-wrapper{
+/* 橙实底圆形搜索按钮（方案 A） */
+.hnav-search-toggle{
   display:flex;align-items:center;justify-content:center;
-  gap:15px;position:relative;
-}
-/* 默认：品牌橙实心圆，只露图标 */
-.input{
-  border-style:none;
-  height:44px;width:44px;
-  padding:10px;
-  outline:none;
-  border-radius:50%;
-  transition:.5s ease-in-out;
-  background-color:var(--brand);
-  box-shadow:0 0 0 0 rgba(216,120,48,.35);
-  padding-right:38px;
-  color:#1f2937;                 /* 聚焦后文字深色（默认态隐藏，聚焦后才显现） */
-  font-family:inherit;
-  font-size:14px;
-}
-.input::placeholder{
-  color:#9aa3ad;                 /* 聚焦后 placeholder 灰底可见 */
-  font-family:inherit;
-  opacity:1;
-}
-/* 圆形搜索按钮（图标叠在圆右侧 · 绝对居中） */
-.icon{
-  display:flex;align-items:center;justify-content:center;
-  position:absolute;top:50%;right:0;transform:translateY(-50%);
-  cursor:pointer;
   width:44px;height:44px;
-  outline:none;
   border-style:none;
   border-radius:50%;
-  pointer-events:painted;
-  background-color:transparent;
-  transition:.2s linear;
+  cursor:pointer;
+  background-color:var(--brand,#D87830);
+  color:#fff;
+  box-shadow:0 6px 18px -6px rgba(216,120,48,.55);
+  transition:background-color var(--t) var(--ease-out), transform var(--t) var(--ease-out), box-shadow var(--t) var(--ease-out);
 }
-.icon svg{display:block;margin:auto}   /* svg 居中兜底 */
-.icon svg path{stroke:#fff}
-/* focus：展开为长条 + 透明底 + 品牌橙下划线 */
-.icon:focus ~ .input,
-.input:focus{
-  box-shadow:none;
-  width:230px;
-  border-radius:0;
-  background-color:transparent;
-  border-bottom:3px solid var(--brand);   /* v24：橙色（原 #7e4fd4 紫已替换） */
-  transition:all 500ms cubic-bezier(0,0.110,0.35,2);
-}
+.hnav-search-toggle svg{display:block}
+.hnav-search-toggle:hover{background-color:var(--brand-strong,#C5571A);box-shadow:0 8px 22px -6px rgba(197,87,26,.6)}
+.hnav-search-toggle:focus-visible{outline:3px solid var(--brand-15,rgba(216,120,48,.3));outline-offset:2px}
 
 /* ===== 卡片型下拉 ===== */
 .hnav-panel{
@@ -428,7 +370,7 @@
   transform-origin:top right;
   transform:translateY(-6px) scale(.96);opacity:0;pointer-events:none;
   transition:transform var(--t) var(--ease-out), opacity var(--t) var(--ease-out);
-  z-index:60;
+  z-index:1100;
 }
 .hnav-lang.open .hnav-lang-pop{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
 

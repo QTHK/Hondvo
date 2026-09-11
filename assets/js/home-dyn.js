@@ -76,7 +76,19 @@
     boot();
   }
 
+  /* ── 4. 统计数字重播：切页后重置一次性标记，每次回来重新滚动 ── */
+  // main.js 的 COUNTER 用 data-counted 保证只滚一次；SPA 切页(CSS :target)
+  // 切走再切回时该标记仍存在，导致数字不再滚动。这里在每次 hashchange 时
+  // 清掉标记，等元素重新进入视口(切回可见)时 IntersectionObserver 会再次触发。
+  function resetStatCounters() {
+    document.querySelectorAll('.stat-item[data-counted], .as-item[data-counted]')
+      .forEach(function (el) { el.removeAttribute('data-counted'); });
+  }
+
   window.addEventListener('hashchange', function () {
+    // 关键：hashchange 是同步的，而 main.js 的 IntersectionObserver 回调在
+    // 后续渲染帧异步触发。这里必须同步清掉 data-counted，IO 再触发时才能重滚。
+    resetStatCounters();
     var h = location.hash || '#page-home';
     if (h === '#page-home') {
       setTimeout(replayHero, 80);

@@ -1,0 +1,117 @@
+/* ═══════════════════════════════════════════════════════════════
+   LAUNCH SCREEN — 网站启动加载屏（品牌欢迎幕布）
+   方案A：深蓝科技幕 + logo 光圈呼吸 + 橙色进度线 + 标语
+   独立文件，可整体回滚（删除本文件 + HTML 中 link / div / script 引用）。
+   配套：assets/js/launch.js 收幕逻辑
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 收幕前锁定页面滚动，避免加载期误触滚动 */
+html.launch-lock,
+html.launch-lock body { overflow: hidden; height: 100%; }
+
+#launch {
+  position: fixed;
+  inset: 0;
+  /* 需高于站内已有 #skeleton（9999）等全屏层，确保品牌幕布盖在最上 */
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(216,120,48,.14) 0%, rgba(216,120,48,0) 55%),
+    linear-gradient(160deg, #12253c 0%, #0e1c2f 55%, #0a1522 100%);
+  opacity: 1;
+  transition: opacity .8s ease, visibility .8s ease;
+}
+#launch.leave {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* logo 光圈呼吸 */
+#launch .launch-logo {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: launchBreath 2s ease-in-out infinite;
+}
+#launch .launch-logo img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+#launch .launch-logo::before,
+#launch .launch-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+#launch .launch-logo::before {
+  border: 2px solid rgba(216,120,48,.55);
+  animation: launchRing 2.2s ease-out infinite;
+}
+#launch .launch-logo::after {
+  border: 1px solid rgba(48,72,120,.5);
+  animation: launchRing 2.2s ease-out .55s infinite;
+}
+
+@keyframes launchBreath {
+  0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 18px rgba(216,120,48,.35)); }
+  50%      { transform: scale(1.05); filter: drop-shadow(0 0 34px rgba(216,120,48,.6)); }
+}
+@keyframes launchRing {
+  0%   { transform: scale(.9);  opacity: .9; }
+  70%  { transform: scale(1.55); opacity: 0; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+
+/* 标语：英文为主，Welcome to 白字，HONDVO 加粗 + logo 橙蓝渐变 */
+#launch .launch-tagline {
+  font-size: clamp(18px, 2.6vw, 26px);
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,.9);
+  text-align: center;
+}
+#launch .launch-welcome { color: rgba(255,255,255,.9); }
+#launch .launch-brand {
+  font-weight: 800;
+  letter-spacing: 5px;
+  background: linear-gradient(115deg, #D87830 0%, #F0A35E 55%, #304878 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 橙色进度线 */
+#launch .launch-bar {
+  width: min(220px, 60vw);
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255,255,255,.12);
+  overflow: hidden;
+}
+#launch .launch-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #F0874A, #D87830 60%, #C25A1A);
+  animation: launchFill 3s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes launchFill { from { width: 0; } to { width: 100%; } }
+
+/* reduced-motion：关闭动效但保留幕布淡出 */
+@media (prefers-reduced-motion: reduce) {
+  #launch .launch-logo { animation: none; }
+  #launch .launch-logo::before, #launch .launch-logo::after { animation: none; display: none; }
+  #launch .launch-bar i { animation-duration: .001s; }
+}
