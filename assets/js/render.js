@@ -555,19 +555,12 @@
       });
   }
 
-  // 语言切换挂钩：包装 switchLang，切换后用缓存翻译重渲染
-  function hookSwitchLang() {
-    if (typeof window.switchLang !== 'function') {
-      window.addEventListener('load', hookSwitchLang);
-      return;
-    }
-    var orig = window.switchLang;
-    window.switchLang = function (lang) {
-      var r = orig(lang);
-      if (loaded) applyCms(lang);
-      return r;
-    };
-  }
+  // 语言切换改用事件总线（P1-20）：原实现包装 window.switchLang，
+  // 而本文件内有两处包装（CMS 段与 M7 段）互相叠加，切一次语言触发多轮重渲染。
+  document.addEventListener('hondvo:lang', function (e) {
+    var lang = (e && e.detail && e.detail.lang) || curLang();
+    if (loaded) applyCms(lang);
+  });
 
   // 全局图片兜底：任何 <img> 加载失败（404 / 断链 / 竞态）一律替换为中性占位图，避免破图
   function bindImgFallback() {
@@ -581,7 +574,6 @@
   }
   function boot() {
     bindImgFallback();
-    hookSwitchLang();
     load();
   }
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -591,7 +583,6 @@
   }
   window.addEventListener('load', function () {
     if (!loaded) load();
-    if (typeof window.switchLang !== 'function') hookSwitchLang();
   });
 
   // ---------- 产品卡点击委托（覆盖静态卡 + CMS 动态卡） ----------
@@ -1214,25 +1205,15 @@
     });
   }
 
-  // 语言切换挂钩：切换后用当前语言重新拉取并渲染 M7 模块（FAQ/招聘/友链/下载）
-  function hookSwitchLang() {
-    if (typeof window.switchLang !== 'function') {
-      window.addEventListener('load', hookSwitchLang);
-      return;
-    }
-    var orig = window.switchLang;
-    window.switchLang = function (lang) {
-      var r = orig(lang);
-      renderFaqs();
-      renderJobs();
-      renderLinks();
-      renderDownloads();
-      return r;
-    };
-  }
+  // 语言切换改用事件总线（P1-20）：切换后用当前语言重新渲染 M7 模块（FAQ/招聘/友链/下载）
+  document.addEventListener('hondvo:lang', function () {
+    renderFaqs();
+    renderJobs();
+    renderLinks();
+    renderDownloads();
+  });
 
   function boot() {
-    hookSwitchLang();
     bindFaqToggle();
     bindSubscribe();
     bindDownloads();
