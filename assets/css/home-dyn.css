@@ -7,7 +7,20 @@
 #page-home .hero .hero-tag       { animation: dynHeroFade .7s ease .08s both; }
 #page-home .hero .hero-sub       { animation: dynHeroFade .8s ease .40s both; }
 #page-home .hero .hero-actions   { animation: dynHeroFade .9s ease .60s both; }
-#page-home .hero .hero-scroll-hint { animation: dynHeroFade 1s ease 1.0s both; }
+/* 入场 + 浮动双动画并行：main.css 的 .hero-scroll-hint 用 translateX(-50%) 居中，
+   而 dynHeroFade 的 to{transform:translateY(0)} 且 fill-mode:both 会永久吃掉居中位移。
+   故改用保留 -50% 的专用关键帧，并把 hintFloat 一并排入动画列表
+   （animation 是覆盖而非叠加，不写就再也播不出浮动）。 */
+#page-home .hero .hero-scroll-hint {
+  animation:
+    dynHeroFadeCentered 1s ease 1.0s both,
+    hintFloat 2s ease-in-out 2s infinite;
+}
+
+@keyframes dynHeroFadeCentered {
+  from { opacity: 0; transform: translate(-50%, 24px); filter: blur(4px); }
+  to   { opacity: 1; transform: translate(-50%, 0);    filter: blur(0); }
+}
 
 @keyframes dynHeroFade {
   from { opacity: 0; transform: translateY(24px); filter: blur(4px); }
@@ -320,6 +333,8 @@
     animation: none !important;
   }
   #page-home .prod-card, #page-home .sector-card { transition: none !important; }
+  /* 动画被移除后，居中位移必须显式声明（不能依赖动画的 transform） */
+  #page-home .hero .hero-scroll-hint { transform: translate(-50%, 0) !important; }
 }
 
 /* ────────── 12. 首页"查看全部新闻"按钮 · 大胆设计版（大号饱和渐变+外扩光晕） ────────── */
