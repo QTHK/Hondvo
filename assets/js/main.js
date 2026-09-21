@@ -628,53 +628,7 @@ document.addEventListener('keydown', function(e){
 
 /* ═══════════ HAMBURGER MENU ═══════════ */
 
-(function(){
-
-  var hamburger = document.getElementById('hamburger');
-
-  var nav = document.getElementById('nav');
-
-  if (!hamburger) return;
-
-  hamburger.addEventListener('click', function(e){
-
-    e.stopPropagation();
-
-    var isOpen = nav.classList.toggle('open');
-
-    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-
-  });
-
-  nav.querySelectorAll('.links a').forEach(function(link){
-
-    link.addEventListener('click', function(){
-
-      // Keep nav open for dropdown toggles (handled separately)
-
-      if (link.parentElement.classList.contains('has-dropdown')) return;
-
-      nav.classList.remove('open');
-
-      hamburger.setAttribute('aria-expanded', 'false');
-
-    });
-
-  });
-
-  document.addEventListener('click', function(e){
-
-    if (!nav.contains(e.target)) nav.classList.remove('open');
-
-  });
-
-  window.addEventListener('resize', function(){
-
-    if (window.innerWidth > 768) nav.classList.remove('open');
-
-  });
-
-})();
+/* #hamburger 绑定段已于 P1-15 删除：HTML 中只有 #hnav-burger，本段恒早退 */
 
 
 
@@ -998,29 +952,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-  /* ═══════════ 语言切换 C（地球胶囊 + 网格） ═══════════ */
-  (function(){
-    var sw = document.getElementById('lang-switch');
-    var btn = document.getElementById('lang-c-btn');
-    var grid = document.getElementById('lang-grid');
-    if (!sw || !btn || !grid) return;
-    btn.addEventListener('click', function(e){
-      e.stopPropagation();
-      var open = sw.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    grid.querySelectorAll('button').forEach(function(b){
-      b.addEventListener('click', function(e){
-        e.stopPropagation();
-        switchLang(b.getAttribute('data-lang'));
-        sw.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      });
-    });
-    document.addEventListener('click', function(e){
-      if (!sw.contains(e.target)) { sw.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
-    });
-  })();
+  /* 语言切换 C 段已于 P1-15 删除：HTML 中不存在 #lang-switch / #lang-c-btn / #lang-grid，实际使用的是 .hnav-lang（见 bindLangPop）*/
 
   /* ═══════════ NAV SEARCH (全文搜索) ═══════════ */
 
@@ -1489,6 +1421,16 @@ document.addEventListener('DOMContentLoaded', function(){
           f.name.value = ''; f.company.value = ''; f.phone.value = '';
 
           f.email.value = ''; f.type.selectedIndex = 0; f.desc.value = '';
+
+          // 留言采集：表单提交即明示同意，独立于行为追踪 Cookie，始终可用。
+          // 此处只上报非个人身份信息 + visitorId（姓名/电话/邮箱不写入埋点端点）。
+          if (window.__hondvoTrack && typeof window.__hondvoTrack.recordMessage === 'function') {
+            window.__hondvoTrack.recordMessage({
+              product: type, source: source,
+              lang: currentLang(),
+              hasCompany: !!company, hasPhone: !!phone, hasEmail: !!email
+            });
+          }
 
         })
 

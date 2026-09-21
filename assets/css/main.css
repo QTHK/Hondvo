@@ -377,9 +377,13 @@
 
   }
 
-  /* 首页首屏：导航栏完全透明，露出 hero 大图 */
+  /* 首页首屏：导航栏完全透明，露出 hero 大图
+     P1-15 方案 B：原选择器 .nav.on-home 永不匹配 —— 实际导航元素是
+     <nav class="hnav" id="nav">（.nav 为已废弃的旧导航样式），
+     故本规则一直没有生效。改为 .hnav.on-home 使其真正生效；
+     同时清掉 pages.css 中 .hnav 的 1px 底边线，避免透明状态下残留一道细线。 */
 
-  .nav.on-home:not(.scrolled):not(:hover) {
+  .hnav.on-home:not(.scrolled):not(:hover) {
 
     background: transparent;
 
@@ -388,6 +392,8 @@
     -webkit-backdrop-filter: none;
 
     box-shadow: none;
+
+    border-bottom-color: transparent;
 
   }
 
