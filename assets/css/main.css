@@ -3277,6 +3277,8 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
 .home-news-more{display:inline-flex;align-items:center;gap:6px;margin-top:22px;font-size:var(--fs-sm);font-weight:600;color:var(--brand);}
 .home-news-more:hover{color:var(--brand-hover);}
 @media(max-width:860px){.home-sectors,.home-news{grid-template-columns:1fr;}.home-flow{grid-template-columns:1fr 1fr;}.flow-step:not(:last-child)::after{display:none;}}
-/* ═══ HOME v2 · 超宽屏/宽屏修复（2026-09-09）：模块独立限宽并跨行居中，消除拉扁与错位 ═══ */
-#page-home .prod-grid > :not(.prod-card){grid-column:1/-1;}
+/* ═══ HOME v2 · 超宽屏/宽屏修复（2026-09-09）═══ */
+/* 原补丁 `#page-home .prod-grid > :not(.prod-card){grid-column:1/-1;}` 已于 2026-09-21 移除：
+   该规则是为掩盖 HONDVO.html 中 .prod-grid 缺失闭合标签（区块被吞入栅格）而打，
+   HTML 结构修复后 prod-grid 仅含 3 张 .prod-card，规则不再需要，属"用 CSS 掩盖 HTML 错误"。 */
 #page-home .home-news{max-width:var(--container);margin:var(--sp-4) auto 0;padding:0 clamp(24px,5vw,80px);}
