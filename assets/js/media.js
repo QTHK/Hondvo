@@ -30,8 +30,16 @@
   // 是否需要保留静态兜底（不隐藏）
   function keepStatic(node, name) { return isBypass(name) || isBrandIcon(node); }
 
+  // 空映射（媒体库可达但尚无条目）不触发任何隐藏/移除，避免「媒体库空 → 全站图片消失」
+  function isEmptyMap(m) {
+    if (!m || typeof m !== 'object') return true;
+    for (var k in m) { if (Object.prototype.hasOwnProperty.call(m, k)) return false; }
+    return true;
+  }
+
   function applyMap(map) {
     var i, node, name, url;
+    var noHide = isEmptyMap(map); // 空映射：仅保留静态，不做任何隐藏/移除
 
     // 1) img src="images/xxx"（含普通与 data-cms 模板占位）
     var imgs = document.querySelectorAll('img[src^="images/"]');
@@ -42,8 +50,8 @@
       if (url) {
         node.setAttribute('src', url);
         node.style.display = '';
-      } else if (keepStatic(node, name)) {
-        node.style.display = ''; // 品牌标识：保留静态兜底（并清除可能的历史隐藏）
+      } else if (noHide || keepStatic(node, name)) {
+        node.style.display = ''; // 空映射或品牌标识：保留静态兜底（并清除可能的历史隐藏）
       } else {
         node.style.display = 'none'; // 内容图：媒体库已删 → 不显示
       }
@@ -58,7 +66,7 @@
       if (url) {
         node.setAttribute('data-src', url);
         node.style.display = '';
-      } else if (!keepStatic(node, name)) {
+      } else if (!noHide && !keepStatic(node, name)) {
         node.style.display = 'none';
       }
     }
@@ -72,7 +80,7 @@
       if (url) {
         node.setAttribute('data-bg', url);
         node.style.backgroundImage = 'url(' + url + ')'; // 覆盖已渲染旧背景
-      } else {
+      } else if (!noHide) {
         node.removeAttribute('data-bg');
         node.style.backgroundImage = 'none'; // 覆盖 CSS 默认背景，删图即不显示
       }
@@ -87,7 +95,7 @@
       if (!m) continue;
       url = map[m[1]];
       if (url) node.setAttribute('onclick', oc.replace(m[0], "openLightbox('" + url + "')"));
-      else node.removeAttribute('onclick'); // 媒体库删图 → 点击不再打开已删图
+      else if (!noHide) node.removeAttribute('onclick'); // 媒体库删图 → 点击不再打开已删图
     }
 
     // 5) data-lightbox="images/xxx"（自 P0-05 起 lightbox 由内联 onclick 改为属性 + 事件委托）
@@ -97,7 +105,7 @@
       name = stripPrefix(node.getAttribute('data-lightbox'));
       url = map[name] || map[node.getAttribute('data-lightbox')];
       if (url) node.setAttribute('data-lightbox', url);
-      else node.removeAttribute('data-lightbox'); // 媒体库删图 → 点击不再打开已删图
+      else if (!noHide) node.removeAttribute('data-lightbox'); // 媒体库删图 → 点击不再打开已删图
     }
 
     window.HONDVO_MEDIA_MAP = map;
