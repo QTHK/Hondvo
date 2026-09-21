@@ -1226,7 +1226,20 @@ function switchLang(lang) {
 
     if (!entry || !entry[lang]) return;
 
-    el.innerHTML = entry[lang];
+    // 安全赋值：I18N 可能被后台 bridge 覆盖，原样 innerHTML 即存储型 XSS 入口。
+    // 含标签 → 白名单过滤；纯文本 → textContent（不解析 HTML）。
+    const raw = String(entry[lang]);
+
+    if (/<\/?[a-z][\s\S]*>/i.test(raw)) {
+
+      if (window.HONDVO_sanitizeHTML) el.innerHTML = window.HONDVO_sanitizeHTML(raw);
+      else el.textContent = raw; // sanitize.js 未就绪时退化为纯文本，绝不原样注入
+
+    } else {
+
+      el.textContent = raw;
+
+    }
 
   });
 
@@ -1309,10 +1322,19 @@ function switchLang(lang) {
       if (typeof I18N === "undefined") { console.warn("[HONDVO-Bridge] I18N 未定义，跳过"); return; }
       if (!I18N[key]) I18N[key] = {};
       for (var lang in entry) {
-        if (entry[lang]) I18N[key][lang] = entry[lang];
+        if (!entry[lang]) continue;
+        // 后台内容即将进入 innerHTML（switchLang），在此做第一道防线：
+        // 拒绝任何带 <script/iframe/object/embed/link/meta/style 的可疑串。
+        if (/<\s*(script|iframe|object|embed|link|meta|style)\b/i.test(String(entry[lang]))) {
+          console.warn('[HONDVO-Bridge] 拒绝可疑内容 key=' + key + ' lang=' + lang);
+          continue;
+        }
+        I18N[key][lang] = entry[lang];
       }
     }
   }
+  // 供自测 / 外部调用
+  window.HONDVO_mergeBridge = mergeBridge;
   function reRender() {
     if (typeof switchLang === 'function') switchLang(curLang());
   }

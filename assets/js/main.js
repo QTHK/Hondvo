@@ -2095,7 +2095,16 @@ document.addEventListener('DOMContentLoaded', function(){
 
       var entry = (typeof I18N !== 'undefined') && I18N[key];
 
-      if (entry && entry[lang]) el.innerHTML = entry[lang];
+      if (entry && entry[lang]) {
+        // 同 switchLang：I18N 可能被后台 bridge 覆盖，禁止原样 innerHTML
+        var raw = String(entry[lang]);
+        if (/<\/?[a-z][\s\S]*>/i.test(raw)) {
+          if (window.HONDVO_sanitizeHTML) el.innerHTML = window.HONDVO_sanitizeHTML(raw);
+          else el.textContent = raw;
+        } else {
+          el.textContent = raw;
+        }
+      }
 
     });
 

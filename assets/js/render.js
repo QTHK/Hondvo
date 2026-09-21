@@ -132,9 +132,9 @@
     seal(el);
   };
 
-  // 富文本
+  // 富文本（后台可写 → 必须走白名单过滤，防存储型 XSS）
   renderers.html = function (el, val) {
-    el.innerHTML = String(val == null ? '' : val);
+    el.innerHTML = window.HONDVO_sanitizeHTML ? window.HONDVO_sanitizeHTML(val) : esc(val);
     seal(el);
   };
 
@@ -232,7 +232,8 @@
     one('h1 span', ht.title1);
     one('h1 strong', ht.title2);
     var d1 = ht.desc1 || '', d2 = ht.desc2 || '';
-    if (d1 || d2) one('.hero-sub', d1 + (d2 ? '<br>' + d2 : ''), true);
+    // 先转义再拼 <br>：d1/d2 为后台可写字段，原样注入等于开了一个 XSS 入口
+    if (d1 || d2) one('.hero-sub', esc(d1) + (d2 ? '<br>' + esc(d2) : ''), true);
     var b1 = el.querySelector('.btn-primary');
     if (b1) {
       if (ht.leftBtnText != null) { b1.innerHTML = esc(ht.leftBtnText); seal(b1); }
@@ -256,7 +257,7 @@
   }
   function setHTML(el, val) {
     if (!el || val == null || val === '') return;
-    el.innerHTML = val;
+    el.innerHTML = window.HONDVO_sanitizeHTML ? window.HONDVO_sanitizeHTML(val) : esc(val);
     el.removeAttribute('data-lang-key');
   }
   function markInjected(el) {
@@ -626,7 +627,7 @@
   }
   function setHTML(el, val) {
     if (!el || val == null || val === '') return;
-    el.innerHTML = val;
+    el.innerHTML = window.HONDVO_sanitizeHTML ? window.HONDVO_sanitizeHTML(val) : esc(val);
     el.removeAttribute('data-lang-key');
   }
   function mark(el) {
