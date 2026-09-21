@@ -87,11 +87,18 @@
   function fetchMediaMapOnce() {
     if (_mediaMapPromise) return _mediaMapPromise;
     _mediaMapPromise = fetch(ENDPOINTS.mediaNameMap, { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        // ★ 必须先判 HTTP 状态：404/500 的响应体不一定是非法 JSON
+        //   （例如反向代理或静态服务器对 404 返回纯文本 "404"，而 JSON.parse('404') 是合法的
+        //     数字 404），否则会被误判为「成功但为空」，进而让消费端把图片全部隐藏。
+        if (!r.ok) return null;
+        return r.json();
+      })
       .then(function (res) {
-        var map = (res && res.code === 0 && res.data && typeof res.data === 'object') ? res.data : {};
-        window.HONDVO_MEDIA_MAP = map;
-        return map;
+        // 仅在契约成立时视为成功；其余（含 code!==0 的错误信封）一律按不可达处理
+        if (!res || res.code !== 0 || !res.data || typeof res.data !== 'object') return null;
+        window.HONDVO_MEDIA_MAP = res.data;
+        return res.data;
       })
       .catch(function () { return null; });
     return _mediaMapPromise;

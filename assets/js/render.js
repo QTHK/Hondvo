@@ -48,9 +48,11 @@
       });
     }
     return fetch(MEDIA_MAP_API, { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
+      // 同 api-client：先判 HTTP 状态，避免 404 的「合法 JSON」响应体被当成成功
+      .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (res) {
-        _mediaNameMap = (res && res.code === 0 && res.data && typeof res.data === 'object') ? res.data : {};
+        if (!res || res.code !== 0 || !res.data || typeof res.data !== 'object') return; // 保持 null 走兜底
+        _mediaNameMap = res.data;
       })
       .catch(function () { /* 保持 null，走静态兜底 */ });
   }
