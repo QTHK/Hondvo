@@ -22,11 +22,15 @@
   'use strict';
 
   // Phase 1：切到统一翻译读接口（后端已合并多语言 + 全语言一次拉取）
-  var API = (window.HONDVO_API || 'http://localhost:3100/api') + '/i18n/content?all=1';
+  var API = (window.HONDVO_API || '/api') + '/i18n/content?all=1';
   // 后端媒体源（origin）：用于把 CMS 中硬编码的绝对图片地址归一化为当前可配置的 API 来源
-  var API_ORIGIN = (window.HONDVO_API || 'http://localhost:3100/api').replace(/\/+$/, '').replace(/\/api$/i, '');
+  // 兼容相对基址（'/api'）：此时无法推导 origin，留空由 normMedia 自行处理
+  var _BASE = window.HONDVO_API || '/api';
+  var API_ORIGIN = /^https?:\/\//i.test(_BASE)
+    ? _BASE.replace(/\/+$/, '').replace(/\/api$/i, '')
+    : '';
   // 媒体库公开名称映射（无鉴权）：original_name / filename → 可访问 URL
-  var MEDIA_MAP_API = (window.HONDVO_API || 'http://localhost:3100/api') + '/media/public/name-map';
+  var MEDIA_MAP_API = (window.HONDVO_API || '/api') + '/media/public/name-map';
   var _mediaNameMap = null; // null=未加载；{} = 已加载
   // 缺失图占位兜底：媒体库已删 / 文件缺失 / 竞态 404 / 任何断链 <img> → 统一显示中性占位图（而非破图或空白）
   var PH_SVG = "<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'><rect width='600' height='400' fill='#eef0f3'/><g fill='none' stroke='#c2c8d0' stroke-width='10' stroke-linejoin='round' stroke-linecap='round'><rect x='150' y='110' width='300' height='180' rx='14'/><circle cx='225' cy='175' r='22' fill='#c2c8d0' stroke='none'/><path d='M170 280 L255 200 L320 255 L380 195 L430 280 Z' fill='#c2c8d0' stroke='none'/></g><text x='300' y='345' font-family='Arial,Helvetica,sans-serif' font-size='26' fill='#9aa3ad' text-anchor='middle'>HONDVO · 图片</text></svg>";
@@ -62,7 +66,9 @@
       if (resolvedAbs) return resolvedAbs;
       // 映射未命中：降级为替换 origin 使用（而非直接占位符），让浏览器尝试加载；
       // 文件若真不存在，error 事件会被 bindImgFallback 捕获并替换为占位图
-      return API_ORIGIN + u.replace(/^https?:\/\/[^/]+/i, '');
+      var relPath = u.replace(/^https?:\/\/[^/]+/i, '');
+      if (!API_ORIGIN) return relPath || u; // 相对基址：直接返回相对形式，避免拼出 "undefined/..."
+      return API_ORIGIN + relPath;
     }
     var resolved = resolveMediaName(u);
     if (resolved) return resolved;
@@ -567,7 +573,7 @@
 })();
 
 (function () {
-  var API = (window.HONDVO_API || 'http://localhost:3100/api') + '/content/public/list';
+  var API = (window.HONDVO_API || '/api') + '/content/public/list';
   var TIMEOUT = 1500;
   var injected = {};
 
@@ -994,7 +1000,7 @@
   }
 })();
 (function () {
-  var API = (window.HONDVO_API || 'http://localhost:3100/api');
+  var API = (window.HONDVO_API || '/api');
   var TIMEOUT = 1500;
 
   function curLang() { try { return sessionStorage.getItem('hondvo_lang') || 'en'; } catch (e) { return 'en'; } }

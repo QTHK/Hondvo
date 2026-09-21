@@ -999,7 +999,7 @@ function injectFooters() {
 function resolveFooterSocialIcons() {
   var icons = document.querySelectorAll('.social-icons .si-img');
   if (!icons.length) return;
-  var API = (window.HONDVO_API || 'http://localhost:3100/api');
+  var API = (window.HONDVO_API || '/api');
 
   function apply(map) {
     icons.forEach(function (img) {
@@ -1290,7 +1290,7 @@ function switchLang(lang) {
 
 })();
 (function () {
-  var API = (window.HONDVO_API || 'http://localhost:3100/api') + '/publish/i18n-bridge';
+  var API = (window.HONDVO_API || '/api') + '/publish/i18n-bridge';
   var applied = false;
   function curLang() {
     try {

@@ -3,7 +3,8 @@
    ------------------------------------------------------------
    契约依据：docs/api-contract.md v1.0（7 主接口 + /faqs /jobs /links
              /downloads /downloads/{id}/download）
-   基址策略：window.HONDVO_API 优先（由 <meta name="hondvo-api"> 或默认值提供）
+   基址策略（唯一出口）：window.HONDVO_API > <meta name="hondvo-api"> > 同源 /api
+             本文件是全站唯一的基址解析点；其它模块一律只读 window.HONDVO_API。
    职责：
      - 统一维护 API 基址与全部端点
      - 提供轻量请求封装（GET / POST / sendBeacon 埋点）
@@ -12,14 +13,20 @@
 (function () {
   'use strict';
 
-  // ---- 基址解析（与既有 meta 策略一致） ----
+  // ---- 唯一基址解析入口 ----
+  // 优先级：window.HONDVO_API（外部注入） > meta[name="hondvo-api"] > 同源 /api
+  // 严禁在本文件出现任何环境相关硬编码（localhost / admin 域名等）。
   function detectBase() {
-    if (window.HONDVO_API) return window.HONDVO_API.replace(/\/+$/, '');
-    var meta = document.querySelector('meta[name="hondvo-api"]');
-    if (meta && meta.getAttribute('content')) {
-      return meta.getAttribute('content').replace(/\/+$/, '');
+    if (window.HONDVO_API && typeof window.HONDVO_API === 'string') {
+      return window.HONDVO_API.replace(/\/+$/, '');
     }
-    return 'http://localhost:3100/api';
+    var meta = document.querySelector('meta[name="hondvo-api"]');
+    if (meta) {
+      var c = (meta.getAttribute('content') || '').trim();
+      if (c) return c.replace(/\/+$/, '');
+    }
+    // 兜底：同源 /api（生产推荐配合反向代理）
+    return '/api';
   }
   var BASE = detectBase();
 

@@ -15,7 +15,8 @@
  */
 (function () {
   'use strict';
-  var API = (window.HONDVO_API || 'http://localhost:3100/api');
+  // 基址统一由 api-client.js 写入 window.HONDVO_API（唯一出口），此处只读
+  var API = (window.HONDVO_API || '/api');
 
   function stripPrefix(name) {
     return String(name || '').replace(/^images\//, '');

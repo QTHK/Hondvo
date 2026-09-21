@@ -1406,7 +1406,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-      fetch((window.HONDVO_API || 'http://localhost:3100/api') + '/inquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: inquiryBody })
+      fetch((window.HONDVO_API || '/api') + '/inquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: inquiryBody })
 
         .then(function (res) {
 
@@ -1640,7 +1640,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-      fetch((window.HONDVO_API || 'http://localhost:3100/api') + '/inquiries', {
+      fetch((window.HONDVO_API || '/api') + '/inquiries', {
 
         method: 'POST', headers: {'Content-Type': 'application/json'}, body: inquiryBody
 
@@ -1987,13 +1987,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
 (function () {
 
-  var API = 'https://admin.hondvo.com/api';
-
-  var metaApi = document.querySelector('meta[name="hondvo-api"]');
-
-  if (metaApi && metaApi.getAttribute('content')) API = metaApi.getAttribute('content');
-
-  window.HONDVO_API = API;
+  // 基址唯一出口为 api-client.js 解析后写入的 window.HONDVO_API，此处只读、不再自行解析。
+  // 兜底 '/api' 为同源路径，非环境硬编码。
+  var API = window.HONDVO_API || '/api';
 
 
 
