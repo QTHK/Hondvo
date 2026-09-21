@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qualifications — ISO 13485 / IATF 16949 / ISO 9001 | HONDVO</title>
+<meta name="description" content="Triple-certified quality management: ISO 13485, IATF 16949 and ISO 9001. Two Class-100,000 cleanrooms, full IQ/OQ/PQ validation services and sampling inspection before shipment.">
+<link rel="canonical" href="https://qthk.github.io/hondvo/qualifications.html">
+  <link rel="alternate" hreflang="zh" href="https://qthk.github.io/hondvo/?lang=zh">
+  <link rel="alternate" hreflang="en" href="https://qthk.github.io/hondvo/?lang=en">
+  <link rel="alternate" hreflang="de" href="https://qthk.github.io/hondvo/?lang=de">
+  <link rel="alternate" hreflang="ru" href="https://qthk.github.io/hondvo/?lang=ru">
+  <link rel="alternate" hreflang="fr" href="https://qthk.github.io/hondvo/?lang=fr">
+  <link rel="alternate" hreflang="ja" href="https://qthk.github.io/hondvo/?lang=ja">
+  <link rel="alternate" hreflang="ko" href="https://qthk.github.io/hondvo/?lang=ko">
+  <link rel="alternate" hreflang="es" href="https://qthk.github.io/hondvo/?lang=es">
+  <link rel="alternate" hreflang="x-default" href="https://qthk.github.io/hondvo/?lang=en">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<script>
+/* P1-17：:target SPA 的独立入口。
+   保持 ?lang 与既有语言偏好，随后进入对应的 #page-xxx 视图。
+   （本页保留可爬取的静态摘要，避免被判定为软 404。） */
+(function () {
+  try {
+    var m = location.search.match(/[?&]lang=([a-z]{2})/);
+    var l = (m && m[1]) || sessionStorage.getItem('hondvo_lang') || 'en';
+    if (!/^(zh|en|de|ru|fr|ja|ko|es)$/.test(l)) l = 'en';
+    location.replace('./?lang=' + encodeURIComponent(l) + '#page-qualifications');
+  } catch (e) {
+    location.replace('./?lang=en#page-qualifications');
+  }
+})();
+</script>
+</head>
+<body>
+  <h1>Qualifications</h1>
+    <p>HONDVO operates a triple-certified quality management system: ISO 13485 (medical devices), IATF 16949 (automotive) and ISO 9001.</p>
+    <p>Production environment includes two Class-100,000 cleanrooms and full IQ/OQ/PQ validation support. IQ/OQ/PQ qualification documentation is available for customer review.</p>
+  <p><a href="./?lang=en#page-qualifications">Continue to the interactive page</a></p>
+  <p><a href="./?lang=en">HONDVO Technology — home</a></p>
+  <noscript><p>JavaScript is disabled. Please open <a href="./?lang=en#page-qualifications">Qualifications</a> directly.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>News &amp; Industry Updates | HONDVO</title>
+<meta name="description" content="Company news and medical device industry updates from HONDVO: ISO 13485 surveillance audits, injection moulding capacity expansion and trade show participation.">
+<link rel="canonical" href="https://qthk.github.io/hondvo/news.html">
+  <link rel="alternate" hreflang="zh" href="https://qthk.github.io/hondvo/?lang=zh">
+  <link rel="alternate" hreflang="en" href="https://qthk.github.io/hondvo/?lang=en">
+  <link rel="alternate" hreflang="de" href="https://qthk.github.io/hondvo/?lang=de">
+  <link rel="alternate" hreflang="ru" href="https://qthk.github.io/hondvo/?lang=ru">
+  <link rel="alternate" hreflang="fr" href="https://qthk.github.io/hondvo/?lang=fr">
+  <link rel="alternate" hreflang="ja" href="https://qthk.github.io/hondvo/?lang=ja">
+  <link rel="alternate" hreflang="ko" href="https://qthk.github.io/hondvo/?lang=ko">
+  <link rel="alternate" hreflang="es" href="https://qthk.github.io/hondvo/?lang=es">
+  <link rel="alternate" hreflang="x-default" href="https://qthk.github.io/hondvo/?lang=en">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<script>
+/* P1-17：:target SPA 的独立入口。
+   保持 ?lang 与既有语言偏好，随后进入对应的 #page-xxx 视图。
+   （本页保留可爬取的静态摘要，避免被判定为软 404。） */
+(function () {
+  try {
+    var m = location.search.match(/[?&]lang=([a-z]{2})/);
+    var l = (m && m[1]) || sessionStorage.getItem('hondvo_lang') || 'en';
+    if (!/^(zh|en|de|ru|fr|ja|ko|es)$/.test(l)) l = 'en';
+    location.replace('./?lang=' + encodeURIComponent(l) + '#page-news');
+  } catch (e) {
+    location.replace('./?lang=en#page-news');
+  }
+})();
+</script>
+</head>
+<body>
+  <h1>News</h1>
+    <p>Company news and medical device industry updates from HONDVO.</p>
+    <p>Recent items include the ISO 13485 annual surveillance audit, the addition of TOYO CS-230 all-electric injection moulding machines, and participation in the China International Medical Equipment Fair (CMEF).</p>
+  <p><a href="./?lang=en#page-news">Continue to the interactive page</a></p>
+  <p><a href="./?lang=en">HONDVO Technology — home</a></p>
+  <noscript><p>JavaScript is disabled. Please open <a href="./?lang=en#page-news">News</a> directly.</p></noscript>
+</body>
+</html>
