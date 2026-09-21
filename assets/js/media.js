@@ -22,8 +22,13 @@
   }
 
   // 品牌标识等非内容图白名单：媒体库未收录也不隐藏（站头 logo、二维码、favicon 等）
+  // P1-28 追加：页脚社交图标（.si-img，email-circle.png / logo-wechat.png 等）同属品牌标识，
+  // 隐藏会在页脚留下空白洞；与内容图的「媒体库删图即隐藏」策略有意区分。
   var BYPASS = { 'logo.webp': 1, 'logo.png': 1, 'qrcode.webp': 1, 'favicon.ico': 1 };
   function isBypass(name) { return BYPASS[name] ? true : false; }
+  function isBrandIcon(node) { return !!(node && node.classList && node.classList.contains('si-img')); }
+  // 是否需要保留静态兜底（不隐藏）
+  function keepStatic(node, name) { return isBypass(name) || isBrandIcon(node); }
 
   function applyMap(map) {
     var i, node, name, url;
@@ -34,8 +39,14 @@
       node = imgs[i];
       name = stripPrefix(node.getAttribute('src'));
       url = map[name] || map[node.getAttribute('src')];
-      if (url) node.setAttribute('src', url);
-      else if (!isBypass(name)) node.style.display = 'none'; // 媒体库已删 → 不显示
+      if (url) {
+        node.setAttribute('src', url);
+        node.style.display = '';
+      } else if (keepStatic(node, name)) {
+        node.style.display = ''; // 品牌标识：保留静态兜底（并清除可能的历史隐藏）
+      } else {
+        node.style.display = 'none'; // 内容图：媒体库已删 → 不显示
+      }
     }
 
     // 2) img data-src="images/xxx"（懒加载）
@@ -44,8 +55,12 @@
       node = dsImgs[i];
       name = stripPrefix(node.getAttribute('data-src'));
       url = map[name] || map[node.getAttribute('data-src')];
-      if (url) node.setAttribute('data-src', url);
-      else if (!isBypass(name)) node.style.display = 'none';
+      if (url) {
+        node.setAttribute('data-src', url);
+        node.style.display = '';
+      } else if (!keepStatic(node, name)) {
+        node.style.display = 'none';
+      }
     }
 
     // 3) [data-bg="images/xxx"]（hero 轮播背景）

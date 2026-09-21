@@ -1057,7 +1057,7 @@ function injectFooters() {
 
 /* 页脚社交图标：按媒体库 name-map 解析
  *  - 命中：img src 替换为媒体库可访问 URL（显示图片）
- *  - 映射已加载但未命中（用户尚未上传对应图片）：img 隐藏 → 空白占位符
+ *  - 映射已加载但未命中（用户尚未上传对应图片）：保留静态兜底图（P1-28）
  *  - 映射未加载（后端不可达/尚未就绪）：延迟重试，保留静态兜底，不阻塞展示
  */
 function resolveFooterSocialIcons() {
@@ -1074,7 +1074,10 @@ function resolveFooterSocialIcons() {
         img.setAttribute('src', url);
         img.style.display = '';
       } else {
-        img.style.display = 'none'; // 映射已加载但未命中 → 空白占位
+        // P1-28：媒体库未收录该图标时**保留静态兜底图**，不再隐藏。
+        // 社交图标属品牌标识（非内容图），隐藏会在页脚留下空白洞；
+        // 这与 media.js 对内容图的「媒体库删图即隐藏」策略有意区分。
+        img.style.display = '';
       }
     });
   }
