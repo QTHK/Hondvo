@@ -1,0 +1,16 @@
+# HONDVO Technology (Dongguan) Co., Ltd.
+# Site: https://qthk.github.io/hondvo/
+#
+# NOTE: This file lives in the site directory. When the site is served as a
+# GitHub project page (qthk.github.io/hondvo/), crawlers only read the rules at
+# the domain root (qthk.github.io/robots.txt), so this file will not take effect
+# until the site is moved to a dedicated domain. Content is prepared in advance.
+#
+# Policy: allow full crawl. Do NOT Disallow ?lang=* — the multilingual versions
+# are served via ?lang=xx and are referenced by canonical and 9 hreflang links,
+# which must remain crawlable.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://qthk.github.io/hondvo/sitemap.xml
