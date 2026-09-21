@@ -2038,9 +2038,35 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-  function getConsent() { try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; } }
+  function getConsent() {
 
-  function setConsent(v) { try { localStorage.setItem(CONSENT_KEY, v); } catch (e) {} }
+    try {
+
+      var v = localStorage.getItem(CONSENT_KEY);
+
+      // 兼容旧版本遗留的脏值：曾把 null 序列化为字符串写入，需清除后重弹
+      if (v === 'null' || v === 'undefined') { localStorage.removeItem(CONSENT_KEY); return null; }
+
+      return v;
+
+    } catch (e) { return null; }
+
+  }
+
+  // setConsent(null) 原实现是 localStorage.setItem(key, null)，
+  // 实际写入字符串 "null"，与 'accepted'/'rejected' 均不匹配 → 每次刷新都重新弹窗。
+  // 传 null/undefined 时应移除该键（回到「未表态」状态）。
+  function setConsent(v) {
+
+    try {
+
+      if (v == null) localStorage.removeItem(CONSENT_KEY);
+
+      else localStorage.setItem(CONSENT_KEY, v);
+
+    } catch (e) {}
+
+  }
 
   function getVid() {
 
