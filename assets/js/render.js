@@ -418,8 +418,8 @@
         var tags = (it.tags || []).map(function (tg) { return '<span>' + esc(tg) + '</span>'; }).join('');
         return '<div class="acc-card"><img src="' + esc(normMedia(it.image || '')) + '" alt="' + esc(it.name || '') + '"><div class="acc-card-name">' + esc(it.name || '') + '</div><div class="acc-card-tags">' + tags + '</div></div>';
       }).join('');
-      return '<div class="acc-item">' +
-        '<button class="acc-header" onclick="toggleAccordion(this)"><span class="acc-icon">' + esc(c.icon || '') + '</span><span class="acc-label">' + esc(c.title || '') + '</span><span class="acc-arrow">&#9660;</span></button>' +
+      return '<div class="acc-item" data-acc-item="1">' +
+        '<button class="acc-header" type="button" data-acc-head="1"><span class="acc-icon">' + esc(c.icon || '') + '</span><span class="acc-label">' + esc(c.title || '') + '</span><span class="acc-arrow">&#9660;</span></button>' +
         '<div class="acc-body"><div class="acc-content"><p class="acc-desc">' + esc(c.desc || '') + '</p><div class="acc-grid">' + items + '</div></div></div>' +
         '</div>';
     }).join('');
@@ -788,7 +788,8 @@
       }).join('');
       var item = document.createElement('div');
       item.className = 'eq-item';
-      item.innerHTML = '<div class="eq-head"><span class="eq-dot"></span><span class="t-zh">' + esc(typeTitles[type]) + '</span><span class="eq-badge">' + total + ' 台</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-scroll"><table class="eq-table"><thead><tr><th>设备 / Model</th><th>产地</th><th>精度 / 吨位</th><th>数量</th><th>图片</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+      item.setAttribute('data-acc-item', '1');
+      item.innerHTML = '<div class="eq-head" data-acc-head="1"><span class="eq-dot"></span><span class="t-zh">' + esc(typeTitles[type]) + '</span><span class="eq-badge">' + total + ' 台</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-scroll"><table class="eq-table"><thead><tr><th>设备 / Model</th><th>产地</th><th>精度 / 吨位</th><th>数量</th><th>图片</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
       acc.appendChild(item);
     });
   }
@@ -864,8 +865,8 @@
         var tags = (it.tags || []).map(function (tg) { return '<span>' + esc(tg) + '</span>'; }).join('');
         return '<div class="acc-card"><img src="' + esc(it.image || '') + '" alt="' + esc(it.name || '') + '"><div class="acc-card-name">' + esc(it.name || '') + '</div><div class="acc-card-tags">' + tags + '</div></div>';
       }).join('');
-      return '<div class="acc-item">' +
-        '<button class="acc-header" onclick="toggleAccordion(this)"><span class="acc-icon">' + esc(c.icon || '') + '</span><span class="acc-label">' + esc(c.title || '') + '</span><span class="acc-arrow">&#9660;</span></button>' +
+      return '<div class="acc-item" data-acc-item="1">' +
+        '<button class="acc-header" type="button" data-acc-head="1"><span class="acc-icon">' + esc(c.icon || '') + '</span><span class="acc-label">' + esc(c.title || '') + '</span><span class="acc-arrow">&#9660;</span></button>' +
         '<div class="acc-body"><div class="acc-content"><p class="acc-desc">' + esc(c.desc || '') + '</p><div class="acc-grid">' + items + '</div></div></div>' +
         '</div>';
     }).join('');
@@ -1067,8 +1068,8 @@
     getJSON(API + '/faqs?lang=' + encodeURIComponent(curLang())).then(function (res) {
       if (!res || res.code !== 0 || !Array.isArray(res.data) || !res.data.length) return;
       box.innerHTML = res.data.map(function (f, i) {
-        return '<div class="acc-item m7-faq-item">' +
-          '<button type="button" class="acc-header" data-m7-acc="1">' +
+        return '<div class="acc-item m7-faq-item" data-acc-item="1">' +
+          '<button type="button" class="acc-header" data-acc-head="1">' +
           '<span class="acc-icon">Q' + (i + 1) + '</span>' +
           '<span class="acc-label">' + esc(f.question) + '</span>' +
           '<span class="acc-arrow">&#9660;</span></button>' +
@@ -1188,22 +1189,7 @@
     });
   }
 
-  // ---------- FAQ 折叠（事件委托，不依赖全局 toggleAccordion） ----------
-  function bindFaqToggle() {
-    document.addEventListener('click', function (e) {
-      var h = e.target.closest ? e.target.closest('[data-m7-acc]') : null;
-      if (!h) return;
-      var item = h.closest('.m7-faq-item');
-      if (!item) return;
-      var open = item.classList.contains('open');
-      var list = item.parentNode;
-      if (list) {
-        var all = list.querySelectorAll('.m7-faq-item.open');
-        for (var i = 0; i < all.length; i++) all[i].classList.remove('open');
-      }
-      if (!open) item.classList.add('open');
-    });
-  }
+  // FAQ 折叠已并入统一的 [data-acc-head] 委托（P1-13）
 
   // 语言切换改用事件总线（P1-20）：切换后用当前语言重新渲染 M7 模块（FAQ/招聘/友链/下载）
   document.addEventListener('hondvo:lang', function () {
@@ -1214,7 +1200,7 @@
   });
 
   function boot() {
-    bindFaqToggle();
+    // bindFaqToggle 已移除：FAQ 折叠并入统一的 [data-acc-head] 委托（P1-13）
     bindSubscribe();
     bindDownloads();
     renderFaqs();

@@ -114,21 +114,16 @@
   MOLD.caps.forEach(function(c){
     var item = document.createElement('div');
     item.className = 'cap-item';
+    item.setAttribute('data-acc-item', '1');
     var photos = c.photos.map(function(p,i){ return '<div class="photo-slot" data-idx="'+i+'"><span class="lbl">'+esc(p)+'</span></div>'; }).join('');
     var tags = c.tags.map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('');
-    item.innerHTML = '<div class="cap-head"><div class="cap-ico">'+esc(c.icon||'')+'</div><div class="cap-t"><div class="t-zh">'+esc(c.zh)+'</div><div class="t-en">'+esc(c.en||'')+'</div></div><span class="cap-badge">'+c.photos.length+' 图</span><span class="cap-chev">&#9656;</span></div>'
+    item.innerHTML = '<div class="cap-head" data-acc-head="1"><div class="cap-ico">'+esc(c.icon||'')+'</div><div class="cap-t"><div class="t-zh">'+esc(c.zh)+'</div><div class="t-en">'+esc(c.en||'')+'</div></div><span class="cap-badge">'+c.photos.length+' 图</span><span class="cap-chev">&#9656;</span></div>'
       + '<div class="cap-body"><p>'+esc(c.desc)+'</p><div class="cap-tags">'+tags+'</div><div class="cap-photos">'+photos+'</div></div>';
     capAcc.appendChild(item);
   });
   capAcc.addEventListener('click', function(e){
-    var head = e.target.closest('.cap-head');
     var slot = e.target.closest('.photo-slot');
-    if (head){
-      var item = head.parentElement;
-      var wasOpen = item.classList.contains('open');
-      capAcc.querySelectorAll('.cap-item').forEach(function(el){ el.classList.remove('open'); });
-      if (!wasOpen) item.classList.add('open');
-    }
+    // 头部折叠已交由统一的 [data-acc-head] 委托处理（P1-13）
     if (slot){
       var item = slot.closest('.cap-item');
       var idx = +slot.dataset.idx;
@@ -147,18 +142,11 @@
     }).join('');
     var item = document.createElement('div');
     item.className = 'eq-item';
-    item.innerHTML = '<div class="eq-head"><span class="eq-dot"></span><span class="t-zh">'+esc(c.zh)+'</span><span class="t-en">'+esc(c.en||'')+'</span><span class="eq-badge">'+total+' 台</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-scroll"><table class="eq-table"><thead><tr><th>设备 / Model</th><th>产地</th><th>精度 / 吨位</th><th>数量</th><th>图片</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+    item.setAttribute('data-acc-item', '1');
+    item.innerHTML = '<div class="eq-head" data-acc-head="1"><span class="eq-dot"></span><span class="t-zh">'+esc(c.zh)+'</span><span class="t-en">'+esc(c.en||'')+'</span><span class="eq-badge">'+total+' 台</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-scroll"><table class="eq-table"><thead><tr><th>设备 / Model</th><th>产地</th><th>精度 / 吨位</th><th>数量</th><th>图片</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
     eqAcc.appendChild(item);
   });
-  eqAcc.addEventListener('click', function(e){
-    var head = e.target.closest('.eq-head');
-    if (head){
-      var item = head.parentElement;
-      var wasOpen = item.classList.contains('open');
-      eqAcc.querySelectorAll('.eq-item').forEach(function(el){ el.classList.remove('open'); });
-      if (!wasOpen) item.classList.add('open');
-    }
-  });
+  // 设备区块的互斥折叠已交由统一的 [data-acc-head] 委托处理（P1-13）
   // 设备实拍图：点击走轮播 Lightbox（单图占位）
   document.addEventListener('click', function(e){
     var t = e.target.closest('.eq-img');
@@ -352,6 +340,33 @@
 })();
 
 
+
+/* ═══════════ 统一折叠逻辑（P1-13）═══════════
+   原来四套并行实现：
+     · .cap-head  → capAcc 局部委托
+     · .eq-head   → eqAcc 局部委托
+     · .prod-head → 每个 Tab 的 root 局部委托
+     · .acc-header + 内联 onclick="toggleAccordion(this)"（且互斥范围是全文档）
+   现统一为一次 document 级委托，互斥范围收敛为「所在折叠组」：
+     组 = head.closest('[data-acc-group]') || item.parentElement
+     条目 = head.closest('[data-acc-item]') || head.parentElement
+   这样即使某个容器暂未标注 data-acc-group，行为也与原来一致（向后兼容）。 */
+document.addEventListener('click', function (e) {
+  var head = e.target && e.target.closest && e.target.closest('[data-acc-head]');
+  if (!head) return;
+  var item = head.closest('[data-acc-item]') || head.parentElement;
+  if (!item) return;
+  var group = head.closest('[data-acc-group]') || item.parentElement;
+  if (!group) return;
+  var wasOpen = item.classList.contains('open');
+  // 关掉同组内其它已展开条目。
+  // 优先按显式标记 [data-acc-item]；若容器内条目尚未标注，则退化为「本组直接子元素中带 .open 的」，
+  // 保证新旧模板都具备互斥行为（避免未标注时不断累加展开）。
+  var opens = group.querySelectorAll('[data-acc-item].open');
+  if (!opens.length) { try { opens = group.querySelectorAll(':scope > .open'); } catch (err) { opens = []; } }
+  Array.prototype.forEach.call(opens, function (el) { el.classList.remove('open'); });
+  if (!wasOpen) item.classList.add('open');
+});
 
 /* ═══════════ 统一滚动揭示（P1-12）═══════════
    原有三套并行实现，各自新建 IntersectionObserver、各自加不同类名：
@@ -839,19 +854,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-  function toggleAccordion(btn) {
-
-    const item = btn.closest('.acc-item');
-
-    if (!item) return;
-
-    const isOpen = item.classList.contains('open');
-
-    document.querySelectorAll('.acc-item.open').forEach(acc => acc.classList.remove('open'));
-
-    if (!isOpen) item.classList.add('open');
-
-  }
+  // toggleAccordion 已于 P1-13 删除，改由统一的 [data-acc-head] 委托处理
 
   // Dropdown link click: navigate to target page then expand/scroll
 
@@ -1190,7 +1193,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
           var acc = it.el.closest && it.el.closest('.acc-item');
 
-          if (acc){ var btn = acc.querySelector('.acc-header'); if (btn && !acc.classList.contains('open')) toggleAccordion(btn); }
+          if (acc && !acc.classList.contains('open')) {
+        var grp = acc.closest('[data-acc-group]') || acc.parentElement;
+        if (grp) grp.querySelectorAll('[data-acc-item].open').forEach(function(el){ el.classList.remove('open'); });
+        acc.classList.add('open');
+      }
 
         } else {
 
@@ -2715,8 +2722,8 @@ document.addEventListener("hondvo:lang", function () {
         var photos = [1, 2].map(function(i){
           return '<div class="photo-slot" data-cap="' + escProd(g.zh) + ' 实拍 ' + i + '"><span class="lbl">' + escProd(g.zh) + ' 实拍 ' + i + '</span></div>';
         }).join("");
-        return '<div class="prod-item">'
-          + '<div class="prod-head"><div class="prod-ico">' + escProd(g.icon || "") + '</div>'
+        return '<div class="prod-item" data-acc-item="1">'
+          + '<div class="prod-head" data-acc-head="1"><div class="prod-ico">' + escProd(g.icon || "") + '</div>'
           + '<div class="prod-t"><div class="t-zh">' + escProd(g.zh) + '</div>'
           + pos + '</div>'
           + '<span class="prod-chev">&#9656;</span></div>'
@@ -2724,14 +2731,7 @@ document.addEventListener("hondvo:lang", function () {
           + '<div class="cap-photos">' + photos + '</div></div>'
           + '</div>';
       }).join("");
-      root.addEventListener("click", function(e){
-        var head = e.target.closest(".prod-head");
-        if (!head) return;
-        var item = head.parentElement;
-        var wasOpen = item.classList.contains("open");
-        root.querySelectorAll(".prod-item").forEach(function(el){ el.classList.remove("open"); });
-        if (!wasOpen) item.classList.add("open");
-      });
+      // 折叠已交由统一的 [data-acc-head] 委托处理（P1-13）
     });
   }
 
