@@ -8,6 +8,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- 首屏同步设定 <html lang>：供 SEO / 无障碍在 JS 解析前即拿到正确语言。
+     必须与 i18n.js 的 switchLang 初值同源（?lang= > sessionStorage > 默认）。
+     默认语言唯一声明处：en —— 与下方 canonical / hreflang x-default 保持一致。-->
+<script>
+(function () {
+  try {
+    var m = location.search.match(/[?\&]lang=([a-z]{2})/);
+    var l = (m && m[1]) || sessionStorage.getItem('hondvo_lang') || 'en';
+    if (/^(zh|en|de|ru|fr|ja|ko|es)$/.test(l)) document.documentElement.setAttribute('lang', l);
+  } catch (e) {}
+})();
+</script>
+
 <!-- 部署时在此填入生产 API 基址（形如 https://<你的后端域名>/api）；留空则回退同源 /api。-->
 <meta name="hondvo-api" content="">
 
@@ -31,7 +44,8 @@
 
 <meta name="twitter:description" content="Triple internationally certified (ISO 13485 / IATF 16949 / ISO 9001). Medical-grade injection molding and precision tooling.">
 
-<link rel="canonical" href="https://qthk.github.io/hondvo/">
+<!-- canonical 与 hreflang 必须同源：本站默认语言为 en，故 canonical 指向 ?lang=en -->
+<link rel="canonical" href="https://qthk.github.io/hondvo/?lang=en">
 
 <!-- 多语言 hreflang：各语言经 ?lang=xx 提供（init 会读取并落地），x-default 指向默认页 -->
 
@@ -51,7 +65,8 @@
 
 <link rel="alternate" hreflang="es" href="https://qthk.github.io/hondvo/?lang=es">
 
-<link rel="alternate" hreflang="x-default" href="https://qthk.github.io/hondvo/">
+<!-- x-default 指向默认语言版本（en），与 canonical 同一 URL，避免二者互相冲突 -->
+<link rel="alternate" hreflang="x-default" href="https://qthk.github.io/hondvo/?lang=en">
 
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 

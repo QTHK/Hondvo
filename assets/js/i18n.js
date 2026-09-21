@@ -1352,11 +1352,15 @@ function switchLang(lang) {
 
   const urlLang = new URLSearchParams(location.search).get('lang');
 
+  // 默认语言唯一声明处为 <head> 的首屏脚本（写入 <html lang>），此处仅兜底 'en'。
+  // 这样 <html lang> 与 JS 语言状态自首屏起即一致（P1-16）。
+  const htmlLang = (document.documentElement.getAttribute('lang') || '').trim();
+
   const saved = (urlLang && VALID.includes(urlLang))
 
     ? urlLang
 
-    : (sessionStorage.getItem('hondvo_lang') || 'en');
+    : (sessionStorage.getItem('hondvo_lang') || (VALID.includes(htmlLang) ? htmlLang : 'en'));
 
   const apply = () => switchLang(saved);
 
