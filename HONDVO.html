@@ -411,9 +411,9 @@
 
     <div class="hero-indicators" data-cms="home.heroslides" data-cms-type="slider">
 
-      <div class="hero-dot active" data-slide="0"></div>
+      <button type="button" class="hero-dot active" data-slide="0" aria-label="Hero image 1"></button>
 
-      <div class="hero-dot" data-slide="1"></div>
+      <button type="button" class="hero-dot" data-slide="1" aria-label="Hero image 2"></button>
 
     </div>
 
@@ -497,7 +497,7 @@
 
   <div class="prod-grid">
 
-    <div class="prod-card" data-goto="#page-products">
+    <div class="prod-card" data-goto="#page-products" role="link" tabindex="0">
 
       <div class="card-img"><img class="lazy" src="images/core_medical_1.webp" data-src="images/core_medical_1.webp" alt="肠内营养输注系统" loading="lazy"></div>
 
@@ -513,7 +513,7 @@
 
     </div>
 
-    <div class="prod-card" data-goto="#page-products">
+    <div class="prod-card" data-goto="#page-products" role="link" tabindex="0">
 
       <div class="card-img"><img class="lazy" src="images/core_medical_2.webp" data-src="images/core_medical_2.webp" alt="注射给药系统" loading="lazy"></div>
 
@@ -529,7 +529,7 @@
 
     </div>
 
-    <div class="prod-card" data-goto="#page-mold">
+    <div class="prod-card" data-goto="#page-mold" role="link" tabindex="0">
 
       <div class="card-img"><img class="lazy" src="images/core_mold_3.webp" data-src="images/core_mold_3.webp" alt="精密注塑模具" loading="lazy"></div>
 
@@ -864,22 +864,22 @@
     <div class="prod-tabs">
 
       <div class="prod-tab-nav" role="tablist" aria-label="产品浏览方式">
-        <button class="prod-tab-btn is-active" data-tab="browse" role="tab" aria-selected="true">浏览产品</button>
-        <button class="prod-tab-btn" data-tab="discover" role="tab" aria-selected="false">发现方案</button>
-        <button class="prod-tab-btn" data-tab="industries" role="tab" aria-selected="false">应用行业</button>
+        <button type="button" class="prod-tab-btn is-active" id="ptab-btn-browse" data-tab="browse" role="tab" aria-selected="true" aria-controls="ptab-browse">浏览产品</button>
+        <button type="button" class="prod-tab-btn" id="ptab-btn-discover" data-tab="discover" role="tab" aria-selected="false" aria-controls="ptab-discover">发现方案</button>
+        <button type="button" class="prod-tab-btn" id="ptab-btn-industries" data-tab="industries" role="tab" aria-selected="false" aria-controls="ptab-industries">应用行业</button>
       </div>
 
-      <div class="prod-tab-panel is-active" id="ptab-browse" data-panel="browse">
+      <div class="prod-tab-panel is-active" id="ptab-browse" data-panel="browse" role="tabpanel" aria-labelledby="ptab-btn-browse" tabindex="0">
         <div class="sec-header reveal"><h2>浏览产品</h2><div class="line"></div><p>按四大产品线浏览医疗器械注塑成型组件</p></div>
         <div class="prod-acc" id="prodAccBrowse"></div>
       </div>
 
-      <div class="prod-tab-panel" id="ptab-discover" data-panel="discover">
+      <div class="prod-tab-panel" id="ptab-discover" data-panel="discover" role="tabpanel" aria-labelledby="ptab-btn-discover" tabindex="0">
         <div class="sec-header reveal"><h2>发现方案</h2><div class="line"></div><p>面向典型场景的组合方案，从模具设计到批量注塑交付</p></div>
         <div class="prod-acc" id="prodAccDiscover"></div>
       </div>
 
-      <div class="prod-tab-panel" id="ptab-industries" data-panel="industries">
+      <div class="prod-tab-panel" id="ptab-industries" data-panel="industries" role="tabpanel" aria-labelledby="ptab-btn-industries" tabindex="0">
         <div class="sec-header reveal"><h2>应用行业</h2><div class="line"></div><p>II 类（无源）医疗器械注塑组件的典型应用领域</p></div>
         <div class="prod-acc" id="prodAccIndustries"></div>
       </div>
@@ -1345,7 +1345,7 @@
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片查看" onclick="if(event.target===this) closeLightbox()">
 
-  <span class="close" role="button" aria-label="关闭图片" tabindex="0" onclick="closeLightbox()">&times;</span>
+  <button type="button" class="close" id="lightbox-close" aria-label="关闭图片">&times;</button>
 
   <div class="lb-content">
 

@@ -453,6 +453,12 @@ document.addEventListener('click', function (e) {
 
 
 
+/* P1-21：灯箱关闭按钮改为原生 <button>，用委托绑定（原为内联 onclick + span[role=button]） */
+document.addEventListener('click', function (e) {
+  var c = e.target && e.target.closest && e.target.closest('#lightbox-close');
+  if (c && typeof closeLightbox === 'function') closeLightbox();
+});
+
 function closeLightbox() {
 
   document.getElementById('lightbox').classList.remove('active');
@@ -2463,6 +2469,16 @@ function setupMenuInteractions(){
       if(closeTimer) clearTimeout(closeTimer);
       closeTimer = setTimeout(()=>{ li.classList.remove("open"); }, 180);
     });
+    // P1-21：键盘可达 —— 焦点进入菜单项即展开，焦点离开整项后收起
+    li.addEventListener("focusin", ()=>{
+      if(closeTimer){clearTimeout(closeTimer); closeTimer=null;}
+      items.forEach(o=>{if(o!==li) o.classList.remove("open");});
+      li.classList.add("open");
+    });
+    li.addEventListener("focusout", (e)=>{
+      if(li.contains(e.relatedTarget)) return;
+      li.classList.remove("open");
+    });
     if(link){
       link.addEventListener("click", e=>{
         const wasOpen = li.classList.contains("open");
@@ -2749,6 +2765,28 @@ document.addEventListener("hondvo:lang", function () {
       applyProductHash();
     }
   }
+
+  // P1-21：role=tablist 的方向键导航（←/→/Home/End），并同步 aria-selected
+  (function bindTabKeyboard(){
+    var tabNav = document.querySelector(".prod-tab-nav");
+    if (!tabNav || tabNav._kbBound) return;
+    tabNav._kbBound = true;
+    tabNav.addEventListener("keydown", function (e) {
+      if (["ArrowRight","ArrowLeft","Home","End"].indexOf(e.key) < 0) return;
+      var btns = Array.prototype.slice.call(tabNav.querySelectorAll(".prod-tab-btn"));
+      if (!btns.length) return;
+      var i = btns.indexOf(document.activeElement);
+      if (i < 0) { for (var k = 0; k < btns.length; k++) { if (btns[k].classList.contains("is-active")) { i = k; break; } } }
+      if (i < 0) i = 0;
+      if (e.key === "ArrowRight") i = (i + 1) % btns.length;
+      else if (e.key === "ArrowLeft") i = (i - 1 + btns.length) % btns.length;
+      else if (e.key === "Home") i = 0;
+      else i = btns.length - 1;
+      e.preventDefault();
+      btns[i].focus();
+      btns[i].click();
+    });
+  })();
 
   // 点击：固定选定 Tab（永久选中）
   document.querySelectorAll(".prod-tab-btn").forEach(function(b){

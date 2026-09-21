@@ -1024,7 +1024,10 @@
 
   }
 
+  /* P1-21：.hero-dot 已由 <div> 改为 <button>，需复位浏览器默认外观 */
   .hero .hero-dot {
+
+    appearance: none; -webkit-appearance: none; border: 0; padding: 0;
 
     width: 10px; height: 10px; border-radius: 50%;
 
@@ -1035,6 +1038,8 @@
   }
 
   .hero .hero-dot.active { background: var(--white); transform: scale(1.3); }
+
+  .hero .hero-dot:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
 
   .hero .hero-content {
 
@@ -2420,7 +2425,8 @@
 
   .lightbox.active { opacity: 1; pointer-events: auto; }
 
-  .lightbox .close { position: absolute; top: 20px; right: 30px; font-size: 40px; color: var(--white); cursor: pointer; z-index: 10; line-height: 1; transition: color 0.2s; }
+  /* P1-21：关闭按钮改为原生 <button>，复位默认外观 */
+  .lightbox .close { appearance: none; -webkit-appearance: none; border: 0; background: none; padding: 0; position: absolute; top: 20px; right: 30px; font-size: 40px; color: var(--white); cursor: pointer; z-index: 10; line-height: 1; transition: color 0.2s; }
 
   .lightbox .close:hover { color: var(--brand); }
 

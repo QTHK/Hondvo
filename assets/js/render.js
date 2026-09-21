@@ -219,7 +219,7 @@
     var html = arr.map(function (s, i) {
       var active = i === 0 ? ' active' : '';
       if (isDots) {
-        return '<div class="hero-dot' + active + '" data-slide="' + i + '"></div>';
+        return '<button type="button" class="hero-dot' + active + '" data-slide="' + i + '" aria-label="Hero image ' + (i + 1) + '"></button>';
       }
       var bg = (typeof s === 'string') ? s : ((s && s.bgImage) || '');
       bg = normMedia(bg);
@@ -349,7 +349,7 @@
       // 统一改用 data-goto + 事件委托，避免 CMS 重建时再次丢失。
       var inHome = !!(grid.closest && grid.closest('#page-home'));
       grid.innerHTML = core.map(function (p) {
-        return '<div class="prod-card"' + (inHome ? ' data-goto="#page-products"' : '') + '><div class="card-img"><img src="' + esc(normMedia(p.image || '')) + '" alt="' + esc(p.name || '') + '"></div><div class="card-body"><h3>' + esc(p.name || '') + '</h3><p>' + esc(p.desc || '') + '</p><span class="link">' + esc(p.specs || '') + '</span></div></div>';
+        return '<div class="prod-card"' + (inHome ? ' data-goto="#page-products" role="link" tabindex="0"' : '') + '><div class="card-img"><img src="' + esc(normMedia(p.image || '')) + '" alt="' + esc(p.name || '') + '"></div><div class="card-body"><h3>' + esc(p.name || '') + '</h3><p>' + esc(p.desc || '') + '</p><span class="link">' + esc(p.specs || '') + '</span></div></div>';
       }).join('');
       markInjected(grid);
     });
@@ -607,6 +607,16 @@
   // ---------- 产品卡点击委托（覆盖静态卡 + CMS 动态卡） ----------
   // 静态 HTML 原用内联 onclick="location.href='#page-products'"，CMS 重建时会丢失；
   // 统一改为委托，静态与动态卡片行为一致，且断网（CMS 不接管）时同样有效。
+  // P1-21：产品卡键盘可达（Enter / Space 与点击等价）
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    var card = e.target && e.target.closest && e.target.closest('.prod-card[data-goto]');
+    if (!card) return;
+    e.preventDefault();
+    var h = card.getAttribute('data-goto');
+    if (h) location.hash = h;
+  });
+
   document.addEventListener('click', function (e) {
     var card = e.target && e.target.closest && e.target.closest('.prod-card[data-goto]');
     if (!card) return;
@@ -689,7 +699,7 @@
       }
       if (dotsBox) {
         dotsBox.innerHTML = d.heroslides.map(function (s, i) {
-          return '<div class="hero-dot' + (i === 0 ? ' active' : '') + '" data-slide="' + i + '"></div>';
+          return '<button type="button" class="hero-dot' + (i === 0 ? ' active' : '') + '" data-slide="' + i + '" aria-label="Hero image ' + (i + 1) + '"></button>';
         }).join('');
       }
       var ht = d.heroText || {};
@@ -785,7 +795,7 @@
       // 首页卡片统一改用 data-goto + 全局事件委托，避免 CMS 重建后点击失效
       var inHome = !!(grid.closest && grid.closest('#page-home'));
       grid.innerHTML = core.map(function (p) {
-        return '<div class="prod-card"' + (inHome ? ' data-goto="#page-products"' : '') + '><div class="card-img"><img src="' + esc(p.image || '') + '" alt="' + esc(p.name || '') + '"></div><div class="card-body"><h3>' + esc(p.name || '') + '</h3><p>' + esc(p.desc || '') + '</p><span class="link">' + esc(p.specs || '') + '</span></div></div>';
+        return '<div class="prod-card"' + (inHome ? ' data-goto="#page-products" role="link" tabindex="0"' : '') + '><div class="card-img"><img src="' + esc(p.image || '') + '" alt="' + esc(p.name || '') + '"></div><div class="card-body"><h3>' + esc(p.name || '') + '</h3><p>' + esc(p.desc || '') + '</p><span class="link">' + esc(p.specs || '') + '</span></div></div>';
       }).join('');
       mark(grid);
     });
