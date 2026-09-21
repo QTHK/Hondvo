@@ -881,8 +881,72 @@ const I18N = {
   "m7_dl_title":{"zh":"资料下载","en":"Downloads","de":"Downloads","ru":"Загрузки","fr":"Téléchargements","ja":"資料ダウンロード","ko":"자료 다운로드","es":"Descargas"},
   "m7_dl_sub":{"zh":"产品手册、认证证书与技术资料","en":"Product brochures, certificates and technical documents","de":"Produktbroschüren, Zertifikate und technische Unterlagen","ru":"Брошюры, сертификаты и техническая документация","fr":"Brochures produits, certificats et documents techniques","ja":"製品カタログ、認証書、技術資料","ko":"제품 브로셔, 인증서 및 기술 자료","es":"Folletos, certificados y documentación técnica"},
   "m7_dl_btn":{"zh":"下载","en":"Download","de":"Herunterladen","ru":"Скачать","fr":"Télécharger","ja":"ダウンロード","ko":"다운로드","es":"Descargar"},
-  "m7_dl_count":{"zh":"次下载","en":"downloads","de":"Downloads","ru":"загрузок","fr":"téléchargements","ja":"ダウンロード","ko":"다운로드","es":"descargas"}
+  "m7_dl_count":{"zh":"次下载","en":"downloads","de":"Downloads","ru":"загрузок","fr":"téléchargements","ja":"ダウンロード","ko":"다운로드","es":"descargas"},
 
+  /* ══ 导航/下拉/抽屉专用条目（P1-11 由 main.js 的 HNAV_I18N 合并而来，前缀 hnav_）══ */
+"hnav_brand":{"zh":"HONDVO","en":"HONDVO","ja":"HONDVO","ko":"HONDVO","de":"HONDVO","fr":"HONDVO","es":"HONDVO","ru":"HONDVO"},
+  "hnav_cta":{"zh":"立即询价","en":"Get a Quote","ja":"今すぐ見積もり","ko":"견적 요청","de":"Angebot anfordern","fr":"Demander un devis","es":"Pedir cotización","ru":"Запросить цену"},
+  "hnav_lang":{"zh":"中文","en":"English","ja":"日本語","ko":"한국어","de":"Deutsch","fr":"Français","es":"Español","ru":"Русский"},
+  "hnav_nav_home":{"zh":"首页","en":"Home","ja":"ホーム","ko":"홈","de":"Start","fr":"Accueil","es":"Inicio","ru":"Главная"},
+  "hnav_nav_products":{"zh":"产品与服务","en":"Products & Services","ja":"製品・サービス","ko":"제품 & 서비스","de":"Produkte & Services","fr":"Produits & Services","es":"Productos y Servicios","ru":"Продукция и услуги"},
+  "hnav_nav_mold":{"zh":"模具中心","en":"Mold Center","ja":"金型センター","ko":"금형센터","de":"Werkzeugzentrum","fr":"Centre Moules","es":"Centro de Moldes","ru":"Центр пресс-форм"},
+  "hnav_nav_qual":{"zh":"资质实力","en":"Qualifications","ja":"資格・認証","ko":"자격 · 인증","de":"Zertifizierungen","fr":"Qualifications","es":"Cualificaciones","ru":"Сертификаты"},
+  "hnav_nav_faq":{"zh":"常见问题","en":"FAQ","ja":"よくある質問","ko":"자주 묻는 질문","de":"FAQ","fr":"FAQ","es":"FAQ","ru":"Частые вопросы"},
+  "hnav_nav_about":{"zh":"关于我们","en":"About Us","ja":"会社概要","ko":"회사 소개","de":"Über uns","fr":"À propos","es":"Sobre nosotros","ru":"О компании"},
+  "hnav_nav_contact":{"zh":"联系我们","en":"Contact","ja":"お問い合わせ","ko":"문의","de":"Kontakt","fr":"Contact","es":"Contacto","ru":"Контакты"},
+  "hnav_nav_news":{"zh":"新闻动态","en":"News","ja":"ニュース","ko":"뉴스","de":"News","fr":"Actualités","es":"Noticias","ru":"Новости"},
+  "hnav_news_latest":{"zh":"最新动态","en":"Latest","ja":"最新情報","ko":"최신 소식","de":"Aktuelles","fr":"Dernières actus","es":"Últimas","ru":"Последнее"},
+  "hnav_news_all_t":{"zh":"查看全部新闻","en":"View All News","ja":"すべてのニュース","ko":"모든 뉴스 보기","de":"Alle News ansehen","fr":"Voir toutes les actualités","es":"Ver todas las noticias","ru":"Все новости"},
+  "hnav_news_all_s":{"zh":"公司动态与行业资讯","en":"Company & industry updates","ja":"企業・業界情報","ko":"기업 및 업계 소식","de":"Unternehmens- & Branchennews","fr":"Infos entreprise & secteur","es":"Novedades de empresa y sector","ru":"Корпоративные и отраслевые новости"},
+  "hnav_news_all":{"zh":"进入新闻中心 →","en":"Go to News Center →","ja":"ニュース一覧 →","ko":"뉴스 센터 →","de":"Zum News-Bereich →","fr":"Centre de news →","es":"Centro de noticias →","ru":"Все новости →"},
+  "hnav_prod_browse":{"zh":"浏览产品","en":"Browse Products","ja":"製品を見る","ko":"제품 보기","de":"Produkte","fr":"Produits","es":"Productos","ru":"Продукция"},
+  "hnav_prod_browse_items":{"zh":["手术器械组件","给药装置结构件","医用外壳与连接件","导管护套组件"],"en":["Surgical Instrument Components","Drug Delivery Device Parts","Medical Housings & Connectors","Catheter Sheath Components"],"ja":["手術器械部品","投薬装置構造部品","医用ハウジングとコネクタ","カテーテルシース部品"],"ko":["수술기기 부품","투약장치 구조부품","의료 하우징 및 커넥터","카테터 시스 부품"],"de":["Chirurgische Instrumentenkomponenten","Gehäuseteile für Verabreichungsgeräte","Medizinische Gehäuse und Verbinder","Katheterschutzkomponenten"],"fr":["Composants d'instruments chirurgicaux","Pièces structurelles de dispositifs d'administration","Boîtiers et connecteurs médicaux","Composants de gaines de cathéter"],"es":["Componentes de instrumentos quirúrgicos","Piezas estructurales de dispositivos de administración","Carcasas y conectores médicos","Componentes de funda de catéter"],"ru":["Компоненты хирургических инструментов","Конструктивные детали устройств доставки","Медицинские корпуса и разъёмы","Компоненты катетерной оболочки"]},
+  "hnav_prod_discover":{"zh":"发现方案","en":"Discover Solutions","ja":"ソリューション","ko":"솔루션","de":"Lösungen","fr":"Solutions","es":"Soluciones","ru":"Решения"},
+  "hnav_prod_discover_items":{"zh":["一次性耗材方案","诊断试剂盒方案","微创手术器械件"],"en":["Disposable Consumables","Diagnostic Cartridges","Minimally Invasive Parts"],"ja":["ディスポーザブル製品","診断カートリッジ","低侵襲手術部品"],"ko":["일회용 소모품","진단 카트리지","최소침습 부품"],"de":["Einweg-Verbrauchsgüter","Diagnose-Kartuschen","Minimal-invasive Komponenten"],"fr":["Consommables jetables","Cartouches de diagnostic","Pièces mini-invasives"],"es":["Consumibles desechables","Cartuchos de diagnóstico","Componentes mínimamente invasivos"],"ru":["Одноразовые расходники","Диагностические картриджи","Малоинвазивные компоненты"]},
+  "hnav_prod_industries":{"zh":"应用行业","en":"Industries","ja":"業界","ko":"산업 분야","de":"Branchen","fr":"Industries","es":"Industrias","ru":"Отрасли"},
+  "hnav_prod_industries_items":{"zh":["体外诊断 IVD","医用影像","监护与给药"],"en":["In-Vitro Diagnostics","Medical Imaging","Monitoring & Infusion"],"ja":["体外診断 IVD","医用画像","モニタリング"],"ko":["체외진단 IVD","의료 영상","모니터링"],"de":["In-vitro-Diagnostik","Medizinische Bildgebung","Monitoring & Infusion"],"fr":["Diagnostic in vitro","Imagerie médicale","Surveillance & perfusion"],"es":["Diagnóstico IVD","Imagen médica","Monitoreo e infusión"],"ru":["IVD диагностика","Медицинская визуализация","Мониторинг и инфузия"]},
+  "hnav_prod_cta_t":{"zh":"需要定制方案？","en":"Need a custom solution?","ja":"カスタムが必要ですか？","ko":"맞춤 솔루션이 필요하신가요?","de":"Brauchen Sie eine Lösung?","fr":"Besoin d'une solution ?","es":"¿Necesita una solución?","ru":"Нужно решение?"},
+  "hnav_prod_cta_s":{"zh":"资深工程师 24h 响应","en":"Senior engineer responds within 24h","ja":"24時間以内に回答","ko":"24시간 내 회신","de":"Antwort innerhalb von 24h","fr":"Réponse sous 24h","es":"Respuesta en 24h","ru":"Ответ в течение 24 ч"},
+  "hnav_mold_browse":{"zh":"浏览能力","en":"Browse Capabilities","ja":"設備一覧","ko":"설비","de":"Fähigkeiten","fr":"Capacités","es":"Capacidades","ru":"Возможности"},
+  "hnav_mold_browse_items":{"zh":["CNC 加工中心","EDM 放电加工","慢走丝线切割","精密磨床"],"en":["CNC Machining Centers","EDM Spark Erosion","Wire EDM","Precision Grinding"],"ja":["CNC マシニング","放電加工 EDM","ワイヤー放電","精密研削"],"ko":["CNC 가공","방전 가공 EDM","와이어 EDM","정밀 연삭"],"de":["CNC-Bearbeitung","Senkerodieren (EDM)","Draht-EDM","Präzisionsschleifen"],"fr":["Usinage CNC","EDM","EDM fil","Rectification précise"],"es":["Mecanizado CNC","EDM","EDM de hilo","Rectificado de precisión"],"ru":["CNC-обработка","Электроэрозия (EDM)","Проволочная EDM","Прецизионное шлифование"]},
+  "hnav_mold_discover":{"zh":"发现工艺","en":"Discover Processes","ja":"工法を見る","ko":"공정","de":"Verfahren","fr":"Procédés","es":"Procesos","ru":"Процессы"},
+  "hnav_mold_discover_items":{"zh":["LSR 液态硅胶注射","洁净室注塑","模具验证与试模"],"en":["LSR Injection","Cleanroom Molding","Mold Trial & Validation"],"ja":["LSR 射出","クリーンルーム成形","トライ・バリデーション"],"ko":["LSR 사출","클린룸 성형","금형 시제작"],"de":["LSR-Spritzen","Reinraum-Spritzen","Werkzeugabmusterung"],"fr":["Injection LSR","Moulage salle blanche","Essais moule"],"es":["Inyección LSR","Moldeo en sala limpia","Validación de moldes"],"ru":["Литьё LSR","Чистая комната","Испытание пресс-форм"]},
+  "hnav_mold_learn":{"zh":"学习工艺","en":"Learn","ja":"資料","ko":"자료","de":"Lernen","fr":"Ressources","es":"Recursos","ru":"Ресурсы"},
+  "hnav_mold_learn_items":{"zh":["车间参观预约","白皮书下载"],"en":["Factory Tour","White Papers"],"ja":["工場見学","ホワイトペーパー"],"ko":["공장 견학","백서"],"de":["Werksbesichtigung","Whitepaper"],"fr":["Visite d'usine","Livres blancs"],"es":["Visita a fábrica","White papers"],"ru":["Экскурсия на завод","Белые книги"]},
+  "hnav_mold_cta_t":{"zh":"想了解模具能力？","en":"See our capabilities?","ja":"詳細が必要ですか？","ko":"더 알고 싶으세요?","de":"Mehr erfahren?","fr":"En savoir plus ?","es":"¿Conocer más?","ru":"Узнать больше?"},
+  "hnav_mold_cta_s":{"zh":"获取完整设备清单","en":"Request the full equipment list","ja":"設備リストを送付","ko":"설비 리스트 발송","de":"Vollständige Ausrüstungsliste","fr":"Liste complète des équipements","es":"Lista completa de equipos","ru":"Полный список оборудования"},
+  "hnav_qual_browse":{"zh":"体系认证","en":"Certifications","ja":"認証","ko":"인증","de":"Zertifikate","fr":"Certifications","es":"Certificaciones","ru":"Сертификаты"},
+  "hnav_qual_browse_items":{"zh":["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],"en":["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],"ja":["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],"ko":["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],"de":["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],"fr":["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],"es":["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],"ru":["ISO 13485","ISO 9001","ISO 14001","IATF 16949"]},
+  "hnav_qual_discover":{"zh":"设备能力","en":"Equipment Capability","ja":"設備能力","ko":"장비 역량","de":"Ausrüstung","fr":"Équipements","es":"Equipos","ru":"Оборудование"},
+  "hnav_qual_discover_items":{"zh":["三坐标测量","气密性检测","洁净室等级"],"en":["CMM Inspection","Leak Testing","Cleanroom Grade"],"ja":["三次元測定","リークテスト","クリーンルーム等級"],"ko":["3차원 측정","누설 검사","클린룸 등급"],"de":["KMG-Messung","Dichtheitsprüfung","Reinraum-Klasse"],"fr":["Mesure 3D","Test d'étanchéité","Classe salle blanche"],"es":["Medición 3D","Prueba de fugas","Grado sala limpia"],"ru":["3D-измерение","Тест на герметичность","Класс чистоты"]},
+  "hnav_qual_manage":{"zh":"质量管控","en":"Quality Control","ja":"品質管理","ko":"품질 관리","de":"Qualitätskontrolle","fr":"Contrôle qualité","es":"Control de calidad","ru":"Контроль качества"},
+  "hnav_qual_manage_items":{"zh":["来料检验 IQC","首件检验 FAI","过程巡检 IPQC"],"en":["IQC","FAI","IPQC"],"ja":["IQC","FAI","IPQC"],"ko":["IQC","FAI","IPQC"],"de":["IQC","FAI","IPQC"],"fr":["IQC","FAI","IPQC"],"es":["IQC","FAI","IPQC"],"ru":["IQC","FAI","IPQC"]},
+  "hnav_qual_cta_t":{"zh":"需要合规支持？","en":"Need compliance support?","ja":"コンプライアンス支援？","ko":"규제 지원 필요?","de":"Compliance nötig?","fr":"Besoin de conformité ?","es":"¿Soporte regulatorio?","ru":"Нужна поддержка?"},
+  "hnav_qual_cta_s":{"zh":"配套法规文件与证书","en":"Regulatory docs & certificates","ja":"関連書類を提出","ko":"관련 문서 제공","de":"Dokumente & Zertifikate","fr":"Documents et certificats","es":"Documentos y certificados","ru":"Документы и сертификаты"},
+  "hnav_faq_browse":{"zh":"订单与交付","en":"Order & Delivery","ja":"注文・納期","ko":"주문 · 납기","de":"Bestellung & Lieferung","fr":"Commande & Livraison","es":"Pedido & Entrega","ru":"Заказ & Доставка"},
+  "hnav_faq_browse_items":{"zh":["最小起订量","交期与排产","付款方式"],"en":["MOQ Policy","Lead Time","Payment Terms"],"ja":["最小発注数量","リードタイム","支払い条件"],"ko":["최소 주문","리드타임","결제 조건"],"de":["Mindestbestellmenge","Lieferzeit","Zahlungsbedingungen"],"fr":["Quantité minimum","Délai","Conditions de paiement"],"es":["Pedido mínimo","Plazo de entrega","Condiciones de pago"],"ru":["Минимальный заказ","Срок","Условия оплаты"]},
+  "hnav_faq_discover":{"zh":"技术与工艺","en":"Technology","ja":"技術","ko":"기술","de":"Technik","fr":"Technologie","es":"Tecnología","ru":"Технологии"},
+  "hnav_faq_discover_items":{"zh":["材料选型","公差与精度","模具寿命"],"en":["Material Selection","Tolerance & Precision","Mold Lifespan"],"ja":["材料選定","公差・精度","金型寿命"],"ko":["소재 선택","공차 · 정밀도","금형 수명"],"de":["Materialauswahl","Toleranz & Präzision","Werkzeuglebensdauer"],"fr":["Choix des matériaux","Tolérance & précision","Durée de vie moule"],"es":["Selección de materiales","Tolerancia y precisión","Vida útil del molde"],"ru":["Выбор материалов","Допуски","Ресурс формы"]},
+  "hnav_faq_after":{"zh":"售后与服务","en":"After-Sales","ja":"アフター","ko":"A/S","de":"After-Sales","fr":"Après-vente","es":"Postventa","ru":"После продажи"},
+  "hnav_faq_after_items":{"zh":["质量索赔","模具保养","文档与备案"],"en":["Quality Claims","Mold Maintenance","Documentation"],"ja":["品質クレーム","金型保守","ドキュメント"],"ko":["품질 클레임","금형 유지보수","문서"],"de":["Qualitätsreklamation","Werkzeugwartung","Dokumentation"],"fr":["Réclamations","Maintenance moule","Documentation"],"es":["Reclamaciones","Mantenimiento del molde","Documentación"],"ru":["Рекламации","Обслуживание формы","Документация"]},
+  "hnav_faq_cta_t":{"zh":"还有问题？","en":"More questions?","ja":"他にご質問は？","ko":"더 궁금한 점?","de":"Weitere Fragen?","fr":"D'autres questions ?","es":"¿Más preguntas?","ru":"Ещё вопросы?"},
+  "hnav_faq_cta_s":{"zh":"联络销售工程师","en":"Talk to a sales engineer","ja":"営業担当に連絡","ko":"영업 담당에게 연락","de":"Vertrieb kontaktieren","fr":"Contacter un commercial","es":"Contactar al equipo comercial","ru":"Связаться с менеджером"},
+  "hnav_about_browse":{"zh":"关于公司","en":"About","ja":"会社情報","ko":"회사","de":"Über uns","fr":"À propos","es":"Empresa","ru":"О компании"},
+  "hnav_about_browse_items":{"zh":["公司简介","发展历程","企业文化"],"en":["Company Profile","Milestones","Culture"],"ja":["会社概要","沿革","企業文化"],"ko":["회사 개요","연혁","기업 문화"],"de":["Unternehmensprofil","Meilensteine","Unternehmenskultur"],"fr":["Profil entreprise","Jalons","Culture d'entreprise"],"es":["Perfil de la empresa","Hitos","Cultura empresarial"],"ru":["Профиль","Этапы","Культура"]},
+  "hnav_about_discover":{"zh":"团队与责任","en":"Team & Responsibility","ja":"チーム","ko":"팀","de":"Team & Verantwortung","fr":"Équipe","es":"Equipo","ru":"Команда"},
+  "hnav_about_discover_items":{"zh":["核心团队","研发投入","可持续与合规"],"en":["Leadership","R&D Investment","ESG"],"ja":["リーダーシップ","研究開発","ESG"],"ko":["리더십","R&D 투자","ESG"],"de":["Führungsteam","F&E-Investitionen","ESG"],"fr":["Direction","Investissement R&D","ESG"],"es":["Liderazgo","Inversión en I+D","ESG"],"ru":["Руководство","НИОКР","ESG"]},
+  "hnav_about_contact":{"zh":"联络方式","en":"Contact","ja":"連絡先","ko":"연락처","de":"Kontakt","fr":"Coordonnées","es":"Contacto","ru":"Контакты"},
+  "hnav_about_contact_items":{"zh":["联系销售","总部地址","加入我们"],"en":["Sales Contact","Headquarters","Careers"],"ja":["営業連絡","本社所在地","採用情報"],"ko":["영업 연락","본사 주소","채용 정보"],"de":["Vertrieb","Hauptsitz","Karriere"],"fr":["Contact commercial","Siège social","Carrières"],"es":["Contacto comercial","Sede","Empleo"],"ru":["Отдел продаж","Штаб-квартира","Карьера"]},
+  "hnav_about_cta_t":{"zh":"想莅临参观？","en":"Visit us?","ja":"見学したい？","ko":"방문하시겠어요?","de":"Besuch planen?","fr":"Visiter ?","es":"¿Visitarnos?","ru":"Хотите посетить?"},
+  "hnav_about_cta_s":{"zh":"预约总部工厂参访","en":"Book a factory tour","ja":"工場見学を予約","ko":"공장 견학 예약","de":"Werksbesichtigung buchen","fr":"Réserver une visite d'usine","es":"Reservar visita a fábrica","ru":"Записаться на экскурсию"},
+  "hnav_contact_browse":{"zh":"销售联络","en":"Sales Contacts","ja":"営業連絡","ko":"영업","de":"Vertrieb","fr":"Contacts commerciaux","es":"Ventas","ru":"Продажи"},
+  "hnav_contact_browse_items":{"zh":["中国销售","海外销售","渠道代理"],"en":["China Sales","Overseas Sales","Channel Partners"],"ja":["国内営業","海外営業","代理店"],"ko":["국내 영업","해외 영업","채널"],"de":["Vertrieb China","Vertrieb Ausland","Vertriebspartner"],"fr":["Ventes Chine","Ventes internationales","Partenaires"],"es":["Ventas China","Ventas internacionales","Socios de canal"],"ru":["Продажи Китай","Зарубежные продажи","Партнёры"]},
+  "hnav_contact_discover":{"zh":"支持与资源","en":"Support","ja":"サポート","ko":"지원","de":"Support","fr":"Support","es":"Soporte","ru":"Поддержка"},
+  "hnav_contact_discover_items":{"zh":["技术支持","售后客服","下载中心"],"en":["Technical Support","After-Sales","Download Center"],"ja":["技術サポート","アフターサービス","ダウンロード"],"ko":["기술 지원","A/S","다운로드"],"de":["Technischer Support","After-Sales","Download-Center"],"fr":["Support technique","Après-vente","Téléchargements"],"es":["Soporte técnico","Postventa","Centro de descargas"],"ru":["Техподдержка","Послепродажное","Загрузки"]},
+  "hnav_contact_loc":{"zh":"地点","en":"Locations","ja":"拠点","ko":"위치","de":"Standorte","fr":"Sites","es":"Ubicaciones","ru":"Локации"},
+  "hnav_contact_loc_items":{"zh":["东莞总部","海外销售点","查看地图"],"en":["Dongguan HQ","Overseas Offices","View on Map"],"ja":["東莞本社","海外営業拠点","地図で見る"],"ko":["동관 본사","해외 영업","지도 보기"],"de":["Hauptsitz Dongguan","Vertrieb Ausland","Auf Karte ansehen"],"fr":["Siège Dongguan","Ventes internationales","Voir sur la carte"],"es":["Sede Dongguan","Ventas internacionales","Ver en mapa"],"ru":["Штаб Дунгуань","Зарубежные продажи","Карта"]},
+  "hnav_contact_cta_t":{"zh":"立刻沟通","en":"Let's talk","ja":"今すぐ連絡","ko":"지금 연락","de":"Jetzt sprechen","fr":"Parlons-en","es":"Hablemos","ru":"Свяжитесь"},
+  "hnav_contact_cta_s":{"zh":"填写询价表 24h 反馈","en":"Submit RFQ — 24h response","ja":"見積もり提出 — 24時間返信","ko":"견적 제출 — 24시간 회신","de":"Anfrage senden — 24h Antwort","fr":"Envoyer un devis — réponse 24h","es":"Enviar cotización — respuesta 24h","ru":"Запрос — ответ 24 ч"},
 };
 
 
@@ -1272,6 +1336,14 @@ function switchLang(lang) {
   });
 
   if (typeof renderLegal === 'function') renderLegal(lang);
+
+  // 语言变更事件总线：供 render.js（CMS / M7 各模块）与 main.js（导航下拉列表 / 抽屉 /
+  // 语言浮窗）订阅，替代各处对 switchLang 的多层包装（见 P1-20）。
+  try {
+
+    document.dispatchEvent(new CustomEvent('hondvo:lang', { detail: { lang: lang } }));
+
+  } catch (e) {}
 
 }
 

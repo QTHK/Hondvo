@@ -2364,252 +2364,28 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 
 /* ============ 8 语言字典（不混排，整树切换） ============ */
-const HNAV_I18N = {
-  zh:{
-    brand:"HONDVO",cta:"立即询价",lang:"中文",
-    nav_home:"首页",nav_products:"产品与服务",nav_mold:"模具中心",nav_qual:"资质实力",nav_faq:"常见问题",nav_about:"关于我们",nav_contact:"联系我们",nav_news:"新闻动态",news_latest:"最新动态",news_all_t:"查看全部新闻",news_all_s:"公司动态与行业资讯",news_all:"进入新闻中心 →",
-    prod_browse:"浏览产品",prod_browse_items:["手术器械组件","给药装置结构件","医用外壳与连接件","导管护套组件"],
-    prod_discover:"发现方案",prod_discover_items:["一次性耗材方案","诊断试剂盒方案","微创手术器械件"],
-    prod_industries:"应用行业",prod_industries_items:["体外诊断 IVD","医用影像","监护与给药"],
-    prod_cta_t:"需要定制方案？",prod_cta_s:"资深工程师 24h 响应",
-    mold_browse:"浏览能力",mold_browse_items:["CNC 加工中心","EDM 放电加工","慢走丝线切割","精密磨床"],
-    mold_discover:"发现工艺",mold_discover_items:["LSR 液态硅胶注射","洁净室注塑","模具验证与试模"],
-    mold_learn:"学习工艺",mold_learn_items:["车间参观预约","白皮书下载"],
-    mold_cta_t:"想了解模具能力？",mold_cta_s:"获取完整设备清单",
-    qual_browse:"体系认证",qual_browse_items:["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],
-    qual_discover:"设备能力",qual_discover_items:["三坐标测量","气密性检测","洁净室等级"],
-    qual_manage:"质量管控",qual_manage_items:["来料检验 IQC","首件检验 FAI","过程巡检 IPQC"],
-    qual_cta_t:"需要合规支持？",qual_cta_s:"配套法规文件与证书",
-    faq_browse:"订单与交付",faq_browse_items:["最小起订量","交期与排产","付款方式"],
-    faq_discover:"技术与工艺",faq_discover_items:["材料选型","公差与精度","模具寿命"],
-    faq_after:"售后与服务",faq_after_items:["质量索赔","模具保养","文档与备案"],
-    faq_cta_t:"还有问题？",faq_cta_s:"联络销售工程师",
-    about_browse:"关于公司",about_browse_items:["公司简介","发展历程","企业文化"],
-    about_discover:"团队与责任",about_discover_items:["核心团队","研发投入","可持续与合规"],
-    about_contact:"联络方式",about_contact_items:["联系销售","总部地址","加入我们"],
-    about_cta_t:"想莅临参观？",about_cta_s:"预约总部工厂参访",
-    contact_browse:"销售联络",contact_browse_items:["中国销售","海外销售","渠道代理"],
-    contact_discover:"支持与资源",contact_discover_items:["技术支持","售后客服","下载中心"],
-    contact_loc:"地点",contact_loc_items:["东莞总部","海外销售点","查看地图"],
-    contact_cta_t:"立刻沟通",contact_cta_s:"填写询价表 24h 反馈"
-  },
-  en:{
-    brand:"HONDVO",cta:"Get a Quote",lang:"English",
-    nav_home:"Home",nav_products:"Products & Services",nav_mold:"Mold Center",nav_qual:"Qualifications",nav_faq:"FAQ",nav_about:"About Us",nav_contact:"Contact",nav_news:"News",news_latest:"Latest",news_all_t:"View All News",news_all_s:"Company & industry updates",news_all:"Go to News Center →",
-    prod_browse:"Browse Products",prod_browse_items:["Surgical Instrument Components","Drug Delivery Device Parts","Medical Housings & Connectors","Catheter Sheath Components"],
-    prod_discover:"Discover Solutions",prod_discover_items:["Disposable Consumables","Diagnostic Cartridges","Minimally Invasive Parts"],
-    prod_industries:"Industries",prod_industries_items:["In-Vitro Diagnostics","Medical Imaging","Monitoring & Infusion"],
-    prod_cta_t:"Need a custom solution?",prod_cta_s:"Senior engineer responds within 24h",
-    mold_browse:"Browse Capabilities",mold_browse_items:["CNC Machining Centers","EDM Spark Erosion","Wire EDM","Precision Grinding"],
-    mold_discover:"Discover Processes",mold_discover_items:["LSR Injection","Cleanroom Molding","Mold Trial & Validation"],
-    mold_learn:"Learn",mold_learn_items:["Factory Tour","White Papers"],
-    mold_cta_t:"See our capabilities?",mold_cta_s:"Request the full equipment list",
-    qual_browse:"Certifications",qual_browse_items:["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],
-    qual_discover:"Equipment Capability",qual_discover_items:["CMM Inspection","Leak Testing","Cleanroom Grade"],
-    qual_manage:"Quality Control",qual_manage_items:["IQC","FAI","IPQC"],
-    qual_cta_t:"Need compliance support?",qual_cta_s:"Regulatory docs & certificates",
-    faq_browse:"Order & Delivery",faq_browse_items:["MOQ Policy","Lead Time","Payment Terms"],
-    faq_discover:"Technology",faq_discover_items:["Material Selection","Tolerance & Precision","Mold Lifespan"],
-    faq_after:"After-Sales",faq_after_items:["Quality Claims","Mold Maintenance","Documentation"],
-    faq_cta_t:"More questions?",faq_cta_s:"Talk to a sales engineer",
-    about_browse:"About",about_browse_items:["Company Profile","Milestones","Culture"],
-    about_discover:"Team & Responsibility",about_discover_items:["Leadership","R&D Investment","ESG"],
-    about_contact:"Contact",about_contact_items:["Sales Contact","Headquarters","Careers"],
-    about_cta_t:"Visit us?",about_cta_s:"Book a factory tour",
-    contact_browse:"Sales Contacts",contact_browse_items:["China Sales","Overseas Sales","Channel Partners"],
-    contact_discover:"Support",contact_discover_items:["Technical Support","After-Sales","Download Center"],
-    contact_loc:"Locations",contact_loc_items:["Dongguan HQ","Overseas Offices","View on Map"],
-    contact_cta_t:"Let's talk",contact_cta_s:"Submit RFQ — 24h response"
-  },
-  ja:{
-    brand:"HONDVO",cta:"今すぐ見積もり",lang:"日本語",
-    nav_home:"ホーム",nav_products:"製品・サービス",nav_mold:"金型センター",nav_qual:"資格・認証",nav_faq:"よくある質問",nav_about:"会社概要",nav_contact:"お問い合わせ",nav_news:"ニュース",news_latest:"最新情報",news_all_t:"すべてのニュース",news_all_s:"企業・業界情報",news_all:"ニュース一覧 →",
-    prod_browse:"製品を見る",prod_browse_items:["手術器械部品","投薬装置構造部品","医用ハウジングとコネクタ","カテーテルシース部品"],
-    prod_discover:"ソリューション",prod_discover_items:["ディスポーザブル製品","診断カートリッジ","低侵襲手術部品"],
-    prod_industries:"業界",prod_industries_items:["体外診断 IVD","医用画像","モニタリング"],
-    prod_cta_t:"カスタムが必要ですか？",prod_cta_s:"24時間以内に回答",
-    mold_browse:"設備一覧",mold_browse_items:["CNC マシニング","放電加工 EDM","ワイヤー放電","精密研削"],
-    mold_discover:"工法を見る",mold_discover_items:["LSR 射出","クリーンルーム成形","トライ・バリデーション"],
-    mold_learn:"資料",mold_learn_items:["工場見学","ホワイトペーパー"],
-    mold_cta_t:"詳細が必要ですか？",mold_cta_s:"設備リストを送付",
-    qual_browse:"認証",qual_browse_items:["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],
-    qual_discover:"設備能力",qual_discover_items:["三次元測定","リークテスト","クリーンルーム等級"],
-    qual_manage:"品質管理",qual_manage_items:["IQC","FAI","IPQC"],
-    qual_cta_t:"コンプライアンス支援？",qual_cta_s:"関連書類を提出",
-    faq_browse:"注文・納期",faq_browse_items:["最小発注数量","リードタイム","支払い条件"],
-    faq_discover:"技術",faq_discover_items:["材料選定","公差・精度","金型寿命"],
-    faq_after:"アフター",faq_after_items:["品質クレーム","金型保守","ドキュメント"],
-    faq_cta_t:"他にご質問は？",faq_cta_s:"営業担当に連絡",
-    about_browse:"会社情報",about_browse_items:["会社概要","沿革","企業文化"],
-    about_discover:"チーム",about_discover_items:["リーダーシップ","研究開発","ESG"],
-    about_contact:"連絡先",about_contact_items:["営業連絡","本社所在地","採用情報"],
-    about_cta_t:"見学したい？",about_cta_s:"工場見学を予約",
-    contact_browse:"営業連絡",contact_browse_items:["国内営業","海外営業","代理店"],
-    contact_discover:"サポート",contact_discover_items:["技術サポート","アフターサービス","ダウンロード"],
-    contact_loc:"拠点",contact_loc_items:["東莞本社","海外営業拠点","地図で見る"],
-    contact_cta_t:"今すぐ連絡",contact_cta_s:"見積もり提出 — 24時間返信"
-  },
-  ko:{
-    brand:"HONDVO",cta:"견적 요청",lang:"한국어",
-    nav_home:"홈",nav_products:"제품 & 서비스",nav_mold:"금형센터",nav_qual:"자격 · 인증",nav_faq:"자주 묻는 질문",nav_about:"회사 소개",nav_contact:"문의",nav_news:"뉴스",news_latest:"최신 소식",news_all_t:"모든 뉴스 보기",news_all_s:"기업 및 업계 소식",news_all:"뉴스 센터 →",
-    prod_browse:"제품 보기",prod_browse_items:["수술기기 부품","투약장치 구조부품","의료 하우징 및 커넥터","카테터 시스 부품"],
-    prod_discover:"솔루션",prod_discover_items:["일회용 소모품","진단 카트리지","최소침습 부품"],
-    prod_industries:"산업 분야",prod_industries_items:["체외진단 IVD","의료 영상","모니터링"],
-    prod_cta_t:"맞춤 솔루션이 필요하신가요?",prod_cta_s:"24시간 내 회신",
-    mold_browse:"설비",mold_browse_items:["CNC 가공","방전 가공 EDM","와이어 EDM","정밀 연삭"],
-    mold_discover:"공정",mold_discover_items:["LSR 사출","클린룸 성형","금형 시제작"],
-    mold_learn:"자료",mold_learn_items:["공장 견학","백서"],
-    mold_cta_t:"더 알고 싶으세요?",mold_cta_s:"설비 리스트 발송",
-    qual_browse:"인증",qual_browse_items:["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],
-    qual_discover:"장비 역량",qual_discover_items:["3차원 측정","누설 검사","클린룸 등급"],
-    qual_manage:"품질 관리",qual_manage_items:["IQC","FAI","IPQC"],
-    qual_cta_t:"규제 지원 필요?",qual_cta_s:"관련 문서 제공",
-    faq_browse:"주문 · 납기",faq_browse_items:["최소 주문","리드타임","결제 조건"],
-    faq_discover:"기술",faq_discover_items:["소재 선택","공차 · 정밀도","금형 수명"],
-    faq_after:"A/S",faq_after_items:["품질 클레임","금형 유지보수","문서"],
-    faq_cta_t:"더 궁금한 점?",faq_cta_s:"영업 담당에게 연락",
-    about_browse:"회사",about_browse_items:["회사 개요","연혁","기업 문화"],
-    about_discover:"팀",about_discover_items:["리더십","R&D 투자","ESG"],
-    about_contact:"연락처",about_contact_items:["영업 연락","본사 주소","채용 정보"],
-    about_cta_t:"방문하시겠어요?",about_cta_s:"공장 견학 예약",
-    contact_browse:"영업",contact_browse_items:["국내 영업","해외 영업","채널"],
-    contact_discover:"지원",contact_discover_items:["기술 지원","A/S","다운로드"],
-    contact_loc:"위치",contact_loc_items:["동관 본사","해외 영업","지도 보기"],
-    contact_cta_t:"지금 연락",contact_cta_s:"견적 제출 — 24시간 회신"
-  },
-  de:{
-    brand:"HONDVO",cta:"Angebot anfordern",lang:"Deutsch",
-    nav_home:"Start",nav_products:"Produkte & Services",nav_mold:"Werkzeugzentrum",nav_qual:"Zertifizierungen",nav_faq:"FAQ",nav_about:"Über uns",nav_contact:"Kontakt",nav_news:"News",news_latest:"Aktuelles",news_all_t:"Alle News ansehen",news_all_s:"Unternehmens- & Branchennews",news_all:"Zum News-Bereich →",
-    prod_browse:"Produkte",prod_browse_items:["Chirurgische Instrumentenkomponenten","Gehäuseteile für Verabreichungsgeräte","Medizinische Gehäuse und Verbinder","Katheterschutzkomponenten"],
-    prod_discover:"Lösungen",prod_discover_items:["Einweg-Verbrauchsgüter","Diagnose-Kartuschen","Minimal-invasive Komponenten"],
-    prod_industries:"Branchen",prod_industries_items:["In-vitro-Diagnostik","Medizinische Bildgebung","Monitoring & Infusion"],
-    prod_cta_t:"Brauchen Sie eine Lösung?",prod_cta_s:"Antwort innerhalb von 24h",
-    mold_browse:"Fähigkeiten",mold_browse_items:["CNC-Bearbeitung","Senkerodieren (EDM)","Draht-EDM","Präzisionsschleifen"],
-    mold_discover:"Verfahren",mold_discover_items:["LSR-Spritzen","Reinraum-Spritzen","Werkzeugabmusterung"],
-    mold_learn:"Lernen",mold_learn_items:["Werksbesichtigung","Whitepaper"],
-    mold_cta_t:"Mehr erfahren?",mold_cta_s:"Vollständige Ausrüstungsliste",
-    qual_browse:"Zertifikate",qual_browse_items:["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],
-    qual_discover:"Ausrüstung",qual_discover_items:["KMG-Messung","Dichtheitsprüfung","Reinraum-Klasse"],
-    qual_manage:"Qualitätskontrolle",qual_manage_items:["IQC","FAI","IPQC"],
-    qual_cta_t:"Compliance nötig?",qual_cta_s:"Dokumente & Zertifikate",
-    faq_browse:"Bestellung & Lieferung",faq_browse_items:["Mindestbestellmenge","Lieferzeit","Zahlungsbedingungen"],
-    faq_discover:"Technik",faq_discover_items:["Materialauswahl","Toleranz & Präzision","Werkzeuglebensdauer"],
-    faq_after:"After-Sales",faq_after_items:["Qualitätsreklamation","Werkzeugwartung","Dokumentation"],
-    faq_cta_t:"Weitere Fragen?",faq_cta_s:"Vertrieb kontaktieren",
-    about_browse:"Über uns",about_browse_items:["Unternehmensprofil","Meilensteine","Unternehmenskultur"],
-    about_discover:"Team & Verantwortung",about_discover_items:["Führungsteam","F&E-Investitionen","ESG"],
-    about_contact:"Kontakt",about_contact_items:["Vertrieb","Hauptsitz","Karriere"],
-    about_cta_t:"Besuch planen?",about_cta_s:"Werksbesichtigung buchen",
-    contact_browse:"Vertrieb",contact_browse_items:["Vertrieb China","Vertrieb Ausland","Vertriebspartner"],
-    contact_discover:"Support",contact_discover_items:["Technischer Support","After-Sales","Download-Center"],
-    contact_loc:"Standorte",contact_loc_items:["Hauptsitz Dongguan","Vertrieb Ausland","Auf Karte ansehen"],
-    contact_cta_t:"Jetzt sprechen",contact_cta_s:"Anfrage senden — 24h Antwort"
-  },
-  fr:{
-    brand:"HONDVO",cta:"Demander un devis",lang:"Français",
-    nav_home:"Accueil",nav_products:"Produits & Services",nav_mold:"Centre Moules",nav_qual:"Qualifications",nav_faq:"FAQ",nav_about:"À propos",nav_contact:"Contact",nav_news:"Actualités",news_latest:"Dernières actus",news_all_t:"Voir toutes les actualités",news_all_s:"Infos entreprise & secteur",news_all:"Centre de news →",
-    prod_browse:"Produits",prod_browse_items:["Composants d'instruments chirurgicaux","Pièces structurelles de dispositifs d'administration","Boîtiers et connecteurs médicaux","Composants de gaines de cathéter"],
-    prod_discover:"Solutions",prod_discover_items:["Consommables jetables","Cartouches de diagnostic","Pièces mini-invasives"],
-    prod_industries:"Industries",prod_industries_items:["Diagnostic in vitro","Imagerie médicale","Surveillance & perfusion"],
-    prod_cta_t:"Besoin d'une solution ?",prod_cta_s:"Réponse sous 24h",
-    mold_browse:"Capacités",mold_browse_items:["Usinage CNC","EDM","EDM fil","Rectification précise"],
-    mold_discover:"Procédés",mold_discover_items:["Injection LSR","Moulage salle blanche","Essais moule"],
-    mold_learn:"Ressources",mold_learn_items:["Visite d'usine","Livres blancs"],
-    mold_cta_t:"En savoir plus ?",mold_cta_s:"Liste complète des équipements",
-    qual_browse:"Certifications",qual_browse_items:["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],
-    qual_discover:"Équipements",qual_discover_items:["Mesure 3D","Test d'étanchéité","Classe salle blanche"],
-    qual_manage:"Contrôle qualité",qual_manage_items:["IQC","FAI","IPQC"],
-    qual_cta_t:"Besoin de conformité ?",qual_cta_s:"Documents et certificats",
-    faq_browse:"Commande & Livraison",faq_browse_items:["Quantité minimum","Délai","Conditions de paiement"],
-    faq_discover:"Technologie",faq_discover_items:["Choix des matériaux","Tolérance & précision","Durée de vie moule"],
-    faq_after:"Après-vente",faq_after_items:["Réclamations","Maintenance moule","Documentation"],
-    faq_cta_t:"D'autres questions ?",faq_cta_s:"Contacter un commercial",
-    about_browse:"À propos",about_browse_items:["Profil entreprise","Jalons","Culture d'entreprise"],
-    about_discover:"Équipe",about_discover_items:["Direction","Investissement R&D","ESG"],
-    about_contact:"Coordonnées",about_contact_items:["Contact commercial","Siège social","Carrières"],
-    about_cta_t:"Visiter ?",about_cta_s:"Réserver une visite d'usine",
-    contact_browse:"Contacts commerciaux",contact_browse_items:["Ventes Chine","Ventes internationales","Partenaires"],
-    contact_discover:"Support",contact_discover_items:["Support technique","Après-vente","Téléchargements"],
-    contact_loc:"Sites",contact_loc_items:["Siège Dongguan","Ventes internationales","Voir sur la carte"],
-    contact_cta_t:"Parlons-en",contact_cta_s:"Envoyer un devis — réponse 24h"
-  },
-  es:{
-    brand:"HONDVO",cta:"Pedir cotización",lang:"Español",
-    nav_home:"Inicio",nav_products:"Productos y Servicios",nav_mold:"Centro de Moldes",nav_qual:"Cualificaciones",nav_faq:"FAQ",nav_about:"Sobre nosotros",nav_contact:"Contacto",nav_news:"Noticias",news_latest:"Últimas",news_all_t:"Ver todas las noticias",news_all_s:"Novedades de empresa y sector",news_all:"Centro de noticias →",
-    prod_browse:"Productos",prod_browse_items:["Componentes de instrumentos quirúrgicos","Piezas estructurales de dispositivos de administración","Carcasas y conectores médicos","Componentes de funda de catéter"],
-    prod_discover:"Soluciones",prod_discover_items:["Consumibles desechables","Cartuchos de diagnóstico","Componentes mínimamente invasivos"],
-    prod_industries:"Industrias",prod_industries_items:["Diagnóstico IVD","Imagen médica","Monitoreo e infusión"],
-    prod_cta_t:"¿Necesita una solución?",prod_cta_s:"Respuesta en 24h",
-    mold_browse:"Capacidades",mold_browse_items:["Mecanizado CNC","EDM","EDM de hilo","Rectificado de precisión"],
-    mold_discover:"Procesos",mold_discover_items:["Inyección LSR","Moldeo en sala limpia","Validación de moldes"],
-    mold_learn:"Recursos",mold_learn_items:["Visita a fábrica","White papers"],
-    mold_cta_t:"¿Conocer más?",mold_cta_s:"Lista completa de equipos",
-    qual_browse:"Certificaciones",qual_browse_items:["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],
-    qual_discover:"Equipos",qual_discover_items:["Medición 3D","Prueba de fugas","Grado sala limpia"],
-    qual_manage:"Control de calidad",qual_manage_items:["IQC","FAI","IPQC"],
-    qual_cta_t:"¿Soporte regulatorio?",qual_cta_s:"Documentos y certificados",
-    faq_browse:"Pedido & Entrega",faq_browse_items:["Pedido mínimo","Plazo de entrega","Condiciones de pago"],
-    faq_discover:"Tecnología",faq_discover_items:["Selección de materiales","Tolerancia y precisión","Vida útil del molde"],
-    faq_after:"Postventa",faq_after_items:["Reclamaciones","Mantenimiento del molde","Documentación"],
-    faq_cta_t:"¿Más preguntas?",faq_cta_s:"Contactar al equipo comercial",
-    about_browse:"Empresa",about_browse_items:["Perfil de la empresa","Hitos","Cultura empresarial"],
-    about_discover:"Equipo",about_discover_items:["Liderazgo","Inversión en I+D","ESG"],
-    about_contact:"Contacto",about_contact_items:["Contacto comercial","Sede","Empleo"],
-    about_cta_t:"¿Visitarnos?",about_cta_s:"Reservar visita a fábrica",
-    contact_browse:"Ventas",contact_browse_items:["Ventas China","Ventas internacionales","Socios de canal"],
-    contact_discover:"Soporte",contact_discover_items:["Soporte técnico","Postventa","Centro de descargas"],
-    contact_loc:"Ubicaciones",contact_loc_items:["Sede Dongguan","Ventas internacionales","Ver en mapa"],
-    contact_cta_t:"Hablemos",contact_cta_s:"Enviar cotización — respuesta 24h"
-  },
-  ru:{
-    brand:"HONDVO",cta:"Запросить цену",lang:"Русский",
-    nav_home:"Главная",nav_products:"Продукция и услуги",nav_mold:"Центр пресс-форм",nav_qual:"Сертификаты",nav_faq:"Частые вопросы",nav_about:"О компании",nav_contact:"Контакты",nav_news:"Новости",news_latest:"Последнее",news_all_t:"Все новости",news_all_s:"Корпоративные и отраслевые новости",news_all:"Все новости →",
-    prod_browse:"Продукция",prod_browse_items:["Компоненты хирургических инструментов","Конструктивные детали устройств доставки","Медицинские корпуса и разъёмы","Компоненты катетерной оболочки"],
-    prod_discover:"Решения",prod_discover_items:["Одноразовые расходники","Диагностические картриджи","Малоинвазивные компоненты"],
-    prod_industries:"Отрасли",prod_industries_items:["IVD диагностика","Медицинская визуализация","Мониторинг и инфузия"],
-    prod_cta_t:"Нужно решение?",prod_cta_s:"Ответ в течение 24 ч",
-    mold_browse:"Возможности",mold_browse_items:["CNC-обработка","Электроэрозия (EDM)","Проволочная EDM","Прецизионное шлифование"],
-    mold_discover:"Процессы",mold_discover_items:["Литьё LSR","Чистая комната","Испытание пресс-форм"],
-    mold_learn:"Ресурсы",mold_learn_items:["Экскурсия на завод","Белые книги"],
-    mold_cta_t:"Узнать больше?",mold_cta_s:"Полный список оборудования",
-    qual_browse:"Сертификаты",qual_browse_items:["ISO 13485","ISO 9001","ISO 14001","IATF 16949"],
-    qual_discover:"Оборудование",qual_discover_items:["3D-измерение","Тест на герметичность","Класс чистоты"],
-    qual_manage:"Контроль качества",qual_manage_items:["IQC","FAI","IPQC"],
-    qual_cta_t:"Нужна поддержка?",qual_cta_s:"Документы и сертификаты",
-    faq_browse:"Заказ & Доставка",faq_browse_items:["Минимальный заказ","Срок","Условия оплаты"],
-    faq_discover:"Технологии",faq_discover_items:["Выбор материалов","Допуски","Ресурс формы"],
-    faq_after:"После продажи",faq_after_items:["Рекламации","Обслуживание формы","Документация"],
-    faq_cta_t:"Ещё вопросы?",faq_cta_s:"Связаться с менеджером",
-    about_browse:"О компании",about_browse_items:["Профиль","Этапы","Культура"],
-    about_discover:"Команда",about_discover_items:["Руководство","НИОКР","ESG"],
-    about_contact:"Контакты",about_contact_items:["Отдел продаж","Штаб-квартира","Карьера"],
-    about_cta_t:"Хотите посетить?",about_cta_s:"Записаться на экскурсию",
-    contact_browse:"Продажи",contact_browse_items:["Продажи Китай","Зарубежные продажи","Партнёры"],
-    contact_discover:"Поддержка",contact_discover_items:["Техподдержка","Послепродажное","Загрузки"],
-    contact_loc:"Локации",contact_loc_items:["Штаб Дунгуань","Зарубежные продажи","Карта"],
-    contact_cta_t:"Свяжитесь",contact_cta_s:"Запрос — ответ 24 ч"
-  }
-};
+/* HNAV_I18N 已于 P1-11 合并进 i18n.js 的 I18N（键名前缀 hnav_） */
 
 const HNAV_LANGS = [["zh","中文"],["en","English"],["ja","日本語"],["ko","한국어"],["de","Deutsch"],["fr","Français"],["es","Español"],["ru","Русский"]];
-let HNAV_CUR = "zh";
-
+/* HNAV_CUR 已删除：语言状态的唯一事实来源为 i18n.js 的 switchLang */
 /* ===== 防御性渲染（不抛错） ===== */
-function dict(){return HNAV_I18N[HNAV_CUR]||HNAV_I18N.zh;}
-
-/* 单 key → text */
-function bindKeys(){
-  const d = dict();
-  document.querySelectorAll("[data-key]").forEach(el=>{
-    const k = el.getAttribute("data-key");
-    if(d[k]!==undefined){
-      if(el.tagName==="A"||el.tagName==="BUTTON") el.textContent = d[k];
-      else el.textContent = d[k];
-    }
-  });
-  const ll = document.getElementById("lang-label");
-  if(ll && d.lang) ll.textContent = d.lang;
+function hnavCurLang(){
+  try { var s = sessionStorage.getItem("hondvo_lang"); if (s) return s; } catch(e){}
+  return (document.documentElement && document.documentElement.getAttribute("lang")) || "en";
 }
+function dict(){
+  // P1-11：数据源统一为 i18n.js 的 I18N（hnav_ 前缀），按当前语言展开为无前缀字典，
+  // 使 bindLists / bindDrawer 的调用方式保持不变。
+  var l = hnavCurLang(), d = {};
+  if (typeof I18N === "undefined") return d;
+  for (var k in I18N) {
+    if (k.indexOf("hnav_") !== 0) continue;
+    var e = I18N[k];
+    d[k.slice(5)] = (e && (e[l] || e.zh || e.en)) || "";
+  }
+  return d;
+}
+
 
 /* list → ul */
 /* 产品三 Tab 下拉子项跳转（绑定到新 Tab 逻辑） */
@@ -2669,22 +2445,17 @@ function bindLangPop(){
   HNAV_LANGS.forEach(([code,label])=>{
     const b = document.createElement("button");
     b.setAttribute("data-code",code);
-    if(code===HNAV_CUR) b.className = "on";
+    if(code===hnavCurLang()) b.className = "on";
     b.textContent = label;
     b.addEventListener("click", e=>{
       e.stopPropagation();
-      if(code===HNAV_CUR){document.querySelector(".hnav-lang").classList.remove("open");return}
-      HNAV_CUR = code;
+      if(code===hnavCurLang()){document.querySelector(".hnav-lang").classList.remove("open");return}
+
       if (typeof window.switchLang === "function") { try { window.switchLang(code); } catch(e){ console.warn("[hnav switchLang]", e); } }
       const wrap = document.querySelector(".hnav-lang-btn");
       wrap.classList.add("is-switching");              // 顶栏文字淡出
+      // 下拉列表 / 抽屉 / 浮窗 active 态的重建已由 hondvo:lang 事件统一处理（见下方监听）
       setTimeout(()=>{
-        try{
-          bindKeys();      // 整树语言切换（含顶栏「中文」→「English」等）
-          bindLists();
-          bindLangPop();
-          bindDrawer();
-        }catch(err){console.warn(err);}
         wrap.classList.remove("is-switching");         // 顶栏新文字淡入
       },180);
       document.querySelector(".hnav-lang").classList.remove("open");
@@ -2753,12 +2524,26 @@ function setupGlobalInteractions(){
   drawer.addEventListener("click", e=>{ if(e.target.id==="hnav-drawer"){ drawer.classList.remove("open"); burger.classList.remove("open"); } });
 }
 
+/* ===== 语言变更 → 重建 JS 生成内容 =====
+   导航下拉列表（ul[data-list]）、抽屉、语言浮窗的 active 态由 JS 生成，
+   不是 [data-lang-key] 静态节点，switchLang 的遍历覆盖不到，须在此统一重建。
+   由 i18n.js 的 switchLang 末尾派发 hondvo:lang（P1-20 事件总线）。 */
+document.addEventListener("hondvo:lang", function () {
+  try {
+    bindLists();
+    bindLangPop();
+    bindDrawer();
+    const ll = document.getElementById("lang-label");
+    const d = dict();
+    if (ll && d.lang) ll.textContent = d.lang;
+  } catch (err) {
+    console.warn("[hnav lang]", err);
+  }
+});
+
 /* ===== 启动 ===== */
 (function init(){
   try{
-    var _sl = (typeof sessionStorage!=="undefined" && sessionStorage.getItem("hondvo_lang")) || (document.documentElement && document.documentElement.getAttribute("lang")) || "zh";
-    if (HNAV_I18N[_sl]) HNAV_CUR = _sl;
-    bindKeys();
     bindLists();
     bindLangPop();
     bindDrawer();
