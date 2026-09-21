@@ -41,6 +41,28 @@
 }
 @keyframes hnav-in{to{transform:translateY(0)}}
 
+/* ─────── C5：启动屏与导航入场的时序衔接 ───────
+   问题：#launch 最短停留为 load+1.5s（兜底 3.4s），而 .hnav 的入场动画在
+        .15s 延迟后仅需 .8s 即播完 —— 动画全程藏在启动屏背后，用户从未看到。
+   做法：启动屏存在期间（html.launch-armed，由 <head> 内联脚本在首帧前添加）
+        暂缓入场；待 launch.js 收幕时（html.launch-leave）再播放。
+   兜底：若 launch.js 未执行，6s 后导航自动入场，避免永久隐藏。
+   无 JS：head 脚本不执行 → 无 .launch-armed → 沿用上方原动画，行为不变。 */
+html.launch-armed .hnav{
+  animation:hnav-in .8s var(--ease-out) 6s forwards;
+  transform:translateY(-110%);
+}
+html.launch-armed.launch-leave .hnav{
+  animation:hnav-in .8s var(--ease-out) .05s forwards;
+}
+@media (prefers-reduced-motion: reduce){
+  html.launch-armed .hnav,
+  html.launch-armed.launch-leave .hnav{
+    animation:none !important;
+    transform:none !important;
+  }
+}
+
 .hnav-inner{
   max-width:none;
   width:100%;

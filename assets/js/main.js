@@ -2796,24 +2796,25 @@ document.addEventListener("hondvo:lang", function () {
     });
   });
 
-  // 悬停：临时切到对应 Tab；移出 Tab 导航后回退到 pickedTab
+  // C5：悬停只做下划线预览（.is-hovered），不再切换面板内容。
+  // 原实现在 previewTab() 内同时调用 prodTab()，鼠标扫过三个 Tab 会连续
+  // 重建面板 DOM（面板内含大量卡片）。现改为：内容切换仅由「点击 /
+  // 键盘方向键 / 导航下拉 openTab()」触发，悬停仅移动下划线。
   function initTabHover(){
     var nav = document.querySelector(".prod-tab-nav");
     if (!nav) return;
     var btns = nav.querySelectorAll(".prod-tab-btn");
-    var previewTab = function(name){
+    var previewBorder = function(name){
       document.querySelectorAll(".prod-tab-btn").forEach(function(b){
         b.classList.toggle("is-hovered", b.getAttribute("data-tab") === name && !b.classList.contains("is-active"));
         b.classList.remove("is-hovered2");
       });
-      prodTab(name);
     };
     btns.forEach(function(b){
-      b.addEventListener("mouseenter", function(){ previewTab(b.getAttribute("data-tab")); });
+      b.addEventListener("mouseenter", function(){ previewBorder(b.getAttribute("data-tab")); });
     });
     nav.addEventListener("mouseleave", function(){
       document.querySelectorAll(".prod-tab-btn").forEach(function(b){ b.classList.remove("is-hovered"); });
-      prodTab(pickedTab);
     });
   }
 

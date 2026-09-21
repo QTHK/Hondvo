@@ -21,6 +21,10 @@
 })();
 </script>
 
+<!-- C5：启动屏存在期间暂缓 .hnav 入场动画（由 launch.js 收幕时放行），
+     避免导航入场动画全程被启动屏遮住。JS 禁用时不添加此类，行为保持原样。 -->
+<script>document.documentElement.classList.add('launch-armed');</script>
+
 <!-- 部署时在此填入生产 API 基址（形如 https://<你的后端域名>/api）；留空则回退同源 /api。-->
 <meta name="hondvo-api" content="">
 

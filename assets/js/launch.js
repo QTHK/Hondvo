@@ -17,6 +17,7 @@
     if (DONE) return;
     DONE = true;
     html.classList.remove('launch-lock');  // 解锁页面滚动
+    html.classList.add('launch-leave');    // C5：放行 .hnav 入场动画（收幕后才可见）
     launch.classList.add('leave');         // 触发 0.8s 淡出
     setTimeout(function () {
       launch.style.display = 'none';       // 彻底移出交互层，不挡后续
