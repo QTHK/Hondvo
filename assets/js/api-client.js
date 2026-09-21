@@ -12,6 +12,9 @@
    ============================================================ */
 (function () {
   'use strict';
+  // P1-23 生产环境屏蔽调试日志：默认关闭；?debug 或 localStorage.hondvo_debug=1 开启
+  window.HONDVO_DEBUG = /[?&]debug\b/.test(location.search) || (function () { try { return localStorage.getItem('hondvo_debug') === '1'; } catch (e) { return false; } })();
+  window.HONDVO_dbg = function () { if (window.HONDVO_DEBUG) { try { console.log.apply(console, arguments); } catch (e) {} } };
 
   // ---- 唯一基址解析入口 ----
   // 优先级：window.HONDVO_API（外部注入） > meta[name="hondvo-api"] > 同源 /api

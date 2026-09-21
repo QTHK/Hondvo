@@ -566,11 +566,11 @@
         });
         loaded = true;
         applyCms(curLang());
-        console.log('[CMS-Render] 已加载 ' + res.data.length + ' 个模块，渲染语言：' + curLang());
+        (window.HONDVO_dbg||console.log)('[CMS-Render] 已加载 ' + res.data.length + ' 个模块，渲染语言：' + curLang());
       })
       .catch(function (e) {
         clearTimeout(timer);
-        console.log('[CMS-Render] 后端未连接，使用内置静态内容 (' + e.message + ')');
+        (window.HONDVO_dbg||console.log)('[CMS-Render] 后端未连接，使用内置静态内容 (' + e.message + ')');
       });
   }
 
@@ -1056,11 +1056,11 @@
           if (window.__setPartnerCountries) window.__setPartnerCountries(countries);
         }
         Object.keys(byModule).forEach(function (m) { applyModule(m, byModule[m]); });
-        console.log('[HONDVO-Content] 已注入模块: ' + Object.keys(injected).join(','));
+        (window.HONDVO_dbg||console.log)('[HONDVO-Content] 已注入模块: ' + Object.keys(injected).join(','));
       })
       .catch(function (e) {
         clearTimeout(timer);
-        console.log('[HONDVO-Content] 后端未连接，使用内置内容 (' + e.message + ')');
+        (window.HONDVO_dbg||console.log)('[HONDVO-Content] 后端未连接，使用内置内容 (' + e.message + ')');
       });
   }
 

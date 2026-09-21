@@ -1421,11 +1421,11 @@ function switchLang(lang) {
         mergeBridge(data && data.bridge);
         applied = true;
         reRender();
-        console.log('[HONDVO-Bridge] 后台数据已注入: ' + (data && data.count || 0) + ' 条, version=' + (data && data.version || ''));
+        (window.HONDVO_dbg||console.log)('[HONDVO-Bridge] 后台数据已注入: ' + (data && data.count || 0) + ' 条, version=' + (data && data.version || ''));
       })
       .catch(function (e) {
         // 后端未启动时静默失败，官网仍用内置 I18N 字典
-        console.log('[HONDVO-Bridge] 后端未连接，使用官网内置内容 (' + e.message + ')');
+        (window.HONDVO_dbg||console.log)('[HONDVO-Bridge] 后端未连接，使用官网内置内容 (' + e.message + ')');
       });
   }
   function boot() {
