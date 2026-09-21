@@ -881,7 +881,9 @@
 
   .search-panel {
 
-    position: fixed; top: 68px; left: 0; right: 0;
+    /* P1-18：改由 --nav-h 驱动（main.js 同步 .hnav 实际高度）。
+       921–1280px 时 .hnav-inner 折成两行，导航高度 > 68px，写死 68px 会被导航遮住。 */
+    position: fixed; top: var(--nav-h, 68px); left: 0; right: 0;
 
     background: var(--white);
 
@@ -1969,7 +1971,8 @@
 
     .nav-search { margin-left: 6px; }
 
-    .search-panel { top: 60px; padding: 22px 16px 28px; max-height: calc(100vh - 60px); }
+    /* P1-18：由 --nav-h 驱动，避免中屏（921–1280px）导航折成两行后面板被遮 */
+    .search-panel { top: var(--nav-h, 60px); padding: 22px 16px 28px; max-height: calc(100vh - var(--nav-h, 60px)); }
 
     .search-panel-inner { max-width: 100%; }
 

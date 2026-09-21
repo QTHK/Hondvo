@@ -2534,6 +2534,27 @@ function setupGlobalInteractions(){
   drawer.addEventListener("click", e=>{ if(e.target.id==="hnav-drawer"){ drawer.classList.remove("open"); burger.classList.remove("open"); } });
 }
 
+/* ===== 导航高度同步（P1-18）=====
+   921–1280px 时 .hnav-inner 会折成两行，导航实际高度大于写死的 68px，
+   导致 .search-panel 的 top 偏小、面板被导航遮住。此处把真实高度写入 --nav-h，
+   由 CSS 消费（.search-panel 的 top / max-height）。 */
+(function () {
+  var nav = document.querySelector('.hnav');
+  if (!nav) return;
+  function syncNavHeight() {
+    try {
+      document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+    } catch (e) {}
+  }
+  window.addEventListener('resize', syncNavHeight, { passive: true });
+  window.addEventListener('load', syncNavHeight);
+  // 导航高度变化未必由窗口 resize 引起（如语言切换后文字变长换行）
+  if (typeof window.ResizeObserver === 'function') {
+    try { new ResizeObserver(syncNavHeight).observe(nav); } catch (e) {}
+  }
+  syncNavHeight();
+})();
+
 /* ===== 语言变更 → 重建 JS 生成内容 =====
    导航下拉列表（ul[data-list]）、抽屉、语言浮窗的 active 态由 JS 生成，
    不是 [data-lang-key] 静态节点，switchLang 的遍历覆盖不到，须在此统一重建。
