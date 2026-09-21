@@ -1158,7 +1158,7 @@
 
 <div class="page" id="page-contact">
 
-  <div class="inner-hero"><h1 data-lang-key="ct_hero">Contact Us</h1><p data-lang-key="ct_hero_sub">Dual-company addresses · Welcome to visit and discuss</p></div>
+  <div class="inner-hero"><h1 id="ct-hero-title" data-lang-key="ct_hero">Contact Us</h1><p data-lang-key="ct_hero_sub">Dual-company addresses · Welcome to visit and discuss</p></div>
 
   <!-- ═══════ 购买入口卡片 ═══════ -->
 
@@ -1218,33 +1218,33 @@
 
       <div>
 
-        <div class="contact-form">
+        <form class="contact-form" id="contact-form" aria-labelledby="ct-hero-title" novalidate>
 
           <div class="form-row">
 
-            <div class="fg"><label data-lang-key="ct_name">Name</label><input type="text" placeholder="Your Company Name" data-ph-key="ct_placeholder_name"></div>
+            <div class="fg"><label for="ct-name" data-lang-key="ct_name">Name</label><input id="ct-name" type="text" name="name" autocomplete="name" placeholder="Your Name" data-ph-key="ct_placeholder_name" required></div>
 
-            <div class="fg"><label data-lang-key="ct_company_label">Company</label><input type="text" placeholder="Your Phone Number" data-ph-key="ct_placeholder_company"></div>
+            <div class="fg"><label for="ct-company" data-lang-key="ct_company_label">Company</label><input id="ct-company" type="text" name="company" autocomplete="organization" placeholder="Your Company Name" data-ph-key="ct_placeholder_company"></div>
 
           </div>
 
           <div class="form-row">
 
-            <div class="fg"><label data-lang-key="ct_tel_label">Phone</label><input type="tel" placeholder="Your Email" data-ph-key="ct_placeholder_phone"></div>
+            <div class="fg"><label for="ct-phone" data-lang-key="ct_tel_label">Phone</label><input id="ct-phone" type="tel" name="phone" autocomplete="tel" placeholder="Your Phone Number" data-ph-key="ct_placeholder_phone" required></div>
 
-            <div class="fg"><label data-lang-key="ct_email2_label">Email</label><input type="email" placeholder="" data-ph-key="ct_placeholder_email"></div>
+            <div class="fg"><label for="ct-email" data-lang-key="ct_email2_label">Email</label><input id="ct-email" type="email" name="email" autocomplete="email" placeholder="Your Email" data-ph-key="ct_placeholder_email" required></div>
 
           </div>
 
-          <div class="fg"><label data-lang-key="ct_type_label">Inquiry Type</label><select><option data-lang-key="ct_type_0">Please Select</option><option data-lang-key="ct_type_1">Medical Device Injection Parts</option><option data-lang-key="ct_type_2">Precision Mold Manufacturing</option><option data-lang-key="ct_type_3">Mold + Injection One-Stop</option><option data-lang-key="ct_type_4">Other Inquiries</option></select></div>
+          <div class="fg"><label for="ct-type" data-lang-key="ct_type_label">Inquiry Type</label><select id="ct-type" name="type"><option data-lang-key="ct_type_0">Please Select</option><option data-lang-key="ct_type_1">Medical Device Injection Parts</option><option data-lang-key="ct_type_2">Precision Mold Manufacturing</option><option data-lang-key="ct_type_3">Mold + Injection One-Stop</option><option data-lang-key="ct_type_4">Other Inquiries</option></select></div>
 
-          <div class="fg"><label data-lang-key="ct_desc_label">Requirements</label><textarea rows="4" placeholder="Please describe your product requirements, technical specifications, expected quantities, etc." data-ph-key="ct_placeholder_desc"></textarea></div>
+          <div class="fg"><label for="ct-desc" data-lang-key="ct_desc_label">Requirements</label><textarea id="ct-desc" name="desc" rows="4" placeholder="Please describe your product requirements, technical specifications, expected quantities, etc." data-ph-key="ct_placeholder_desc"></textarea></div>
 
-          <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"><input type="text" name="honeypot" tabindex="-1" autocomplete="off"></div>
+          <div class="hp-field" aria-hidden="true"><input type="text" name="honeypot" tabindex="-1" autocomplete="off"></div>
 
-          <button data-lang-key="ct_submit" class="submit-btn">Submit</button>
+          <button type="submit" data-lang-key="ct_submit" class="submit-btn">Submit</button>
 
-        </div>
+        </form>
 
         <div class="ci-highlight" style="margin-top:40px;">
 

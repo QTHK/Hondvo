@@ -1289,7 +1289,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   (function(){
 
-    var form = document.querySelector('.contact-form');
+    var form = document.getElementById('contact-form');
 
     if (!form) return;
 
@@ -1305,21 +1305,25 @@ document.addEventListener('DOMContentLoaded', function(){
 
     var getInputs = function(){
 
+      // 改为按 name 取值：表单已语义化为 <form id="contact-form">，各字段带唯一 name/id，
+      // 不再依赖「第 N 个 input[type=text]」这种脆弱的下标定位（原 placeholder 错位即由此而来）。
+      var el = form.elements;
+
       return {
 
-        name: form.querySelectorAll('input[type="text"]')[0],
+        name: el['name'],
 
-        company: form.querySelectorAll('input[type="text"]')[1],
+        company: el['company'],
 
-        phone: form.querySelector('input[type="tel"]'),
+        phone: el['phone'],
 
-        email: form.querySelector('input[type="email"]'),
+        email: el['email'],
 
-        type: form.querySelector('select'),
+        type: el['type'],
 
-        desc: form.querySelector('textarea'),
+        desc: el['desc'],
 
-        honeypot: form.querySelector('input[name="honeypot"]')
+        honeypot: el['honeypot']
 
       };
 
@@ -1473,7 +1477,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-    btn.addEventListener('click', function(e){ e.preventDefault(); submit(); });
+    // 改为监听 submit（原生表单）：回车提交、无障碍 form landmark、原生校验均生效。
+    // 按钮为 type="submit"，其 click 会自然触发表单 submit，无需再单独绑定 click。
+    form.addEventListener('submit', function(e){ e.preventDefault(); submit(); });
 
   })();
 

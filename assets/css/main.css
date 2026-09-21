@@ -1750,6 +1750,16 @@
 
   .contact-form { max-width: 680px; margin: 0 auto; }
 
+  /* 蜜罐字段容器：视觉与可访问性双重隐藏（原为内联 style，改为类以便统一维护） */
+  .contact-form .hp-field, .hp-field {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
   .fg { margin-bottom: 20px; }
 
   .fg label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; letter-spacing: 0.5px; }
