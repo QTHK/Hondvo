@@ -38,12 +38,21 @@
   var BLANK_IMG = PLACEHOLDER;
   // 拉取媒体库名称映射（失败不阻塞，映射保持 null 走兜底）
   function fetchMediaMap() {
+    // P1-19：媒体映射请求收敛到 api-client.js 的单例，全站只发一次
+    if (typeof window.HONDVO_getMediaMap === 'function') {
+      return window.HONDVO_getMediaMap().then(function (map) {
+        // map === null 表示后端不可达 → 保持 _mediaNameMap = null 走静态兜底。
+        // 此处原为 `.catch(function () { _mediaNameMap = {}; })`：把「失败」误标为
+        // 「已加载且为空」，导致后端不可达时所有相对路径图片被替换为占位图。
+        if (map !== null && map !== undefined) _mediaNameMap = map;
+      });
+    }
     return fetch(MEDIA_MAP_API, { cache: 'no-store' })
       .then(function (r) { return r.json(); })
       .then(function (res) {
         _mediaNameMap = (res && res.code === 0 && res.data && typeof res.data === 'object') ? res.data : {};
       })
-      .catch(function () { _mediaNameMap = {}; });
+      .catch(function () { /* 保持 null，走静态兜底 */ });
   }
   // 解析媒体库名称 → 媒体库 URL；未命中（媒体库已删）返回 null
   function resolveMediaName(name) {

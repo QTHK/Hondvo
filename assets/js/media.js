@@ -15,8 +15,7 @@
  */
 (function () {
   'use strict';
-  // 基址统一由 api-client.js 写入 window.HONDVO_API（唯一出口），此处只读
-  var API = (window.HONDVO_API || '/api');
+  // 基址不再在本文件使用：媒体映射统一经 window.HONDVO_getMediaMap（api-client.js 单例）获取。
 
   function stripPrefix(name) {
     return String(name || '').replace(/^images\//, '');
@@ -90,14 +89,12 @@
   }
 
   function sync() {
-    fetch(API + '/media/public/name-map', { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (res && res.code === 0 && res.data && typeof res.data === 'object') {
-          applyMap(res.data);
-        }
-      })
-      .catch(function () { /* 后端不可达：保留静态兜底 */ });
+    // P1-19：统一走 api-client.js 的单例，全站只发一次 /media/public/name-map
+    if (typeof window.HONDVO_getMediaMap !== 'function') return; // api-client.js 未就绪 → 保留静态兜底
+    window.HONDVO_getMediaMap().then(function (map) {
+      // map === null 表示后端不可达 → 不调用 applyMap，保留静态图片（降级契约）
+      if (map !== null && map !== undefined) applyMap(map || {});
+    }).catch(function () { /* 后端不可达：保留静态兜底 */ });
   }
 
   if (document.readyState === 'loading') {

@@ -78,6 +78,26 @@
     return false;
   }
 
+  // ---- 媒体库名称映射（单例） ----
+  // 原实现：media.js 与 render.js 各自 fetch 一次 /media/public/name-map，
+  // 二者写同一个全局，存在竞态与重复请求。现收敛到此处：全站只发一次。
+  // 语义：resolve(对象) = 成功（可能为空对象）；resolve(null) = 后端不可达。
+  //       消费端据此区分「已加载且为空」与「加载失败」，从而保留离线静态兜底。
+  var _mediaMapPromise = null;
+  function fetchMediaMapOnce() {
+    if (_mediaMapPromise) return _mediaMapPromise;
+    _mediaMapPromise = fetch(ENDPOINTS.mediaNameMap, { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        var map = (res && res.code === 0 && res.data && typeof res.data === 'object') ? res.data : {};
+        window.HONDVO_MEDIA_MAP = map;
+        return map;
+      })
+      .catch(function () { return null; });
+    return _mediaMapPromise;
+  }
+  window.HONDVO_getMediaMap = fetchMediaMapOnce;
+
   // ---- 对外契约对象 ----
   window.HONDVO_API = BASE; // 确保按钮：任何模块读取基址一致
   window.HONDVO_CLIENT = {

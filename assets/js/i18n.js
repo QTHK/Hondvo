@@ -1088,19 +1088,16 @@ function resolveFooterSocialIcons() {
     }, 250);
   }
 
-  // 优先用 media-sync 已缓存的映射；否则自行拉取，失败则轮询等待
+  // 优先用已缓存的映射；否则经 api-client.js 的单例获取（P1-19）。
+  // 原实现此处自行 fetch，与 media.js / render.js 构成第 3 个重复请求方（任务书未记录）。
   if (window.HONDVO_MEDIA_MAP) { apply(window.HONDVO_MEDIA_MAP); return; }
-  fetch(API + '/media/public/name-map', { cache: 'no-store' })
-    .then(function (r) { return r.json(); })
-    .then(function (res) {
-      if (res && res.code === 0 && res.data && typeof res.data === 'object') {
-        window.HONDVO_MEDIA_MAP = res.data;
-        apply(res.data);
-      } else {
-        retry(1);
-      }
-    })
-    .catch(function () { retry(1); /* 后端不可达：保留静态兜底 */ });
+  if (typeof window.HONDVO_getMediaMap === 'function') {
+    window.HONDVO_getMediaMap().then(function (map) {
+      if (map) { apply(map); } else { retry(1); } // map=null 表示后端不可达 → 保留静态兜底
+    }).catch(function () { retry(1); });
+    return;
+  }
+  retry(1);
 }
 
 /* 解析媒体库图片名 → 可访问 URL（用于社交图标的二维码弹窗）
