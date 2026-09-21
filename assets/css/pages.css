@@ -585,6 +585,14 @@
 
   #map-flights path.flight-line { fill: none; stroke: var(--hq); stroke-width: 1.1; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; filter: drop-shadow(0 0 3px var(--hq-glow)); animation: flightSend 8.5s ease-in-out infinite; }
 
+
+/* P1-22：减少动效下地图动效静态化 —— 飞线直接落到终点（保持可见但不流动），
+   城市脉冲与 HQ 脉冲停止扩散，避免持续动画对前庭敏感用户造成不适。 */
+@media (prefers-reduced-motion: reduce) {
+  #map-flights path.flight-line { animation: none !important; stroke-dashoffset: 0; }
+  .map-marker-pulse, .map-marker-pulse-2, .map-hq-pulse { animation: none !important; }
+}
+
   @keyframes flightSend {
 
     0%    { stroke-dashoffset: 100; }     /* 隐藏，准备从总部（东莞）发出 */

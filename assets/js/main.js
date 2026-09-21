@@ -177,7 +177,7 @@
     mlbCap.textContent = mlbTitle + ' · ' + mlbPhotos[mlbIdx];
   }
   function nextMLB(){ mlbIdx = (mlbIdx+1)%mlbPhotos.length; renderMLB(); }
-  function startMLB(){ if (mlbTimer) clearInterval(mlbTimer); if (mlbPhotos.length>1) mlbTimer = setInterval(nextMLB, 5000); }
+  function startMLB(){ if (mlbTimer) clearInterval(mlbTimer); if (mlbPhotos.length>1 && !prefersReduceMotion()) mlbTimer = setInterval(nextMLB, 5000); }
   function stopMLB(){ if (mlbTimer){ clearInterval(mlbTimer); mlbTimer = null; } }
   function openMoldCarousel(photos, startIdx, title){
     mlbPhotos = photos || []; mlbTitle = title || ''; mlbIdx = startIdx || 0; renderMLB();
@@ -367,6 +367,17 @@ document.addEventListener('click', function (e) {
   Array.prototype.forEach.call(opens, function (el) { el.classList.remove('open'); });
   if (!wasOpen) item.classList.add('open');
 });
+
+/* ═══════════ 减少动效判定（P1-22）═══════════
+   供轮播、指针跟随等「自动/持续动效」统一使用。
+   注意：只影响自动播放类动效，用户主动触发的交互（点击切换）不受影响。 */
+function prefersReduceMotion() {
+  try {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  } catch (e) {
+    return false;
+  }
+}
 
 /* ═══════════ 统一滚动揭示（P1-12）═══════════
    原有三套并行实现，各自新建 IntersectionObserver、各自加不同类名：
@@ -620,7 +631,8 @@ document.addEventListener('keydown', function(e){
 
   });
 
-  setInterval(function(){ go(cur + 1); }, 8000);
+  // 减少动效：不自动轮播（用户仍可点击指示点手动切换）
+  if (!prefersReduceMotion()) setInterval(function(){ go(cur + 1); }, 8000);
 
 })();
 
@@ -730,23 +742,7 @@ document.addEventListener('keydown', function(e){
 
 
 
-/* ═══════════ SKELETON SCREEN ═══════════ */
-
-(function(){
-
-  window.addEventListener('DOMContentLoaded', function() {
-
-    setTimeout(function() {
-
-      var sk = document.getElementById('skeleton');
-
-      if (sk) sk.classList.add('hide');
-
-    }, 300);
-
-  });
-
-})();
+/* P1-30：SKELETON SCREEN 逻辑已移除（#skeleton 不再存在，见 HONDVO.html 注释） */
 
 
 
@@ -1950,7 +1946,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // 会永久覆盖 home-dyn.css 的 transform，且两个 mousemove 同时触发。
   // 故此处仅排除首页卡片，冲突消除且其余效果保留。
 
-  if (!('ontouchstart' in window) && window.matchMedia && !window.matchMedia('(pointer: coarse)').matches) {
+  if (!('ontouchstart' in window) && window.matchMedia && !window.matchMedia('(pointer: coarse)').matches && !prefersReduceMotion()) {
 
     document.querySelectorAll('.purchase-card, .prod-card, .img-cert-card').forEach(function(el){
 
@@ -2121,7 +2117,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
       + '#hondvo-consent .hc-reject{background:var(--white);color:var(--neutral-900);border:1px solid rgba(15,23,42,.15);}'
 
-      + '#hondvo-manage{position:fixed;right:14px;bottom:14px;z-index:100000;border:none;cursor:pointer;background:var(--accent);color:var(--white);font-size:12px;padding:7px 13px;border-radius:20px;box-shadow:0 4px 14px var(--black-25);}';
+      + '#hondvo-manage{position:fixed;right:14px;bottom:14px;z-index:100000;border:none;cursor:pointer;background:var(--accent);color:var(--white);font-size:12px;padding:7px 13px;border-radius:20px;box-shadow:0 4px 14px var(--black-25);}'
+      // P1-25：移动端 #mobile-cta 占满底部（约 68px 高），原 bottom:14px 会与其重叠。
+      // 移到左侧并抬高到 84px：既避开底部 CTA，也避开右侧的 #back-to-top（bottom:80px; right:20px）。
+      + '@media (max-width:768px){#hondvo-manage{left:14px;right:auto;bottom:84px;}}';
 
     document.head.appendChild(st);
 

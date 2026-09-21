@@ -2034,7 +2034,10 @@
 
     .footer { padding: 36px 20px 0; }
 
-    .footer .wrap { grid-template-columns: 1fr; gap: 18px; }
+    /* P1-24：原为 grid-template-columns: 1fr; 与本文件 768px 媒体查询内的
+       `.footer .wrap { grid-template-columns: 1fr 1fr; }` 冲突（同断点、同特异性、后出现者胜），
+       导致移动端页脚退化为 1 列。此处只保留 gap 微调。 */
+    .footer .wrap { gap: 18px; }
 
     .footer .footer-brand { text-align: center; }
 
@@ -2191,87 +2194,7 @@
 
 
 
-  /* ═══════════ SKELETON SCREEN ═══════════ */
-
-  #skeleton {
-
-    position: fixed; inset: 0; z-index: 9999; background: var(--white);
-
-    padding: 0; overflow: hidden; transition: opacity 0.4s ease;
-
-    pointer-events: none;
-
-  }
-
-  #skeleton.hide { opacity: 0; pointer-events: none; }
-
-  .sk-topbar {
-
-    height: 64px; background: var(--surface-mist); margin-bottom: 0;
-
-    animation: sk-pulse 1.6s ease-in-out infinite;
-
-  }
-
-  .sk-hero {
-
-    height: clamp(300px, 60vh, 600px); background: var(--surface-mist);
-
-    animation: sk-pulse 1.6s ease-in-out 0.1s infinite;
-
-  }
-
-  .sk-cards {
-
-    display: grid; grid-template-columns: repeat(3, 1fr);
-
-    gap: 24px; padding: 48px clamp(24px, 5vw, 40px); max-width: var(--container); margin: 0 auto;
-
-  }
-
-  .sk-card {
-
-    background: var(--white); border-radius: 12px; overflow: hidden;
-
-    box-shadow: 0 2px 12px var(--black-6);
-
-  }
-
-  .sk-card-img {
-
-    height: 200px; background: var(--surface-mist);
-
-    animation: sk-pulse 1.6s ease-in-out 0.2s infinite;
-
-  }
-
-  .sk-line {
-
-    height: 14px; background: var(--surface-mist); border-radius: 6px;
-
-    margin: 16px 16px 0; animation: sk-pulse 1.6s ease-in-out 0.3s infinite;
-
-  }
-
-  .sk-line.w60 { width: 60%; }
-
-  .sk-line.w80 { width: 80%; margin-bottom: 24px; }
-
-  @keyframes sk-pulse {
-
-    0%, 100% { opacity: 1; }
-
-    50% { opacity: 0.4; }
-
-  }
-
-  @media (max-width: 768px) {
-
-    .sk-cards { grid-template-columns: 1fr; padding: 32px 20px; gap: 16px; }
-
-    .sk-card-img { height: 160px; }
-
-  }
+  /* P1-30：SKELETON SCREEN 样式已随 #skeleton 一并移除（见 HONDVO.html 注释） */
 
 
 
@@ -2345,7 +2268,9 @@
 
     #mobile-cta-btn:hover { background: var(--brand-hover); }
 
-    #back-to-top { bottom: 80px; right: 20px; width: 42px; height: 42px; }
+    /* P1-25 附带：移动端 #mobile-cta 高约 66px，原 bottom:80px 时 #back-to-top 底边会压到 CTA 顶边（实测相交 6px）。
+       抬到 96px 完全避让。 */
+    #back-to-top { bottom: 96px; right: 20px; width: 42px; height: 42px; }
 
   }
 

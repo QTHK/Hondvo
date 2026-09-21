@@ -287,8 +287,15 @@
     if (!d || typeof d !== 'object') return;
     if (d.who && typeof d.who === 'object') {
       setText(q('#about-who h2'), d.who.title);
-      setText(q('.about-2col .about-text h3'), d.who.subtitle);
-      setHTML(q('.about-2col .about-text p'), nl2br(esc(d.who.description)));
+      // P1-27：原选择器 `.about-2col .about-text h3` 过宽（依赖 DOM 顺序命中第一个 h3）。
+      // 改用精确 ID，避免错写到模具公司标题上。
+      setText(q('#about-tech-title'), d.who.subtitle);
+      setHTML(q('#about-tech-desc'), nl2br(esc(d.who.description)));
+      // 模具公司段落：后端提供 d.mold 时一并覆盖（缺省不动）
+      if (d.mold && typeof d.mold === 'object') {
+        setText(q('#about-mold-title'), d.mold.subtitle || d.mold.title);
+        setHTML(q('#about-mold-desc'), nl2br(esc(d.mold.description)));
+      }
     }
     if (d.values && Array.isArray(d.values.items) && d.values.items.length) {
       var vg = q('.values-grid');
@@ -401,8 +408,18 @@
       var iqRow = q('#qual-iqoq + .iqoq-row');
       if (iqRow) {
         var items = [d.iqoqpq.iq, d.iqoqpq.oq, d.iqoqpq.pq].filter(Boolean);
-        iqRow.innerHTML = items.map(function (it) {
-          var letter = (it.title || '').split(' ')[0] || '';
+        // P1-26：原实现取 title 的第一个空格分词作为字母（IQ/OQ/PQ）。
+
+        // 中文标题无空格 → 整段中文会被塞进字母位。
+
+        // 现优先用后端显式 it.code，缺省按 [iq, oq, pq] 固定位置回退，
+
+        // 使任何语言下都稳定输出 IQ / OQ / PQ。
+
+        var IQ_CODES = ['IQ', 'OQ', 'PQ'];
+
+        iqRow.innerHTML = items.map(function (it, idx) {
+          var letter = it.code || IQ_CODES[idx] || (it.title || '').split(' ')[0] || '';
           return '<div class="iq-item reveal"><div class="letter">' + esc(letter) + '</div><h4>' + esc(it.title) + '</h4><p>' + esc(it.desc) + '</p></div>';
         }).join('');
         markInjected(iqRow);
@@ -711,8 +728,12 @@
     if (!d || typeof d !== 'object') return;
     if (d.who && typeof d.who === 'object') {
       setText(q('#about-who h2'), d.who.title);
-      setText(q('#about-who .about-text h3'), d.who.subtitle);
-      setHTML(q('#about-who .about-text p[data-lang-key="about_tech_desc"]'), nl2br(esc(d.who.description)));
+      setText(q('#about-tech-title'), d.who.subtitle);
+      setHTML(q('#about-tech-desc'), nl2br(esc(d.who.description)));
+      if (d.mold && typeof d.mold === 'object') {
+        setText(q('#about-mold-title'), d.mold.subtitle || d.mold.title);
+        setHTML(q('#about-mold-desc'), nl2br(esc(d.mold.description)));
+      }
     }
     if (d.values && Array.isArray(d.values.items) && d.values.items.length) {
       var vg = q('.values-grid');
@@ -813,8 +834,8 @@
       var iqRow = q('#qual-iqoq + .iqoq-row');
       if (iqRow) {
         var items = [d.iqoqpq.iq, d.iqoqpq.oq, d.iqoqpq.pq].filter(Boolean);
-        iqRow.innerHTML = items.map(function (it) {
-          var letter = (it.title || '').split(' ')[0] || '';
+        iqRow.innerHTML = items.map(function (it, idx) {
+          var letter = it.code || ['IQ', 'OQ', 'PQ'][idx] || (it.title || '').split(' ')[0] || '';
           return '<div class="iq-item reveal"><div class="letter">' + esc(letter) + '</div><h4>' + esc(it.title) + '</h4><p>' + esc(it.desc) + '</p></div>';
         }).join('');
       }
