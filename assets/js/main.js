@@ -1973,9 +1973,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // 3D Tilt（仅桌面端指针设备）
 
+  // 注意：不能整段删除。home-dyn.js 的 tilt 只覆盖 `#page-home .prod-card / .sector-card`
+  // 并走 CSS 变量（--rx/--ry/--mx/--my，由 home-dyn.css 消费）；
+  // 而本段的覆盖范围更大（.purchase-card、.img-cert-card、以及非首页的 .prod-card），
+  // 这些元素若一并删除将失去倾斜效果。
+  // 冲突点仅在于「首页卡片被两套实现同时处理」：本段写 el.style.transform（行内，优先级最高），
+  // 会永久覆盖 home-dyn.css 的 transform，且两个 mousemove 同时触发。
+  // 故此处仅排除首页卡片，冲突消除且其余效果保留。
+
   if (!('ontouchstart' in window) && window.matchMedia && !window.matchMedia('(pointer: coarse)').matches) {
 
     document.querySelectorAll('.purchase-card, .prod-card, .img-cert-card').forEach(function(el){
+
+      if (el.closest('#page-home')) return; // 首页卡片交由 home-dyn.js + home-dyn.css 实现
 
       if (el.classList.contains('tilt')) return;
 
