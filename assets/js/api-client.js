@@ -47,17 +47,20 @@
   };
 
   // ---- 请求工具 ----
-  function withTimeout(promise, ms) {
+  // 原实现用 Promise.race + 0ms setTimeout 作为超时分支，该分支永远是先完成者，
+  // 于是任何调用都会立即以 Error('timeout') 拒绝（潜伏炸弹）。
+  // 现改为：只由 AbortController 控制超时，正常路径即 fn(signal) 本身。
+  function withTimeout(fn, ms) {
     var ctrl = new AbortController();
     var timer = setTimeout(function () { ctrl.abort(); }, ms || 2000);
-    return Promise.race([
-      promise(ctrl.signal),
-      new Promise(function (_, rej) { timer; setTimeout(function () { rej(new Error('timeout')); }, 0); })
-    ]).finally(function () { clearTimeout(timer); });
+    return fn(ctrl.signal).finally(function () { clearTimeout(timer); });
   }
   function getJSON(url, timeout) {
     return withTimeout(function (signal) {
-      return fetch(url, { signal: signal }).then(function (r) { return r.json(); });
+      return fetch(url, { signal: signal }).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      });
     }, timeout);
   }
   function postJSON(url, payload) {
