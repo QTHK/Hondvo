@@ -203,24 +203,21 @@
     if (dot){ mlbIdx = +dot.dataset.idx; renderMLB(); startMLB(); }
   });
 
-  // 滚动揭示（IntersectionObserver 增强 + :target 导航兜底）
+  // 滚动揭示（P1-12 统一实现；原来本段自建 IO + 独立的 .reveal-up IIFE）
   // 站点靠 CSS :target 切页：#page-mold 默认 display:none，IO 在隐藏期初始化，
-  // 个别浏览器导航回该页时不补火，导致 .m-reveal 停在 opacity:0。加导航兜底强制揭示。
+  // 个别浏览器导航回该页时不补火，导致 .m-reveal 停在 opacity:0。故保留导航兜底强制揭示。
   var revs = document.querySelectorAll('#page-mold .m-reveal');
   function revealMold(){
     revs.forEach(function(el, i){ setTimeout(function(){ el.classList.add('in'); }, Math.min(i, 8) * 60); });
   }
+  observeReveal('#page-mold .m-reveal', { ioOptions: { threshold: .12, rootMargin: '0px 0px -40px 0px' } });
   var moldHash0 = (location.hash || '').replace(/^#/, '') || '';
-  if ('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
-    revs.forEach(function(el){ io.observe(el); });
+  if (revs.length) {
     // 兜底：本页成为 :target 时强制揭示（IO 未触发也不影响可见性）
     window.addEventListener('hashchange', function(){
       if ((location.hash || '').replace(/^#/,'') === 'page-mold') revealMold();
     });
     if (moldHash0 === 'page-mold') revealMold();
-  } else {
-    revs.forEach(function(el){ el.classList.add('in'); });
   }
 })();
 
@@ -355,6 +352,33 @@
 })();
 
 
+
+/* ═══════════ 统一滚动揭示（P1-12）═══════════
+   原有三套并行实现，各自新建 IntersectionObserver、各自加不同类名：
+     · .reveal     → 加 .revealed，rootMargin -120px（render.js 依赖 window.revealObs）
+     · .m-reveal   → 加 .in，另带 :target 导航兜底
+     · .reveal-up  → 加 .in，另带 page-mold 兜底
+   现统一为本函数；观察参数由 opts 表达。同时加 revealed 与 in 两个类，
+   以同时满足 `.reveal.revealed`、`.m-reveal.in`、`.reveal-up.in` 三套 CSS 规则
+   （实测 CSS 中不存在裸 `.in` 规则，互不污染）。 */
+function observeReveal(selector, opts) {
+  opts = opts || {};
+  var classes = opts.classes || ['revealed', 'in'];
+  var els = Array.prototype.slice.call(document.querySelectorAll(selector))
+    .filter(function (el) { return !el.classList.contains(classes[0]); });
+  if (!els.length) return null;
+  function show(el) { classes.forEach(function (c) { el.classList.add(c); }); }
+  if (!('IntersectionObserver' in window)) { els.forEach(show); return null; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      show(e.target);
+      io.unobserve(e.target);
+    });
+  }, opts.ioOptions || { rootMargin: '-120px' });
+  els.forEach(function (el) { io.observe(el); });
+  return io;
+}
 
 /* ═══════════ LIGHTBOX (single image) ═══════════ */
 
@@ -1253,31 +1277,27 @@ document.addEventListener('DOMContentLoaded', function(){
 
   })();
 
-  // Scroll reveal
-
+  // Scroll reveal（P1-12：改用统一的 observeReveal）
   var revealObs, resetReveal;
 
   (function(){
 
-    revealObs = new IntersectionObserver(function(entries){
+    revealObs = observeReveal('.reveal', { ioOptions: { rootMargin: '-120px' } });
 
-      entries.forEach(function(e){
-
-        if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); }
-
-      });
-
-    }, {rootMargin:'-120px'});
-
-    document.querySelectorAll('.reveal').forEach(function(el){ revealObs.observe(el); });
+    // render.js 的 revealItems() 通过 window.revealObs.observe() 接入。
+    // 原实现只声明了局部 var（未挂到 window），该契约实际是断的；现显式导出。
+    // 无 IntersectionObserver 时给空实现，避免调用方报错。
+    if (!revealObs) revealObs = { observe: function(){}, unobserve: function(){} };
+    window.revealObs = revealObs;
 
     resetReveal = function(){
 
-      document.querySelectorAll('.reveal.revealed').forEach(function(el){ el.classList.remove('revealed'); });
+      document.querySelectorAll('.reveal.revealed').forEach(function(el){ el.classList.remove('revealed'); el.classList.remove('in'); });
 
       document.querySelectorAll('.reveal').forEach(function(el){ revealObs.observe(el); });
 
     };
+    window.resetReveal = resetReveal;
 
   })();
 
@@ -2359,14 +2379,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
 })();
 (function(){
+  // .reveal-up 滚动揭示（P1-12：改用统一的 observeReveal，不再自建 IO）
   var els = document.querySelectorAll('.reveal-up');
   if(!els.length) return;
-  function show(el,i){ setTimeout(function(){ el.classList.add('in'); }, Math.min(i,10)*50); }
-  if(!('IntersectionObserver' in window)){ els.forEach(function(el,i){ show(el,i); }); return; }
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
-  els.forEach(function(el){ io.observe(el); });
+  function show(el,i){ setTimeout(function(){ el.classList.add('in','revealed'); }, Math.min(i,10)*50); }
+  observeReveal('.reveal-up', { ioOptions: { threshold:.12, rootMargin:'0px 0px -40px 0px' } });
   window.addEventListener('hashchange', function(){
     if((location.hash||'').replace(/^#/,'') === 'page-mold'){ els.forEach(function(el,i){ show(el,i); }); }
   });
