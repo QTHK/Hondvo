@@ -142,6 +142,14 @@
   renderers.list = function (el, arr) {
     if (!Array.isArray(arr) || !arr.length) return;
     var template = el.firstElementChild;
+    // ★ 容器若已被跑马灯改造（子节点只剩一条 .marquee-track），绝不能拿轨道当模板：
+    //   否则每次渲染都把「整条轨道」当作单个条目克隆 N 份，而每份又内含 N 个条目，
+    //   与 CMS 的每次重建叠加 → DOM 按 N 的幂次膨胀（实测曾达 2^20 节点，主线程被拖死）。
+    //   此时改用 __marqueeBase（未被 DOM 变异污染的原条目）作模板，并先清空容器。
+    if (template && template.classList && template.classList.contains('marquee-track')) {
+      template = (Array.isArray(el.__marqueeBase) && el.__marqueeBase[0]) || template.firstElementChild;
+      el.innerHTML = '';
+    }
     if (!template) return;
     var frag = document.createDocumentFragment();
     arr.forEach(function (item, idx) {
@@ -166,6 +174,15 @@
     el.appendChild(frag);
     seal(el);
     revealItems(el);
+    // ★ 客户 Logo 墙重建后须重挂跑马灯轨道
+    //   （静态 HTML 使用 data-cms="logo-wall" data-cms-type="list"，
+    //    真正的重建发生在本渲染器，而非 renderLogoWall）。
+    if (el.classList && el.classList.contains('logo-wall-grid')) {
+      // 先登记本次渲染结果作为「原始条目」：跑马灯据此重建，且下次渲染的模板
+      // 只会取自这里，不会被 DOM 变异（只剩 track）污染。
+      el.__marqueeBase = Array.prototype.slice.call(el.children);
+      if (typeof window.__reinitMarquee === 'function') window.__reinitMarquee();
+    }
   };
 
   // 图片墙：数组元素可为 字符串 / {image,label}；数据也可为 {images:[...]}
@@ -309,8 +326,11 @@
     var core = d.filter(function (p) { return p.cat === 'core' || !p.cat; });
     if (!core.length) return;
     qa('.prod-grid').forEach(function (grid) {
+      // 首页卡片由 CMS 重建后仍需可点击跳转（原模板丢失了内联 onclick）：
+      // 统一改用 data-goto + 事件委托，避免 CMS 重建时再次丢失。
+      var inHome = !!(grid.closest && grid.closest('#page-home'));
       grid.innerHTML = core.map(function (p) {
-        return '<div class="prod-card"><div class="card-img"><img src="' + esc(normMedia(p.image || '')) + '" alt="' + esc(p.name || '') + '"></div><div class="card-body"><h3>' + esc(p.name || '') + '</h3><p>' + esc(p.desc || '') + '</p><span class="link">' + esc(p.specs || '') + '</span></div></div>';
+        return '<div class="prod-card"' + (inHome ? ' data-goto="#page-products"' : '') + '><div class="card-img"><img src="' + esc(normMedia(p.image || '')) + '" alt="' + esc(p.name || '') + '"></div><div class="card-body"><h3>' + esc(p.name || '') + '</h3><p>' + esc(p.desc || '') + '</p><span class="link">' + esc(p.specs || '') + '</span></div></div>';
       }).join('');
       markInjected(grid);
     });
@@ -564,6 +584,18 @@
     if (typeof window.switchLang !== 'function') hookSwitchLang();
   });
 
+  // ---------- 产品卡点击委托（覆盖静态卡 + CMS 动态卡） ----------
+  // 静态 HTML 原用内联 onclick="location.href='#page-products'"，CMS 重建时会丢失；
+  // 统一改为委托，静态与动态卡片行为一致，且断网（CMS 不接管）时同样有效。
+  document.addEventListener('click', function (e) {
+    var card = e.target && e.target.closest && e.target.closest('.prod-card[data-goto]');
+    if (!card) return;
+    var hash = card.getAttribute('data-goto');
+    if (!hash) return;
+    if (e.target.closest('a[href]')) return; // 卡内已有链接时不重复跳转
+    location.hash = hash;
+  });
+
   // 供调试 / 外部调用
   window.CMS_RENDER = {
     isLoaded: function () { return loaded; },
@@ -726,8 +758,10 @@
     // M8: 遍历所有 .prod-grid（首页核心业务卡 + 产品页核心产品线）
     var grids = qa('.prod-grid');
     grids.forEach(function (grid) {
+      // 首页卡片统一改用 data-goto + 全局事件委托，避免 CMS 重建后点击失效
+      var inHome = !!(grid.closest && grid.closest('#page-home'));
       grid.innerHTML = core.map(function (p) {
-        return '<div class="prod-card"><div class="card-img"><img src="' + esc(p.image || '') + '" alt="' + esc(p.name || '') + '"></div><div class="card-body"><h3>' + esc(p.name || '') + '</h3><p>' + esc(p.desc || '') + '</p><span class="link">' + esc(p.specs || '') + '</span></div></div>';
+        return '<div class="prod-card"' + (inHome ? ' data-goto="#page-products"' : '') + '><div class="card-img"><img src="' + esc(p.image || '') + '" alt="' + esc(p.name || '') + '"></div><div class="card-body"><h3>' + esc(p.name || '') + '</h3><p>' + esc(p.desc || '') + '</p><span class="link">' + esc(p.specs || '') + '</span></div></div>';
       }).join('');
       mark(grid);
     });
@@ -792,6 +826,8 @@
       return '<div class="logo-wall-item"><div class="logo-wall-img"><img src="' + esc(it.image || 'images/logo.webp') + '" alt="' + esc(it.name || '') + '" loading="lazy"></div><span class="logo-wall-name">' + esc(it.name || '') + '</span></div>';
     }).join('');
     mark(grid);
+    // ★ CMS 重建会冲掉 home-dyn.js 已构造的 .marquee-track，须通知其重建跑马灯
+    if (typeof window.__reinitMarquee === 'function') window.__reinitMarquee();
   }
 
   // ---------- M8: 资质证书（首页 + 资质实力页共用 home-certs 数据） ----------

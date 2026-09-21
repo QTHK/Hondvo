@@ -5,22 +5,41 @@
 (function () {
   'use strict';
 
-  /* ── 1. Client Logo Wall：无缝跑马灯（内容克隆一份进轨道） ── */
-  function initMarquee() {
-    var grid = document.querySelector('#page-home .logo-wall-grid');
-    if (!grid || grid.querySelector('.marquee-track')) return;
-    var items = Array.prototype.slice.call(grid.children);
-    if (!items.length) return;
+  /* ── 1. Client Logo Wall：无缝跑马灯（内容克隆一份进轨道） ──
+     可重入：CMS（render.js）重建 .logo-wall-grid 后需重新构造轨道，
+     否则 grid.innerHTML 会把已构造的 .marquee-track 整块冲掉，
+     结果只剩 flex/nowrap/overflow:hidden，logo 被裁切且无动画。
 
-    // 移除原有 grid 子元素，构造单轨（一轨内两份内容实现无缝）
+     ★ 关键：原始条目一律取自 grid.__marqueeBase（由 renderers.list 渲染后登记，
+       首次则由 DOM 抓取），绝不从当前 DOM 反推。
+       否则「grid 子节点只剩一条 track」会被误判为 1 个条目，
+       再 concat 一次就变成 2 条 track，配合 CMS 每次重建 → DOM 指数膨胀。 */
+  function initMarquee(force) {
+    var grid = document.querySelector('#page-home .logo-wall-grid');
+    if (!grid) return;
+    if (!force && grid.querySelector('.marquee-track')) return; // 幂等
+
+    var base = grid.__marqueeBase;
+    if (!Array.isArray(base) || !base.length) {
+      base = Array.prototype.slice.call(grid.children).filter(function (n) {
+        return !(n.classList && n.classList.contains('marquee-track'));
+      });
+      if (!base.length) return;
+      grid.__marqueeBase = base;
+    }
+
+    // 构造单轨（一轨内两份内容实现无缝）
     var track = document.createElement('div');
     track.className = 'marquee-track';
-    items.concat(items).forEach(function (it) {
+    base.concat(base).forEach(function (it) {
       track.appendChild(it.cloneNode(true));
     });
     grid.innerHTML = '';
     grid.appendChild(track);
   }
+
+  /* 供 render.js 在 CMS 重建 logo 墙后调用 */
+  window.__reinitMarquee = function () { initMarquee(true); };
 
   /* ── 2. Card 3D Tilt + 光晕跟随（抵消中心偏移） ── */
   var TILT_MAX = 7; // 最大倾角(deg)
