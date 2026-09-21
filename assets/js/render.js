@@ -163,7 +163,7 @@
           if (item.alt) sub.setAttribute('alt', item.alt);
           sub.classList.add('img-loaded');
         } else if (sub.tagName === 'A') {
-          sub.href = v;
+          sub.href = (window.HONDVO_safeURL ? window.HONDVO_safeURL(v) : v);
         } else {
           sub.innerHTML = esc(v);
         }
@@ -193,7 +193,7 @@
       var img = (typeof it === 'string') ? it : ((it && (it.image || it.src)) || '');
       img = normMedia(img);
       var label = (typeof it === 'string') ? '' : ((it && it.label) || '');
-      return '<div class="img-cert-card" onclick="openLightbox(\'' + esc(img) + '\')">' +
+      return '<div class="img-cert-card" data-lightbox="' + esc(img) + '">' +
         '<img src="' + esc(img) + '" alt="' + esc(label) + '" loading="eager">' +
         (label ? '<div class="card-label">' + esc(label) + '</div>' : '') +
         '</div>';
@@ -237,12 +237,12 @@
     var b1 = el.querySelector('.btn-primary');
     if (b1) {
       if (ht.leftBtnText != null) { b1.innerHTML = esc(ht.leftBtnText); seal(b1); }
-      if (ht.leftBtnLink) b1.setAttribute('href', ht.leftBtnLink);
+      if (ht.leftBtnLink) b1.setAttribute('href', window.HONDVO_safeURL ? window.HONDVO_safeURL(ht.leftBtnLink) : ht.leftBtnLink);
     }
     var b2 = el.querySelector('.btn-ghost');
     if (b2) {
       if (ht.rightBtnText != null) { b2.innerHTML = esc(ht.rightBtnText); seal(b2); }
-      if (ht.rightBtnLink) b2.setAttribute('href', ht.rightBtnLink);
+      if (ht.rightBtnLink) b2.setAttribute('href', window.HONDVO_safeURL ? window.HONDVO_safeURL(ht.rightBtnLink) : ht.rightBtnLink);
     }
     var hint = q('.hero-scroll-hint span');
     if (hint && ht.bottomGuide != null) { hint.innerHTML = esc(ht.bottomGuide); seal(hint); }
@@ -380,7 +380,7 @@
       var envGallery = q('#qual-env + .workshop-gallery');
       if (envGallery && Array.isArray(d.env.images) && d.env.images.length) {
         envGallery.innerHTML = d.env.images.map(function (img) {
-          return '<div class="img-cert-card" onclick="openLightbox(\'' + esc(normMedia(img)) + '\')"><img src="' + esc(normMedia(img)) + '" alt=""></div>';
+          return '<div class="img-cert-card" data-lightbox="' + esc(normMedia(img)) + '"><img src="' + esc(normMedia(img)) + '" alt=""></div>';
         }).join('');
         markInjected(envGallery);
       }
@@ -423,7 +423,7 @@
     var g = q('#page-mold .workshop-gallery');
     if (!g) return;
     g.innerHTML = d.map(function (it) {
-      return '<div class="img-cert-card" onclick="openLightbox(\'' + esc(normMedia(it.image || '')) + '\')"><img src="' + esc(normMedia(it.image || '')) + '" alt="' + esc(it.label || '') + '"><div class="card-label">' + esc(it.label || '') + '</div></div>';
+      return '<div class="img-cert-card" data-lightbox="' + esc(normMedia(it.image || '')) + '"><img src="' + esc(normMedia(it.image || '')) + '" alt="' + esc(it.label || '') + '"><div class="card-label">' + esc(it.label || '') + '</div></div>';
     }).join('');
     markInjected(g);
   };
@@ -680,9 +680,9 @@
       setText(q('.hero h1 strong[data-lang-key="hero_sub"]'), ht.title2 || s0.title2);
       setHTML(q('.hero .hero-sub'), nl2br((ht.desc1 || s0.desc1 || '') + '<br>' + (ht.desc2 || s0.desc2 || '')));
       var b1 = q('.hero .btn-primary');
-      if (b1) { setText(b1, ht.leftBtnText || s0.leftBtnText); if (ht.leftBtnLink || s0.leftBtnLink) b1.setAttribute('href', ht.leftBtnLink || s0.leftBtnLink); }
+      if (b1) { setText(b1, ht.leftBtnText || s0.leftBtnText); if (ht.leftBtnLink || s0.leftBtnLink) b1.setAttribute('href', window.HONDVO_safeURL ? window.HONDVO_safeURL(ht.leftBtnLink || s0.leftBtnLink) : ht.leftBtnLink || s0.leftBtnLink); }
       var b2 = q('.hero .btn-ghost');
-      if (b2) { setText(b2, ht.rightBtnText || s0.rightBtnText); if (ht.rightBtnLink || s0.rightBtnLink) b2.setAttribute('href', ht.rightBtnLink || s0.rightBtnLink); }
+      if (b2) { setText(b2, ht.rightBtnText || s0.rightBtnText); if (ht.rightBtnLink || s0.rightBtnLink) b2.setAttribute('href', window.HONDVO_safeURL ? window.HONDVO_safeURL(ht.rightBtnLink || s0.rightBtnLink) : ht.rightBtnLink || s0.rightBtnLink); }
       setText(q('.hero .hero-scroll-hint span'), ht.bottomGuide || s0.bottomGuide);
     }
     if (Array.isArray(d.stats) && d.stats.length) {
@@ -801,7 +801,7 @@
       var envGallery = q('#qual-env + .workshop-gallery');
       if (envGallery && Array.isArray(d.env.images) && d.env.images.length) {
         envGallery.innerHTML = d.env.images.map(function (img) {
-          return '<div class="img-cert-card" onclick="openLightbox(\'' + esc(img) + '\')"><img src="' + esc(img) + '" alt=""></div>';
+          return '<div class="img-cert-card" data-lightbox="' + esc(img) + '"><img src="' + esc(img) + '" alt=""></div>';
         }).join('');
       }
     }
@@ -837,7 +837,7 @@
     var galleries = qa('.cert-gallery');
     galleries.forEach(function (g) {
       g.innerHTML = d.map(function (c) {
-        return '<div class="img-cert-card" onclick="openLightbox(\'' + esc(c.image || '') + '\')"><img src="' + esc(c.image || '') + '" alt="' + esc(c.label || '') + '"><div class="card-label">' + esc(c.label || '') + '</div></div>';
+        return '<div class="img-cert-card" data-lightbox="' + esc(c.image || '') + '"><img src="' + esc(c.image || '') + '" alt="' + esc(c.label || '') + '"><div class="card-label">' + esc(c.label || '') + '</div></div>';
       }).join('');
       mark(g);
     });
@@ -849,7 +849,7 @@
     var g = q('#page-home .workshop-gallery');
     if (!g) return;
     g.innerHTML = d.images.map(function (img) {
-      return '<div class="img-cert-card" onclick="openLightbox(\'' + esc(img) + '\')"><img src="' + esc(img) + '" alt=""></div>';
+      return '<div class="img-cert-card" data-lightbox="' + esc(img) + '"><img src="' + esc(img) + '" alt=""></div>';
     }).join('');
     mark(g);
   }
@@ -878,7 +878,7 @@
     var g = q('#page-mold .workshop-gallery');
     if (!g) return;
     g.innerHTML = d.map(function (it) {
-      return '<div class="img-cert-card" onclick="openLightbox(\'' + esc(it.image || '') + '\')"><img src="' + esc(it.image || '') + '" alt="' + esc(it.label || '') + '"><div class="card-label">' + esc(it.label || '') + '</div></div>';
+      return '<div class="img-cert-card" data-lightbox="' + esc(it.image || '') + '"><img src="' + esc(it.image || '') + '" alt="' + esc(it.label || '') + '"><div class="card-label">' + esc(it.label || '') + '</div></div>';
     }).join('');
     mark(g);
   }
@@ -929,7 +929,7 @@
       var link = it.link || ('#social-' + key);
       var tip = it.tooltip || '';
       var qr = it.qr ? resolveQrUrl(it.qr) : '';
-      var attrs = 'class="si-link" href="' + esc(link) + '" data-tip="' + esc(tip) + '" aria-label="' + esc(key) + '"';
+      var attrs = 'class="si-link" href="' + (window.HONDVO_safeHref ? window.HONDVO_safeHref(link, '#social-' + key) : esc(link)) + '" data-tip="' + esc(tip) + '" aria-label="' + esc(key) + '"';
       if (qr) attrs += ' data-qr="' + esc(qr) + '"';
       return '<a ' + attrs + '><img class="si-img" src="' + esc(img) + '" alt="' + esc(key) + '"></a>';
     }).join('');
@@ -1107,7 +1107,7 @@
     getJSON(API + '/links?lang=' + encodeURIComponent(curLang())).then(function (res) {
       if (!res || res.code !== 0 || !Array.isArray(res.data) || !res.data.length) return;
       box.innerHTML = res.data.map(function (l) {
-        return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener nofollow">' + esc(l.name) + '</a>';
+        return '<a href="' + (window.HONDVO_safeHref ? window.HONDVO_safeHref(l.url, '#') : esc(l.url)) + '" target="_blank" rel="noopener nofollow">' + esc(l.name) + '</a>';
       }).join('');
       mark(box);
     });
@@ -1140,7 +1140,7 @@
       getJSON(API + '/downloads/' + id + '/download?lang=' + encodeURIComponent(curLang())).then(function (res) {
         if (res && res.code === 0 && res.data && res.data.url) {
           var a = document.createElement('a');
-          a.href = res.data.url;
+          a.href = (window.HONDVO_safeURL ? window.HONDVO_safeURL(res.data.url) : res.data.url);
           a.target = '_blank';
           a.rel = 'noopener';
           document.body.appendChild(a);

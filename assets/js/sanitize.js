@@ -70,7 +70,16 @@
     return isSafeURL(url) ? String(url).trim() : (fallback || '#');
   }
 
+  /* 供 HTML 模板内联使用：返回「已 HTML 转义 + 协议安全」的 URL 串。
+     （.href / setAttribute 请直接用 safeURL，不要二次转义） */
+  function safeHrefEsc(url, fallback) {
+    var u = safeURL(url, fallback);
+    return u.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   window.HONDVO_sanitizeHTML = sanitizeHTML;
   window.HONDVO_isSafeURL = isSafeURL;
   window.HONDVO_safeURL = safeURL;
+  window.HONDVO_safeHref = safeHrefEsc;
 })();

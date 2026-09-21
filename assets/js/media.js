@@ -76,6 +76,16 @@
       else node.removeAttribute('onclick'); // 媒体库删图 → 点击不再打开已删图
     }
 
+    // 5) data-lightbox="images/xxx"（自 P0-05 起 lightbox 由内联 onclick 改为属性 + 事件委托）
+    var lbCards = document.querySelectorAll('[data-lightbox^="images/"]');
+    for (i = 0; i < lbCards.length; i++) {
+      node = lbCards[i];
+      name = stripPrefix(node.getAttribute('data-lightbox'));
+      url = map[name] || map[node.getAttribute('data-lightbox')];
+      if (url) node.setAttribute('data-lightbox', url);
+      else node.removeAttribute('data-lightbox'); // 媒体库删图 → 点击不再打开已删图
+    }
+
     window.HONDVO_MEDIA_MAP = map;
   }
 

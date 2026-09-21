@@ -360,13 +360,46 @@
 
 function openLightbox(src) {
 
-  document.querySelector('#lightbox img').src = src;
+  var img = document.querySelector('#lightbox img');
 
-  document.getElementById('lightbox').classList.add('active');
+  var box = document.getElementById('lightbox');
+
+  if (!img || !box) return;
+
+  // 仅拦截脚本类协议：不破坏相对路径（images/xxx）与 data:image 占位图
+  var probe = String(src == null ? '' : src).replace(/[\u0000-\u001F\u007F\s]/g, '').toLowerCase();
+
+  if (/^(javascript|vbscript):/.test(probe) || /^data:text\/html/.test(probe)) return;
+
+  img.src = src;
+
+  box.classList.add('active');
 
   document.body.style.overflow = 'hidden';
 
 }
+
+
+
+/* data-lightbox 事件委托：取代内联 onclick="openLightbox('...')"。
+   内联事件属性在后台可控内容下等同注入点，且 CSP 不友好；
+   改属性后 CMS 重建的节点同样有效。 */
+
+document.addEventListener('click', function (e) {
+
+  var el = e.target && e.target.closest && e.target.closest('[data-lightbox]');
+
+  if (!el) return;
+
+  var src = el.getAttribute('data-lightbox');
+
+  if (!src) return;
+
+  e.preventDefault();
+
+  openLightbox(src);
+
+});
 
 
 
