@@ -351,25 +351,11 @@
 
   
 
-  /* 首页首屏：导航栏完全透明，露出 hero 大图
-     P1-15 方案 B：原选择器 .nav.on-home 永不匹配 —— 实际导航元素是
-     <nav class="hnav" id="nav">（.nav 为已废弃的旧导航样式），
-     故本规则一直没有生效。改为 .hnav.on-home 使其真正生效；
-     同时清掉 pages.css 中 .hnav 的 1px 底边线，避免透明状态下残留一道细线。 */
-
-  .hnav.on-home:not(.scrolled):not(:hover) {
-
-    background: transparent;
-
-    backdrop-filter: none;
-
-    -webkit-backdrop-filter: none;
-
-    box-shadow: none;
-
-    border-bottom-color: transparent;
-
-  }
+  /* 首页导航栏：常驻实体白栏（2026-09-22 改）
+     原实现 .hnav.on-home:not(.scrolled):not(:hover) 在首屏且未悬停时把导航栏
+     变完全透明（鼠标移开即"消失"）。按用户要求移除该透明行为 —— 首页导航栏
+     与其他页面一致，始终为实体白底、常驻显示，不随滚动/悬停改变透明度。
+     说明：保留 pages.css 中 .hnav 的常规白底毛玻璃样式即可，无需额外覆盖。 */
 
   /* 鼠标悬停整条导航栏：背景变白 */
 
@@ -1192,7 +1178,7 @@
 
   .prod-hero-grid { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 36px; max-width: var(--container-narrow, 1180px); margin: 0 auto; }
 
-  .prod-hero-copy { flex: 1 1 460px; min-width: 0; }
+  .prod-hero-copy { flex: 1 1 0; min-width: 0; }
 
   .prod-hero-eyebrow { display: inline-block; padding: 5px 14px; border: 1px solid var(--brand); border-radius: 999px; font-size: 12px; letter-spacing: 2.5px; color: var(--brand); background: var(--brand-15); margin-bottom: 18px; font-weight: 600; }
 
@@ -1200,25 +1186,36 @@
 
   .prod-hero-copy > p { font-size: 16px; margin-top: 12px; max-width: 34em; }
 
-  .prod-hero-quick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 28px; }
+  /* 侧栏占 42%：弹性百分比而非固定 px —— 避免「屏幕越宽越放不下」导致自动换行堆叠 */
+  .prod-hero-side { flex: 0 1 42%; min-width: 250px; }
 
-  .prod-hero-quick-label { font-size: 13px; color: var(--text-subtle); letter-spacing: 1px; margin-right: 6px; }
-
-  .prod-hero-quick a { display: inline-block; padding: 9px 20px; border-radius: 999px; border: 1px solid var(--neutral-300); color: var(--text); font-size: 14px; font-weight: 600; transition: all .2s ease; background: var(--white); }
-
-  .prod-hero-quick a:hover { background: var(--brand); border-color: var(--brand); color: #fff; }
-
-  .prod-hero-side { flex: 0 1 340px; min-width: 300px; }
-
-  .prod-hero-badges { display: grid; gap: 14px; padding: 26px 24px; border-radius: 20px; background: linear-gradient(150deg, #23262e 0%, #14161c 100%); box-shadow: 0 18px 42px rgba(20,22,28,.28); position: relative; overflow: hidden; }
+  /* 6 项双列 3 行：横向用满，整体高度约降一半 */
+  .prod-hero-badges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 18px; border-radius: 18px; background: linear-gradient(150deg, #23262e 0%, #14161c 100%); box-shadow: 0 18px 42px rgba(20,22,28,.28); position: relative; overflow: hidden; }
 
   .prod-hero-badges::before { content: ''; position: absolute; inset: 0; z-index: 0; background: radial-gradient(70% 80% at 90% 0%, rgba(216,120,48,.22) 0%, transparent 55%); pointer-events: none; }
 
-  .prod-hero-badge { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); }
+  .prod-hero-badge { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; padding: 11px 13px; border-radius: 11px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); min-width: 0; }
 
-  .ph-badge-code { font-size: 15px; font-weight: 800; letter-spacing: .5px; color: #fff; }
+  .ph-badge-code { font-size: 13.5px; font-weight: 800; letter-spacing: .3px; color: #fff; line-height: 1.25; }
 
-  .ph-badge-name { font-size: 12.5px; color: rgba(255,255,255,.62); white-space: nowrap; }
+  .ph-badge-name { font-size: 11.5px; color: rgba(255,255,255,.62); line-height: 1.35; }
+
+  /* 中等宽度：保持并列，仅微调 badge 内距与字号适配更窄的列 */
+  @media (max-width: 768px) {
+    .prod-hero-grid { gap: 22px; }
+    .prod-hero-badges { gap: 9px; padding: 15px; }
+    .ph-badge-code { font-size: 12.5px; }
+    .ph-badge-name { font-size: 11px; }
+  }
+
+  /* 极窄屏（≤560px）：才退回单列堆叠，badge 改横排避免挤压 */
+  @media (max-width: 560px) {
+    .prod-hero-grid { gap: 26px; }
+    .prod-hero-side { flex: 1 1 100%; min-width: 0; }
+    .prod-hero-badges { grid-template-columns: 1fr; gap: 9px; padding: 16px; }
+    .prod-hero-badge { flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 13px; }
+    .ph-badge-name { white-space: nowrap; }
+  }
 
 
   /* ═══════════ SECTION SUBHEADING ═══════════ */
@@ -1723,19 +1720,12 @@
 
     .prod-hero { padding: 34px 20px 38px; }
 
-    .prod-hero-grid { flex-direction: column; align-items: stretch; gap: 26px; }
+    /* 原此处有 .prod-hero-grid { flex-direction: column } —— 会让左右两块在 ≤768px 时上下堆叠。
+       已移除：改为在 ≤560px 才堆叠（见上方 media 块），以保证中等宽度下两块并列。 */
 
-    .prod-hero-copy { flex-basis: auto; }
-
-    .prod-hero-side { flex-basis: auto; min-width: 0; }
-
-    .prod-hero-quick { margin-top: 22px; }
-
-    .prod-hero-quick-label { width: 100%; margin-bottom: 2px; }
-
-    .prod-hero-badges { padding: 20px 18px; }
-
-    .ph-badge-name { white-space: normal; text-align: right; }
+    /* 原此处有 .prod-hero-badges { padding: 20px 18px } 与
+       .ph-badge-name { white-space: normal; text-align: right } ——
+       是为「单列横排」设计的，现在 ≤768px 保持双列并列，已由上方 media 块接管，故移除。 */
 
 
 
@@ -2858,14 +2848,27 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
 
 /* ═══════════ HOME v2 · 应用行业快捷入口 / 全链路能力 / 新闻动态 ═══════════ */
 .home-sectors-wrap,.home-flow-wrap,.home-news-wrap {max-width:var(--container);margin:0 auto;padding:0 clamp(24px,5vw,80px);}
-.home-sectors,.home-news {display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:var(--sp-4);}
-.sector-card {position:relative;display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:30px 26px 26px;transition:transform var(--ease) var(--t),box-shadow var(--ease) var(--t),border-color var(--ease) var(--t);}
-.sector-card:hover {transform:translateY(-6px);box-shadow:var(--shadow-brand-soft);border-color:var(--brand-200);}
-.sector-ic {display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:var(--r-md);background:var(--brand-soft);color:var(--brand-strong);margin-bottom:16px;}
-.sector-ic svg {width:26px;height:26px;}
-.sector-card h3 {font-size:var(--fs-lg);font-weight:700;color:var(--text);margin:0 0 8px;}
-.sector-card p {font-size:var(--fs-sm);color:var(--text-muted);line-height:var(--lh-snug);margin:0 0 14px;}
-.sector-more {font-size:var(--fs-sm);font-weight:600;color:var(--brand);letter-spacing:.4px;}
+  .home-sectors,.home-news {display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:var(--sp-4);}
+  .home-sectors {grid-template-columns:repeat(4,1fr);}
+
+  .sector-card {position:relative;display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:30px 26px 26px;transition:transform var(--ease) var(--t),box-shadow var(--ease) var(--t),border-color var(--ease) var(--t);}
+
+  .sector-card:hover {transform:translateY(-6px);box-shadow:var(--shadow-brand-soft);border-color:var(--brand-200);}
+
+  .sector-ic {display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:var(--r-md);background:var(--brand-soft);color:var(--brand-strong);margin-bottom:16px;}
+
+  .sector-ic svg {width:26px;height:26px;}
+
+  .sector-card h3 {font-size:var(--fs-lg);font-weight:700;color:var(--text);margin:0 0 8px;}
+
+  .sector-card p {font-size:var(--fs-sm);color:var(--text-muted);line-height:var(--lh-snug);margin:0 0 14px;}
+
+  /* 逐条要点列表 */
+  .sector-list {list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .sector-list li {position:relative;padding-left:15px;font-size:var(--fs-sm);color:var(--text-muted);line-height:var(--lh-snug);}
+  .sector-list li::before {content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--brand);}
+
+  .sector-more {font-size:var(--fs-sm);font-weight:600;color:var(--brand);letter-spacing:.4px;}
 .sector-card::after {content:"→";position:absolute;right:24px;top:30px;font-size:18px;color:var(--brand);opacity:0;transform:translateX(-6px);transition:all var(--ease) var(--t);}
 .sector-card:hover::after {opacity:1;transform:translateX(0);}
 .home-flow {display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:var(--sp-4);}

@@ -215,8 +215,6 @@
 
   var links = nav.querySelectorAll('.links > li > a');
 
-  var lastScrollY = 0;
-
   var ticking = false;
 
 
@@ -263,17 +261,12 @@
 
       }
 
+      /* 2026-09-22 删除：原「向上滑动隐藏导航栏」滚动感知逻辑（nav.classList
+         add/remove 'hidden'）。全站 CSS 中不存在任何 .hidden 规则消费，该逻辑
+         不产生视觉变化，属历史遗留死代码；且用户要求首页导航栏常驻，故一并移除。
+         原 lastScrollY 变量仅服务该逻辑，同步删除。 */
 
 
-      if (y <= 0) { nav.classList.remove('hidden'); }
-
-      else if (y > lastScrollY && y > 80) { nav.classList.add('hidden'); }
-
-      else if (y < lastScrollY) { nav.classList.remove('hidden'); }
-
-
-
-      lastScrollY = y;
 
       ticking = false;
 
@@ -306,8 +299,6 @@
     var newPage = getActivePage();
 
     if (newPage) { newPage.addEventListener('scroll', onScroll, {passive:true}); newPage.setAttribute('data-scroll-bound','1'); newPage.scrollTop = 0; }
-
-    lastScrollY = newPage ? newPage.scrollTop : 0;
 
     onScroll();
 
@@ -930,27 +921,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-  /* ═══════════ NAV HOME STATE (首页导航栏透明) ═══════════ */
-
-  (function(){
-
-    var nav = document.getElementById('nav');
-
-    function syncNavHome(){
-
-      var hash = location.hash || '#page-home';
-
-      if (hash === '#page-home' || hash === '') nav.classList.add('on-home');
-
-      else nav.classList.remove('on-home');
-
-    }
-
-    syncNavHome();
-
-    window.addEventListener('hashchange', syncNavHome);
-
-  })();
+  /* ═══════════ NAV HOME STATE ═══════════
+     2026-09-22 删除：原「首页导航栏透明」状态切换 IIFE（为 #nav 添加/移除
+     .on-home 类）。因 main.css 中消费该类的透明规则已按用户要求移除，
+     此类不再有任何 CSS 消费者，整段逻辑成为死代码，故一并删除。 */
 
 
 
@@ -2577,35 +2551,24 @@ document.addEventListener("hondvo:lang", function () {
   /* ══ 产品页折叠数据（2026-09-04 重构：同「模具中心」accordion，弃用概念卡/右侧抽屉）══
      图标：产品线简写；item 展开后展示特点字段 + 产品清单 chip */
   var PROD_ACC = {
+    /* 2026-09-22 重构：browse / industries 与首页「核心业务 / 应用行业」共用同一份 i18n 数据源。
+       t = 标题 key，d = 描述 key，tags = 标签 key 数组；三者均按当前语言实时解析，
+       语言切换时整块重建，确保产品与服务页与首页永不脱节。
+       discover 暂保留旧结构（待单独决定），渲染函数对两种结构均兼容。 */
     browse: [
-      { img:"images/prod_custom.webp", icon:"械", zh:"手术器械组件", en:"Surgical Instrument Components", pos:"II 类手术器械精密注塑组件，尺寸稳定、装配可靠，批量一致性好",
-        fields:[
-          { k:"核心特点", v:"生物相容材料 · 洁净车间生产 · 尺寸一致性好" },
-          { k:"典型应用", v:"手术刀柄 · 穿刺器结构件 · 内镜配件" },
-          { k:"工艺说明", v:"精密注塑 · 自动化装配 · 可配套 IQ/OQ/PQ 验证" }
-        ],
-        items:["手术刀柄","穿刺器结构件","内镜配件","手术手柄"] },
-      { img:"images/prod_enteral.webp", icon:"药", zh:"给药装置结构件", en:"Drug Delivery Device Parts", pos:"笔式注射器、雾化器、给药笔等给药装置结构件精密成型",
-        fields:[
-          { k:"核心特点", v:"高精度结构件 · 密封配合面 · 批量稳定" },
-          { k:"典型应用", v:"笔式注射器 · 雾化器 · 给药笔" },
-          { k:"工艺说明", v:"多腔精密注塑 · LSR 密封件配套 · II 类合规" }
-        ],
-        items:["笔式注射器","雾化器","给药笔","剂量标识件"] },
-      { img:"images/prod_injection.webp", icon:"壳", zh:"医用外壳与连接件", en:"Medical Housings & Connectors", pos:"医用外壳、连接器组件高精度成型，外观与尺寸兼得",
-        fields:[
-          { k:"核心特点", v:"外观件 · 连接器精密间隙 · 高光表面" },
-          { k:"典型应用", v:"设备外壳 · 连接器组件 · 卡壳件" },
-          { k:"工艺说明", v:"薄壁精密注塑 · 光学级表面 · 洁净车间" }
-        ],
-        items:["设备外壳","连接器组件","卡壳件","外罩"] },
-      { img:"images/mold_4.webp", icon:"套", zh:"导管护套组件", en:"Catheter Sheath Components", pos:"导管护套及软硬胶组合组件，生物相容材料成型",
-        fields:[
-          { k:"核心特点", v:"软硬胶结合 · 无飞边 · 生物相容材料" },
-          { k:"典型应用", v:"导管护套 · 阀片组件 · 密封件" },
-          { k:"工艺说明", v:"LSR 注塑 · 冷流道系统 · 免二次组装" }
-        ],
-        items:["导管护套","阀片组件","密封圈","软硬胶手柄"] }
+      /* 按需求：浏览产品只呈现产品本身，不显示描述（行业描述统一收在「应用行业」Tab） */
+      { img:"images/core_medical_1.webp", icon:"输",
+        t:"prod1_title",
+        tags:["prod1_tag1","prod1_tag2","prod1_tag3","prod1_tag4"] },
+      { img:"images/core_medical_2.webp", icon:"IVD",
+        t:"prod2_title",
+        tags:["prod2_tag1","prod2_tag2","prod2_tag3","prod2_tag4"] },
+      { img:"images/prod_custom.webp", icon:"呼",
+        t:"home_prod4_title",
+        tags:["prod4_tag1","prod4_tag2","prod4_tag3","prod4_tag4"] },
+      { img:"images/workshop_1.webp", icon:"包",
+        t:"home_prod5_title",
+        tags:["prod5_tag1","prod5_tag2","prod5_tag3","prod5_tag4"] }
     ],
     discover: [
       { img:"images/prod_enteral.webp", icon:"耗", zh:"一次性耗材方案", en:"Single-use Consumables", pos:"覆盖一次性耗材全链路——从模具设计到批量注塑交付，洁净可控、成本可预期",
@@ -2628,27 +2591,21 @@ document.addEventListener("hondvo:lang", function () {
         items:["穿刺器结构件","内镜配件","手术手柄"] }
     ],
     industries: [
-      { img:"images/prod_custom.webp", icon:"IVD", zh:"体外诊断 IVD", en:"In Vitro Diagnostics", pos:"",
-        fields:[
-          { k:"应用场景", v:"试剂盒 · 微流控 · 采血耗材" },
-          { k:"典型产品", v:"卡壳 · 腔体 · 加样嘴" },
-          { k:"工艺", v:"精密注塑 · 洁净车间" }
-        ],
-        items:["试剂盒","微流控耗材","采血耗材","加样嘴"] },
-      { img:"images/mold_3.webp", icon:"影", zh:"医用影像", en:"Medical Imaging", pos:"",
-        fields:[
-          { k:"应用场景", v:"超声探头外壳 · 器械把手" },
-          { k:"典型产品", v:"探头组件 · 外罩 · 结构件" },
-          { k:"工艺", v:"精密注塑 · 外观件喷涂" }
-        ],
-        items:["超声探头外壳","器械把手","结构件"] },
-      { img:"images/prod_enteral.webp", icon:"监", zh:"监护与给药", en:"Monitoring & Drug Delivery", pos:"",
-        fields:[
-          { k:"应用场景", v:"输液器组件 · 给药笔结构件" },
-          { k:"典型产品", v:"输液件 · 给药装置外壳" },
-          { k:"工艺", v:"多腔 · LSR 密封 · II 类合规" }
-        ],
-        items:["输液器组件","给药笔结构件","密封件"] }
+      /* 描述采用「场景口径」（home_sec_N_scene）：讲清该领域的典型使用场景与关键要求，
+         与「浏览产品」（讲我们做什么产品）形成维度分工，避免两个 Tab 内容雷同。
+         注：**不要**改回 home_prodN_desc —— 那是首页核心业务的产品口径描述，改它会连带首页一起变。 */
+      { img:"images/core_medical_1.webp", icon:"输",
+        t:"home_sec_1_t", d:"home_sec_1_scene",
+        tags:["home_sec_1_l1","home_sec_1_l2","home_sec_1_l3","home_sec_1_l4"] },
+      { img:"images/core_medical_2.webp", icon:"IVD",
+        t:"home_sec_2_t", d:"home_sec_2_scene",
+        tags:["home_sec_2_l1","home_sec_2_l2","home_sec_2_l3","home_sec_2_l4","home_sec_2_l5"] },
+      { img:"images/prod_custom.webp", icon:"呼",
+        t:"home_sec_3_t", d:"home_sec_3_scene",
+        tags:["home_sec_3_l1","home_sec_3_l2","home_sec_3_l3","home_sec_3_l4","home_sec_3_l5","home_sec_3_l6"] },
+      { img:"images/workshop_1.webp", icon:"包",
+        t:"home_sec_4_t", d:"home_sec_4_scene",
+        tags:["home_sec_4_l1","home_sec_4_l2","home_sec_4_l3","home_sec_4_l4"] }
     ]
   };
 
@@ -2659,29 +2616,57 @@ document.addEventListener("hondvo:lang", function () {
   }
 
   /* —— 同「模具中心」互斥折叠：点开一个自动收起其他 —— */
-  function renderProdAcc(){
+  /* ══ i18n 取数（2026-09-22）════════════════════════════════════════════
+     产品与服务页的「浏览产品 / 应用行业」与首页共用同一份 i18n 数据源，
+     语言切换时整块重建，确保两处内容永远一致、且随语言实时切换。 */
+  function accLang(){
+    try {
+      return (document.documentElement && document.documentElement.getAttribute("lang"))
+          || sessionStorage.getItem("hondvo_lang") || "en";
+    } catch (e) { return "en"; }
+  }
+  function accI18n(k){
+    if (!k || typeof I18N === "undefined") return "";
+    var e = I18N[k];
+    if (!e) return "";
+    return e[accLang()] || e.zh || e.en || "";
+  }
+  // 标题：新结构 t = i18n key；旧结构直接读 zh
+  function accTitle(g){ return g.t ? accI18n(g.t) : (g.zh || ""); }
+  // 描述：新结构 d = i18n key；旧结构直接读 pos
+  function accDesc(g){ return g.d ? accI18n(g.d) : (g.pos || ""); }
+  // 标签：新结构 tags = [i18n key]（全量）；旧结构由 fields 按 · 拆分（上限 4）
+  function accTags(g){
+    if (g.tags && g.tags.length) return g.tags.map(accI18n).filter(Boolean);
+    var out = [], seen = {};
+    (g.fields || []).forEach(function(f){
+      String(f.v || "").split("·").forEach(function(s){
+        s = s.replace(/^\s+|\s+$/g, "");
+        if (s && !seen[s] && out.length < 4) { seen[s] = 1; out.push(s); }
+      });
+    });
+    return out;
+  }
+
+  // force=true 时忽略「已构建」标记强制重建（语言切换用）
+  function renderProdAcc(force){
     Object.keys(PROD_ACC).forEach(function(tab){
       var root = document.getElementById(ACC_MAP[tab]);
-      if (!root || root.dataset.accBuilt) return;
+      if (!root) return;
+      if (root.dataset.accBuilt && !force) return;
       root.dataset.accBuilt = "1";
       var groups = PROD_ACC[tab] || [];
       root.innerHTML = groups.map(function(g){
-        var pos = g.pos ? '<div class="t-sub">' + escProd(g.pos) + '</div>' : "";
-        // 展开区改为「模具中心」同款格局：标签 pill + 图片占位槽（弃用单张大图 prod-media 与字段表格）
-        var tagList = [], seen = {};
-        (g.fields || []).forEach(function(f){
-          String(f.v || "").split("·").forEach(function(s){
-            s = s.replace(/^\s+|\s+$/g, "");
-            if (s && !seen[s] && tagList.length < 4) { seen[s] = 1; tagList.push(s); }
-          });
-        });
-        var tags = tagList.map(function(t){ return "<span>" + escProd(t) + "</span>"; }).join("");
+        var title = accTitle(g);
+        var desc = accDesc(g);
+        var pos = desc ? '<div class="t-sub">' + escProd(desc) + '</div>' : "";
+        var tags = accTags(g).map(function(t){ return "<span>" + escProd(t) + "</span>"; }).join("");
         var photos = [1, 2].map(function(i){
-          return '<div class="photo-slot" data-cap="' + escProd(g.zh) + ' 实拍 ' + i + '"><span class="lbl">' + escProd(g.zh) + ' 实拍 ' + i + '</span></div>';
+          return '<div class="photo-slot" data-cap="' + escProd(title) + ' 实拍 ' + i + '"><span class="lbl">' + escProd(title) + ' 实拍 ' + i + '</span></div>';
         }).join("");
         return '<div class="prod-item" data-acc-item="1">'
           + '<div class="prod-head" data-acc-head="1"><div class="prod-ico">' + escProd(g.icon || "") + '</div>'
-          + '<div class="prod-t"><div class="t-zh">' + escProd(g.zh) + '</div>'
+          + '<div class="prod-t"><div class="t-zh">' + escProd(title) + '</div>'
           + pos + '</div>'
           + '<span class="prod-chev">&#9656;</span></div>'
           + '<div class="cap-body">' + (tags ? '<div class="cap-tags">' + tags + '</div>' : "")
@@ -2691,6 +2676,11 @@ document.addEventListener("hondvo:lang", function () {
       // 折叠已交由统一的 [data-acc-head] 委托处理（P1-13）
     });
   }
+
+  /* 语言切换 → 按新语言重建产品页折叠块（i18n.js 的 switchLang 末尾派发 hondvo:lang） */
+  document.addEventListener("hondvo:lang", function(){
+    try { renderProdAcc(true); } catch (e) { console.warn("[prodAcc lang]", e); }
+  });
 
   function tabName(v){
     if (v === "browse" || v === "discover" || v === "industries") return v;

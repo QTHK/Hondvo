@@ -84,11 +84,31 @@ html.launch-armed.launch-leave .hnav{
   font-weight:700;font-size:18px;letter-spacing:.02em;
   color:var(--text);
 }
+
+/* Logo 图形（原橙色 H 方块 → 品牌图形） */
 .hnav-logo .mark{
-  width:30px;height:30px;border-radius:8px;
-  background:linear-gradient(135deg,var(--brand) 0%,#F18F50 100%);
-  display:grid;place-items:center;color:#fff;font-size:14px;font-weight:800;
-  box-shadow:0 6px 14px -6px rgba(216,120,48,.55);
+  width:auto;height:30px;
+  display:block;object-fit:contain;
+  /* 图形本身为橙蓝双色，无需背景与阴影 */
+  background:none;border-radius:0;box-shadow:none;
+}
+
+/* 品牌文字：蓝 → 橙 渐变（background-clip 方案） */
+.hnav-logo > span[data-lang-key="hnav_brand"]{
+  background:linear-gradient(100deg,#2C4463 0%,#5B7599 38%,#E89050 78%,#D87830 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent;
+  /* 兼容：不支持 background-clip:text 时回退为实心品牌色 */
+  font-weight:800;
+  letter-spacing:.04em;
+}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .hnav-logo > span[data-lang-key="hnav_brand"]{
+    -webkit-text-fill-color:initial;
+    color:var(--brand);
+  }
 }
 
 /* 菜单列：显式占满中间列，居中 — 毛玻璃大卡片容器（品牌橙阴影） */

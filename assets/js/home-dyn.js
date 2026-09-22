@@ -63,8 +63,6 @@
   }
 
   function initTilt() {
-    // 减少动效：不做指针跟随倾斜
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var sel = '#page-home .prod-card, #page-home .sector-card';
     document.querySelectorAll(sel).forEach(attachTilt);
   }

@@ -33,23 +33,26 @@
     radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,.25) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.66) 100%);
 }
 
-/* ────────── 2. STATS：半叠毛玻璃浮卡 + 数字渐变 ────────── */
-#page-home .hero { height: auto; min-height: 100vh; padding-bottom: 84px; }
+/* ────────── 2. STATS：独立浮卡（位于轮播图下方，不与其重叠） ────────── */
+/* 2026-09-22 改：原 stats-bar 用 margin-top:-58px 上浮压住 Hero 底部（"一半在
+   hero 上"）。按用户要求移出重叠 —— 同步收窄 hero 的 padding-bottom（原本
+   84px 是为浮卡预留的叠放空间，脱离后若不收窄会出现大片留白）。 */
+#page-home .hero { height: auto; min-height: 100vh; padding-bottom: 40px; }
 
 #page-home .stats-bar {
   position: relative;
   z-index: 5;
-  margin-top: -58px;
+  margin-top: 0;
   width: calc(100% - clamp(48px, 8vw, 150px));
   margin-left: auto;
   margin-right: auto;
   padding: clamp(20px, 3vw, 32px) clamp(24px, 4vw, 48px);
-  background: rgba(255, 255, 255, .72);
+  background: rgba(255, 255, 255, .92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, .65);
+  border: 1px solid rgba(20, 30, 50, .08);
   border-radius: 18px;
-  box-shadow: 0 24px 60px -18px rgba(15, 23, 42, .22);
+  box-shadow: 0 24px 60px -18px rgba(15, 23, 42, .18);
   gap: clamp(18px, 4vw, 56px);
 }
 
@@ -155,22 +158,27 @@
 #page-home .sec-header .line { margin: 16px 0 18px; }
 #page-home .sec-header .eyebrow { margin-bottom: 14px; }
 
-/* ────────── 8. 非对称产品栅格（首卡 feature） ────────── */
+/* ────────── 8. 产品栅格：5 卡 2+3 对称布局（上排 2 张 span6 / 下排 3 张 span4） ────────── */
 #page-home .prod-grid { grid-template-columns: repeat(12, 1fr); }
 #page-home .prod-grid .prod-card { grid-column: span 4; }
-#page-home .prod-grid .prod-card:nth-child(1) { grid-column: span 8; }
+/* 前 2 张：上排大卡各占一半 */
+#page-home .prod-grid .prod-card:nth-child(1),
+#page-home .prod-grid .prod-card:nth-child(2) { grid-column: span 6; }
 #page-home .prod-grid .prod-card .card-img { height: 236px; }
-#page-home .prod-grid .prod-card:nth-child(1) .card-img { height: 300px; }
+#page-home .prod-grid .prod-card:nth-child(1) .card-img,
+#page-home .prod-grid .prod-card:nth-child(2) .card-img { height: 300px; }
 
 /* ────────── 响应式 ────────── */
 @media (max-width: 860px) {
-  #page-home .stats-bar { margin-top: -34px; width: calc(100% - 32px); flex-direction: row; flex-wrap: wrap; gap: 16px 28px; justify-content: space-around; }
-  #page-home .hero { padding-bottom: 60px; }
+  #page-home .stats-bar { margin-top: 0; width: calc(100% - 32px); flex-direction: row; flex-wrap: wrap; gap: 16px 28px; justify-content: space-around; }
+  #page-home .hero { padding-bottom: 28px; }
   #page-home .prod-grid,
   #page-home .prod-grid .prod-card,
-  #page-home .prod-grid .prod-card:nth-child(1) { grid-template-columns: 1fr; grid-column: 1 / -1; }
+  #page-home .prod-grid .prod-card:nth-child(1),
+  #page-home .prod-grid .prod-card:nth-child(2) { grid-template-columns: 1fr; grid-column: 1 / -1; }
   #page-home .prod-grid .prod-card .card-img,
-  #page-home .prod-grid .prod-card:nth-child(1) .card-img { height: 200px; }
+  #page-home .prod-grid .prod-card:nth-child(1) .card-img,
+  #page-home .prod-grid .prod-card:nth-child(2) .card-img { height: 200px; }
 }
 
 @media (max-width: 767px) {
@@ -185,11 +193,11 @@
    标签：sectors 深色编号卡 · flow 锯齿流水线 · news 头条大卡
    ═══════════════════════════════════════════════════════════════ */
 
-/* ────────── 9. SECTORS：深色错落大卡 + 巨型描边编号 ────────── */
+/* ────────── 9. SECTORS：深色大卡 + 巨型描边编号（4 卡单排） ────────── */
 #page-home .home-sectors {
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(18px, 2.4vw, 26px);
-  align-items: start; /* 允许错落 */
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(14px, 1.8vw, 22px);
+  align-items: stretch; /* 4 卡等高，不再错落 */
 }
 #page-home .sector-card {
   background:
@@ -197,19 +205,19 @@
     linear-gradient(155deg, #12253c 0%, #0e1c2f 55%, #0a1522 100%);
   border: 1px solid rgba(255,255,255,.10);
   border-radius: 20px;
-  padding: 34px 28px 30px;
+  padding: 28px 22px 24px;
   min-height: 250px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
-#page-home .sector-card:nth-child(2) { margin-top: 46px; } /* 中间下沉，形成节奏 */
-#page-home .sector-card:nth-child(3) { margin-top: 12px; }
 
 /* 巨型描边编号水印 */
 #page-home .sector-card::before {
   content: "";
   position: absolute;
-  right: 12px; top: 4px;
-  font-size: clamp(64px, 7vw, 96px);
+  right: 10px; top: 2px;
+  font-size: clamp(54px, 5vw, 76px);
   font-weight: 900;
   line-height: 1;
   font-family: var(--font-sans);
@@ -221,10 +229,17 @@
 #page-home .sector-card:nth-child(1)::before { content: "01"; }
 #page-home .sector-card:nth-child(2)::before { content: "02"; }
 #page-home .sector-card:nth-child(3)::before { content: "03"; }
+#page-home .sector-card:nth-child(4)::before { content: "04"; }
 
 #page-home .sector-card > * { position: relative; z-index: 1; }
-#page-home .sector-card h3 { color: #fff; font-size: clamp(20px, 2vw, 26px); letter-spacing: .3px; }
+#page-home .sector-card h3 { color: #fff; font-size: clamp(17px, 1.35vw, 21px); letter-spacing: .2px; line-height: 1.3; }
 #page-home .sector-card p  { color: rgba(255,255,255,.66); }
+
+/* 逐条要点：窄卡内用小字号 + 品牌色圆点 */
+#page-home .sector-list { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 7px; flex: 1 1 auto; }
+#page-home .sector-list li { position: relative; padding-left: 14px; font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,.62); }
+#page-home .sector-list li::before { content: ""; position: absolute; left: 0; top: .58em; width: 5px; height: 5px; border-radius: 50%; background: rgba(216,120,48,.85); }
+
 #page-home .sector-card .sector-more {
   color: var(--brand-200);
   display: inline-flex; align-items: center; gap: 6px;
@@ -232,16 +247,16 @@
 #page-home .sector-card .sector-more::before { content: "→"; transition: transform .3s var(--ease); }
 #page-home .sector-card:hover .sector-more::before { transform: translateX(5px); }
 
-/* 图标放大 + 品牌霓虹 */
+/* 图标：4 卡收窄后略缩，保持呼吸感 */
 #page-home .sector-card .sector-ic {
-  width: 62px; height: 62px; border-radius: 18px;
+  width: 52px; height: 52px; border-radius: 16px;
   background: rgba(216,120,48,.16);
   border: 1px solid rgba(216,120,48,.42);
   color: var(--brand-200);
   box-shadow: inset 0 0 26px rgba(216,120,48,.28), 0 0 24px rgba(216,120,48,.16);
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
-#page-home .sector-card .sector-ic svg { width: 32px; height: 32px; }
+#page-home .sector-card .sector-ic svg { width: 26px; height: 26px; }
 
 /* ────────── 10. FLOW：锯齿错落流水线 + 渐变拆线 ────────── */
 #page-home .home-flow {
@@ -393,3 +408,90 @@
 #page-home .home-news-more:hover::after { opacity: 1; }
 #page-home .home-news-more:active { transform: translateY(-1px) scale(.99); }
 #page-home .home-news-more:focus-visible { outline: 3px solid rgba(216, 120, 48, .4); outline-offset: 4px; }
+
+/* ══════════════════════════════════════════════════════════════
+   13. 首页 Hero · 参考 WEGO 版式（只动轮播图区域）
+   --------------------------------------------------------------
+   目标：极简左对齐 · 纵向三层（中文标题两行 → 英文小字 → 按钮）
+        · 去掉深色蒙版，改左侧轻渐变（保白字可读、右侧通透）
+        · 导航栏等其他区域一律不动
+   ══════════════════════════════════════════════════════════════ */
+
+/* 去掉原 55%~66% 的重蒙版，改为左侧轻渐变 */
+#page-home .hero .hero-overlay {
+  background: linear-gradient(
+    100deg,
+    rgba(10, 18, 32, .58) 0%,
+    rgba(10, 18, 32, .34) 32%,
+    rgba(10, 18, 32, .10) 55%,
+    rgba(10, 18, 32, 0) 78%
+  );
+}
+
+/* Hero 不做额外下移（导航栏保持原浮层样式） */
+#page-home .hero { padding-top: 0; }
+
+#page-home .hero-content {
+  text-align: left;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 7vw, 96px);
+}
+
+/* eyebrow（hero-tag）：参考图无此元素，隐藏 */
+#page-home .hero .hero-tag { display: none; }
+
+/* 中文标题：两行、粗体、纯白实心，中等偏大 */
+#page-home .hero h1 {
+  font-size: clamp(32px, 3.6vw, 50px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.32;
+  margin: 0;
+}
+#page-home .hero h1 > span,
+#page-home .hero h1 strong {
+  display: block;
+  font-weight: 700;
+  font-size: 1em;
+  color: #fff;
+  -webkit-text-stroke: 0;
+  margin: 0;
+}
+
+/* 英文小字：紧贴标题下方，细体白色 */
+#page-home .hero .hero-sub {
+  display: block;
+  margin-top: 14px;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: .5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .92);
+  background: none;
+  border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* 按钮：左对齐、间距克制 */
+#page-home .hero .hero-actions {
+  justify-content: flex-start;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ── 响应式 ── */
+@media (max-width: 860px) {
+  #page-home .hero-content { padding: 0 24px; }
+  #page-home .hero h1 { font-size: clamp(26px, 6.4vw, 38px); }
+  #page-home .hero .hero-sub { font-size: 13.5px; }
+}
+@media (max-width: 560px) {
+  #page-home .hero-content { padding: 0 20px; }
+  #page-home .hero h1 { font-size: clamp(22px, 7.4vw, 30px); line-height: 1.34; }
+  #page-home .hero .hero-sub { font-size: 12.5px; }
+  #page-home .hero .hero-actions { gap: 10px; }
+}
