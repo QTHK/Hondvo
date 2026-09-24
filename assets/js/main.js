@@ -43,21 +43,18 @@
 
   var MOLD = {
     caps: [
-      {icon:'⊟', zh:'诊断与 IVD 耗材模具', en:'Diagnostic & IVD Molds',
-       desc:'覆盖微流控芯片、反应杯、移液吸头等 IVD 高精密耗材模具。洁净配套成型，型腔一致性高，满足批量检测与体外诊断的严苛尺寸要求。',
-       tags:['微流控','反应杯','洁净成型'], photos:['IVD 模具实拍 1','IVD 模具实拍 2']},
-      {icon:'✚', zh:'介入与植入精密模具', en:'Interventional & Implant',
-       desc:'导管接头、穿刺件、微小植入结构模具，依赖 μm 级加工与高光镜面，满足微创器械与植入物的微小、高精度结构要求。',
-       tags:['μm 级','高光镜面','微小结构'], photos:['介入模具实拍 1','介入模具实拍 2']},
-      {icon:'⊞', zh:'给药与药包模具', en:'Drug Delivery & Packaging',
-       desc:'笔式注射器、雾化器、瓶盖与定量阀门模具，采用多腔热流道高效量产，兼顾外观光泽与尺寸稳定性。',
-       tags:['多腔热流道','笔式注射器','药包'], photos:['给药模具实拍 1','给药模具实拍 2']},
-      {icon:'◑', zh:'LSR 液态硅胶模具', en:'LSR Medical Molds',
-       desc:'密封件、阀膜、导管软胶模具，支持软硬结合与生物相容材料成型，脱模与排气设计成熟。',
-       tags:['LSR','软硬结合','密封件'], photos:['LSR 模具实拍 1','LSR 模具实拍 2']},
-      {icon:'2K', zh:'双色 / 多色模具 2K', en:'Two-shot / Multi-shot Molds',
-       desc:'单机多物料一体化成型模具，软硬胶结合、免二次组装，覆盖医疗按键、软硬胶手柄与多色标识件，配合面精密稳定。',
-       tags:['双色注塑','软硬胶结合','免二次组装'], photos:['2K 模具实拍 1','2K 模具实拍 2']}
+      {icon:'⊟', key:'ivd', zh:'诊断与 IVD 耗材模具', en:'Diagnostic & IVD Molds',
+       desc:'Precision injection molds for IVD in-vitro diagnostic consumables, for rapid-test cassettes, reagent cartridges and microfluidic medical components.',
+       tags:['快速检测卡','试剂盒','微流控医疗部件'], photos:['images/ivd_mold_1.png','images/ivd_mold_2.png','images/ivd_mold_3.png','images/ivd_mold_4.png']},
+      {icon:'✚', key:'interv', zh:'介入与植入精密模具', en:'Interventional & Implantable Molds',
+       desc:'Ultra-precision injection molds for interventional & implantable medical parts. Micron-level cavity tolerance, compatible with implant-grade PEEK, ISO 13485 compliant for orthopedic implants and micro interventional instrument components.',
+       tags:['微米级公差','骨科植入物','微创介入部件'], photos:['images/interv_mold_1.png','images/interv_mold_2.png','images/interv_mold_3.png','images/interv_mold_4.png','images/interv_mold_5.png']},
+      {icon:'⊞', key:'drug', zh:'给药与药包模具', en:'Drug Delivery & Packaging Molds',
+       desc:'Multi-cavity valve-gate hot-runner, low-contamination clean-room design for auto-injector pens, nasal spray and pharmaceutical packaging parts, GMP & ISO 13485 compliant for high-volume production.',
+       tags:['多腔热流道','自动注射笔','药品包装部件'], photos:['images/drug_mold_1.png','images/drug_mold_2.png','images/drug_mold_3.png','images/drug_mold_4.png']},
+      {icon:'◑', key:'lsr', zh:'LSR 液态硅胶模具', en:'LSR Liquid Silicone Rubber Molds',
+       desc:'Injection molds for medical silicone parts, seals, baby nipples, goggles, electronic keypads and automotive silicone components. Suitable for multi-cavity tooling, cold runner systems and high-precision cavity manufacturing, supporting clean production and medical device compliance.',
+       tags:['冷流道多腔','医疗硅胶件','密封件'], photos:['images/lsr_mold_1.png','images/lsr_mold_2.png','images/lsr_mold_3.png','images/lsr_mold_4.png']}
     ],
     flow: [
       {n:'1', zh:'DFM 分析', en:'DFM Review', desc:'结合医疗法规做可制造性与风险分析，含生物相容材料选型。'},
@@ -109,26 +106,85 @@
     ]
   };
 
-  // 区块一：模具能力卡（互斥折叠 + 照片轮播）
+  // 区块一：模具能力卡（互动折叠 + 照片轮播）
   var capAcc = document.getElementById('moldCapAcc');
-  MOLD.caps.forEach(function(c){
-    var item = document.createElement('div');
-    item.className = 'cap-item';
-    item.setAttribute('data-acc-item', '1');
-    var photos = c.photos.map(function(p,i){ return '<div class="photo-slot" data-idx="'+i+'"><span class="lbl">'+esc(p)+'</span></div>'; }).join('');
-    var tags = c.tags.map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('');
-    item.innerHTML = '<div class="cap-head" data-acc-head="1"><div class="cap-ico">'+esc(c.icon||'')+'</div><div class="cap-t"><div class="t-zh">'+esc(c.zh)+'</div><div class="t-en">'+esc(c.en||'')+'</div></div><span class="cap-badge">'+c.photos.length+' 图</span><span class="cap-chev">&#9656;</span></div>'
-      + '<div class="cap-body"><p>'+esc(c.desc)+'</p><div class="cap-tags">'+tags+'</div><div class="cap-photos">'+photos+'</div></div>';
-    capAcc.appendChild(item);
-  });
+  function moldLang(){ return (window.sessionStorage && sessionStorage.getItem('hondvo_lang')) || 'en'; }
+  // 模具能力卡 8 语言文案表（按卡片 key 聚合；不在 i18n.js 内，随卡片数据就近维护）
+  var moldCopy = {
+    ivd: {
+      zh:{title:'诊断与 IVD 耗材模具',desc:'用于体外诊断耗材的精密注塑模具，适用于快速检测卡、试剂盒和微流控医疗部件。',tags:['快速检测卡','试剂盒','微流控医疗部件']},
+      en:{title:'Diagnostic & IVD Molds',desc:'Precision injection molds for IVD in-vitro diagnostic consumables, for rapid-test cassettes, reagent cartridges and microfluidic medical components.',tags:['Rapid-test cassettes','Reagent cartridges','Microfluidic medical components']},
+      de:{title:'Formen für diagnostische IVD-Verbrauchsmaterialien',desc:'Präzisionsspritzgussformen für In-vitro-Diagnostik-Verbrauchsmaterialien, Schnelltestkassetten, Reagenzkartuschen und mikrofluidische Medizinprodukte.',tags:['Schnelltestkassetten','Reagenzkartuschen','Mikrofluidische Komponenten']},
+      ru:{title:'Пресс-формы для диагностических IVD-расходных материалов',desc:'Прецизионные литьевые формы для расходных материалов для диагностики in vitro, кассет экспресс-тестов, картриджей с реагентами и микрофлюидных медицинских компонентов.',tags:['Кассеты экспресс-тестов','Картриджи с реагентами','Микрофлюидные компоненты']},
+      fr:{title:'Moules pour consommables de diagnostic in vitro',desc:'Moules d’injection de précision pour consommables de diagnostic in vitro, cassettes de tests rapides, cartouches de réactifs et composants médicaux microfluidiques.',tags:['Cassettes de tests rapides','Cartouches de réactifs','Composants microfluidiques']},
+      ja:{title:'IVD体外診断消耗品用金型',desc:'迅速検査カセット、試薬カートリッジ、マイクロ流体医療部品など、IVD体外診断消耗品向けの精密射出成形金型です。',tags:['迅速検査カセット','試薬カートリッジ','マイクロ流体部品']},
+      ko:{title:'IVD 체외진단 소모품 금형',desc:'신속검사 카세트, 시약 카트리지 및 미세유체 의료 부품용 IVD 체외진단 소모품 정밀 사출 금형입니다.',tags:['신속검사 카세트','시약 카트리지','미세유체 부품']},
+      es:{title:'Moldes para consumibles de diagnóstico in vitro',desc:'Moldes de inyección de precisión para consumibles de diagnóstico in vitro, casetes de pruebas rápidas, cartuchos de reactivos y componentes médicos microfluídicos.',tags:['Casetes de pruebas rápidas','Cartuchos de reactivos','Componentes microfluídicos']}
+    },
+    interv: {
+      zh:{title:'介入与植入精密模具',desc:'面向介入与植入医疗器械部件的超精密注塑模具。型腔公差达微米级，适配植入级 PEEK 材料，适用于骨科植入物与微创介入器械部件，符合 ISO 13485 要求。',tags:['微米级公差','骨科植入物','微创介入部件']},
+      en:{title:'Interventional & Implantable Molds',desc:'Ultra-precision injection molds for interventional & implantable medical parts. Micron-level cavity tolerance, compatible with implant-grade PEEK, ISO 13485 compliant for orthopedic implants and micro interventional instrument components.',tags:['Micron-level tolerance','Orthopedic implants','Micro interventional parts']},
+      de:{title:'Formen für interventionelle und implantierbare Medizinprodukte',desc:'Hochpräzise Spritzgussformen für interventionelle und implantierbare Medizinprodukte. Kavitätentoleranz im Mikrometerbereich, kompatibel mit implantatgeeignetem PEEK, ISO 13485-konform für orthopädische Implantate und Komponenten mikrointerventioneller Instrumente.',tags:['Toleranz im µm-Bereich','Orthopädische Implantate','Mikrointerventionelle Teile']},
+      ru:{title:'Пресс-формы для интервенционных и имплантируемых медицинских изделий',desc:'Сверхточные литьевые формы для интервенционных и имплантируемых медицинских изделий. Точность оформляющих полостей на уровне микрометров, совместимость с имплантационным PEEK, соответствие ISO 13485 для ортопедических имплантатов и деталей микроинтервенционных инструментов.',tags:['Точность в микронах','Ортопедические имплантаты','Микроинтервенционные детали']},
+      fr:{title:'Moules pour dispositifs médicaux interventionnels et implantables',desc:'Moules d’injection ultra-précis pour dispositifs médicaux interventionnels et implantables. Tolérance d’empreinte micrométrique, compatible avec le PEEK de qualité implantable, conforme ISO 13485 pour les implants orthopédiques et les composants d’instruments micro-interventionnels.',tags:['Tolérance micrométrique','Implants orthopédiques','Composants micro-interventionnels']},
+      ja:{title:'介入・インプラント医療部品用金型',desc:'介入・インプラント医療部品向けの超精密射出成形金型です。マイクロメートル級のキャビティ公差、インプラントグレード PEEK に対応、整形外科インプラントおよびマイクロ介入器具部品において ISO 13485 に適合します。',tags:['µm 級公差','整形外科インプラント','マイクロ介入部品']},
+      ko:{title:'중재·이식형 의료 부품용 금형',desc:'중재·이식형 의료 부품용 초정밀 사출 금형입니다. 마이크로미터급 캐비티 공차, 임플란트 등급 PEEK 호환, 정형외과 임플란트 및 미세 중재 시술 기기 부품에 대한 ISO 13485 준수.',tags:['µm급 공차','정형외과 임플란트','미세 중재 부품']},
+      es:{title:'Moldes para dispositivos médicos intervencionistas e implantables',desc:'Moldes de inyección de ultra precisión para dispositivos médicos intervencionistas e implantables. Tolerancia de cavidad micrométrica, compatible con PEEK de grado implantable, conforme a ISO 13485 para implantes ortopédicos y componentes de instrumentos microintervencionistas.',tags:['Tolerancia micrométrica','Implantes ortopédicos','Componentes microintervencionistas']}
+    },
+    drug: {
+      zh:{title:'给药与药包模具',desc:'多腔阀浇口热流道结构，低污染洁净车间设计，适用于自动注射笔、鼻腔喷雾与药品包装部件；符合 GMP 与 ISO 13485 要求，支持大批量生产。',tags:['多腔热流道','自动注射笔','药品包装部件']},
+      en:{title:'Drug Delivery & Packaging Molds',desc:'Multi-cavity valve-gate hot-runner, low-contamination clean-room design for auto-injector pens, nasal spray and pharmaceutical packaging parts, GMP & ISO 13485 compliant for high-volume production.',tags:['Multi-cavity hot runner','Auto-injector pens','Pharma packaging parts']},
+      de:{title:'Formen für Arzneimittelabgabe und Pharmaverpackung',desc:'Mehrkavitäten-Heißkanal mit Nadelverschluss, kontaminationsarmes Reinraum-Design für Auto-Injektoren, Nasensprays und Pharmaverpackungsteile; GMP- und ISO 13485-konform für die Großserienfertigung.',tags:['Mehrkavitäten-Heißkanal','Auto-Injektoren','Pharmaverpackungsteile']},
+      ru:{title:'Пресс-формы для доставки лекарств и фармацевтической упаковки',desc:'Многогнёздный горячеканальный блок с игольчатым запиранием, малоконтаминационное исполнение для чистых помещений: автоинъекторы, назальные спреи и детали фармацевтической упаковки; соответствие GMP и ISO 13485 для крупносерийного производства.',tags:['Многогнёздный горячий канал','Автоинъекторы','Детали фармупаковки']},
+      fr:{title:'Moules pour administration de médicaments et emballage pharmaceutique',desc:'Canaux chauds multicavernes à obturation par aiguille, conception à faible contamination en salle blanche pour stylos auto-injecteurs, sprays nasaux et pièces d’emballage pharmaceutique ; conformes GMP et ISO 13485 pour la production à grande série.',tags:['Canaux chauds multicavernes','Auto-injecteurs','Pièces d’emballage pharma']},
+      ja:{title:'薬剤投与・医薬包装用金型',desc:'多キャビティ・バルブゲートホットランナー、低汚染クリーンルーム設計。オートインジェクターペン、点鼻スプレー、医薬包装部品に対応し、量産向けに GMP・ISO 13485 に適合します。',tags:['多キャビティホットランナー','オートインジェクター','医薬包装部品']},
+      ko:{title:'약물 전달·의약품 포장용 금형',desc:'다중 캐비티 밸브 게이트 핫러너, 저오염 클린룸 설계. 자동주입펜, 비강 스프레이 및 의약품 포장 부품에 적합하며 대량 생산을 위한 GMP 및 ISO 13485를 준수합니다.',tags:['다중 캐비티 핫러너','자동주입펜','의약품 포장 부품']},
+      es:{title:'Moldes para administración de fármacos y envase farmacéutico',desc:'Canales calientes multicavidad con cierre por aguja, diseño de baja contaminación en sala limpia para bolígrafos autoinyectores, sprays nasales y piezas de envase farmacéutico; conformes con GMP e ISO 13485 para producción de gran volumen.',tags:['Canales calientes multicavidad','Autoinyectores','Piezas de envase farmacéutico']}
+    },
+    lsr: {
+      zh:{title:'LSR 液态硅胶模具',desc:'适用于医疗硅胶件、密封件、婴儿奶嘴、护目镜、电子按键与汽车硅胶部件的注塑模具。支持多腔模具、冷流道系统与高精度型腔制造，满足洁净生产与医疗器械合规要求。',tags:['冷流道多腔','医疗硅胶件','密封件']},
+      en:{title:'LSR Liquid Silicone Rubber Molds',desc:'Injection molds for medical silicone parts, seals, baby nipples, goggles, electronic keypads and automotive silicone components. Suitable for multi-cavity tooling, cold runner systems and high-precision cavity manufacturing, supporting clean production and medical device compliance.',tags:['Cold-runner multi-cavity','Medical silicone parts','Seals']},
+      de:{title:'LSR-Flüssigsilikon-Formen',desc:'Spritzgussformen für medizinische Silikonteile, Dichtungen, Baby-Sauger, Brillen, elektronische Tastenfelder und Automotive-Silikonkomponenten. Geeignet für Mehrkavitäten-Werkzeuge, Kaltkanalsysteme und hochpräzise Kavitätenfertigung – für saubere Produktion und Konformität mit Medizinprodukten.',tags:['Kaltkanal-Mehrkavität','Medizinische Silikonteile','Dichtungen']},
+      ru:{title:'Пресс-формы для жидкого силикона (LSR)',desc:'Литьевые формы для медицинских силиконовых деталей, уплотнений, детских сосок, очков, электронных клавиатур и автомобильных силиконовых компонентов. Подходят для многогнёздной оснастки, холодноканальных систем и высокоточной обработки полостей, обеспечивая чистое производство и соответствие требованиям к медицинским изделиям.',tags:['Холодноканальная многогнёздная','Медицинские силиконовые детали','Уплотнения']},
+      fr:{title:'Moules en silicone liquide (LSR)',desc:'Moules d’injection pour pièces médicales en silicone, joints, tétines, lunettes, claviers électroniques et composants automobiles en silicone. Adaptés aux outillages multicavernes, aux systèmes à canal froid et à la fabrication de cavités de haute précision, pour une production propre et la conformité aux dispositifs médicaux.',tags:['Multicaverne canal froid','Pièces médicales en silicone','Joints']},
+      ja:{title:'LSR 液状シリコーン金型',desc:'医療用シリコーン部品、シール、乳首、ゴーグル、電子キーパッド、自動車用シリコーン部品向けの射出成形金型です。多キャビティ金型、コールドランナーシステム、高精度キャビティ加工に対応し、クリーン生産と医療機器コンプライアンスを支援します。',tags:['コールドランナー多キャビティ','医療用シリコーン部品','シール']},
+      ko:{title:'LSR 액상 실리콘 금형',desc:'의료용 실리콘 부품, 씰, 젖병 젖꼭지, 고글, 전자 키패드 및 자동차용 실리콘 부품용 사출 금형입니다. 다중 캐비티 금형, 콜드 러너 시스템, 고정밀 캐비티 가공에 적합하며 청정 생산과 의료기기 규정 준수를 지원합니다.',tags:['콜드 러너 다중 캐비티','의료용 실리콘 부품','씰']},
+      es:{title:'Moldes de silicona líquida (LSR)',desc:'Moldes de inyección para piezas médicas de silicona, juntas, tetinas, gafas, teclados electrónicos y componentes de silicona para automoción. Adecuados para utillajes multicavidad, sistemas de canal frío y fabricación de cavidades de alta precisión, con soporte para producción limpia y cumplimiento de dispositivos médicos.',tags:['Multicavidad canal frío','Piezas médicas de silicona','Juntas']}
+    }
+  };
+  // 徽标单位随语言本地化
+  var MOLD_BADGE = {zh:'图', en:'photos', de:'Fotos', ru:'фото', fr:'photos', ja:'点', ko:'장', es:'fotos'};
+  function moldCopyFor(key, lang){ var m = key ? moldCopy[key] : null; return m ? (m[lang] || m.en || null) : null; }
+  function renderMoldCaps(){
+    if(!capAcc) return;
+    var lang=moldLang();
+    var IMG_RE=/\.(png|jpe?g|webp|gif|svg)(\?|#|$)/i; // 照片路径才输出 <img>；文案占位（如「介入模具实拍 1」）保持纯文本槽，避免 404
+    // 语言切换会整块重建：记录并还原展开态，避免切换语言后所有卡片被收起
+    var openEl=capAcc.querySelector('.cap-item.open');
+    var openIdx=openEl?Array.prototype.indexOf.call(capAcc.children, openEl):-1;
+    capAcc.innerHTML='';
+    MOLD.caps.forEach(function(c){
+      var item=document.createElement('div'); item.className='cap-item'; item.setAttribute('data-acc-item','1');
+      var copy=moldCopyFor(c.key, lang);
+      var title=copy?copy.title:c.zh, desc=copy?copy.desc:c.desc, tagsData=copy?copy.tags:c.tags;
+      var photos=c.photos.map(function(p,i){
+        var img=IMG_RE.test(p)?'<img src="'+esc(p)+'" alt="'+esc(title)+' '+(i+1)+'" loading="lazy">':'';
+        return '<div class="photo-slot" data-idx="'+i+'">'+img+'<span class="lbl">'+(img?'':esc(p))+'</span></div>';
+      }).join('');
+      var tags=tagsData.map(function(t){return '<span>'+esc(t)+'</span>';}).join('');
+      item.innerHTML='<div class="cap-head" data-acc-head="1"><div class="cap-ico">'+esc(c.icon||'')+'</div><div class="cap-t"><div class="t-zh">'+esc(title)+'</div><div class="t-en">'+esc(c.en||'')+'</div></div><span class="cap-badge">'+c.photos.length+' '+(MOLD_BADGE[lang]||MOLD_BADGE.en)+'</span><span class="cap-chev">&#9656;</span></div>'+'<div class="cap-body"><p>'+esc(desc)+'</p><div class="cap-tags">'+tags+'</div><div class="cap-photos">'+photos+'</div></div>';
+      capAcc.appendChild(item);
+    });
+    if(openIdx>-1 && capAcc.children[openIdx]) capAcc.children[openIdx].classList.add('open');
+  }
+  renderMoldCaps();
+  document.addEventListener('hondvo:lang', renderMoldCaps);
   capAcc.addEventListener('click', function(e){
-    var slot = e.target.closest('.photo-slot');
-    // 头部折叠已交由统一的 [data-acc-head] 委托处理（P1-13）
-    if (slot){
-      var item = slot.closest('.cap-item');
-      var idx = +slot.dataset.idx;
-      var ci = Array.prototype.indexOf.call(capAcc.children, item);
-      openMoldCarousel(MOLD.caps[ci].photos, idx, MOLD.caps[ci].zh);
+    var slot=e.target.closest('.photo-slot');
+    if(slot){
+      var item=slot.closest('.cap-item'), idx=+slot.dataset.idx, ci=Array.prototype.indexOf.call(capAcc.children,item);
+      var cp=moldCopyFor(MOLD.caps[ci].key, moldLang());
+      openMoldCarousel(MOLD.caps[ci].photos, idx, cp?cp.title:MOLD.caps[ci].zh);
     }
   });
 
@@ -171,10 +227,15 @@
   var mlbDots = document.getElementById('moldLbDots');
   var mlbCap = document.getElementById('moldLbCap');
   var mlbTimer = null, mlbPhotos = [], mlbIdx = 0, mlbTitle = '';
+  // 照片条目（images/xxx.png）→ 渲染 <img>；文案条目（如「介入模具实拍 1」）→ 保持文本（占位语义）
+  function mlbIsImg(p){ return /\.(png|jpe?g|webp|gif|svg)(\?|#|$)/i.test(String(p||'')); }
   function renderMLB(){
-    mlbImg.innerHTML = mlbPhotos.map(function(p,i){ return '<div class="mlb-slide'+(i===mlbIdx?' active':'')+'">'+esc(p)+'</div>'; }).join('');
+    mlbImg.innerHTML = mlbPhotos.map(function(p,i){
+      var inner = mlbIsImg(p) ? '<img src="'+esc(p)+'" alt="'+esc(mlbTitle)+'">' : esc(p);
+      return '<div class="mlb-slide'+(i===mlbIdx?' active':'')+'">'+inner+'</div>';
+    }).join('');
     mlbDots.innerHTML = mlbPhotos.map(function(_,i){ return '<span class="mlb-dot'+(i===mlbIdx?' active':'')+'" data-idx="'+i+'"></span>'; }).join('');
-    mlbCap.textContent = mlbTitle + ' · ' + mlbPhotos[mlbIdx];
+    mlbCap.textContent = mlbTitle + (mlbIsImg(mlbPhotos[mlbIdx]) ? ' · ' + (mlbIdx+1) + ' / ' + mlbPhotos.length : ' · ' + mlbPhotos[mlbIdx]);
   }
   function nextMLB(){ mlbIdx = (mlbIdx+1)%mlbPhotos.length; renderMLB(); }
   function startMLB(){ if (mlbTimer) clearInterval(mlbTimer); if (mlbPhotos.length>1 && !prefersReduceMotion()) mlbTimer = setInterval(nextMLB, 5000); }

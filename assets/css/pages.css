@@ -563,8 +563,8 @@ html.launch-armed.launch-leave .hnav{
 .cap-tags span{font-size:11.5px;color:var(--brand-strong,#A34B10);background:var(--brand-soft,#FFF4EC);border-radius:20px;padding:4px 11px;font-weight:600;}
 .cap-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
 .photo-slot{position:relative;aspect-ratio:4/3;border:2px dashed #d7dbe0;border-radius:14px;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#f3f6f9,#e7edf2);transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease;}
-.photo-slot::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,#eef2f6,#eef2f6 10px,#e7edf2 10px,#e7edf2 20px);}
-.photo-slot .lbl{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;height:100%;color:#9aa1a9;font-size:12px;text-align:center;padding:0 10px;}
+.photo-slot::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:repeating-linear-gradient(45deg,#eef2f6,#eef2f6 10px,#e7edf2 10px,#e7edf2 20px);}.photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;display:block;}.photo-slot img + .lbl:empty{display:none;}
+.photo-slot .lbl{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;height:100%;color:#9aa1a9;font-size:12px;text-align:center;padding:0 10px;}
 .photo-slot:hover{transform:scale(1.04);box-shadow:0 14px 30px rgba(28,32,36,.14);border-color:var(--brand,#D87830);}
 .mold-flow{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;}
 .mflow-step{background:var(--neutral-50,#f7f9fb);border:1px solid var(--neutral-200,#eef0f3);border-radius:18px;padding:22px 14px;text-align:center;position:relative;}
@@ -603,7 +603,7 @@ html.launch-armed.launch-leave .hnav{
 .mlb.show .mlb-box{transform:none;}
 .mlb-img{position:relative;aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,#f3f6f9,#e7edf2);display:flex;align-items:center;justify-content:center;color:#9aa1a9;font-size:15px;overflow:hidden;}
 .mlb-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease;padding:20px;text-align:center;}
-.mlb-slide.active{opacity:1;}
+.mlb-slide.active{opacity:1;}.mlb-slide img{max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain;border-radius:8px;}
 .mlb-cap{margin-top:12px;font-size:14px;font-weight:700;color:var(--ink,#22272e);text-align:center;}
 .mlb-dots{display:flex;justify-content:center;gap:8px;margin-top:12px;}
 .mlb-dot{width:8px;height:8px;border-radius:50%;background:#d7dbe0;cursor:pointer;transition:background .25s ease,transform .25s ease;}
@@ -686,3 +686,5 @@ html.launch-armed.launch-leave .hnav{
 
   @media (max-width: 768px){ .partners-map { padding: 0 14px; } }
 @media (max-width: 768px){ .partners-map { padding: 0 20px; } }
+
+

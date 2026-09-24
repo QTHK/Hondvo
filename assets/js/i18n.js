@@ -310,12 +310,6 @@ const I18N = {
 
   "mold_ability_1_s":{"zh":"液态硅胶专用模塑 · 冷流道精密成型","en":"Dedicated LSR molding · Precision cold-runner molding","de":"Flüssigsilikon-Spezialformung · Präzisionsformung mit Kaltkanal","ru":"Специализированное формование жидкого силикона · Прецизионное формование с холодноканальной системой","fr":"Moulage dédié du silicone liquide · Moulage de précision à canaux froids","ja":"液状シリコーン専用成形・コールドランナー精密成形","ko":"액상 실리콘 전용 성형·콜드 러너 정밀 성형","es":"Moldeo dedicado a silicona líquida · Moldeo de precisión con canal frío"},
 
-  "mold_ability_2_tag":{"zh":"2K","en":"2K","de":"2K","ru":"2K","fr":"2K","ja":"2K","ko":"2K","es":"2K"},
-
-  "mold_ability_2_t":{"zh":"双色 · 多色模具","en":"2K · Multi-color Mold","de":"Zwei-/Mehrkomponenten-Werkzeug","ru":"Двух- и многокомпонентная пресс-форма","fr":"Moule bi- et multicolore (2K)","ja":"2色・多色金型","ko":"2색·다색 금형","es":"Molde bicolor y multicolor"},
-
-  "mold_ability_2_s":{"zh":"多物料一次合模 · 简化分步工序","en":"Multi-material in one cycle · Simplified stepwise processes","de":"Mehrkomponenten in einem Zyklus · Reduzierte Einzelschritte","ru":"Многокомпонентное литьё за один цикл · Упрощение пошаговых операций","fr":"Multi-matières en un seul cycle · Simplification des étapes","ja":"多材質を1サイクルで成形・工程の簡略化","ko":"다중 재료 1회 사출·공정 단순화","es":"Multi-material en un solo ciclo · Procesos simplificados"},
-
   "mold_ability_3_tag":{"zh":"介入 · 植入","en":"Interventional · Implantable","de":"Interventionell · Implantierbar","ru":"Интервенционный · Имплантируемый","fr":"Interventionnel · Implantable","ja":"介入・植込み","ko":"중재·이식용","es":"Intervencional · Implantable"},
 
   "mold_ability_3_t":{"zh":"精密模具","en":"Precision Mold","de":"Präzisionswerkzeug","ru":"Прецизионная пресс-форма","fr":"Moule de précision","ja":"精密金型","ko":"정밀 금형","es":"Molde de precisión"},
