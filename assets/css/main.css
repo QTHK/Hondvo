@@ -1340,6 +1340,11 @@
 
   .iq-item p { font-size: 15px; color: var(--text-muted); line-height: 1.85; font-weight: 400; }
 
+  .iq-list { text-align: left; margin: 0; padding: 0; list-style: none; }
+  .iq-list li { position: relative; padding-left: 16px; margin-bottom: 9px; font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+  .iq-list li::before { content: ''; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+  .iq-list li:last-child { margin-bottom: 0; }
+
 
 
   /* ═══════════ 核心价值 / 合作伙伴 ═══════════ */

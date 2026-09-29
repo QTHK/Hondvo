@@ -106,6 +106,114 @@
     ]
   };
 
+  // ===================== 开发流程（区块二）8 语言文案：key=步骤号，title/desc（英文为主源） =====================
+  var moldFlowCopy = {
+    '1': {
+      zh:{title:'DFM 分析', desc:'结合医疗法规做可制造性与风险分析，含生物相容材料选型。'},
+      en:{title:'DFM Review', desc:'Manufacturability and risk analysis aligned with medical regulations, including biocompatible material selection.'},
+      de:{title:'DFM-Prüfung', desc:'Fertigbarkeits- und Risikoanalyse gemäß medizinischen Regularien, einschließlich der Auswahl biokompatibler Materialien.'},
+      ru:{title:'DFM-анализ', desc:'Анализ технологичности и рисков в соответствии с медицинскими нормами, включая подбор биосовместимых материалов.'},
+      fr:{title:'Analyse DFM', desc:'Analyse de fabricabilité et de risques conforme aux réglementations médicales, incluant la sélection de matériaux biocompatibles.'},
+      ja:{title:'DFM 分析', desc:'医療規制に沿った製造性・リスク分析を行い、生体適合材料を選定します。'},
+      ko:{title:'DFM 분석', desc:'의료 규정에 맞춰 제조성·리스크를 분석하고 생체적합 소재를 선정합니다.'},
+      es:{title:'Análisis DFM', desc:'Análisis de fabricabilidad y riesgos conforme a la normativa médica, incluida la selección de materiales biocompatibles.'}
+    },
+    '2': {
+      zh:{title:'模具设计', desc:'3D 设计与模流仿真，优化浇口、冷却与洁净排气。'},
+      en:{title:'Design & Sim', desc:'3D design and mold-flow simulation to optimize gating, cooling and clean venting.'},
+      de:{title:'Konstruktion & Simulation', desc:'3D-Konstruktion und Formfüllsimulation zur Optimierung von Angusspunkten, Kühlung und sauberer Entlüftung.'},
+      ru:{title:'Проектирование и моделирование', desc:'3D-проектирование и моделирование литья для оптимизации литников, охлаждения и чистой вентиляции.'},
+      fr:{title:'Conception & simulation', desc:'Conception 3D et simulation d’écoulement pour optimiser l’injection, le refroidissement et l’éventage propre.'},
+      ja:{title:'設計・シミュレーション', desc:'3D設計と成形流動解析により、ゲート・冷却・クリーンなベントを最適化します。'},
+      ko:{title:'설계 · 시뮬레이션', desc:'3D 설계와 사출 유동 해석으로 게이트, 냉각, 청정 벤팅을 최적화합니다.'},
+      es:{title:'Diseño y simulación', desc:'Diseño 3D y simulación de flujo para optimizar compuertas, refrigeración y venteo limpio.'}
+    },
+    '3': {
+      zh:{title:'精密加工', desc:'型腔、电极 μm 级加工，洁净车间内成型。'},
+      en:{title:'CNC / EDM', desc:'Micron-level machining of cavities and electrodes, with forming inside a cleanroom.'},
+      de:{title:'Präzisionsbearbeitung', desc:'Mikrometergenaue Bearbeitung von Kavitäten und Elektroden, Formgebung im Reinraum.'},
+      ru:{title:'Прецизионная обработка', desc:'Обработка формообразующих полостей и электродов с микронной точностью и формовка в чистом помещении.'},
+      fr:{title:'Usinage de précision', desc:'Usinage au micron des empreintes et électrodes, avec formage en salle blanche.'},
+      ja:{title:'精密加工', desc:'キャビティと電極をµm級で加工し、クリーンルーム内で成形します。'},
+      ko:{title:'정밀 가공', desc:'캐비티와 전극을 µm 단위로 가공하고 클린룸 내에서 성형합니다.'},
+      es:{title:'Mecanizado de precisión', desc:'Mecanizado a nivel de micras de cavidades y electrodos, con conformado en sala limpia.'}
+    },
+    '4': {
+      zh:{title:'组装抛光', desc:'电极装配、镜面抛光与间隙调配。'},
+      en:{title:'Assembly & Polish', desc:'Electrode assembly, mirror polishing and clearance adjustment.'},
+      de:{title:'Montage & Polieren', desc:'Elektrodenmontage, Spiegelpolieren und Spaltabstimmung.'},
+      ru:{title:'Сборка и полировка', desc:'Сборка электродов, зеркальная полировка и регулировка зазоров.'},
+      fr:{title:'Assemblage & polissage', desc:'Assemblage des électrodes, polissage miroir et ajustement des jeux.'},
+      ja:{title:'組立・研磨', desc:'電極の組み立て、鏡面研磨、クリアランス調整を行います。'},
+      ko:{title:'조립 · 연마', desc:'전극 조립, 경면 폴리싱, 간극 조정을 수행합니다.'},
+      es:{title:'Montaje y pulido', desc:'Ensamblaje de electrodos, pulido espejo y ajuste de holguras.'}
+    },
+    '5': {
+      zh:{title:'试模调参', desc:'试模打样，优化工艺与外观，留样封样。'},
+      en:{title:'Trial & Tune', desc:'Trial molding and sampling, optimizing process and appearance, with samples retained and sealed.'},
+      de:{title:'Bemusterung & Optimierung', desc:'Probeschüsse und Bemusterung zur Optimierung von Prozess und Optik, mit zurückbehaltenen und versiegelten Mustern.'},
+      ru:{title:'Пробная формовка и настройка', desc:'Пробная формовка и изготовление образцов, оптимизация процесса и внешнего вида, сохранение и опломбирование образцов.'},
+      fr:{title:'Essais & réglage', desc:'Essais de moulage et échantillonnage, optimisation du procédé et de l’aspect, avec conservation et scellement des échantillons.'},
+      ja:{title:'試作・調整', desc:'試作成形とサンプリングにより工程と外観を最適化し、サンプルを保管・封印します。'},
+      ko:{title:'시사출 · 조정', desc:'시사출과 샘플링으로 공정과 외관을 최적화하고 샘플을 보관·봉인합니다.'},
+      es:{title:'Pruebas y ajuste', desc:'Moldeo de prueba y muestreo, optimizando proceso y apariencia, con muestras retenidas y selladas.'}
+    },
+    '6': {
+      zh:{title:'验证量产', desc:'模具安装/运行/性能确认，合规放行量产。'},
+      en:{title:'IQ/OQ/PQ', desc:'Installation, operational and performance qualification, with compliant release to mass production.'},
+      de:{title:'IQ/OQ/PQ', desc:'Installations-, Funktions- und Leistungsqualifizierung mit konformer Freigabe für die Serienproduktion.'},
+      ru:{title:'IQ/OQ/PQ', desc:'Квалификация установки, функционирования и производительности с соответствующим допуском к серийному производству.'},
+      fr:{title:'IQ/OQ/PQ', desc:'Qualification d’installation, opérationnelle et de performance, avec libération conforme vers la production en série.'},
+      ja:{title:'IQ/OQ/PQ', desc:'据付・運転・性能の適格性を確認したうえで、適合と判断し量産へリリースします。'},
+      ko:{title:'IQ/OQ/PQ', desc:'설치·운전·성능 적격성을 확인한 뒤 규정에 맞게 양산을 승인합니다.'},
+      es:{title:'IQ/OQ/PQ', desc:'Cualificación de instalación, operacional y de desempeño, con liberación conforme a producción en serie.'}
+    }
+  };
+
+  // ===================== 品质管控（区块四）8 语言文案：key=IQC/IPQC/OQC/CMM，title/desc/desc2（英文为主源） =====================
+  var moldQcCopy = {
+    IQC: {
+      zh:{title:'来料检验', desc:'IQC 是医疗模具质量体系的第一道关口。所有入厂的模具钢、五金件与辅料，均依据图纸、材质证明与 AQL 标准逐项检验。', desc2:'我们核验材质证明、硬度、尺寸、表面状态与清洁度，将不合格物料在生产前拦截；全部检验记录归档留存，实现全程可追溯。不合格物料将隔离并拒收，以杜绝下游质量风险。'},
+      en:{title:'Incoming Quality Control', desc:'IQC is the first gate of our medical mold quality system. All incoming mold steel, hardware components and auxiliary materials are inspected against drawings, material certificates and AQL standards.', desc2:'We verify material certification, hardness, dimension, surface condition and cleanliness to rule out non-conforming parts before production. All inspection records are archived for full traceability. Non-conforming materials will be isolated and rejected to avoid downstream quality risks.'},
+      de:{title:'Wareneingangskontrolle', desc:'Die IQC ist das erste Tor unseres Qualitätssystems für medizinische Formen. Sämtlicher eingehender Formenstahl, Hardware-Komponenten und Hilfsmaterialien wird anhand von Zeichnungen, Materialzertifikaten und AQL-Standards geprüft.', desc2:'Wir verifizieren Materialzertifizierung, Härte, Abmessungen, Oberflächenzustand und Sauberkeit, um fehlerhafte Teile bereits vor der Produktion auszuschließen. Alle Prüfaufzeichnungen werden zur vollständigen Rückverfolgbarkeit archiviert. Nicht konformes Material wird isoliert und zurückgewiesen, um nachgelagerte Qualitätsrisiken zu vermeiden.'},
+      ru:{title:'Входной контроль', desc:'IQC — первый рубеж нашей системы качества медицинских пресс-форм. Все поступающие формовочные стали, аппаратные компоненты и вспомогательные материалы проверяются по чертежам, сертификатам на материалы и стандартам AQL.', desc2:'Мы подтверждаем сертификацию материалов, твёрдость, размеры, состояние поверхности и чистоту, чтобы отсеять несоответствующие детали до начала производства. Все записи проверок архивируются для полной прослеживаемости. Несоответствующие материалы изолируются и отклоняются, чтобы исключить риски качества на последующих этапах.'},
+      fr:{title:'Contrôle à réception', desc:'L’IQC est le premier poste de contrôle de notre système qualité pour moules médicaux. Tous les aciers pour moules, composants matériels et matières auxiliaires entrants sont contrôlés selon les plans, les certificats matière et les normes AQL.', desc2:'Nous vérifions la certification des matériaux, la dureté, les dimensions, l’état de surface et la propreté afin d’écarter les pièces non conformes avant la production. Tous les enregistrements d’inspection sont archivés pour une traçabilité complète. Les matériaux non conformes sont isolés et refusés afin d’éviter les risques qualité en aval.'},
+      ja:{title:'受入検査', desc:'IQCは、当社の医療用金型品質システムにおける最初の関門です。入荷するすべての金型鋼材、ハードウェア部品、副資材を、図面・材料証明書・AQL基準に照らして検査します。', desc2:'材料証明、硬度、寸法、表面状態、清浄度を確認し、生産前に不適合部品を排除します。すべての検査記録をアーカイブし、完全なトレーサビリティを確保します。不適合材料は隔離・拒否し、後工程の品質リスクを回避します。'},
+      ko:{title:'수입 검사', desc:'IQC는 당사 의료용 금형 품질 시스템의 첫 관문입니다. 입고되는 모든 금형강, 하드웨어 부품 및 보조 자재를 도면, 재료 증명서, AQL 기준에 따라 검사합니다.', desc2:'재료 인증, 경도, 치수, 표면 상태, 청결도를 확인하여 생산 전에 부적합 부품을 배제합니다. 모든 검사 기록을 보관하여 완전한 추적성을 확보하며, 부적합 자재는 격리·거부하여 후속 품질 리스크를 방지합니다.'},
+      es:{title:'Control de recepción', desc:'El IQC es la primera barrera de nuestro sistema de calidad para moldes médicos. Todos los aceros para moldes, componentes y materiales auxiliares entrantes se inspeccionan según planos, certificados de material y estándares AQL.', desc2:'Verificamos la certificación del material, dureza, dimensiones, estado de la superficie y limpieza para descartar piezas no conformes antes de la producción. Todos los registros de inspección se archivan para una trazabilidad completa. Los materiales no conformes se aíslan y rechazan para evitar riesgos de calidad aguas abajo.'}
+    },
+    IPQC: {
+      zh:{title:'过程检验', desc:'IPQC 在医疗模具制造过程中执行巡回检验，现场监控关键加工工序、尺寸精度、表面光洁度与清洁度。', desc2:'工艺参数对照图纸与医疗级要求逐一核查，偏差及时纠正以防批量缺陷；全部检验日志留档，实现全程可追溯。'},
+      en:{title:'In-Process Quality Control', desc:'IPQC performs patrol inspection during medical mold manufacturing. We monitor key machining procedures, dimensional accuracy, surface finish and cleanliness on-site.', desc2:'Process parameters are checked against drawing and medical-grade requirements. Deviations are corrected promptly to prevent batch defects. All inspection logs are kept for full traceability.'},
+      de:{title:'Prozesskontrolle', desc:'Die IPQC führt während der Fertigung medizinischer Formen Kontrollrundgänge durch. Wir überwachen vor Ort die wesentlichen Bearbeitungsschritte, Maßgenauigkeit, Oberflächengüte und Sauberkeit.', desc2:'Prozessparameter werden anhand von Zeichnung und medizinischen Anforderungen geprüft. Abweichungen werden umgehend korrigiert, um Serienfehler zu vermeiden. Alle Prüfprotokolle werden zur vollständigen Rückverfolgbarkeit aufbewahrt.'},
+      ru:{title:'Контроль в процессе производства', desc:'IPQC выполняет плановый контроль в процессе производства медицинских пресс-форм. Мы контролируем ключевые операции обработки, точность размеров, качество поверхности и чистоту непосредственно на участке.', desc2:'Параметры процесса сверяются с чертежом и требованиями медицинского класса. Отклонения оперативно исправляются для предотвращения серийного брака. Все журналы контроля сохраняются для полной прослеживаемости.'},
+      fr:{title:'Contrôle en cours de fabrication', desc:'L’IPQC réalise des contrôles itinérants pendant la fabrication des moules médicaux. Nous surveillons sur site les opérations d’usinage clés, la précision dimensionnelle, l’état de surface et la propreté.', desc2:'Les paramètres de procédé sont vérifiés par rapport aux plans et aux exigences de grade médical. Les écarts sont corrigés rapidement afin d’éviter les défauts en série. Tous les journaux de contrôle sont conservés pour une traçabilité complète.'},
+      ja:{title:'工程内検査', desc:'IPQCは、医療用金型の製造工程において巡回検査を行います。主要な加工工程、寸法精度、表面仕上げ、清浄度を現場で監視します。', desc2:'工程パラメータを図面と医療グレード要件に照らして確認し、不良の一括発生を防ぐため逸脱を速やかに是正します。すべての検査ログを保管し、完全なトレーサビリティを確保します。'},
+      ko:{title:'공정 검사', desc:'IPQC는 의료용 금형 제조 과정에서 순회 검사를 수행하며, 주요 가공 공정, 치수 정밀도, 표면 조도, 청결도를 현장에서 모니터링합니다.', desc2:'공정 파라미터를 도면과 의료등급 요건에 맞춰 점검하고, 일괄 불량을 방지하도록 편차를 즉시 시정합니다. 모든 검사 로그를 보관하여 완전한 추적성을 확보합니다.'},
+      es:{title:'Control en proceso', desc:'El IPQC realiza inspecciones itinerantes durante la fabricación de moldes médicos. Supervisamos in situ los procedimientos de mecanizado clave, la precisión dimensional, el acabado superficial y la limpieza.', desc2:'Los parámetros del proceso se verifican frente a planos y requisitos de grado médico. Las desviaciones se corrigen de inmediato para evitar defectos en serie. Todos los registros de inspección se conservan para una trazabilidad completa.'}
+    },
+    OQC: {
+      zh:{title:'模具终检', desc:'OQC 是医疗模具出货前的最终质量闸口，全面核验模具尺寸、表面状态、装配功能与文件完整性。', desc2:'全检覆盖试模记录、材质证明与包装合规；只有通过 OQC 的模具方可放行交付，全部记录归档以备追溯。'},
+      en:{title:'Outgoing Quality Control', desc:'OQC is the final quality checkpoint before medical mold shipment. We comprehensively verify mold dimensions, surface condition, assembly function, and document completeness.', desc2:'Full inspection covers trial-out records, material certificates and packaging compliance. Only molds passing OQC can be released for delivery. All records are archived for traceability.'},
+      de:{title:'Endkontrolle vor Auslieferung', desc:'Die OQC ist die letzte Qualitätsprüfung vor der Auslieferung medizinischer Formen. Wir überprüfen umfassend Formabmessungen, Oberflächenzustand, Montagefunktion und Vollständigkeit der Dokumentation.', desc2:'Die Endprüfung umfasst Bemusterungsprotokolle, Materialzertifikate und Verpackungskonformität. Nur Formen, die die OQC bestehen, werden zur Lieferung freigegeben. Alle Aufzeichnungen werden zur Rückverfolgbarkeit archiviert.'},
+      ru:{title:'Выходной контроль', desc:'OQC — финальная точка контроля качества перед отгрузкой медицинских пресс-форм. Мы всесторонне проверяем размеры формы, состояние поверхности, сборочную функцию и полноту документации.', desc2:'Полная проверка охватывает протоколы пробной формовки, сертификаты на материалы и соответствие упаковки. К поставке допускаются только формы, прошедшие OQC. Все записи архивируются для прослеживаемости.'},
+      fr:{title:'Contrôle final (avant expédition)', desc:'L’OQC est le dernier point de contrôle qualité avant l’expédition des moules médicaux. Nous vérifions de manière exhaustive les dimensions, l’état de surface, la fonction d’assemblage et l’exhaustivité des documents.', desc2:'Le contrôle final couvre les procès-verbaux d’essais, les certificats matière et la conformité de l’emballage. Seuls les moules passant l’OQC peuvent être libérés pour livraison. Tous les enregistrements sont archivés pour traçabilité.'},
+      ja:{title:'出荷検査', desc:'OQCは、医療用金型の出荷前における最終の品質チェックポイントです。金型の寸法、表面状態、組立機能、書類の完全性を総合的に検証します。', desc2:'全数検査は試作記録、材料証明書、梱包の適合まで網羅します。OQCを通過した金型のみ出荷を許可し、すべての記録をトレーサビリティのためにアーカイブします。'},
+      ko:{title:'출하 검사', desc:'OQC는 의료용 금형 출하 전 최종 품질 체크포인트입니다. 금형 치수, 표면 상태, 조립 기능, 문서 완전성을 종합적으로 검증합니다.', desc2:'전수 검사는 시사출 기록, 재료 증명서, 포장 적합성까지 포괄하며, OQC를 통과한 금형만 출하가 허용됩니다. 모든 기록은 추적성을 위해 보관됩니다.'},
+      es:{title:'Control de salida', desc:'El OQC es el último punto de control de calidad antes del envío de moldes médicos. Verificamos de forma exhaustiva dimensiones, estado de la superficie, función de ensamblaje e integridad documental.', desc2:'La inspección final cubre los registros de prueba, certificados de material y conformidad del embalaje. Solo los moldes que superan el OQC pueden liberarse para entrega. Todos los registros se archivan para trazabilidad.'}
+    },
+    CMM: {
+      zh:{title:'三坐标 / 3D 扫描', desc:'CMM 对医疗模具的型芯、型腔与关键零部件进行高精度尺寸测量。', desc2:'精确验证复杂 3D 几何、公差与形状精度是否符合图纸；测量报告生成并归档，实现全程可追溯，确保满足医疗级精度要求。'},
+      en:{title:'Coordinate Measuring Machine', desc:'CMM delivers high-precision dimensional measurement for medical mold cores, cavities and critical components.', desc2:'It accurately verifies complex 3D geometries, tolerances and form accuracy against drawings. Measurement reports are generated and archived for full traceability, ensuring medical-grade precision requirements are met.'},
+      de:{title:'Koordinatenmessmaschine', desc:'Die CMM ermöglicht hochpräzise Maßmessung von Formkernen, Kavitäten und kritischen Komponenten medizinischer Formen.', desc2:'Sie verifiziert komplexe 3D-Geometrien, Toleranzen und Formgenauigkeit anhand der Zeichnungen. Messberichte werden erstellt und archiviert (vollständige Rückverfolgbarkeit) und stellen so die Erfüllung medizinischer Präzisionsanforderungen sicher.'},
+      ru:{title:'Координатно-измерительная машина', desc:'CMM обеспечивает высокоточные измерения размеров формообразующих знаков, полостей и ответственных компонентов медицинских пресс-форм.', desc2:'Она точно проверяет сложную 3D-геометрию, допуски и точность формы по чертежам. Протоколы измерений формируются и архивируются для полной прослеживаемости, гарантируя соблюдение требований медицинской точности.'},
+      fr:{title:'Machine à mesurer tridimensionnelle', desc:'La CMM assure une mesure dimensionnelle de haute précision des noyaux, empreintes et composants critiques des moules médicaux.', desc2:'Elle vérifie avec précision les géométries 3D complexes, les tolérances et la précision de forme par rapport aux plans. Les rapports de mesure sont générés et archivés pour une traçabilité complète, garantissant le respect des exigences de précision de grade médical.'},
+      ja:{title:'三次元測定機', desc:'CMMは、医療用金型のコア、キャビティ、重要部品に対して高精度な寸法測定を提供します。', desc2:'複雑な3D形状、公差、形状精度を図面と照合して正確に検証します。測定報告書を作成・アーカイブして完全なトレーサビリティを確保し、医療グレードの精度要件を満たします。'},
+      ko:{title:'3차원 측정기', desc:'CMM은 의료용 금형의 코어, 캐비티 및 핵심 부품에 대해 고정밀 치수 측정을 제공합니다.', desc2:'복잡한 3D 형상, 공차, 형상 정밀도를 도면과 대조하여 정확히 검증하고, 측정 보고서를 생성·보관하여 완전한 추적성을 확보함으로써 의료등급 정밀도 요건을 충족합니다.'},
+      es:{title:'Máquina de medición por coordenadas', desc:'La CMM ofrece medición dimensional de alta precisión para machos, cavidades y componentes críticos de moldes médicos.', desc2:'Verifica con precisión geometrías 3D complejas, tolerancias y exactitud de forma frente a planos. Los informes de medición se generan y archivan para una trazabilidad completa, garantizando el cumplimiento de los requisitos de precisión de grado médico.'}
+    }
+  };
+
   // 区块一：模具能力卡（互动折叠 + 照片轮播）
   var capAcc = document.getElementById('moldCapAcc');
   function moldLang(){ return (window.sessionStorage && sessionStorage.getItem('hondvo_lang')) || 'en'; }
@@ -209,17 +317,37 @@
     if (t){ e.stopPropagation(); openMoldCarousel([t.dataset.cap || '设备实拍图'], 0, t.dataset.cap || '设备实拍图'); }
   });
 
-  // 区块二：开发流程
-  var flow = document.getElementById('moldFlow');
-  if (flow) flow.innerHTML = MOLD.flow.map(function(s){
-    return '<div class="mflow-step m-reveal"><div class="mflow-num">'+esc(s.n)+'</div><h4>'+esc(s.zh)+'</h4><div class="en">'+esc(s.en||'')+'</div><p>'+esc(s.desc||'')+'</p></div>';
-  }).join('');
+  // 区块二：开发流程（8 语言）
+  function renderMoldFlow(){
+    var el = document.getElementById('moldFlow');
+    if(!el) return;
+    var lang = moldLang();
+    el.innerHTML = MOLD.flow.map(function(s){
+      var c = moldFlowCopy[s.n] || {};
+      var lc = c[lang] || c.en || {};
+      return '<div class="mflow-step m-reveal"><div class="mflow-num">'+esc(s.n)+'</div><h4>'+esc(lc.title || s.zh)+'</h4><div class="en">'+esc((c.en && c.en.title) || s.en || '')+'</div><p>'+esc(lc.desc || s.desc || '')+'</p></div>';
+    }).join('');
+  }
 
-  // 区块四：品质管控 QC
-  var qc = document.getElementById('moldQc');
-  if (qc) qc.innerHTML = MOLD.qc.map(function(q){
-    return '<div class="mqc m-reveal"><div class="mqc-k">'+esc(q.k)+'</div><h4>'+esc(q.h)+'</h4><p>'+esc(q.p||'')+'</p></div>';
-  }).join('');
+  // 区块四：品质管控 QC（8 语言）
+  function renderMoldQc(){
+    var el = document.getElementById('moldQc');
+    if(!el) return;
+    var lang = moldLang();
+    el.innerHTML = MOLD.qc.map(function(q){
+      var c = moldQcCopy[q.k] || {};
+      var lc = c[lang] || c.en || {};
+      var p2 = lc.desc2 ? '<p>'+esc(lc.desc2)+'</p>' : '';
+      return '<div class="mqc m-reveal"><div class="mqc-k">'+esc(q.k)+'</div><h4>'+esc(lc.title || q.h)+'</h4><p>'+esc(lc.desc || q.p || '')+'</p>'+p2+'</div>';
+    }).join('');
+  }
+  renderMoldFlow();
+  renderMoldQc();
+  document.addEventListener('hondvo:lang', function(){
+    renderMoldFlow();
+    renderMoldQc();
+    if ((location.hash || '').replace(/^#/,'') === 'page-mold') revealMold();
+  });
 
   // 轮播 Lightbox
   var mlb = document.getElementById('moldLb');
@@ -257,7 +385,8 @@
   // 个别浏览器导航回该页时不补火，导致 .m-reveal 停在 opacity:0。故保留导航兜底强制揭示。
   var revs = document.querySelectorAll('#page-mold .m-reveal');
   function revealMold(){
-    revs.forEach(function(el, i){ setTimeout(function(){ el.classList.add('in'); }, Math.min(i, 8) * 60); });
+    // 语言切换会整块重建 .mflow-step/.mqc，故此处动态重查，确保新节点也能被揭示
+    document.querySelectorAll('#page-mold .m-reveal').forEach(function(el, i){ setTimeout(function(){ el.classList.add('in'); }, Math.min(i, 8) * 60); });
   }
   observeReveal('#page-mold .m-reveal', { ioOptions: { threshold: .12, rootMargin: '0px 0px -40px 0px' } });
   var moldHash0 = (location.hash || '').replace(/^#/, '') || '';
@@ -2432,6 +2561,12 @@ function bindLists(){
         };
         var tabKey = TAB_KEYS[k];
         var pageKey = PAGE_FALLBACK[k];
+        // 资质实力下拉：子项 → 页面内锚点（按 data-list + 下标映射到对应板块）
+        var ANCHOR_MAP = {
+          qual_browse_items:["qual-overview","qual-overview","qual-overview"],
+          qual_discover_items:["qual-env","qual-env"],
+          qual_manage_items:["qual-iqoq","qual-eq"]
+        };
         if (tabKey) {
           a.setAttribute("data-nav-tab", tabKey);
           // 点击时才判断 prodTabsOpen（避免 init 时序：Tab IIFE 在文件末尾才暴露）
@@ -2445,7 +2580,8 @@ function bindLists(){
           });
         } else {
           if (pageKey) a.href = "#" + pageKey;
-          // 其它项保持默认锚点跳转（不拦截）
+          var anchors = ANCHOR_MAP[k];
+          if (anchors && anchors[idx]) a.setAttribute("data-scroll-to", anchors[idx]);
         }
         li.appendChild(a);
         ul.appendChild(li);
