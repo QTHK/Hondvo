@@ -273,6 +273,7 @@
     capAcc.innerHTML='';
     MOLD.caps.forEach(function(c){
       var item=document.createElement('div'); item.className='cap-item'; item.setAttribute('data-acc-item','1');
+      item.id='mold-cap-'+c.key;   // 稳定锚点：导航下拉子项据此跨页定位并自动展开
       var copy=moldCopyFor(c.key, lang);
       var title=copy?copy.title:c.zh, desc=copy?copy.desc:c.desc, tagsData=copy?copy.tags:c.tags;
       var photos=c.photos.map(function(p,i){
@@ -307,6 +308,7 @@
     var item = document.createElement('div');
     item.className = 'eq-item';
     item.setAttribute('data-acc-item', '1');
+    item.id = 'qual-eq-' + key;   // 稳定锚点：资质实力页·加工与检测设备（导航下拉用）
     item.innerHTML = '<div class="eq-head" data-acc-head="1"><span class="eq-dot"></span><span class="t-zh">'+esc(c.zh)+'</span><span class="t-en">'+esc(c.en||'')+'</span><span class="eq-badge">'+total+' 台</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-scroll"><table class="eq-table"><thead><tr><th>设备 / Model</th><th>产地</th><th>精度 / 吨位</th><th>数量</th><th>图片</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
     eqAcc.appendChild(item);
   });
@@ -325,7 +327,7 @@
     el.innerHTML = MOLD.flow.map(function(s){
       var c = moldFlowCopy[s.n] || {};
       var lc = c[lang] || c.en || {};
-      return '<div class="mflow-step m-reveal"><div class="mflow-num">'+esc(s.n)+'</div><h4>'+esc(lc.title || s.zh)+'</h4><div class="en">'+esc((c.en && c.en.title) || s.en || '')+'</div><p>'+esc(lc.desc || s.desc || '')+'</p></div>';
+      return '<div class="mflow-step m-reveal" id="mold-flow-'+esc(s.n)+'"><div class="mflow-num">'+esc(s.n)+'</div><h4>'+esc(lc.title || s.zh)+'</h4><div class="en">'+esc((c.en && c.en.title) || s.en || '')+'</div><p>'+esc(lc.desc || s.desc || '')+'</p></div>';
     }).join('');
   }
 
@@ -338,7 +340,7 @@
       var c = moldQcCopy[q.k] || {};
       var lc = c[lang] || c.en || {};
       var p2 = lc.desc2 ? '<p>'+esc(lc.desc2)+'</p>' : '';
-      return '<div class="mqc m-reveal"><div class="mqc-k">'+esc(q.k)+'</div><h4>'+esc(lc.title || q.h)+'</h4><p>'+esc(lc.desc || q.p || '')+'</p>'+p2+'</div>';
+      return '<div class="mqc m-reveal" id="mold-qc-'+esc(q.k)+'"><div class="mqc-k">'+esc(q.k)+'</div><h4>'+esc(lc.title || q.h)+'</h4><p>'+esc(lc.desc || q.p || '')+'</p>'+p2+'</div>';
     }).join('');
   }
   renderMoldFlow();
@@ -549,6 +551,77 @@ document.addEventListener('click', function (e) {
   if (!wasOpen) item.classList.add('open');
 });
 
+
+
+/* ═══════════ FAQ 分组折叠（2026-09-29 方案 P3）═══════════
+   6 个分组头点击切换整组，**手风琴式互斥**：打开一组会关掉其余组（2026-09-29 Alex 要求）。
+   折叠用 .open 类 + grid-template-rows 过渡（不用 display:none —— 幽灵序号走 CSS
+   计数器，display:none 的元素不参与计数，会把 01–21 编号搞乱）。
+   组内题数在这里统计后写入徽标，不在 HTML 里写死数字，内容增删会自动跟着变。
+   组内问答仍由上面那个全文档唯一的 [data-acc-head] 委托处理，互斥范围不变（本就单开）。 */
+(function () {
+  var groups = document.querySelectorAll('.fq-group');
+  if (!groups.length) return;
+
+  var collapseAllBtn = document.querySelector('.fq-collapse-all');
+
+  Array.prototype.forEach.call(groups, function (g) {
+    var badge = g.querySelector('.fq-group-n');
+    if (badge) badge.textContent = g.querySelectorAll('.acc-item').length;
+  });
+
+  function setGroup(g, on) {
+    g.classList.toggle('open', on);
+    var h = g.querySelector('.fq-group-head');
+    if (h) h.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
+
+  /* 「全部收起」按钮只在有组展开时出现；全收起后自己隐藏，不留空占位 */
+  function syncTools() {
+    if (!collapseAllBtn) return;
+    collapseAllBtn.hidden = !document.querySelector('.fq-group.open');
+  }
+
+  /* 互斥展开：先关掉其余组，再开目标组 */
+  function openExclusive(target) {
+    Array.prototype.forEach.call(groups, function (g) {
+      if (g !== target) setGroup(g, false);
+    });
+    setGroup(target, true);
+    syncTools();
+  }
+
+  document.addEventListener('click', function (e) {
+    var head = e.target && e.target.closest && e.target.closest('.fq-group-head');
+    if (!head) return;
+    var g = head.closest('.fq-group');
+    if (!g) return;
+    if (g.classList.contains('open')) { setGroup(g, false); syncTools(); } // 点已展开的 → 收起，全收起也允许
+    else { openExclusive(g); }
+  });
+
+  if (collapseAllBtn) {
+    collapseAllBtn.addEventListener('click', function () {
+      Array.prototype.forEach.call(groups, function (g) { setGroup(g, false); });
+      syncTools();
+    });
+  }
+
+  /* 供站内搜索跳转时程序化展开（同样走互斥）。用 .fq-instant 跳过过渡并强制一次布局，
+     这样调用方紧接着读 offsetTop 拿到的是展开后的最终位置，滚动不会偏。 */
+  window.HONDVO_openFaqGroup = function (el) {
+    var g = el && el.closest && el.closest('.fq-group');
+    if (!g || g.classList.contains('open')) return false;
+    g.classList.add('fq-instant');
+    openExclusive(g);
+    void g.offsetHeight;
+    requestAnimationFrame(function () { g.classList.remove('fq-instant'); });
+    return true;
+  };
+
+  syncTools();
+})();
+
 /* ═══════════ 减少动效判定（P1-22）═══════════
    供轮播、指针跟随等「自动/持续动效」统一使用。
    注意：只影响自动播放类动效，用户主动触发的交互（点击切换）不受影响。 */
@@ -630,6 +703,19 @@ document.addEventListener('click', function (e) {
 
   openLightbox(src);
 
+});
+
+
+/* 页脚社交图标：带 data-qr 的（当前为 WeChat）点击弹出二维码灯箱，不再跳假的 #social- 锚点。
+   图标本身只有 20–24px，放二维码会糊成一团，故保留可辨识的 WeChat 图标，点击后看大图。
+   注：i18n.js 在捕获阶段已对 a[href^="#social-"] preventDefault，此处仍能收到冒泡事件。 */
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest && e.target.closest('a.si-link[data-qr]');
+  if (!a) return;
+  var src = a.getAttribute('data-qr');
+  if (!src) return;
+  e.preventDefault();
+  openLightbox(src);
 });
 
 
@@ -1034,7 +1120,8 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     // General scroll-to: navigate then scroll (事件委托，兼容顶部下拉菜单与动态注入的 footer 链接)
-
+    // 2026-09-29 升级：支持 data-scroll-tab（产品页跨 Tab 定位）+ 自动展开折叠祖先，
+    // 否则跳到折叠条目/FAQ 分组时只会滚到一条收起的标题上，用户看不到内容。
     document.addEventListener('click', function(e){
 
       var link = e.target.closest('a[data-scroll-to]');
@@ -1044,24 +1131,36 @@ document.addEventListener('DOMContentLoaded', function(){
       e.preventDefault();
 
       var targetId = link.getAttribute('data-scroll-to');
-
+      var tabWant  = link.getAttribute('data-scroll-tab');
       var pageHash = link.getAttribute('href');
 
-      location.hash = pageHash;
+      if ((location.hash || '') !== pageHash) location.hash = pageHash;
 
       setTimeout(function(){
 
-        var el = document.getElementById(targetId);
+        // 跨 Tab：必须在 hash 落定后再切（applyProductHash 会按记忆重置 Tab）
+        if (tabWant && typeof window.prodTabsSelect === 'function') window.prodTabsSelect(tabWant);
 
+        var el = document.getElementById(targetId);
         var page = el && el.closest('.page');
 
-        if (el && page) {
+        if (!el || !page) return;
 
-          page.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
-
+        // 目标是折叠条目 → 先展开它（并收起同组其它项）
+        var acc = el.closest('[data-acc-item]');
+        if (acc && !acc.classList.contains('open')) {
+          var grp = acc.closest('[data-acc-group]') || acc.parentElement;
+          if (grp) Array.prototype.forEach.call(grp.querySelectorAll('[data-acc-item].open'), function(o){ o.classList.remove('open'); });
+          acc.classList.add('open');
         }
+        // 目标是 FAQ 分组 → 走分组折叠自己的互斥逻辑
+        if (typeof window.HONDVO_openFaqGroup === 'function') window.HONDVO_openFaqGroup(el);
 
-      }, 180);
+        requestAnimationFrame(function(){
+          page.scrollTo({ top: Math.max(0, el.offsetTop - 80), behavior: 'smooth' });
+        });
+
+      }, 220);
 
     });
 
@@ -1287,8 +1386,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
         if (it.el && it.el !== page){
 
-          page.scrollTo({ top: it.el.offsetTop - 80, behavior: 'smooth' });
-
           var acc = it.el.closest && it.el.closest('.acc-item');
 
           if (acc && !acc.classList.contains('open')) {
@@ -1296,6 +1393,12 @@ document.addEventListener('DOMContentLoaded', function(){
         if (grp) grp.querySelectorAll('[data-acc-item].open').forEach(function(el){ el.classList.remove('open'); });
         acc.classList.add('open');
       }
+
+          // P3：命中的条目可能在被折叠的分组里 → 先展开那一组再算滚动位置。
+          // 顺序不能反：展开会改变上方高度，先滚后开必然滚偏。
+          if (acc && typeof window.HONDVO_openFaqGroup === 'function') window.HONDVO_openFaqGroup(acc);
+
+          page.scrollTo({ top: it.el.offsetTop - 80, behavior: 'smooth' });
 
         } else {
 
@@ -1554,59 +1657,37 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-      // 提交到后端询盘接口（POST /api/inquiries）
-
       var source = (location.hash || '').replace(/^#/, '') || 'page-contact';
 
-      var inquiryBody = JSON.stringify({
+      // 纯静态站点（2026-09-29）：后台询盘接口 POST /api/inquiries 已移除，
+      // 改为唤起本地邮件客户端并预填询盘内容；表单校验与视觉保持不变。
+      var mailSubject = '[Inquiry] ' + (type || 'Website') + ' — ' + name;
 
-        name: name, email: email, phone: phone, company: company,
+      var mailBody = 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
+        '\nEmail: ' + email + '\nInquiry type: ' + type + '\nSource: ' + source +
+        '\n\n' + desc + '\n';
 
-        product: type, message: desc, source: source
+      try {
 
-      });
+        location.href = 'mailto:info@hondvotechnology.com'
+          + '?subject=' + encodeURIComponent(mailSubject)
+          + '&body=' + encodeURIComponent(mailBody);
 
+        btnState('success');
 
+        window.showToast(t('mailto_hint'), 'success');
 
-      fetch((window.HONDVO_API || '/api') + '/inquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: inquiryBody })
+        f.name.value = ''; f.company.value = ''; f.phone.value = '';
 
-        .then(function (res) {
+        f.email.value = ''; f.type.selectedIndex = 0; f.desc.value = '';
 
-          if (!res.ok) throw new Error('inquiry submit failed');
+      } catch (err) {
 
-          return res.json();
+        btnState('error');
 
-        })
+        window.showToast(t('ct_failure'), 'error');
 
-        .then(function () {
-
-          btnState('success');
-
-          window.showToast(t('ct_success'), 'success');
-
-          f.name.value = ''; f.company.value = ''; f.phone.value = '';
-
-          f.email.value = ''; f.type.selectedIndex = 0; f.desc.value = '';
-
-          // 留言采集：表单提交即明示同意，独立于行为追踪 Cookie，始终可用。
-          // 此处只上报非个人身份信息 + visitorId（姓名/电话/邮箱不写入埋点端点）。
-          if (window.__hondvoTrack && typeof window.__hondvoTrack.recordMessage === 'function') {
-            window.__hondvoTrack.recordMessage({
-              product: type, source: source,
-              lang: currentLang(),
-              hasCompany: !!company, hasPhone: !!phone, hasEmail: !!email
-            });
-          }
-
-        })
-
-        .catch(function () {
-
-          btnState('error');
-
-          window.showToast(t('ct_failure'), 'error');
-
-        });
+      }
 
     }
 
@@ -1800,47 +1881,31 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-      // 提交到后端询盘接口（POST /api/inquiries）
-
+      // 纯静态站点（2026-09-29）：后台询盘接口 POST /api/inquiries 已移除，
+      // 改为唤起本地邮件客户端并预填产品询盘内容（source 仍用于来源标注）。
       var source = (location.hash || '').replace(/^#/, '') || 'page-products';
 
-      var inquiryBody = JSON.stringify({
+      var mailSubject = '[Inquiry] ' + title + ' — ' + name;
 
-        name: name, email: email, phone: phone, company: company,
+      var mailBody = 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
+        '\nEmail: ' + email + '\nProduct: ' + title + '\nSource: ' + source +
+        '\n\n' + msgParts.join('\n') + '\n';
 
-        product: title, message: msgParts.join('\n'), source: source
+      try {
 
-      });
+        location.href = 'mailto:info@hondvotechnology.com'
+          + '?subject=' + encodeURIComponent(mailSubject)
+          + '&body=' + encodeURIComponent(mailBody);
 
-
-
-      fetch((window.HONDVO_API || '/api') + '/inquiries', {
-
-        method: 'POST', headers: {'Content-Type': 'application/json'}, body: inquiryBody
-
-      })
-
-      .then(function (res) {
-
-        if (!res.ok) throw new Error('inquiry submit failed');
-
-        return res.json();
-
-      })
-
-      .then(function () {
-
-        btn.textContent = t('pc_success_msg') || 'Submitted! We will contact you within 24h';
+        btn.textContent = '✓';
 
         btn.style.background = 'var(--success)';
 
-        window.showToast(t('pc_success_msg') || 'Submitted! We will contact you within 24h', 'success');
+        window.showToast(t('mailto_hint'), 'success');
 
         setTimeout(function(){ closeModal(modal.id); resetModalBtn(btn); }, 2500);
 
-      })
-
-      .catch(function () {
+      } catch (err) {
 
         btn.textContent = t('pc_failure_msg') || 'Failed, please try again';
 
@@ -1850,7 +1915,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         setTimeout(function(){ resetModalBtn(btn); }, 3000);
 
-      });
+      }
 
     });
 
@@ -2171,15 +2236,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
 (function () {
 
-  // 基址唯一出口为 api-client.js 解析后写入的 window.HONDVO_API，此处只读、不再自行解析。
-  // 兜底 '/api' 为同源路径，非环境硬编码。
-  var API = window.HONDVO_API || '/api';
-
-
-
+  // 2026-09-29：后台通道已移除。原「基址解析 + POST /api/collect/* 行为埋点 + visitorId 采集」
+  // 一并删除；本块现只保留 Cookie 同意横幅（保留原有可见 UI），状态仍记录在 localStorage。
   var CONSENT_KEY = 'hondvo_cookie_consent';
-
-  var VID_KEY = 'hondvo_vid';
 
 
 
@@ -2213,20 +2272,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
   }
 
-  function getVid() {
-
-    try {
-
-      var v = localStorage.getItem(VID_KEY);
-
-      if (!v) { v = 'v_' + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem(VID_KEY, v); }
-
-      return v;
-
-    } catch (e) { return 'anon_' + Date.now(); }
-
-  }
-
   function curLang() {
 
     return document.documentElement.getAttribute('lang')
@@ -2239,27 +2284,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function curPage() { var h = location.hash || ''; return h.replace(/^#/, '') || 'page-home'; }
 
-  function send(path, payload) {
-
-    try {
-
-      var url = API + '/collect/' + path;
-
-      var body = JSON.stringify(payload);
-
-      if (navigator.sendBeacon) {
-
-        navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }));
-
-      } else {
-
-        fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true });
-
-      }
-
-    } catch (e) {}
-
-  }
+  // 原 send(path, payload) → POST /api/collect/{path}（sendBeacon / fetch keepalive）已随后台通道删除。
 
 
 
@@ -2371,7 +2396,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     var reject = document.getElementById('hc-reject');
 
-    if (accept) accept.onclick = function () { setConsent('accepted'); hideBanner(); initTracker(); };
+    if (accept) accept.onclick = function () { setConsent('accepted'); hideBanner(); };
 
     if (reject) reject.onclick = function () { setConsent('rejected'); hideBanner(); };
 
@@ -2379,87 +2404,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-  // ---- 行为追踪（仅同意后才启用页面浏览 / 搜索采集） ----
-
-  function initTracker() {
-
-    if (window.__hondvoTrackerReady) return;
-
-    window.__hondvoTrackerReady = true;
-
-    var vid = getVid();
-
-    var pageEnter = Date.now();
-
-    var lastPage = curPage();
-
-    function detectDevice() {
-
-      var ua = navigator.userAgent || '';
-
-      return /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(ua) ? 'mobile' : 'desktop';
-
-    }
-
-    function pv(page, dur) { send('pageview', { page: page, referrer: document.referrer, country: '', device: detectDevice(), duration: Math.round(dur / 1000) }); }
-
-    pv(lastPage, 0);
-
-    window.addEventListener('hashchange', function () {
-
-      var now = Date.now(); pv(lastPage, now - pageEnter); lastPage = curPage(); pageEnter = now;
-
-    });
-
-    window.addEventListener('beforeunload', function () { pv(lastPage, Date.now() - pageEnter); });
-
-    var input = document.getElementById('search-input');
-
-    if (input) {
-
-      var h;
-
-      input.addEventListener('input', function () {
-
-        clearTimeout(h);
-
-        h = setTimeout(function () {
-
-          var term = input.value.trim(); if (term.length < 1) return;
-
-          var results = document.querySelectorAll('#search-results .search-result-item').length;
-
-          send('search', { visitorId: vid, term: term, lang: curLang(), resultsCount: results });
-
-        }, 700);
-
-      });
-
-    }
-
-  }
-
-
-
-  // 留言采集：表单提交即明示同意，独立于行为追踪 Cookie，始终可用
-
-  window.__hondvoTrack = {
-
-    recordMessage: function (data) {
-
-      data = data || {};
-
-      data.visitorId = getVid();
-
-      data.lang = data.lang || curLang();
-
-      data.page = data.page || curPage();
-
-      send('message', data);
-
-    }
-
-  };
+  // 2026-09-29：原行为追踪（initTracker：pageview / search 上报）与留言埋点出口
+  // window.__hondvoTrack（message 上报）已随后台通道整体删除。
 
 
 
@@ -2471,7 +2417,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
       var c = getConsent();
 
-      if (c === 'accepted') { initTracker(); return; }
+      if (c === 'accepted') { return; }
 
       if (c === 'rejected') { return; }
 
@@ -2549,39 +2495,148 @@ function bindLists(){
         const a = document.createElement("a");
         a.href = "#";
         a.textContent = text;
-        // 产品三 Tab 下拉：子项点击跳转对应 Tab（依赖全局 prodTabsOpen，见文件末尾 Tab 逻辑）
-        var TAB_KEYS = { prod_browse_items:"browse", prod_discover_items:"discover", prod_industries_items:"industries" };
-        // 非产品下拉项 → 目标页面（按 data-list 前缀映射）
+        // 目标页面兜底（未在下方 ITEM_LINK 显式列出的列表用）
         var PAGE_FALLBACK = {
           mold_browse_items:"page-mold", mold_discover_items:"page-mold", mold_learn_items:"page-mold",
           qual_browse_items:"page-qualifications", qual_discover_items:"page-qualifications", qual_manage_items:"page-qualifications",
           faq_browse_items:"page-faq", faq_discover_items:"page-faq", faq_after_items:"page-faq",
           about_browse_items:"page-about", about_discover_items:"page-about", about_contact_items:"page-about",
-          contact_browse_items:"page-contact", contact_discover_items:"page-contact", contact_loc_items:"page-contact"
+          contact_browse_items:"page-contact", contact_discover_items:"page-contact", contact_loc_items:"page-contact",
+          contact_join_items:"page-careers"
         };
-        var tabKey = TAB_KEYS[k];
         var pageKey = PAGE_FALLBACK[k];
-        // 资质实力下拉：子项 → 页面内锚点（按 data-list + 下标映射到对应板块）
-        var ANCHOR_MAP = {
-          qual_browse_items:["qual-overview","qual-overview","qual-overview"],
-          qual_discover_items:["qual-env","qual-env"],
-          qual_manage_items:["qual-iqoq","qual-eq"]
+        // 页面内锚点（按 data-list + 下标映射；data-scroll-to 支持跨页跳转后滚动到指定版块）
+        // 保留为兜底：若日后新增的列表没在下方 ITEM_LINK 里显式登记，
+        // 仍能按「整列 → 同一页面（+可选锚点）」的旧行为工作。
+        var ANCHOR_MAP = {};
+        /* ══ 2026-09-29 导航审查后重建 ══════════════════════════════════════
+           每个子项显式给出 { page, tab, id }：
+             page = 目标页；tab = 产品页三分类（跨 Tab 时先切 Tab 再定位）；
+             id   = 页面内真实存在的版块/条目 id（JS 动态生成的条目标了稳定 id：
+                    prod-<tab>-<i> / mold-cap-<key> / mold-flow-<n> / mold-qc-<K> / qual-eq-<key>）。
+           `data-scroll-tab` 由下方统一滚动处理器读取；缺 tab/id 时自动跳过该步。
+           ⚠️ 改这张表前请先跑 _check_nav_links.js —— 它会断言每个 id 在页面真实存在。 */
+        var ITEM_LINK = {
+          /* —— 产品与服务：三 Tab 的真实折叠条目 —— */
+          prod_browse_items: [
+            { page:"page-products", tab:"browse", id:"prod-browse-0" },
+            { page:"page-products", tab:"browse", id:"prod-browse-1" },
+            { page:"page-products", tab:"browse", id:"prod-browse-2" },
+            { page:"page-products", tab:"browse", id:"prod-browse-3" }
+          ],
+          prod_discover_items: [
+            { page:"page-products", tab:"discover", id:"prod-discover-0" },
+            { page:"page-products", tab:"discover", id:"prod-discover-1" },
+            { page:"page-products", tab:"discover", id:"prod-discover-2" }
+          ],
+          prod_industries_items: [
+            { page:"page-products", tab:"industries", id:"prod-industries-0" },
+            { page:"page-products", tab:"industries", id:"prod-industries-1" },
+            { page:"page-products", tab:"industries", id:"prod-industries-2" },
+            { page:"page-products", tab:"industries", id:"prod-industries-3" }
+          ],
+          /* —— 模具中心：模具能力 / 制造工艺 / 质量体系（均为模具页真实版块）—— */
+          mold_browse_items: [
+            { page:"page-mold", id:"mold-cap-ivd" },
+            { page:"page-mold", id:"mold-cap-interv" },
+            { page:"page-mold", id:"mold-cap-drug" },
+            { page:"page-mold", id:"mold-cap-lsr" }
+          ],
+          mold_discover_items: [
+            { page:"page-mold", id:"mold-flow-1" },
+            { page:"page-mold", id:"mold-flow-2" },
+            { page:"page-mold", id:"mold-flow-3" },
+            { page:"page-mold", id:"mold-flow-4" },
+            { page:"page-mold", id:"mold-flow-5" },
+            { page:"page-mold", id:"mold-flow-6" }
+          ],
+          mold_learn_items: [
+            { page:"page-mold", id:"mold-qc-IQC" },
+            { page:"page-mold", id:"mold-qc-IPQC" },
+            { page:"page-mold", id:"mold-qc-OQC" },
+            { page:"page-mold", id:"mold-qc-CMM" }
+          ],
+          /* —— 资质实力：证书 / 环境与验证 / 加工与检测设备 —— */
+          qual_browse_items: [
+            { page:"page-qualifications", id:"qual-cert-iatf" },
+            { page:"page-qualifications", id:"qual-cert-13485" },
+            { page:"page-qualifications", id:"qual-cert-9001" }
+          ],
+          qual_discover_items: [
+            { page:"page-qualifications", id:"qual-env" },
+            { page:"page-qualifications", id:"qual-iqoq" }
+          ],
+          qual_manage_items: [
+            { page:"page-qualifications", id:"qual-eq-cnc" },
+            { page:"page-qualifications", id:"qual-eq-edm" },
+            { page:"page-qualifications", id:"qual-eq-wire" },
+            { page:"page-qualifications", id:"qual-eq-grinder" },
+            { page:"page-qualifications", id:"qual-eq-injection" },
+            { page:"page-qualifications", id:"qual-eq-qc" }
+          ],
+          /* —— 常见问题：六个真实分组 + 资料订阅 + 友链 —— */
+          faq_browse_items: [
+            { page:"page-faq", id:"fq-group-1" },
+            { page:"page-faq", id:"fq-group-2" },
+            { page:"page-faq", id:"fq-group-3" },
+            { page:"page-faq", id:"fq-group-4" },
+            { page:"page-faq", id:"fq-group-5" },
+            { page:"page-faq", id:"fq-group-6" }
+          ],
+          faq_discover_items: [
+            { page:"page-faq", id:"faq-downloads" },
+            { page:"page-faq", id:"faq-subscribe" }
+          ],
+          faq_after_items: [
+            { page:"page-faq", id:"faq-links" }
+          ],
+          /* —— 关于我们：公司 / 团队与案例 / 联络方式 —— */
+          about_browse_items: [
+            { page:"page-about", id:"about-who" },
+            { page:"page-about", id:"about-values" },
+            { page:"page-about", id:"about-spirit" }
+          ],
+          about_discover_items: [
+            { page:"page-about", id:"about-team" },
+            { page:"page-about", id:"about-cases" },
+            { page:"page-about", id:"about-partners" }
+          ],
+          about_contact_items: [
+            { page:"page-contact", id:"contact-form" },
+            { page:"page-contact", id:"ct-offices" },
+            { page:"page-careers" }
+          ],
+          /* —— 联系我们：销售 / 支持 / 地点 / 加入我们 —— */
+          contact_browse_items: [
+            { page:"page-contact", id:"contact-form" },
+            { page:"page-contact", id:"ct-offices" },
+            { page:"page-contact", id:"ct-contact-line" }
+          ],
+          contact_discover_items: [
+            { page:"page-contact", id:"contact-form" },
+            { page:"page-faq", id:"faq-downloads" },
+            { page:"page-faq", id:"faq-qa" }
+          ],
+          contact_loc_items: [
+            { page:"page-contact", id:"ct-offices" },
+            { page:"page-about", id:"partner-map" },
+            { page:"page-contact", id:"contact-form" }
+          ],
+          contact_join_items: [
+            { page:"page-careers" }
+          ]
         };
-        if (tabKey) {
-          a.setAttribute("data-nav-tab", tabKey);
-          // 点击时才判断 prodTabsOpen（避免 init 时序：Tab IIFE 在文件末尾才暴露）
-          a.addEventListener("click", function(e){
-            e.preventDefault();
-            if (typeof window.prodTabsOpen === "function") {
-              window.prodTabsOpen(tabKey);
-            } else {
-              location.hash = "#page-products";
-            }
-          });
-        } else {
-          if (pageKey) a.href = "#" + pageKey;
-          var anchors = ANCHOR_MAP[k];
-          if (anchors && anchors[idx]) a.setAttribute("data-scroll-to", anchors[idx]);
+        {
+          var override = ITEM_LINK[k] && ITEM_LINK[k][idx];
+          if (override) {
+            a.href = "#" + override.page;
+            if (override.tab) a.setAttribute("data-scroll-tab", override.tab);
+            if (override.id) a.setAttribute("data-scroll-to", override.id);
+          } else {
+            if (pageKey) a.href = "#" + pageKey;
+            var anchors = ANCHOR_MAP[k];
+            if (anchors && anchors[idx]) a.setAttribute("data-scroll-to", anchors[idx]);
+          }
         }
         li.appendChild(a);
         ul.appendChild(li);
@@ -2620,8 +2675,22 @@ function bindLangPop(){
 function bindDrawer(){
   const sheet = document.getElementById("hnav-drawer-sheet");
   const d = dict();
-  sheet.innerHTML = ["products","mold","qual","faq","about","contact"].map(k=>{
-    return `<div class="group"><a href="#page-${k}">${d["nav_"+k]||""}</a></div>`;
+  // 2026-09-29 导航梳理：
+  //  1) 补齐原缺失的一级入口：首页 / 新闻动态 / 人才招聘
+  //  2) 修正「资质实力」原硬拼 #page-qual（该 id 不存在）→ 实际为 #page-qualifications
+  const ITEMS = [
+    ["home","page-home"],
+    ["products","page-products"],
+    ["mold","page-mold"],
+    ["qual","page-qualifications"],
+    ["faq","page-faq"],
+    ["news","page-news"],
+    ["about","page-about"],
+    ["contact","page-contact"],
+    ["careers","page-careers"]
+  ];
+  sheet.innerHTML = ITEMS.map(([k,id])=>{
+    return `<div class="group"><a href="#${id}">${d["nav_"+k]||""}</a></div>`;
   }).join("") + `<a href="#page-contact" class="cta">${d.cta||""}</a>`;
 }
 
@@ -2853,7 +2922,7 @@ document.addEventListener("hondvo:lang", function () {
       if (root.dataset.accBuilt && !force) return;
       root.dataset.accBuilt = "1";
       var groups = PROD_ACC[tab] || [];
-      root.innerHTML = groups.map(function(g){
+      root.innerHTML = groups.map(function(g, gi){
         var title = accTitle(g);
         var desc = accDesc(g);
         var pos = desc ? '<div class="t-sub">' + escProd(desc) + '</div>' : "";
@@ -2861,7 +2930,7 @@ document.addEventListener("hondvo:lang", function () {
         var photos = [1, 2].map(function(i){
           return '<div class="photo-slot" data-cap="' + escProd(title) + ' 实拍 ' + i + '"><span class="lbl">' + escProd(title) + ' 实拍 ' + i + '</span></div>';
         }).join("");
-        return '<div class="prod-item" data-acc-item="1">'
+        return '<div class="prod-item" id="prod-' + tab + '-' + gi + '" data-acc-item="1">'
           + '<div class="prod-head" data-acc-head="1"><div class="prod-ico">' + escProd(g.icon || "") + '</div>'
           + '<div class="prod-t"><div class="t-zh">' + escProd(title) + '</div>'
           + pos + '</div>'
@@ -3018,4 +3087,71 @@ document.addEventListener("hondvo:lang", function () {
 
   // 暴露给 bindLists 生成的导航下拉子项
   window.prodTabsOpen = openTab;
+  // 只切 Tab、不滚动：供导航下拉「跨 Tab 定位到具体条目」用（由统一滚动处理器调用）
+  window.prodTabsSelect = prodTab;
+})();
+
+
+/* ═══════════ CAREERS · 人才理念轮播（2026-09-29 按 PPT 内容策划新增）═══════════
+   轨道即滚动容器（CSS scroll-snap），箭头/圆点用 scrollTo 驱动，滚动时回写圆点。
+   ⚠️ 圆点刻意不用 <a href="#..."> 锚点：本站是 :target 路由，非页面 hash 会让所有
+      .page 失去 :target 而全部隐藏（白屏）——这也是页脚社交图标要拦截 #social- 的同因。 */
+(function () {
+  'use strict';
+  var track = document.getElementById('cr-track');
+  var dotsBox = document.getElementById('cr-dots');
+  var prev = document.getElementById('cr-prev');
+  var next = document.getElementById('cr-next');
+  if (!track || !dotsBox) return;
+
+  var slides = Array.prototype.slice.call(track.querySelectorAll('.cr-slide'));
+  if (slides.length < 2) return;
+
+  var current = 0;
+  var dots = [];
+
+  slides.forEach(function (_, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'cr-dot' + (i === 0 ? ' on' : '');
+    b.setAttribute('aria-label', 'Slide ' + (i + 1));
+    b.addEventListener('click', function () { go(i); });
+    dotsBox.appendChild(b);
+    dots.push(b);
+  });
+
+  function sync(i) {
+    current = i;
+    dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+  }
+  function go(i) {
+    var n = slides.length;
+    i = ((i % n) + n) % n;                       // 两端循环
+    track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+    sync(i);
+  }
+
+  if (prev) prev.addEventListener('click', function () { go(current - 1); });
+  if (next) next.addEventListener('click', function () { go(current + 1); });
+
+  // 手动拖动 / 滚动后回写圆点（rAF 节流）
+  var raf = null;
+  track.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = null;
+      var w = track.clientWidth || 1;
+      var i = Math.round(track.scrollLeft / w);
+      if (i !== current && i >= 0 && i < slides.length) sync(i);
+    });
+  }, { passive: true });
+
+  // 键盘可达：焦点在轨道内时左右方向键翻屏
+  track.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    go(current + (e.key === 'ArrowRight' ? 1 : -1));
+  });
+
+  sync(0);
 })();

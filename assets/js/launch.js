@@ -1,17 +1,30 @@
 /* ═══════════════════════════════════════════════════════════════
    LAUNCH SCREEN — 启动加载屏收幕逻辑（配套 launch.css）
    规则：window load 后稍候，或 3.4s 兜底计时，二者先到先收 → 0.8s 淡出后移除。
-   仅在整站首次加载播放；SPA 切页(hashchange)不触发，不会重复打扰。
+   播放时机（2026-09-29 调整）：**每个会话只在首次进入时播放一次**。
+     · 本次会话已看过 → <head> 的早期脚本给 <html> 加 .launch-skip，
+       launch.css 首帧即隐藏幕布；本脚本直接返回，不加 launch-lock，
+       也不加 launch-armed（导航因此按常规动画正常入场）。
+     · SPA 切页（hashchange）本就不触发本文件，只有整页加载才会执行。
    独立文件，可整体回滚。
    ═══════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
 
+  var html = document.documentElement;
   var launch = document.getElementById('launch');
-  if (!launch) return;
+
+  // 本次会话已看过（或页面上本就没有幕布）→ 直接跳过，不做任何锁屏/遮罩
+  if (!launch || html.classList.contains('launch-skip')) {
+    if (launch) launch.style.display = 'none';  // 双保险：即便 launch.css 未生效也不占交互层
+    return;
+  }
 
   var DONE = false;
-  var html = document.documentElement;
+
+  // 决策为"要播放"就立刻记账，而不是等收幕才记 ——
+  // 这样即使用户在幕布播放期间刷新，本次会话也不会重播。
+  try { sessionStorage.setItem('hondvo_launch_seen', '1'); } catch (e) {}
 
   function close() {
     if (DONE) return;

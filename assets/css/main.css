@@ -1036,7 +1036,8 @@
   /* ═══════════ M7 附加模块（FAQ/招聘/友链/订阅/下载）═══════════ */
   .m7-section { padding: 0 clamp(24px, 5vw, 40px) var(--sp-6); max-width: var(--container); margin: 0 auto; }
   .m7-section .sec-header { padding-top: var(--section-gap); }
-  .m7-faq-list { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  /* counter-reset: fq —— 供下方 .acc-item::after 的幽灵序号计数（纯 CSS，不改 HTML） */
+  .m7-faq-list { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; counter-reset: fq; }
   .m7-jobs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
   .m7-job-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s; }
   .m7-job-card:hover { border-color: var(--brand); box-shadow: 0 4px 18px var(--black-6); transform: translateY(-2px); }
@@ -1063,6 +1064,105 @@
   .m7-sub-msg { max-width: 520px; margin: 14px auto 0; text-align: center; font-size: 13.5px; min-height: 20px; }
   .m7-sub-msg.ok { color: var(--brand-strong); }
   .m7-sub-msg.err { color: #c0392b; }
+  /* 静态站占位：后台数据源已移除，列表位统一显示占位说明块 */
+  .m7-empty { max-width: 720px; margin: 0 auto; text-align: center; font-size: 13.5px; line-height: 1.8; color: var(--text-muted); background: var(--neutral-50); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; }
+  .m7-jobs-grid .m7-empty { grid-column: 1 / -1; }
+  /* FAQ 分组折叠（2026-09-29 方案 P3）。原 `.m7-faq-cat` 静态分组标签已被
+     `.fq-group-head` 可点击组头取代，那三条规则随之删除（全仓零引用）。
+     折叠刻意用 grid-template-rows 而**不是** display:none：右上角幽灵序号走 CSS 计数器，
+     display:none 的元素不参与计数，会让 01–21 编号错乱；grid 折叠的元素仍照常计数。 */
+  .fq-group-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .48s var(--ease-out); }
+  .fq-group.open .fq-group-body { grid-template-rows: 1fr; }
+  .fq-group-inner { min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 14px; }
+  /* 组内首条与组头之间的间距用 margin 而非 padding：
+     padding 在 0 高度盒子里不会被 overflow 裁掉，会在收起态留出残高。 */
+  .fq-group-inner > .acc-item:first-child { margin-top: 14px; }
+
+  .fq-group-head { display: flex; align-items: center; gap: 12px; width: 100%; padding: 15px 20px;
+                   background: var(--brand-soft); border: 1px solid var(--brand-15); border-radius: 14px;
+                   cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 700;
+                   letter-spacing: .08em; color: var(--brand-strong); text-transform: uppercase; text-align: left;
+                   transition: background .24s var(--ease), border-color .24s var(--ease), box-shadow .24s var(--ease); }
+  .fq-group-head::before { content: ''; flex: 0 0 auto; width: 3px; height: 15px;
+                           background: var(--brand); border-radius: 2px; }
+  .fq-group-head:hover { background: var(--brand-15); box-shadow: 0 8px 20px var(--brand-10); }
+  .fq-group.open .fq-group-head { border-color: var(--brand-30); box-shadow: 0 8px 22px var(--brand-10); }
+  .fq-group-n { margin-left: auto; padding: 2px 9px; font-size: 11.5px; font-weight: 700;
+                letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums;
+                color: var(--brand-strong); background: var(--white);
+                border: 1px solid var(--brand-15); border-radius: var(--r-full); }
+  .fq-group-chev { font-size: 10px; color: var(--brand); transition: transform .36s var(--ease-out); }
+  .fq-group.open .fq-group-chev { transform: rotate(180deg); }
+
+  /* 「全部收起」：分组为手风琴式互斥（打开一组会关掉其余组），所以不存在「展开全部」。
+     按钮只在有组展开时出现，收起后自己隐藏、不占位。 */
+  .fq-tools { max-width: 900px; margin: 0 auto; display: flex; justify-content: flex-end; }
+  /* 纵向间距挂在按钮上（而不是容器）——按钮 hidden 时不留 14px 空档 */
+  .fq-collapse-all { margin-bottom: 14px; padding: 6px 15px; font-family: inherit; font-size: 12.5px; font-weight: 600;
+                     color: var(--brand-strong); background: var(--white);
+                     border: 1px solid var(--brand-15); border-radius: var(--r-full); cursor: pointer;
+                     transition: background .22s var(--ease), border-color .22s var(--ease); }
+  .fq-collapse-all:hover { background: var(--brand-soft); border-color: var(--brand-30); }
+  .fq-collapse-all[hidden] { display: none; }
+
+  /* 由站内搜索跳转过来的程序化展开：跳过过渡，保证定位算在最终布局上 */
+  .fq-group.fq-instant .fq-group-body { transition: none !important; }
+
+  @media (max-width: 480px) { .fq-tools { margin-bottom: 10px; } .fq-group-head { padding: 14px 16px; } }
+
+  /* ═══════════ CAREERS · 招贤纳士页组件（2026-09-29 按 PPT 内容策划新增）═══════════ */
+  /* —— 人才理念：3 屏横向 scroll-snap 轮播。刻意不使用 #hash 锚点做圆点，
+     因为本站 :target 路由会让非页面 hash 直接导致全部 .page 隐藏（白屏）。 —— */
+  .cr-concept { max-width: var(--container); margin: 0 auto; padding: 0 clamp(24px, 5vw, 40px) var(--sp-6); }
+  .cr-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+              border-radius: 16px; border: 1px solid var(--border); background: var(--surface);
+              scrollbar-width: none; -ms-overflow-style: none; }
+  .cr-track::-webkit-scrollbar { display: none; }
+  .cr-slide { flex: 0 0 100%; scroll-snap-align: start; display: grid;
+              grid-template-columns: 1.05fr .95fr; gap: clamp(20px, 3vw, 40px); align-items: center;
+              padding: clamp(28px, 4vw, 48px); }
+  .cr-slide--wide { grid-template-columns: 1fr; }
+  .cr-text h3 { font-size: clamp(20px, 2.3vw, 28px); font-weight: 800; line-height: 1.42; color: var(--text); margin: 14px 0; }
+  .cr-text p { font-size: 15px; line-height: 1.95; color: var(--text-muted); }
+  .cr-eyebrow { display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing: .1em;
+                color: var(--brand-strong); background: var(--brand-soft); padding: 4px 12px; border-radius: 999px; }
+  .cr-fit-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .cr-fit-list li { position: relative; padding-left: 26px; font-size: 15px; line-height: 1.75; color: var(--text); }
+  .cr-fit-list li::before { content: ''; position: absolute; left: 6px; top: .68em; width: 8px; height: 8px;
+                            border-radius: 50%; background: var(--brand); }
+  .cr-media { border-radius: 12px; overflow: hidden; background: var(--neutral-100); }
+  .cr-media img { width: 100%; height: 100%; max-height: 320px; object-fit: cover; display: block; }
+  .cr-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 16px; }
+  .cr-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
+              background: var(--surface); color: var(--text-muted); font-size: 18px; line-height: 1;
+              cursor: pointer; display: flex; align-items: center; justify-content: center;
+              transition: color .2s, border-color .2s; }
+  .cr-arrow:hover { color: var(--brand); border-color: var(--brand); }
+  .cr-dots { display: flex; gap: 8px; }
+  .cr-dot { width: 8px; height: 8px; border-radius: 50%; border: none; padding: 0; cursor: pointer;
+            background: var(--neutral-300); transition: background .2s, transform .2s; }
+  .cr-dot.on { background: var(--brand); transform: scale(1.3); }
+  @media (max-width: 820px) { .cr-slide { grid-template-columns: 1fr; } .cr-media { order: -1; } }
+
+  /* —— 职业发展：图文块 —— */
+  .cr-block { max-width: 1100px; margin: 0 auto; padding-bottom: var(--sp-6); }
+  .cr-block:last-child { padding-bottom: 0; }
+  .cr-block-text h3 { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .cr-block-text h3::before { content: ''; display: inline-block; width: 18px; height: 2px; background: var(--brand);
+                              vertical-align: middle; margin-right: 10px; }
+  .cr-block-text p { font-size: 15px; line-height: 1.95; color: var(--text-muted); margin-bottom: 22px; }
+
+  /* —— 产能提升路线图：改用《Manufacturing Capability Improvement Plan 2025→2030》原图 —— */
+  .cr-roadmap { margin: 0; }
+  .cr-roadmap img { width: 100%; height: auto; display: block; border: 1px solid var(--border);
+                    border-radius: 12px; background: var(--surface); }
+
+  /* —— 培训四宫格 —— */
+  .cr-train { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .cr-train-item { background: var(--brand-soft); border-radius: 10px; padding: 16px 18px; }
+  .cr-train-item h4 { font-size: 14.5px; font-weight: 700; color: var(--brand-strong); margin-bottom: 6px; }
+  .cr-train-item p { font-size: 13.5px; line-height: 1.72; color: var(--text-muted); margin: 0; }
+  @media (max-width: 620px) { .cr-train { grid-template-columns: 1fr; } }
   @media (max-width: 768px) {
     .m7-section { padding: 0 20px 40px; }
     .m7-sub-form { flex-direction: column; }
@@ -1389,6 +1489,7 @@
   .team-card h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
 
   .team-card .role { font-size: 13px; color: var(--text-muted); }
+  .team-card .bio { font-size: 12.5px; line-height: 1.68; color: var(--text-muted); margin: 8px auto 0; max-width: 260px; }
 
 
 
@@ -1398,55 +1499,115 @@
 
   .prod-accordion { max-width: 1100px; margin: 36px auto 0; display: flex; flex-direction: column; gap: 16px; }
 
-  .acc-item { background: var(--white); border: 1px solid var(--border); transition: border-color 0.25s, box-shadow 0.25s; }
+  /* ═══════════ FAQ 手风琴 —— 方案 B「悬浮卡片 + 幽灵序号」（2026-09-29）═══════════
+     .acc-* 系列当前是 `#m7-faq-list` 独占（全仓唯一的消费者），所以在此直接重写，
+     不再叠一层更高特异性的选择器去覆盖自身 —— 否则会留下两套规则互相打架。
+     同时修掉两个既有缺陷：
+       ① 原 `.acc-item:nth-child(2)/(3) .acc-icon` 按 DOM 位置给徽标上色。但 FAQ 的 21 个
+          条目之间穿插了 6 个 `.m7-faq-cat` 分组标签，nth-child 数的是全部兄弟节点，
+          结果只有 Q1（第 2 个子元素）变橙、其余 20 个全是导航蓝。→ 已删除该规则。
+       ② 原 `.acc-body{max-height:800px}` 有高度硬上限。Q9 的追溯性答案约 1250 字符，
+          桌面端够、但窄屏（375px）约 880px 会被裁掉一截。→ 改为 grid-template-rows
+          0fr→1fr，无上限，缓动曲线也才正确（max-height 配硬上限做不出正确缓动）。
+     注意：`grid-template-rows` 的过渡需 Chrome 107+ / Safari 16+ / Firefox 128+；
+     更老的浏览器降级为「瞬时展开」，功能不受影响，只是没有动画。 */
 
-  .acc-item:hover { border-color: var(--brand); }
+  .acc-item {
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: 16px;
+    box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 10px 26px -20px rgba(15,23,42,.40);
+    counter-increment: fq;
+    transition: transform .34s var(--ease-out), box-shadow .34s var(--ease-out), border-color .3s var(--ease);
+  }
 
-  .acc-item.open { border-color: var(--brand); box-shadow: 0 2px 18px var(--black-6); }
+  /* 右上角幽灵序号 01–21（CSS 计数器生成，无需改 HTML） */
+  .acc-item::after {
+    content: counter(fq, decimal-leading-zero);
+    position: absolute; top: 12px; right: 56px;
+    font-size: 40px; font-weight: 800; line-height: 1; letter-spacing: -.03em;
+    color: var(--brand-10); pointer-events: none;
+    transition: color .3s var(--ease), transform .4s var(--ease-out);
+  }
 
-  .acc-header { display: flex; align-items: center; gap: 16px; width: 100%; padding: 20px 30px; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text); text-align: left; transition: color 0.2s; }
+  .acc-item:hover { transform: translateY(-2px); border-color: var(--brand-25);
+                    box-shadow: 0 2px 5px rgba(15,23,42,.05), 0 18px 36px -22px rgba(216,120,48,.60); }
+
+  .acc-item.open { transform: translateY(-2px); border-color: var(--brand-30);
+                   box-shadow: 0 2px 6px rgba(15,23,42,.06), 0 22px 44px -24px rgba(216,120,48,.66); }
+
+  .acc-item.open::after { color: var(--brand-18); transform: translateY(-2px); }
+
+  .acc-header {
+    display: flex; align-items: center; gap: 14px; width: 100%;
+    padding: 20px 26px; background: none; border: none; cursor: pointer;
+    font-family: inherit; font-size: 14.5px; font-weight: 600; line-height: 1.55;
+    color: var(--text); text-align: left;
+    transition: color .24s var(--ease);
+  }
 
   .acc-header:hover { color: var(--brand); }
 
-  .acc-item.open .acc-header { color: var(--brand); }
+  .acc-item.open .acc-header { color: var(--text); }
 
-  .acc-icon { flex-shrink: 0; width: 48px; height: 48px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13.5px; font-weight: 700; color: var(--white); background: var(--accent); transition: background 0.25s, transform 0.25s; }
+  .acc-icon {
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12.5px; font-weight: 700; color: var(--white); background: var(--accent);
+    transition: background .3s var(--ease), transform .34s var(--ease-spring);
+  }
 
-  .acc-item:nth-child(2) .acc-icon { background: var(--brand); }
+  .acc-item.open .acc-icon { background: var(--brand); transform: scale(1.06); }
 
-  .acc-item:nth-child(3) .acc-icon { background: var(--accent); }
+  /* padding-right 为幽灵序号预留净空，避免题干跑到序号底下 */
+  .acc-label { flex: 1; padding-right: 104px; }
 
-  .acc-item.open .acc-icon { transform: scale(1.06); }
-
-  .acc-label { flex: 1; }
-
-  .acc-arrow { flex-shrink: 0; font-size: 14px; color: var(--neutral-500); transition: transform 0.3s; }
+  .acc-arrow { flex-shrink: 0; font-size: 11px; color: var(--neutral-400);
+               transition: transform .3s var(--ease-out), color .24s var(--ease); }
 
   .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--brand); }
 
-  .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
+  .acc-body {
+    display: grid; grid-template-rows: 0fr;
+    overflow: hidden; opacity: 0;
+    transition: grid-template-rows .46s var(--ease-out), opacity .3s var(--ease);
+  }
 
-  .acc-item.open .acc-body { max-height: 800px; }
+  .acc-item.open .acc-body { grid-template-rows: 1fr; opacity: 1; }
 
-  .acc-content { padding: 0 30px 28px 60px; }
+  .acc-content { min-height: 0; overflow: hidden; padding: 0 26px 24px; }
 
-  .acc-desc { font-size: 15px; color: var(--text-muted); line-height: 1.9; margin-bottom: 20px; }
+  .acc-desc {
+    font-size: 14.5px; color: var(--text-muted); line-height: 1.95; margin-bottom: 0;
+    padding-left: 16px; border-left: 2px solid var(--brand-15);
+    opacity: 0; transform: translateY(-5px);
+    transition: opacity .32s .07s var(--ease), transform .38s .07s var(--ease-out);
+  }
 
-  .acc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+  .acc-item.open .acc-desc { opacity: 1; transform: none; }
 
-  .acc-card { background: var(--surface-mist); border-radius: 10px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: default; }
+  /* 已删除 `.acc-grid / .acc-card*` —— 旧「产品分类折叠栏」的配图卡片样式，
+     全仓零引用（产品折叠栏已不在任何页面），留着只会误导后续维护。 */
 
-  .acc-card:hover { transform: translateY(-2px); box-shadow: 0 4px 18px var(--black-8); }
+  @media (max-width: 768px) {
+    .acc-header { padding: 18px 20px; gap: 12px; font-size: 15px; }
+    .acc-content { padding: 0 20px 20px; }
+    .acc-item::after { top: 10px; right: 46px; font-size: 24px; }
+    .acc-label { padding-right: 78px; }
+  }
 
-  .acc-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+  @media (max-width: 480px) {
+    .acc-header { padding: 16px 16px; gap: 11px; }
+    .acc-content { padding: 0 16px 18px; }
+    .acc-item::after { display: none; }   /* 极窄屏把宽度全让给题干，序号不参与竞争 */
+    .acc-label { padding-right: 0; }
+  }
 
-  .acc-card .acc-card-name { padding: 12px 12px 6px; font-size: 13.5px; font-weight: 600; color: var(--text); }
-
-  .acc-card .acc-card-tags { padding: 0 12px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
-
-  .acc-card .acc-card-tags span { font-size: 12px; background: var(--brand-soft); color: var(--brand-strong); padding: 3px 9px; border-radius: 4px; }
-
-  @media (max-width: 768px) { .acc-header { padding: 18px 20px; font-size: 16px; } .acc-content { padding: 0 16px 20px 20px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .acc-item, .acc-header, .acc-icon, .acc-arrow, .acc-body, .acc-desc { transition: none !important; }
+    .fq-group-body, .fq-group-head, .fq-group-chev { transition: none !important; }
+  }
 
 
 
@@ -1744,11 +1905,7 @@
 
 
 
-    .acc-header { padding: 16px 16px; font-size: 14px; }
-
-    .acc-content { padding: 0 12px 18px 16px; }
-
-    .acc-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+    /* .acc-* 已统一到 FAQ 手风琴块内维护（见「方案 B」注释），此处不再重复定义 */
 
 
 
@@ -1813,11 +1970,7 @@
 
 
 
-    .acc-header { font-size: 13px; padding: 14px 14px; }
-
-    .acc-content { padding: 0 10px 16px 14px; }
-
-    .acc-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+    /* .acc-* 已统一到 FAQ 手风琴块内维护（见「方案 B」注释），此处不再重复定义 */
 
 
 
@@ -2752,10 +2905,8 @@
 .cert-gallery .img-cert-card { border-radius: 14px; }
 .cert-gallery .img-cert-card .card-label { color: var(--text); font-weight: 600; font-size: 15px; }
 
-/* 4. FAQ / 产品折叠项 hover 提升 */
-.acc-item { border-radius: 12px; box-shadow: 0 1px 2px rgba(15,23,42,.03); }
-.acc-item:hover { box-shadow: 0 10px 28px rgba(216,120,48,.12); }
-.acc-item.open { box-shadow: 0 12px 30px rgba(216,120,48,.16); border-color: var(--brand); }
+/* 4. FAQ 折叠项 —— 原「hover 提升」补丁（radius 12px + 三档阴影）已并入
+      FAQ 手风琴主块「方案 B」，此处删除：同特异性的规则放在文件尾部会反向覆盖主块定义。 */
 
 /* 5. 关于我们—— 数据统计卡精修 */
 .as-item { transition: background .25s, transform .25s, box-shadow .25s; }

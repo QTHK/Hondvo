@@ -22,11 +22,21 @@
 </script>
 
 <!-- C5：启动屏存在期间暂缓 .hnav 入场动画（由 launch.js 收幕时放行），
-     避免导航入场动画全程被启动屏遮住。JS 禁用时不添加此类，行为保持原样。 -->
-<script>document.documentElement.classList.add('launch-armed');</script>
+     避免导航入场动画全程被启动屏遮住。JS 禁用时不添加此类，行为保持原样。
+     2026-09-29：启动幕布改为**每个会话只在首次进入时播放** —— 本次会话已看过时，
+     这里改加 .launch-skip（launch.css 里首帧即隐藏幕布），并且不加 .launch-armed，
+     导航按常规动画入场。必须在这里（<head> 内联、首帧渲染前）判定，否则会"闪一下再消失"。 -->
+<script>
+(function () {
+  var h = document.documentElement;
+  var seen = false;
+  try { seen = sessionStorage.getItem('hondvo_launch_seen') === '1'; } catch (e) { seen = false; }
+  // sessionStorage 不可用（隐私模式等）时按"未看过"处理：宁可多播一次，也不要整站无幕布
+  h.classList.add(seen ? 'launch-skip' : 'launch-armed');
+})();
+</script>
 
-<!-- 部署时在此填入生产 API 基址（形如 https://<你的后端域名>/api）；留空则回退同源 /api。-->
-<meta name="hondvo-api" content="">
+<!-- 纯静态站点（2026-09-29）：原后台/CMS API 通道已整体移除，页面内容全部由静态 HTML + i18n.js 提供。 -->
 
 <meta name="description" content="HONDVO Technology (Dongguan) Co., Ltd. specializes in precision medical device components and precision mold manufacturing. Triple-certified with ISO 13485 / IATF 16949 / ISO 9001, we deliver medical-grade injection molding, liquid silicone rubber (LSR), two-shot molding, and turnkey precision tooling.">
 
@@ -157,6 +167,11 @@
 
     .hero-slide.active { background-image: url('images/hero_slide_1.webp'); background-size: cover; background-position: center; }
 
+    /* FAQ 分组折叠靠 JS 切 .open；无 JS 时全部展开，否则收起的分组永远打不开 */
+    .fq-group-body { grid-template-rows: 1fr !important; }
+
+    .fq-tools { display: none; }
+
   </style></noscript>
 
 
@@ -197,7 +212,7 @@
 
 <!-- ═══════════ NAV ═══════════ -->
 
-<nav class="hnav" id="nav" aria-label="主导航">
+<nav class="hnav" id="nav" aria-label="主导航" data-aria-key="a11y_mainnav">
   <div class="hnav-inner">
 
     <a href="#page-home" class="hnav-logo">
@@ -243,17 +258,17 @@
               <ul data-list="mold_browse_items"></ul>
             </div>
             <div class="hnav-col">
-              <h4 data-lang-key="hnav_mold_discover">发现工艺</h4>
+              <h4 data-lang-key="hnav_mold_discover">制造工艺</h4>
               <ul data-list="mold_discover_items"></ul>
             </div>
             <div class="hnav-col">
-              <h4 data-lang-key="hnav_mold_learn">学习工艺</h4>
+              <h4 data-lang-key="hnav_mold_learn">质量体系</h4>
               <ul data-list="mold_learn_items"></ul>
             </div>
           </div>
           <div class="hnav-cta-card">
-            <div><div class="t" data-lang-key="hnav_mold_cta_t">想了解模具能力？</div><div class="s" data-lang-key="hnav_mold_cta_s">获取完整设备清单</div></div>
-            <a href="#page-mold" class="go" data-lang-key="hnav_cta">立即询价 →</a>
+            <div><div class="t" data-lang-key="hnav_mold_cta_t">想实地看工艺？</div><div class="s" data-lang-key="hnav_mold_cta_s">预约车间参观 · 索取技术白皮书</div></div>
+            <a href="#page-contact" class="go" data-lang-key="hnav_mold_cta_go">预约参观 →</a>
           </div>
         </div>
       </li>
@@ -267,11 +282,11 @@
               <ul data-list="qual_browse_items"></ul>
             </div>
             <div class="hnav-col">
-              <h4 data-lang-key="hnav_qual_discover">设备能力</h4>
+              <h4 data-lang-key="hnav_qual_discover">生产环境与验证</h4>
               <ul data-list="qual_discover_items"></ul>
             </div>
             <div class="hnav-col">
-              <h4 data-lang-key="hnav_qual_manage">质量管控</h4>
+              <h4 data-lang-key="hnav_qual_manage">加工与检测设备</h4>
               <ul data-list="qual_manage_items"></ul>
             </div>
           </div>
@@ -301,7 +316,7 @@
           </div>
           <div class="hnav-cta-card">
             <div><div class="t" data-lang-key="hnav_faq_cta_t">还有问题？</div><div class="s" data-lang-key="hnav_faq_cta_s">联络销售工程师</div></div>
-            <a href="#page-faq" class="go" data-lang-key="hnav_cta">立即询价 →</a>
+            <a href="#page-contact" class="go" data-lang-key="hnav_cta">立即询价 →</a>
           </div>
         </div>
       </li>
@@ -315,7 +330,7 @@
               <ul data-list="about_browse_items"></ul>
             </div>
             <div class="hnav-col">
-              <h4 data-lang-key="hnav_about_discover">团队与责任</h4>
+              <h4 data-lang-key="hnav_about_discover">团队与案例</h4>
               <ul data-list="about_discover_items"></ul>
             </div>
             <div class="hnav-col">
@@ -332,8 +347,8 @@
 
       <li class="hnav-item align-right">
         <a href="#page-contact" class="hnav-link"><span data-lang-key="hnav_nav_contact">联系我们</span><span class="caret"></span></a>
-        <div class="hnav-panel">
-          <div class="hnav-panel-grid">
+        <div class="hnav-panel hnav-panel--wide">
+          <div class="hnav-panel-grid hnav-panel-grid--4">
             <div class="hnav-col">
               <h4 data-lang-key="hnav_contact_browse">销售联络</h4>
               <ul data-list="contact_browse_items"></ul>
@@ -345,6 +360,10 @@
             <div class="hnav-col">
               <h4 data-lang-key="hnav_contact_loc">地点</h4>
               <ul data-list="contact_loc_items"></ul>
+            </div>
+            <div class="hnav-col">
+              <h4 data-lang-key="hnav_contact_join">加入我们</h4>
+              <ul data-list="contact_join_items"></ul>
             </div>
           </div>
           <div class="hnav-cta-card">
@@ -360,7 +379,7 @@
 
     <div class="hnav-tools">
       <!-- ===== CTA（Uiverse Creatlydev Payments 风格 · 品牌橙/蓝版 · 图标+文字横卡 · hover 橙条滑入） ===== -->
-      <a href="#page-contact" class="hnav-cta-new" aria-label="立即询价">
+      <a href="#page-contact" class="hnav-cta-new" aria-label="立即询价" data-aria-key="a11y_quote">
         <span class="button-decor" aria-hidden="true"></span>
         <div class="button-content">
           <div class="button__icon" aria-hidden="true">
@@ -410,7 +429,7 @@
         </div>
       </div>
 
-      <button class="hnav-burger" id="hnav-burger" aria-label="菜单"><span></span></button>
+      <button class="hnav-burger" id="hnav-burger" aria-label="菜单" data-aria-key="a11y_menu"><span></span></button>
     </div>
   </div>
 </nav>
@@ -425,7 +444,7 @@
 
   <div class="hero">
 
-    <div class="hero-slides" data-cms="home.heroslides" data-cms-type="slider">
+    <div class="hero-slides">
 
       <div class="hero-slide active" data-bg="images/hero_slide_1.webp" style=""></div>
 
@@ -435,7 +454,7 @@
 
     <div class="hero-overlay"></div>
 
-    <div class="hero-indicators" data-cms="home.heroslides" data-cms-type="slider">
+    <div class="hero-indicators">
 
       <button type="button" class="hero-dot active" data-slide="0" aria-label="Hero image 1"></button>
 
@@ -443,7 +462,7 @@
 
     </div>
 
-    <div class="hero-content reveal" data-cms="home.heroText" data-cms-type="heroText">
+    <div class="hero-content reveal">
 
       <div class="hero-tag" data-lang-key="hero_tag">PRECISION FOR LIFE</div>
 
@@ -473,9 +492,9 @@
 
 
 
-  <div class="stats-bar" data-cms="home.stats" data-cms-type="list">
+  <div class="stats-bar">
 
-    <div class="stat-item reveal"><div class="num" data-cms-var="value">109</div><div data-cms-var="label" class="label">Machining Equipment</div></div>
+    <div class="stat-item reveal"><div class="num">109</div><div data-lang-key="stat_machines" class="label">Machining Equipment</div></div>
 
     <div class="stat-item reveal"><div class="num">21</div><div data-lang-key="stat_injection" class="label">Injection Machines</div></div>
 
@@ -501,7 +520,7 @@
 
     <div class="prod-card" data-goto="#page-products" role="link" tabindex="0">
 
-      <div class="card-img"><img class="lazy" src="images/core_medical_1.webp" data-src="images/core_medical_1.webp" alt="输液与给药系统" loading="lazy"></div>
+      <div class="card-img"><img class="lazy" src="images/core_medical_1.webp" data-src="images/core_medical_1.webp" alt="输液与给药系统" data-alt-key="alt_core_medical_1" loading="lazy"></div>
 
       <div class="card-body">
 
@@ -517,7 +536,7 @@
 
     <div class="prod-card" data-goto="#page-products" role="link" tabindex="0">
 
-      <div class="card-img"><img class="lazy" src="images/core_medical_2.webp" data-src="images/core_medical_2.webp" alt="体外诊断与采样（IVD）" loading="lazy"></div>
+      <div class="card-img"><img class="lazy" src="images/core_medical_2.webp" data-src="images/core_medical_2.webp" alt="体外诊断与采样（IVD）" data-alt-key="alt_core_medical_2" loading="lazy"></div>
 
       <div class="card-body">
 
@@ -533,7 +552,7 @@
 
     <div class="prod-card" data-goto="#page-mold" role="link" tabindex="0">
 
-      <div class="card-img"><img class="lazy" src="images/core_mold_3.webp" data-src="images/core_mold_3.webp" alt="超精密医疗级注塑与 LSR 模具" loading="lazy"></div>
+      <div class="card-img"><img class="lazy" src="images/core_mold_3.webp" data-src="images/core_mold_3.webp" alt="超精密医疗级注塑与 LSR 模具" data-alt-key="alt_core_mold_3" loading="lazy"></div>
 
       <div class="card-body">
 
@@ -549,7 +568,7 @@
 
     <div class="prod-card" data-goto="#page-products" role="link" tabindex="0">
 
-      <div class="card-img"><img class="lazy" src="images/prod_custom.webp" data-src="images/prod_custom.webp" alt="呼吸系统" loading="lazy"></div>
+      <div class="card-img"><img class="lazy" src="images/prod_custom.webp" data-src="images/prod_custom.webp" alt="呼吸系统" data-alt-key="alt_prod_custom" loading="lazy"></div>
 
       <div class="card-body">
 
@@ -565,7 +584,7 @@
 
     <div class="prod-card" data-goto="#page-products" role="link" tabindex="0">
 
-      <div class="card-img"><img class="lazy" src="images/workshop_1.webp" data-src="images/workshop_1.webp" alt="食品/医疗包装 &amp; 母婴类产品" loading="lazy"></div>
+      <div class="card-img"><img class="lazy" src="images/workshop_1.webp" data-src="images/workshop_1.webp" alt="食品/医疗包装 &amp; 母婴类产品" data-alt-key="alt_workshop_1" loading="lazy"></div>
 
       <div class="card-body">
 
@@ -856,13 +875,13 @@
 
 <div class="team-grid">
 
-  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_1.webp" alt="GM"></div><h4 data-lang-key="team1_name">[Name TBD]</h4><div class="role" data-lang-key="team1_role">General Manager</div></div>
+  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_1.webp" alt="肖"></div><h4 data-lang-key="team1_name">Xiao Jianjun</h4><div class="role" data-lang-key="team1_role">Senior Project Manager</div><p class="bio" data-lang-key="team1_bio">20 years of hands-on industry experience. Expert in mold operations for the medical and automotive electronics sectors; skilled at resource integration and cross-department collaboration, having led multiple complex projects worth tens of millions with consistently efficient delivery.</p></div>
 
-  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_2.webp" alt="CTO"></div><h4 data-lang-key="team2_name">[Name TBD]</h4><div class="role" data-lang-key="team2_role">CTO</div></div>
+  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_2.webp" alt="李"></div><h4 data-lang-key="team2_name">Li Qi</h4><div class="role" data-lang-key="team2_role">Chief Mold Designer</div><p class="bio" data-lang-key="team2_bio">23 years of design experience; Master of Mechanical Engineering. Focused on high-precision, complex structural design, with deep expertise in two-shot molds and hot-runner system optimization, improving mold life and production efficiency through innovative design.</p></div>
 
-  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_3.webp" alt="QD"></div><h4 data-lang-key="team3_name">[Name TBD]</h4><div class="role" data-lang-key="team3_role">Quality Director</div></div>
+  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_3.webp" alt="?"></div><h4 data-lang-key="team3_name">TBA</h4><div class="role" data-lang-key="team3_role">Production Supervisor</div><p class="bio" data-lang-key="team3_bio">20 years in process planning and production control. Master of precision machining processes, delivering efficient, high-accuracy solutions for complex molds, resolving numerous process challenges and substantially raising production yield.</p></div>
 
-  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_4.webp" alt="PD"></div><h4 data-lang-key="team4_name">[Name TBD]</h4><div class="role" data-lang-key="team4_role">Production Director</div></div>
+  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_4.webp" alt="胡"></div><h4 data-lang-key="team4_name">Hu Senwen</h4><div class="role" data-lang-key="team4_role">Quality Manager</div><p class="bio" data-lang-key="team4_bio">10 years in quality control; ISO 13485 internal auditor. Driven by a “zero-defect” philosophy, he has built a full-process quality control system, rigorously controlling every stage from raw material to finished product to ensure consistent quality.</p></div>
 
 </div>
 
@@ -928,9 +947,9 @@
     <!-- 产品页三 Tab（重构 2026-09-03） -->
     <div class="prod-tabs">
 
-      <div class="prod-tab-nav" role="tablist" aria-label="产品浏览方式">
+      <div class="prod-tab-nav" role="tablist" aria-label="产品浏览方式" data-aria-key="a11y_prod_tablist">
         <button type="button" class="prod-tab-btn is-active" id="ptab-btn-browse" data-tab="browse" role="tab" aria-selected="true" aria-controls="ptab-browse" data-lang-key="ft_prod_browse">浏览产品</button>
-        <button type="button" class="prod-tab-btn" id="ptab-btn-discover" data-tab="discover" role="tab" aria-selected="false" aria-controls="ptab-discover">发现方案</button>
+        <button type="button" class="prod-tab-btn" id="ptab-btn-discover" data-tab="discover" role="tab" aria-selected="false" aria-controls="ptab-discover" data-lang-key="ft_prod_discover">发现方案</button>
         <button type="button" class="prod-tab-btn" id="ptab-btn-industries" data-tab="industries" role="tab" aria-selected="false" aria-controls="ptab-industries" data-lang-key="ft_prod_industries">应用领域</button>
       </div>
 
@@ -940,7 +959,7 @@
       </div>
 
       <div class="prod-tab-panel" id="ptab-discover" data-panel="discover" role="tabpanel" aria-labelledby="ptab-btn-discover" tabindex="0">
-        <div class="sec-header reveal"><h2>发现方案</h2><div class="line"></div><p>面向典型场景的组合方案，从模具设计到批量注塑交付</p></div>
+        <div class="sec-header reveal"><h2 data-lang-key="ft_prod_discover">发现方案</h2><div class="line"></div><p data-lang-key="ft_prod_discover_sub">面向典型场景的组合方案，从模具设计到批量注塑交付</p></div>
         <div class="prod-acc" id="prodAccDiscover"></div>
       </div>
 
@@ -1029,13 +1048,13 @@
 
   <div class="inner-content">
 
-<div class="cert-gallery" id="qual-overview" data-cms="home-certs" data-cms-type="images" style="padding-bottom:16px;">
+<div class="cert-gallery" id="qual-overview" style="padding-bottom:16px;">
 
-      <div class="img-cert-card" data-lightbox="images/cert_1_page1.webp"><img class="lazy" src="images/cert_1_page1.webp" data-src="images/cert_1_page1.webp" alt="IATF 16949 证书" loading="lazy"><div class="card-label" data-lang-key="cert_iatf">IATF 16949 Automotive Quality Management System</div></div>
+      <div class="img-cert-card" id="qual-cert-iatf" data-lightbox="images/cert_1_page1.webp"><img class="lazy" src="images/cert_1_page1.webp" data-src="images/cert_1_page1.webp" alt="IATF 16949 证书" loading="lazy"><div class="card-label" data-lang-key="cert_iatf">IATF 16949 Automotive Quality Management System</div></div>
 
-      <div class="img-cert-card" data-lightbox="images/cert_2_page1.webp"><img class="lazy" src="images/cert_2_page1.webp" data-src="images/cert_2_page1.webp" alt="ISO 13485 证书" loading="lazy"><div class="card-label" data-lang-key="cert_13485">ISO 13485 Medical Device Quality Management System</div></div>
+      <div class="img-cert-card" id="qual-cert-13485" data-lightbox="images/cert_2_page1.webp"><img class="lazy" src="images/cert_2_page1.webp" data-src="images/cert_2_page1.webp" alt="ISO 13485 证书" loading="lazy"><div class="card-label" data-lang-key="cert_13485">ISO 13485 Medical Device Quality Management System</div></div>
 
-      <div class="img-cert-card" data-lightbox="images/cert_3_page1.webp"><img class="lazy" src="images/cert_3_page1.webp" data-src="images/cert_3_page1.webp" alt="ISO 9001 证书" loading="lazy"><div class="card-label" data-lang-key="cert_9001">ISO 9001 Quality Management System</div></div>
+      <div class="img-cert-card" id="qual-cert-9001" data-lightbox="images/cert_3_page1.webp"><img class="lazy" src="images/cert_3_page1.webp" data-src="images/cert_3_page1.webp" alt="ISO 9001 证书" loading="lazy"><div class="card-label" data-lang-key="cert_9001">ISO 9001 Quality Management System</div></div>
 
     </div>
 
@@ -1043,9 +1062,9 @@
 
     <div class="workshop-gallery" style="padding:0 0 50px;">
 
-      <div class="img-cert-card" data-lightbox="images/workshop_1.webp"><img class="lazy" src="images/workshop_1.webp" data-src="images/workshop_1.webp" alt="车间环境" loading="lazy"></div>
+      <div class="img-cert-card" data-lightbox="images/workshop_1.webp"><img class="lazy" src="images/workshop_1.webp" data-src="images/workshop_1.webp" alt="车间环境" data-alt-key="alt_workshop_env" loading="lazy"></div>
 
-      <div class="img-cert-card" data-lightbox="images/workshop_2.webp"><img class="lazy" src="images/workshop_2.webp" data-src="images/workshop_2.webp" alt="车间环境" loading="lazy"></div>
+      <div class="img-cert-card" data-lightbox="images/workshop_2.webp"><img class="lazy" src="images/workshop_2.webp" data-src="images/workshop_2.webp" alt="车间环境" data-alt-key="alt_workshop_env" loading="lazy"></div>
 
     </div>
 
@@ -1159,24 +1178,180 @@
 
 <div class="page" id="page-faq">
 
-  <div class="inner-hero"><h1 data-lang-key="faq_hero">FAQ</h1><p data-lang-key="faq_hero_sub">FAQs · Downloads · Newsletter · Links</p></div>
-
+  <!-- 2026-09-29 按批注删除：本页 hero（原「帮助中心 / 常见问题解答 · 资料下载 · 邮件订阅 · 友情链接」）与下方版块标题及导航重复 -->
   <div class="inner-content">
 
     <div class="m7-section" id="faq-qa">
       <div class="sec-header reveal"><h2 data-lang-key="m7_faq_title">常见问题</h2><div class="line"></div><p data-lang-key="m7_faq_sub">关于产品、资质与合作的常见问题解答</p></div>
-      <div class="m7-faq-list" id="m7-faq-list" data-acc-group="1"></div>
+      <div class="fq-tools">
+        <button type="button" class="fq-collapse-all" hidden>
+          <span data-lang-key="faq_collapse_all">全部收起</span>
+        </button>
+      </div>
+      <div class="m7-faq-list" id="m7-faq-list" data-acc-group="1">
+        <div class="fq-group" data-cat="1">
+          <button type="button" class="fq-group-head" aria-expanded="false" aria-controls="fq-group-1">
+            <span class="fq-group-title" data-lang-key="faq_cat_1">Core Capabilities</span>
+            <span class="fq-group-n" aria-hidden="true"></span>
+            <span class="fq-group-chev" aria-hidden="true">&#9660;</span>
+          </button>
+          <div class="fq-group-body" id="fq-group-1">
+            <div class="fq-group-inner">
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q1</span><span class="acc-label" data-lang-key="faq_q1">What is your minimum order quantity?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a1">We have no fixed minimum order quantity. Projects of any volume are welcome — unit pricing is simply adjusted according to order quantity.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q2</span><span class="acc-label" data-lang-key="faq_q2">What is your core competency?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a2">We specialize in high-precision LSR (liquid silicone rubber) and 2K/multi-shot injection molds, flashless cold-runner tooling design, micro-molding inserts, and high-cavitation tooling for medical and high-precision technical applications.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q3</span><span class="acc-label" data-lang-key="faq_q3">What do you do differently than your competition?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a3">We combine 0.5μm micro-precision machining with ISO 13485 medical standards. This delivers 30–40% cost efficiency and tooling lead times 4–6 weeks faster than Western suppliers, backed by strong DFM and engineering co-development support.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q4</span><span class="acc-label" data-lang-key="faq_q4">What are your key capabilities (materials, processes, tonnage range)?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a4">We offer an ESI (Early Supplier Involvement) team active in the new-product development stage, extensive medical-industry experience, and a full understanding of ISO 13485. Our quality management system complies with both QMSR 820 and ISO 13485, and every medical project is supported by a dedicated core team to guarantee each procedure.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q5</span><span class="acc-label" data-lang-key="faq_q5">Is your equipment at capacity? Do you have room for our business?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a5">Yes. We maintain dedicated production capacity and can accommodate new customer programs.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q6</span><span class="acc-label" data-lang-key="faq_q6">What CAD/Moldflow software do you use — can you exchange files with our formats?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a6">We use UG NX, Pro/E (Creo), SolidWorks and Moldflow, and fully support all standard file exchanges including STEP, IGES, X_T and DWG.</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fq-group" data-cat="2">
+          <button type="button" class="fq-group-head" aria-expanded="false" aria-controls="fq-group-2">
+            <span class="fq-group-title" data-lang-key="faq_cat_2">Quality &amp; Regulatory (Medical)</span>
+            <span class="fq-group-n" aria-hidden="true"></span>
+            <span class="fq-group-chev" aria-hidden="true">&#9660;</span>
+          </button>
+          <div class="fq-group-body" id="fq-group-2">
+            <div class="fq-group-inner">
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q7</span><span class="acc-label" data-lang-key="faq_q7">Do you have ISO 13485 certification?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a7">Yes. Our ISO 13485 certification is approved by Bureau Veritas (BV), an internationally accredited body.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q8</span><span class="acc-label" data-lang-key="faq_q8">Do you have experience building tooling/parts for FDA-regulated devices?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a8">Yes. We have proven experience manufacturing tooling and molded parts for FDA-regulated medical devices, and can provide project references on request.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q9</span><span class="acc-label" data-lang-key="faq_q9">How do you manage material traceability and lot control for medical-grade resins?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a9">We operate a complete traceability and batch control system fully aligned with ISO 13485:2016. Every incoming lot arrives with the supplier's Certificate of Analysis (one lot, one certificate) and receives its own batch number under our Batch Number Management System (WI-QA-007). All incoming material passes IQC inspection and release per our Product Identification and Traceability Procedure (HO-2-011), with non-conforming material quarantined under our Nonconforming Control Procedure (HO-2-016). We apply First-In, First-Out (FIFO) storage and release, and each production batch is logged together with raw-material batch, machine, mold, operator and process parameters — one production batch always uses one raw-material batch. This gives 100% traceability in both directions: forward from raw material to finished product to customer, and backward from a finished product or complaint to the raw-material supplier. We run a traceability drill at least once a year, confirming we can retrieve all records of a randomly selected batch within 4 hours. Batch records are kept for one year after product shelf-life expiry, or at least 10 years, whichever is longer.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q10</span><span class="acc-label" data-lang-key="faq_q10">Do you support IQ/OQ/PQ mold qualification and process validation documentation?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a10">Yes. We fully support IQ/OQ/PQ mold qualification and provide complete process validation documentation for medical projects.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q11</span><span class="acc-label" data-lang-key="faq_q11">What is your change-control process if a tool or process needs modification after approval?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a11">We follow a structured six-step ECN process: (1) ECN application and approval, defining change reasons and before/after specifications with customer and Management Representative sign-off; (2) change evaluation and classification (e.g., Minor Change) covering mold feasibility, product-performance impact and affected controlled documents; (3) change verification via a small sample run and Verification Report; (4) document control and version updates; (5) training and pilot production; and (6) ECN closure and archiving of all records for full quality traceability.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q12</span><span class="acc-label" data-lang-key="faq_q12">Do you have cleanroom molding/assembly capability? What class?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a12">Yes. A Class 8 (100,000) cleanroom environment is available for medical molding, assembly and packaging.</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fq-group" data-cat="3">
+          <button type="button" class="fq-group-head" aria-expanded="false" aria-controls="fq-group-3">
+            <span class="fq-group-title" data-lang-key="faq_cat_3">Sourcing &amp; Compliance</span>
+            <span class="fq-group-n" aria-hidden="true"></span>
+            <span class="fq-group-chev" aria-hidden="true">&#9660;</span>
+          </button>
+          <div class="fq-group-body" id="fq-group-3">
+            <div class="fq-group-inner">
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q13</span><span class="acc-label" data-lang-key="faq_q13">How do you protect IP and handle NDAs for proprietary tooling designs?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a13">We use strict Non-Disclosure Agreements (NDAs), encrypted server storage, role-based document access control, and physically restricted toolroom areas for proprietary customer projects.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q14</span><span class="acc-label" data-lang-key="faq_q14">Do you have export experience to the US for regulated products — how do you handle customs/duties?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a14">Yes, we have extensive export experience to the US and EU. We support flexible Incoterms including EXW, FOB, DAP and DDP (door-to-door, fully cleared with duties paid via our logistics partners).</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fq-group" data-cat="4">
+          <button type="button" class="fq-group-head" aria-expanded="false" aria-controls="fq-group-4">
+            <span class="fq-group-title" data-lang-key="faq_cat_4">Tooling &amp; Engineering</span>
+            <span class="fq-group-n" aria-hidden="true"></span>
+            <span class="fq-group-chev" aria-hidden="true">&#9660;</span>
+          </button>
+          <div class="fq-group-body" id="fq-group-4">
+            <div class="fq-group-inner">
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q15</span><span class="acc-label" data-lang-key="faq_q15">What steel types/mold classifications do you build for medical-grade tools?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a15">We build to SPI Class 101 and 102 standards using premium hardened steels such as Assab S136 (HRC 48–52), 1.2083, NAK80 and H13, ensuring high corrosion resistance and long tool life of 1,000,000+ shots.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q16</span><span class="acc-label" data-lang-key="faq_q16">Do you provide DFM feedback before cutting steel? What is the turnaround time?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a16">Yes. We complete the DFM report within 2–3 business days (timelines may vary slightly by product structure). Approval depends on the client — urgent feedback is often received within 2 days, also it might take up to a week depending on the client's schedule.</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fq-group" data-cat="5">
+          <button type="button" class="fq-group-head" aria-expanded="false" aria-controls="fq-group-5">
+            <span class="fq-group-title" data-lang-key="faq_cat_5">Production &amp; QC</span>
+            <span class="fq-group-n" aria-hidden="true"></span>
+            <span class="fq-group-chev" aria-hidden="true">&#9660;</span>
+          </button>
+          <div class="fq-group-body" id="fq-group-5">
+            <div class="fq-group-inner">
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q17</span><span class="acc-label" data-lang-key="faq_q17">What is your first-article/sampling process — do you provide dimensional inspection reports (CMM, etc.)?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a17">Yes. T1 samples are shipped together with full CMM dimensional inspection reports, material certificates and parameter sheets for formal customer approval.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q18</span><span class="acc-label" data-lang-key="faq_q18">What in-process quality controls do you use?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a18">We use real-time monitoring with CMM, optical comparators, automated vision inspection, and SPC tracking for critical-to-quality (CTQ) dimensions during mass production.</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fq-group" data-cat="6">
+          <button type="button" class="fq-group-head" aria-expanded="false" aria-controls="fq-group-6">
+            <span class="fq-group-title" data-lang-key="faq_cat_6">Business &amp; Relationship</span>
+            <span class="fq-group-n" aria-hidden="true"></span>
+            <span class="fq-group-chev" aria-hidden="true">&#9660;</span>
+          </button>
+          <div class="fq-group-body" id="fq-group-6">
+            <div class="fq-group-inner">
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q19</span><span class="acc-label" data-lang-key="faq_q19">Are you open to a third-party or customer facility audit?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a19">Yes. We welcome both virtual tours and physical facility or quality-system audits by customers or accredited third-party auditing firms.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q20</span><span class="acc-label" data-lang-key="faq_q20">What is your ownership/financial structure?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a20">We are a privately held company with stable financial status, continuous reinvestment in high-end machinery (CNC, EDM, CMM), and zero long-term liability risk.</p></div></div>
+              </div>
+              <div class="acc-item m7-faq-item" data-acc-item="1">
+                <button type="button" class="acc-header" data-acc-head="1"><span class="acc-icon">Q21</span><span class="acc-label" data-lang-key="faq_q21">What after-sales support do you provide — tooling maintenance, spare cavities, repairs?</span><span class="acc-arrow">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-content"><p class="acc-desc" data-lang-key="faq_a21">Yes. We provide full after-sales support including tooling maintenance, spare cavities/wear parts, and mold repair services.</p></div></div>
+              </div>
+      
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="m7-section" id="faq-downloads">
       <div class="sec-header reveal"><h2 data-lang-key="m7_dl_title">资料下载</h2><div class="line"></div><p data-lang-key="m7_dl_sub">产品手册、认证证书与技术资料</p></div>
-      <div class="m7-dl-list" id="m7-dl-list"></div>
+      <div class="m7-dl-list" id="m7-dl-list"><p class="m7-empty" data-lang-key="m7_dl_ph">Product manuals and technical documents are being compiled; please contact us for the materials you need.</p></div>
     </div>
 
     <div class="m7-section" id="faq-subscribe">
       <div class="sec-header reveal"><h2 data-lang-key="m7_sub_title">邮件订阅</h2><div class="line"></div><p data-lang-key="m7_sub_sub">订阅我们的最新资讯与产品动态</p></div>
       <form class="m7-sub-form" id="m7-sub-form" novalidate>
-        <input type="email" id="m7-sub-email" data-ph-key="m7_sub_ph" placeholder="请输入您的邮箱" autocomplete="email" required>
+        <input type="email" id="m7-sub-email" data-ph-key="m7_sub_ph" placeholder="Enter your email" autocomplete="email" required>
         <button type="submit" class="submit-btn" data-lang-key="m7_sub_btn">订阅</button>
       </form>
       <div class="m7-sub-msg" id="m7-sub-msg" role="status" aria-live="polite"></div>
@@ -1184,7 +1359,7 @@
 
     <div class="m7-section" id="faq-links">
       <div class="sec-header reveal"><h2 data-lang-key="m7_links_title">友情链接</h2><div class="line"></div><p data-lang-key="m7_links_sub">合作伙伴与行业资源</p></div>
-      <div class="m7-links-list" id="m7-links-list"></div>
+      <div class="m7-links-list" id="m7-links-list"><p class="m7-empty" data-lang-key="m7_links_ph">Partners and industry resources are being compiled — please check back soon.</p></div>
     </div>
 
   </div>
@@ -1199,13 +1374,84 @@
 
 <div class="page" id="page-careers">
 
-  <div class="inner-hero"><h1 data-lang-key="careers_hero">Careers</h1><p data-lang-key="careers_hero_sub">Join HONDVO, Grow Together</p></div>
-
+  <!-- 2026-09-29 按批注删除：本页 hero（原「人才招聘 / 加入弘欧，共同成长」）与下方版块标题重复 -->
   <div class="inner-content">
 
+    <!-- ══ 开篇：招贤纳士 ══ -->
     <div class="m7-section">
-      <div class="sec-header reveal"><h2 data-lang-key="m7_jobs_title">人才招聘</h2><div class="line"></div><p data-lang-key="m7_jobs_sub">加入我们，共同成长</p></div>
-      <div class="m7-jobs-grid" id="m7-jobs-grid"></div>
+      <div class="sec-header reveal"><h2 data-lang-key="m7_jobs_title">招贤纳士</h2><div class="line"></div><p data-lang-key="m7_jobs_sub">加入我们，共同成长</p></div>
+    </div>
+
+    <!-- ══ 人才理念（3 屏轮播）══ -->
+    <section class="cr-concept" aria-label="人才理念" data-aria-key="a11y_careers_concept">
+      <div class="cr-track" id="cr-track">
+        <article class="cr-slide">
+          <div class="cr-text">
+            <span class="cr-eyebrow" data-lang-key="cr_concept_eyebrow">人才理念</span>
+            <h3 data-lang-key="cr_concept_title">在 0.001mm 的世界里，找到认真的人</h3>
+            <p data-lang-key="cr_concept_body">我们相信，医疗模具的精度不是靠设备堆出来的，是靠人对 0.001mm 的执念磨出来的。</p>
+          </div>
+          <div class="cr-media"><img src="images/workshop_1.webp" alt="" loading="lazy"></div>
+        </article>
+        <article class="cr-slide">
+          <div class="cr-text">
+            <span class="cr-eyebrow" data-lang-key="cr_fit_eyebrow">我们希望你认同</span>
+            <h3 data-lang-key="cr_fit_title">三件比经验更重要的事</h3>
+            <ul class="cr-fit-list">
+              <li data-lang-key="cr_fit_1">对偏差零容忍，而不是“尽量控制”</li>
+              <li data-lang-key="cr_fit_2">愿意花时间记录和复盘，而不是只动手不动脑</li>
+              <li data-lang-key="cr_fit_3">理解医疗行业的质量体系不是形式主义</li>
+            </ul>
+          </div>
+          <div class="cr-media"><img src="images/workshop_2.webp" alt="" loading="lazy"></div>
+        </article>
+        <article class="cr-slide cr-slide--wide">
+          <div class="cr-text">
+            <span class="cr-eyebrow" data-lang-key="cr_sum_eyebrow">我们的信条</span>
+            <h3 data-lang-key="cr_sum_title">品质 · 创新 · 诚信 · 长期主义 · 以人为本</h3>
+            <p data-lang-key="cr_sum_body">医疗模具的下游是手术台，品质不是口号，是底线；创新不是天赋，是每个岗位都能提、都会被认真对待的权利；诚信意味着宁愿听难听的真话，也不听好听的空话。我们信奉长期主义——愿意花三年培养一个人，也希望你想清楚这三年要什么，这里没有速成，但每一步都算数。归根结底，以人为本就是——你的成长，就是弘欧的增长。</p>
+          </div>
+        </article>
+      </div>
+      <div class="cr-nav">
+        <button type="button" class="cr-arrow" id="cr-prev" aria-label="Previous slide">‹</button>
+        <div class="cr-dots" id="cr-dots"></div>
+        <button type="button" class="cr-arrow" id="cr-next" aria-label="Next slide">›</button>
+      </div>
+    </section>
+
+    <!-- ══ 职业发展 ══ -->
+    <div class="m7-section">
+      <div class="sec-header reveal"><h2 data-lang-key="cr_growth_title">职业发展</h2><div class="line"></div><p data-lang-key="cr_growth_sub">为什么选择弘欧</p></div>
+
+      <div class="cr-block">
+        <div class="cr-block-text">
+          <h3 data-lang-key="cr_g1_title">弘欧成长</h3>
+          <p data-lang-key="cr_g1_body">弘欧的未来发展规划，不是挂在墙上的蓝图，而是一条正在铺设的路——新厂房、新产线、新市场，每一个节点都意味着新的岗位、新的职责、新的上升空间。公司每往前一步，就会多出一批需要人扛起来的事。我们不承诺坐享其成，但可以承诺：弘欧往上走的每一步，都会带着愿意同行的人一起走。</p>
+        </div>
+        <figure class="cr-roadmap">
+          <img src="images/careers_roadmap.webp" alt="HONDVO Manufacturing Capability Improvement Plan Roadmap 2025–2030" loading="lazy">
+        </figure>
+      </div>
+
+      <div class="cr-block">
+        <div class="cr-block-text">
+          <h3 data-lang-key="cr_g2_title">成长在弘欧</h3>
+          <p data-lang-key="cr_g2_body">在弘欧，成长不靠熬年限，靠把事做成。我们把培养拆成四段，从你进厂第一天就接手真实的模具与订单——先懂规矩，再有师傅带着上手，然后出去见客户、看同行，最后把经验变成带人的能力。我们不承诺速成：这里没有一步登天，但每一步都有人带、有东西学、有结果可交付。做出来的成绩，我们认，也奖。</p>
+        </div>
+        <div class="cr-train">
+          <div class="cr-train-item"><h4 data-lang-key="cr_tr1_t">入职培训</h4><p data-lang-key="cr_tr1_d">了解医疗模具行业规范、公司质量体系</p></div>
+          <div class="cr-train-item"><h4 data-lang-key="cr_tr2_t">在岗培训</h4><p data-lang-key="cr_tr2_d">师带徒模式，由资深工程师指导</p></div>
+          <div class="cr-train-item"><h4 data-lang-key="cr_tr3_t">外部培训</h4><p data-lang-key="cr_tr3_d">海外参展、客户拜访、行业展会学习</p></div>
+          <div class="cr-train-item"><h4 data-lang-key="cr_tr4_t">晋升培训</h4><p data-lang-key="cr_tr4_d">针对管理岗位的领导力培养</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 招聘信息 ══ -->
+    <div class="m7-section">
+      <div class="sec-header reveal"><h2 data-lang-key="cr_jobs_title">招聘信息</h2><div class="line"></div><p data-lang-key="cr_jobs_sub">当前开放的岗位</p></div>
+      <div class="m7-jobs-grid" id="m7-jobs-grid"><p class="m7-empty" data-lang-key="m7_jobs_ph">No open positions at the moment. Send your CV to info@hondvotechnology.com and we will contact you when a suitable role opens.</p></div>
     </div>
 
   </div>
@@ -1264,13 +1510,13 @@
 
 <div class="contact-2col">
 
-      <div class="ci-block">
+      <div class="ci-block" id="ct-offices">
 
         <div class="ci-row"><span data-lang-key="ct_mold_label" class="ci-label">Mold Company</span><span class="ci-val"><strong data-lang-key="ct_mold_name">HONDVO TOOLING LIMITED (Dongguan) Co., Ltd.</strong><span data-lang-key="ct_mold_addr">Boyes Industrial Park, 84# Zhong Nan Zhong Road, Shang Sha Community, Chang'an Town, Dongguan City, Guangdong Province, China</span></span></div>
 
         <div class="ci-row"><span data-lang-key="ct_tech_label" class="ci-label">Technology Company</span><span class="ci-val"><strong data-lang-key="ct_tech_name">HONDVO Technology (Dongguan) Co., Ltd.</strong><span data-lang-key="ct_tech_addr">Room 301, Unit 2, Building 2, 790 Chang'an Jian'an Road, Chang'an Town, Dongguan, Guangdong Province, China</span></span></div>
 
-        <div class="ci-row"><span data-lang-key="ct_phone_label" class="ci-label">Phone</span><span class="ci-val">+86 769 8188 9275</span></div>
+        <div class="ci-row" id="ct-contact-line"><span data-lang-key="ct_phone_label" class="ci-label">Phone</span><span class="ci-val">+86 769 8188 9275</span></div>
 
         <div class="ci-row"><span data-lang-key="ct_email_label" class="ci-label">Email</span><span class="ci-val">info@hondvotechnology.com</span></div>
 
@@ -1316,7 +1562,7 @@
 
           <div class="qr-box" style="margin-top:28px;text-align:center;">
 
-            <img class="lazy" src="images/qrcode.webp" data-src="images/qrcode.webp" alt="企业微信" style="width:140px;height:140px;border-radius:12px;box-shadow:0 4px 16px var(--black-8);" loading="lazy">
+            <img class="lazy" src="images/wecom-qrcode.webp" data-src="images/wecom-qrcode.webp" alt="企业微信二维码" data-alt-key="alt_wecom_qr" style="width:140px;height:140px;border-radius:12px;box-shadow:0 4px 16px var(--black-8);" loading="lazy">
 
             <p style="margin-top:10px;font-size:13px;color:var(--neutral-500);" data-lang-key="ct_qr_label">Scan to add WeCom</p>
 
@@ -1403,9 +1649,9 @@
 
 
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片查看" onclick="if(event.target===this) closeLightbox()">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片查看" data-aria-key="a11y_lightbox" onclick="if(event.target===this) closeLightbox()">
 
-  <button type="button" class="close" id="lightbox-close" aria-label="关闭图片">&times;</button>
+  <button type="button" class="close" id="lightbox-close" aria-label="关闭图片" data-aria-key="a11y_lightbox_close">&times;</button>
 
   <div class="lb-content">
 
@@ -1422,7 +1668,7 @@
 
 <!-- 返回顶部 -->
 
-<button id="back-to-top" aria-label="返回顶部"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+<button id="back-to-top" aria-label="返回顶部" data-aria-key="a11y_back_to_top"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
 
 
 
@@ -1444,7 +1690,7 @@
 
   <div class="modal-box">
 
-    <button class="modal-close" onclick="closeModal('modal-mold')" aria-label="关闭弹窗 Close dialog">&times;</button>
+    <button class="modal-close" onclick="closeModal('modal-mold')" aria-label="关闭弹窗 Close dialog" data-aria-key="a11y_modal_close">&times;</button>
 
     <div class="modal-title" data-lang-key="pc_mold_title">Mold Sales</div>
 
@@ -1486,7 +1732,7 @@
 
   <div class="modal-box">
 
-    <button class="modal-close" onclick="closeModal('modal-product')" aria-label="关闭弹窗 Close dialog">&times;</button>
+    <button class="modal-close" onclick="closeModal('modal-product')" aria-label="关闭弹窗 Close dialog" data-aria-key="a11y_modal_close">&times;</button>
 
     <div class="modal-title" data-lang-key="pc_product_title">Finished Products</div>
 
@@ -1528,7 +1774,7 @@
 
   <div class="modal-box">
 
-    <button class="modal-close" onclick="closeModal('modal-oem')" aria-label="关闭弹窗 Close dialog">&times;</button>
+    <button class="modal-close" onclick="closeModal('modal-oem')" aria-label="关闭弹窗 Close dialog" data-aria-key="a11y_modal_close">&times;</button>
 
     <div class="modal-title" data-lang-key="pc_oem_title">OEM Manufacturing</div>
 
@@ -1590,11 +1836,9 @@
 
 <!-- ===== HONDVO v18 导航逻辑 ===== -->
 <!-- ================== P1 结构化拆分：外部资源 ================== -->
-<script src="assets/js/api-client.js"></script>
 <script src="assets/js/sanitize.js"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/render.js"></script>
-<script src="assets/js/media.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/home-dyn.js"></script>
 <script src="assets/js/map.js"></script>

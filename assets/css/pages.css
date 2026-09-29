@@ -361,6 +361,9 @@ html.launch-armed.launch-leave .hnav{
   gap:18px;
   text-align:center;
 }
+/* 联系我们下拉：4 列（销售联络 / 支持与资源 / 地点 / 加入我们）— 2026-09-29 新增「加入我们」列 */
+.hnav-panel-grid--4{grid-template-columns:repeat(4,1fr);gap:14px}
+.hnav-panel.hnav-panel--wide{width:min(calc(100vw - 48px), 900px)}
 .hnav-col h4{
   margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:.14em;
   color:var(--text-3);text-transform:uppercase;

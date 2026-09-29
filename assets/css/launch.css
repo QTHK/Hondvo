@@ -9,6 +9,10 @@
 html.launch-lock,
 html.launch-lock body { overflow: hidden; height: 100%; }
 
+/* 本次会话已看过启动屏（<head> 早期脚本加的 .launch-skip）：
+   首帧即隐藏，避免"先闪一下幕布再消失"。不加 .launch-armed 时导航照常入场。 */
+html.launch-skip #launch { display: none !important; }
+
 #launch {
   position: fixed;
   inset: 0;
