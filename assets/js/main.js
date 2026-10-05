@@ -832,39 +832,76 @@ document.addEventListener('keydown', function(e){
 
 
 
-/* 4f: Hero title char-by-char fade-in */
+/* 4f: Hero title char-by-char fade-in
 
-(function(){
+   ⚠️ 2026-10-05 修复：加载时把 h1 的 innerHTML 拆成 <span class="char"> 会**覆盖
+   [data-lang-key] 节点原本的纯文本**。i18n 的 switchLang 虽按元素重新赋 textContent
+   （能正确清掉这些 span），但**首次直接刷到非默认语言**时，i18n 读到的仍可能是
+   HTML 里的英文占位（Every Life Deserves Precision），导致「刷新后敬畏生命消失、
+   切换语言又出来」。
+   修法：① 本函数改为可重入，语言切换后对新文案重跑；
+        ② 已是拆分态（内含 .char）则先还原纯文本再拆，避免嵌套 span.char。 */
+(function () {
 
-  var heroH1 = document.querySelector('.hero h1');
+  function splitChars() {
 
-  if (!heroH1) return;
+    var heroH1 = document.querySelector('.hero h1');
 
-  var html = heroH1.innerHTML;
+    if (!heroH1) return;
 
-  var result = '';
+    // 已被拆过 → 先从 [data-lang-key] 还原为当前语言的纯文本，避免二次拆分产生嵌套
+    if (heroH1.querySelector('.char')) {
+      var lang = (function () {
+        try { var s = sessionStorage.getItem('hondvo_lang'); if (s) return s; } catch (e) {}
+        return document.documentElement.getAttribute('lang') || 'en';
+      })();
+      Array.prototype.forEach.call(heroH1.querySelectorAll('[data-lang-key]'), function (el) {
+        var key = el.getAttribute('data-lang-key');
+        var entry = (typeof I18N !== 'undefined' && I18N[key]) || null;
+        var txt = (entry && (entry[lang] || entry.en)) || el.textContent;
+        var fresh = document.createElement(el.tagName);
+        fresh.setAttribute('data-lang-key', key);
+        fresh.textContent = txt;
+        el.replaceWith(fresh);
+      });
+    }
 
-  var inTag = false, inStrong = false;
+    var html = heroH1.innerHTML;
 
-  for (var i = 0, delay = 0; i < html.length; i++) {
+    var result = '';
 
-    var c = html[i];
+    var inTag = false;
 
-    if (c === '<') { inTag = true; result += c; continue; }
+    for (var i = 0, delay = 0; i < html.length; i++) {
 
-    if (c === '>') { inTag = false; result += c; continue; }
+      var c = html[i];
 
-    if (inTag) { result += c; continue; }
+      if (c === '<') { inTag = true; result += c; continue; }
 
-    if (c === ' ') { result += ' '; continue; }
+      if (c === '>') { inTag = false; result += c; continue; }
 
-    result += '<span class="char" style="animation-delay:' + (delay * 0.025) + 's">' + c + '</span>';
+      if (inTag) { result += c; continue; }
 
-    delay++;
+      if (c === ' ') { result += ' '; continue; }
+
+      // 已经拆过就别再拆（避免嵌套 span.char）
+      if (c === '<' ) { result += c; continue; }
+
+      result += '<span class="char" style="animation-delay:' + (delay * 0.025) + 's">' + c + '</span>';
+
+      delay++;
+
+    }
+
+    heroH1.innerHTML = result;
 
   }
 
-  heroH1.innerHTML = result;
+  window.HONDVO_splitHeroChars = splitChars;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', splitChars);
+  } else { splitChars(); }
 
 })();
 
@@ -3014,14 +3051,33 @@ function setupGlobalInteractions(){
    导航下拉列表（ul[data-list]）、抽屉、语言浮窗的 active 态由 JS 生成，
    不是 [data-lang-key] 静态节点，switchLang 的遍历覆盖不到，须在此统一重建。
    由 i18n.js 的 switchLang 末尾派发 hondvo:lang（P1-20 事件总线）。 */
+/* ===== 顶栏语言按钮文案同步 =====
+   #lang-label 的初值在 HTML 里写死为「中文」，而 switchLang 只改 [data-lang-key] 节点、
+   改不到它（它没有该属性）。此前更新逻辑只挂在 hondvo:lang 上，
+   而**页面加载时不会派发该事件** → 刷新后按钮恒显示「中文」，
+   与页面实际语言（?lang=xx / sessionStorage）不一致。
+   抽成函数供「启动」与「语言变更」两处复用。 */
+function syncLangLabel() {
+  try {
+    const ll = document.getElementById("lang-label");
+    const d = dict();
+    if (ll && d && d.lang) ll.textContent = d.lang;
+  } catch (err) {
+    console.warn("[hnav lang-label]", err);
+  }
+}
+
 document.addEventListener("hondvo:lang", function () {
   try {
     bindLists();
     bindLangPop();
     bindDrawer();
-    const ll = document.getElementById("lang-label");
-    const d = dict();
-    if (ll && d.lang) ll.textContent = d.lang;
+    syncLangLabel();
+    // 2026-10-05：切语言后对 hero 标题重新执行逐字入场动画
+    // （i18n 已把文案换成新语言，这里重跑使动画节奏与首屏一致）
+    if (typeof window.HONDVO_splitHeroChars === 'function') {
+      window.HONDVO_splitHeroChars();
+    }
   } catch (err) {
     console.warn("[hnav lang]", err);
   }
@@ -3035,6 +3091,7 @@ document.addEventListener("hondvo:lang", function () {
     bindDrawer();
     setupMenuInteractions();
     setupGlobalInteractions();
+    syncLangLabel();          // 2026-10-05：刷新后顶栏语言按钮须与页面实际语言一致
   }catch(err){
     console.warn("[hnav init error]", err);
   }

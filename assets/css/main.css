@@ -2882,11 +2882,6 @@
 
 /* ═══════════ P2: 视觉细化与品牌化落地 ═══════════ */
 /* 1. Hero 标题层级 —— 副题品牌橙渐变强调（深蓝底可读性良好） */
-.hero h1 strong {
-  background: linear-gradient(92deg, #F6A05C 0%, var(--brand) 55%, #C05E14 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-}
 .hero .hero-tag { border-color: rgba(216,120,48,.55); color: #FFC79A; }
 .hero .hero-sub { opacity: .92; }
 

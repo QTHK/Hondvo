@@ -450,12 +450,23 @@
   line-height: 1.32;
   margin: 0;
 }
-#page-home .hero h1 > span,
-#page-home .hero h1 strong {
+#page-home .hero h1 > span {
   display: block;
   font-weight: 700;
   font-size: 1em;
   color: #fff;
+  -webkit-text-stroke: 0;
+  margin: 0;
+}
+/* 次行「敬畏生命」用品牌橙强调，与首行纯白形成层级；并保留与首行一致的逐字入场动画。
+   关键：不能用 background-clip:text 渐变——.char 入场动画(opacity/transform)的合成层
+   会让渐变失效、文字纯透明（即此前刷新后“敬畏生命”消失的真凶）。改纯色后动画安全。 */
+#page-home .hero h1 strong {
+  display: block;
+  font-weight: 700;
+  font-size: 1em;
+  color: var(--brand);
+  -webkit-text-fill-color: var(--brand);
   -webkit-text-stroke: 0;
   margin: 0;
 }
