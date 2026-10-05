@@ -843,6 +843,7 @@ const I18N = {
   "ct_val_required":{"zh":"请填写必填字段：姓名、联系电话、邮箱、需求描述","en":"Please fill in required fields: Name, Phone, Email, Requirements","de":"Bitte füllen Sie die Pflichtfelder aus: Name, Telefon, E-Mail, Anforderungsbeschreibung","ru":"Заполните обязательные поля: Имя, Телефон, Эл. почта, Описание требований","fr":"Veuillez remplir les champs obligatoires : Nom, Téléphone, E-mail, Description des besoins","ja":"必須項目を入力してください：氏名、電話番号、メールアドレス、要件説明","ko":"필수 항목을 입력하세요: 이름, 전화번호, 이메일, 요구 사항 설명","es":"Complete los campos obligatorios: Nombre, Teléfono, Correo electrónico, Descripción de requisitos"},
 
   "ct_val_phone":{"zh":"请输入有效的电话号码","en":"Please enter a valid phone number","de":"Bitte geben Sie eine gültige Telefonnummer ein","ru":"Введите действительный номер телефона","fr":"Veuillez entrer un numéro de téléphone valide","ja":"有効な電話番号を入力してください","ko":"유효한 전화번호를 입력하세요","es":"Ingrese un número de teléfono válido"},
+  "ct_val_email":{"zh":"请输入有效的邮箱地址","en":"Please enter a valid email address","de":"Bitte geben Sie eine gültige E-Mail-Adresse ein","ru":"Введите действительный адрес эл. почты","fr":"Veuillez entrer une adresse e-mail valide","ja":"有効なメールアドレスを入力してください","ko":"유효한 이메일 주소를 입력하세요","es":"Ingrese una dirección de correo electrónico válida"},
 
 
 
@@ -941,6 +942,7 @@ const I18N = {
   "pc_ph_oem_req":{"zh":"请描述工艺要求、交期、特殊需求等","en":"Process requirements, delivery timeline, special needs, etc.","de":"请描述工艺要求、交期、特殊需求等","ru":"请描述工艺要求、交期、特殊需求等","fr":"请描述工艺要求、交期、特殊需求等","ja":"请描述工艺要求、交期、特殊需求等","ko":"请描述工艺要求、交期、特殊需求等","es":"请描述工艺要求、交期、特殊需求等"},
 
   "pc_submitting":{"zh":"提交中...","en":"Submitting...","de":"Wird gesendet...","ru":"Отправка...","fr":"Envoi en cours...","ja":"送信中...","ko":"제출 중...","es":"Enviando..."},
+  "pc_failed":{"zh":"提交失败","en":"Failed","de":"Fehlgeschlagen","ru":"Ошибка отправки","fr":"Échec de l'envoi","ja":"送信失敗","ko":"전송 실패","es":"Error de envío"},
 
   "pc_success_msg":{"zh":"已提交！我们将在24小时内联系您","en":"Submitted! We will contact you within 24h","de":"Gesendet! Wir werden Sie innerhalb von 24 Stunden kontaktieren","ru":"Отправлено! Мы свяжемся с вами в течение 24 часов","fr":"Envoyé ! Nous vous contacterons dans les 24 heures","ja":"送信完了！24時間以内にご連絡いたします","ko":"제출 완료! 24시간 이내에 연락드리겠습니다","es":"¡Enviado! Le contactaremos en 24 horas"},
 
@@ -1102,6 +1104,10 @@ const I18N = {
   "hnav_prod_industries_items":{"zh":["静脉治疗与营养支持","检验医学与样本处理","呼吸治疗与通气支持","母婴护理与食品接触"],"en":["IV Therapy & Nutrition Support","Clinical Diagnostics & Sample Handling","Respiratory Therapy & Ventilation","Maternal Care & Food Contact"],"de":["Infusionstherapie & Ernährung","Labordiagnostik & Probenhandling","Atemtherapie & Beatmung","Mutterpflege & Lebensmittelkontakt"],"ru":["Инфузионная терапия и питание","Лабораторная диагностика и работа с образцами","Респираторная терапия и вентиляция","Уход за матерью и контакт с пищей"],"fr":["Thérapie IV et nutrition","Diagnostic clinique et traitement des échantillons","Thérapie respiratoire et ventilation","Soins maternels et contact alimentaire"],"ja":["輸液治療と栄養サポート","臨床検査と検体処理","呼吸療法と人工呼吸","マタニティケアと食品接触"],"ko":["정맥 치료 및 영양 지원","임상 진단 및 검체 처리","호흡 치료 및 환기 지원","모성 케어 및 식품 접촉"],"es":["Terapia intravenosa y nutrición","Diagnóstico clínico y manejo de muestras","Terapia respiratoria y ventilación","Cuidado materno y contacto alimentario"]},
   "hnav_prod_cta_t":{"zh":"需要定制方案？","en":"Need a custom solution?","ja":"カスタムが必要ですか？","ko":"맞춤 솔루션이 필요하신가요?","de":"Brauchen Sie eine Lösung?","fr":"Besoin d'une solution ?","es":"¿Necesita una solución?","ru":"Нужно решение?"},
   "hnav_prod_cta_s":{"zh":"资深工程师 24h 响应","en":"Senior engineer responds within 24h","ja":"24時間以内に回答","ko":"24시간 내 회신","de":"Antwort innerhalb von 24h","fr":"Réponse sous 24h","es":"Respuesta en 24h","ru":"Ответ в течение 24 ч"},
+  /* 2026-10-05 导航 CTA 词条差异化：原 6 个下拉中有 5 个共用 hnav_cta（立即询价），
+     且「产品与服务 / 资质实力 / 关于我们」三处按钮 href 指回本页自己（点了没反应）。
+     现按各卡自身副标语义分词，链接统一收口 #page-contact（询价/联络页）。 */
+  "hnav_prod_cta_go":{"zh":"获取报价 →","en":"Get a Quote →","ja":"見積もりを依頼 →","ko":"견적 요청 →","de":"Angebot anfordern →","fr":"Demander un devis →","es":"Pedir cotización →","ru":"Запросить цену →"},
   "hnav_mold_browse":{"zh":"浏览能力","en":"Browse Capabilities","ja":"設備一覧","ko":"설비","de":"Fähigkeiten","fr":"Capacités","es":"Capacidades","ru":"Возможности"},
   "hnav_mold_browse_items":{"zh":["诊断与 IVD 耗材模具","介入与植入精密模具","给药与药包模具","LSR 液态硅胶模具"],"en":["Diagnostic & IVD Consumable Molds","Interventional & Implantable Molds","Drug Delivery & Packaging Molds","LSR Liquid Silicone Molds"],"de":["Formen für Diagnostik- & IVD-Verbrauchsmaterial","Formen für interventionelle & implantierbare Produkte","Formen für Arzneimittelabgabe & Pharmaverpackung","LSR-Flüssigsilikon-Formen"],"ru":["Пресс-формы для диагностических и IVD-расходников","Пресс-формы для интервенционных и имплантируемых изделий","Пресс-формы для доставки лекарств и упаковки","Пресс-формы для жидкого силикона LSR"],"fr":["Moules pour consommables de diagnostic et IVD","Moules pour dispositifs interventionnels et implantables","Moules pour administration de médicaments et emballage","Moules en silicone liquide LSR"],"ja":["診断・IVD消耗品用金型","介入・インプラント精密金型","薬剤投与・医薬包装用金型","LSR 液状シリコーン金型"],"ko":["진단·IVD 소모품용 금형","중재·이식용 정밀 금형","약물 전달·의약품 포장용 금형","LSR 액상 실리콘 금형"],"es":["Moldes para consumibles de diagnóstico e IVD","Moldes para dispositivos intervencionistas e implantables","Moldes para administración de fármacos y envase","Moldes de silicona líquida LSR"]},
   "hnav_mold_discover":{"zh":"制造工艺","en":"Manufacturing Process","de":"Fertigungsprozess","ru":"Производственный процесс","fr":"Processus de fabrication","ja":"製造プロセス","ko":"제조 공정","es":"Proceso de fabricación"},
@@ -1119,6 +1125,7 @@ const I18N = {
   "hnav_qual_manage_items":{"zh":["CNC 数控加工","EDM 电火花加工","线切割（慢走丝）","精密磨床","注塑机","品质检测设备"],"en":["CNC Machining","EDM Spark Erosion","Wire EDM","Precision Grinding","Injection Molding Machines","Quality Inspection Equipment"],"de":["CNC-Bearbeitung","EDM-Funkenerosion","Drahterodieren","Präzisionsschleifen","Spritzgießmaschinen","Qualitätsprüfgeräte"],"ru":["Обработка на CNC","Электроэрозионная обработка EDM","Электроэрозионная резка проволокой","Прецизионное шлифование","Термопластавтоматы","Оборудование контроля качества"],"fr":["Usinage CNC","Électroérosion EDM","Découpe fil","Rectification de précision","Presses à injecter","Équipements de contrôle qualité"],"ja":["CNC 加工","EDM 放電加工","ワイヤ放電加工","精密研削","射出成形機","品質検査設備"],"ko":["CNC 가공","EDM 방전 가공","와이어 방전 가공","정밀 연삭","사출 성형기","품질 검사 장비"],"es":["Mecanizado CNC","Electroerosión EDM","Electroerosión por hilo","Rectificado de precisión","Máquinas de inyección","Equipos de inspección de calidad"]},
   "hnav_qual_cta_t":{"zh":"需要合规支持？","en":"Need compliance support?","ja":"コンプライアンス支援？","ko":"규제 지원 필요?","de":"Compliance nötig?","fr":"Besoin de conformité ?","es":"¿Soporte regulatorio?","ru":"Нужна поддержка?"},
   "hnav_qual_cta_s":{"zh":"配套法规文件与证书","en":"Regulatory docs & certificates","ja":"関連書類を提出","ko":"관련 문서 제공","de":"Dokumente & Zertifikate","fr":"Documents et certificats","es":"Documentos y certificados","ru":"Документы и сертификаты"},
+  "hnav_qual_cta_go":{"zh":"索取合规文件 →","en":"Request Compliance Docs →","ja":"コンプライアンス資料を請求 →","ko":"규정 자료 요청 →","de":"Compliance-Dokumente anfordern →","fr":"Demander les documents conformité →","es":"Solicitar documentos de cumplimiento →","ru":"Запросить документы соответствия →"},
   /* 2026-09-29 导航梳理：「常见问题」页实际只有 4 个版块（常见问题 / 资料下载 / 邮件订阅 / 友情链接），
      原 9 个 FAQ 主题（最小起订量、交期、材料选型…）在页面内无对应内容，改为与真实版块一一对应。 */
   "hnav_faq_browse":{"zh":"常见问题","en":"FAQ","ja":"よくある質問","ko":"자주 묻는 질문","de":"FAQ","fr":"FAQ","es":"Preguntas frecuentes","ru":"Частые вопросы"},
@@ -1129,6 +1136,7 @@ const I18N = {
   "hnav_faq_after_items":{"zh":["友情链接"],"en":["Friendly Links"],"ja":["リンク集"],"ko":["링크"],"de":["Partnerlinks"],"fr":["Liens partenaires"],"es":["Enlaces"],"ru":["Дружественные ссылки"]},
   "hnav_faq_cta_t":{"zh":"还有问题？","en":"More questions?","ja":"他にご質問は？","ko":"더 궁금한 점?","de":"Weitere Fragen?","fr":"D'autres questions ?","es":"¿Más preguntas?","ru":"Ещё вопросы?"},
   "hnav_faq_cta_s":{"zh":"联络销售工程师","en":"Talk to a sales engineer","ja":"営業担当に連絡","ko":"영업 담당에게 연락","de":"Vertrieb kontaktieren","fr":"Contacter un commercial","es":"Contactar al equipo comercial","ru":"Связаться с менеджером"},
+  "hnav_faq_cta_go":{"zh":"咨询工程师 →","en":"Ask an Engineer →","ja":"エンジニアに相談 →","ko":"엔지니어 상담 →","de":"Engineer fragen →","fr":"Consulter un ingénieur →","es":"Consultar a un ingeniero →","ru":"Связаться с инженером →"},
   "hnav_about_browse":{"zh":"关于公司","en":"About","ja":"会社情報","ko":"회사","de":"Über uns","fr":"À propos","es":"Empresa","ru":"О компании"},
   "hnav_about_browse_items":{"zh":["公司简介","核心价值","弘欧精神"],"en":["Company Profile","Core Values","Hondvo Spirit"],"de":["Unternehmensprofil","Kernwerte","Hondvo-Geist"],"ru":["Профиль компании","Ключевые ценности","Дух Hondvo"],"fr":["Profil de l'entreprise","Valeurs fondamentales","L'esprit Hondvo"],"ja":["会社概要","コアバリュー","弘欧の精神"],"ko":["회사 소개","핵심 가치","HONDVO 정신"],"es":["Perfil de la empresa","Valores fundamentales","El espíritu de Hondvo"]},
   "hnav_about_discover":{"zh":"团队与案例","en":"Team & Cases","de":"Team & Referenzen","ru":"Команда и кейсы","fr":"Équipe et références","ja":"チーム・事例","ko":"팀 및 사례","es":"Equipo y casos"},
@@ -1137,6 +1145,9 @@ const I18N = {
   "hnav_about_contact_items":{"zh":["联系销售","总部地址","加入我们"],"en":["Sales Contact","Headquarters","Careers"],"ja":["営業連絡","本社所在地","採用情報"],"ko":["영업 연락","본사 주소","채용 정보"],"de":["Vertrieb","Hauptsitz","Karriere"],"fr":["Contact commercial","Siège social","Carrières"],"es":["Contacto comercial","Sede","Empleo"],"ru":["Отдел продаж","Штаб-квартира","Карьера"]},
   "hnav_about_cta_t":{"zh":"想莅临参观？","en":"Visit us?","ja":"見学したい？","ko":"방문하시겠어요?","de":"Besuch planen?","fr":"Visiter ?","es":"¿Visitarnos?","ru":"Хотите посетить?"},
   "hnav_about_cta_s":{"zh":"预约总部工厂参访","en":"Book a factory tour","ja":"工場見学を予約","ko":"공장 견학 예약","de":"Werksbesichtigung buchen","fr":"Réserver une visite d'usine","es":"Reservar visita a fábrica","ru":"Записаться на экскурсию"},
+  /* 「关于我们」用公司参观语义，刻意区别于「模具中心」的车间参观（Book a Visit）——
+     2026-10-05：原 en/ru/fr/ko/es 5 种语言与 hnav_mold_cta_go 完全撞车。 */
+  "hnav_about_cta_go":{"zh":"预约到访 →","en":"Plan a Company Visit →","ja":"来社予約 →","ko":"회사 방문 예약 →","de":"Firmenbesuch buchen →","fr":"Visiter notre usine →","es":"Planificar visita a empresa →","ru":"Запланировать визит в компанию →"},
   "hnav_contact_browse":{"zh":"销售联络","en":"Sales Contacts","ja":"営業連絡","ko":"영업","de":"Vertrieb","fr":"Contacts commerciaux","es":"Ventas","ru":"Продажи"},
   "hnav_contact_browse_items":{"zh":["在线询价","双公司地址","电话与邮箱"],"en":["Online Inquiry","Both Company Addresses","Phone & Email"],"de":["Online-Anfrage","Beide Firmenadressen","Telefon & E-Mail"],"ru":["Онлайн-запрос","Адреса обеих компаний","Телефон и e-mail"],"fr":["Demande en ligne","Adresses des deux sociétés","Téléphone et e-mail"],"ja":["オンライン問い合わせ","両社の所在地","電話・メール"],"ko":["온라인 문의","두 회사 주소","전화 및 이메일"],"es":["Consulta en línea","Direcciones de ambas empresas","Teléfono y correo"]},
   "hnav_contact_discover":{"zh":"支持与资源","en":"Support","ja":"サポート","ko":"지원","de":"Support","fr":"Support","es":"Soporte","ru":"Поддержка"},
@@ -1148,6 +1159,7 @@ const I18N = {
   "hnav_contact_join_items":{"zh":["人才招聘"],"en":["Careers"],"ja":["採用情報"],"ko":["채용"],"de":["Karriere"],"fr":["Carrières"],"es":["Empleo"],"ru":["Вакансии"]},
   "hnav_contact_cta_t":{"zh":"立刻沟通","en":"Let's talk","ja":"今すぐ連絡","ko":"지금 연락","de":"Jetzt sprechen","fr":"Parlons-en","es":"Hablemos","ru":"Свяжитесь"},
   "hnav_contact_cta_s":{"zh":"填写询价表 24h 反馈","en":"Submit RFQ — 24h response","ja":"見積もり提出 — 24時間返信","ko":"견적 제출 — 24시간 회신","de":"Anfrage senden — 24h Antwort","fr":"Envoyer un devis — réponse 24h","es":"Enviar cotización — respuesta 24h","ru":"Запрос — ответ 24 ч"},
+  "hnav_contact_cta_go":{"zh":"立即沟通 →","en":"Contact Us →","ja":"今すぐ連絡 →","ko":"지금 연락 →","de":"Jetzt kontaktieren →","fr":"Nous contacter →","es":"Contactar ahora →","ru":"Связаться с нами →"},
 };
 
 

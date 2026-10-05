@@ -26,3 +26,9 @@ _ppt_media/
 _ppt_pages/
 _edgeprofile/
 _shots/
+
+# ── 2026-10-05 性能优化：退出发布的冗余资源 ──
+# mold-hero.mp4（3.2MB）经全仓检索确认**零引用**（index.html 只用 mold-hero-hv.mp4 与
+# mold-hero-h.mp4 两个 source），从版本管理移除以缩小仓库与发布体积。
+# 文件仍保留在本地磁盘，需要时可 `git checkout 59939ea -- assets/video/mold-hero.mp4` 恢复。
+assets/video/mold-hero.mp4

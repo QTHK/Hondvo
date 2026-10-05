@@ -156,6 +156,31 @@
 
   <script>window.HONDVO_CFG = window.HONDVO_CFG || { baidu: '', ga4: '' };</script>
 
+  <!-- ═══════════════════════════════════════════════════════════════
+       Web3Forms 询盘接入配置（2026-10-05）
+       用途：联系表单 / 订阅表单的后端投递（替代原 mailto 方案）。
+       填入方式：到 web3forms.com 用「接收询盘的邮箱」注册，控制台复制 Access Key
+                 （形如 w3f_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx），填到下面即可。
+       留空时的行为：自动降级为 mailto:info@hondvotechnology.com，
+                     站点仍可正常联系，不会因漏配而彻底失能（main.js submit() 内已兜底）。
+       说明：Web3Forms 官方明确该 key 属「浏览器端公开 key」，可安全置于前端；
+             服务端调用才需付费版 + 服务器 IP 白名单。
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <script>
+  /* 用「惰性 getter」而非直接赋值：避免覆盖外部（如多环境注入）已设置的 key。
+     读取方 main.js / render.js 只需 window.HONDVO_WEB3FORMS_KEY，语义不变。 */
+  (function () {
+    var _k = '2b63e2dc-1a6a-4610-8dfd-3e2a1ef6d064';
+    Object.defineProperty(window, 'HONDVO_WEB3FORMS_KEY', {
+      configurable: true,
+      enumerable: true,
+      get: function () { return _k; },
+      set: function (v) { _k = v == null ? '' : String(v); }
+    });
+  })();
+</script>
+
 
 
 
@@ -244,7 +269,7 @@
           </div>
           <div class="hnav-cta-card">
             <div><div class="t" data-lang-key="hnav_prod_cta_t">需要定制方案？</div><div class="s" data-lang-key="hnav_prod_cta_s">资深工程师 24h 响应</div></div>
-            <a href="#page-products" class="go" data-lang-key="hnav_cta">立即询价 →</a>
+            <a href="#page-contact" class="go" data-lang-key="hnav_prod_cta_go">获取报价 →</a>
           </div>
         </div>
       </li>
@@ -292,7 +317,7 @@
           </div>
           <div class="hnav-cta-card">
             <div><div class="t" data-lang-key="hnav_qual_cta_t">需要合规支持？</div><div class="s" data-lang-key="hnav_qual_cta_s">配套法规文件与证书</div></div>
-            <a href="#page-qualifications" class="go" data-lang-key="hnav_cta">立即询价 →</a>
+            <a href="#page-contact" class="go" data-lang-key="hnav_qual_cta_go">索取合规文件 →</a>
           </div>
         </div>
       </li>
@@ -316,7 +341,7 @@
           </div>
           <div class="hnav-cta-card">
             <div><div class="t" data-lang-key="hnav_faq_cta_t">还有问题？</div><div class="s" data-lang-key="hnav_faq_cta_s">联络销售工程师</div></div>
-            <a href="#page-contact" class="go" data-lang-key="hnav_cta">立即询价 →</a>
+            <a href="#page-contact" class="go" data-lang-key="hnav_faq_cta_go">咨询工程师 →</a>
           </div>
         </div>
       </li>
@@ -340,7 +365,7 @@
           </div>
           <div class="hnav-cta-card">
             <div><div class="t" data-lang-key="hnav_about_cta_t">想莅临参观？</div><div class="s" data-lang-key="hnav_about_cta_s">预约总部工厂参访</div></div>
-            <a href="#page-about" class="go" data-lang-key="hnav_cta">立即询价 →</a>
+            <a href="#page-contact" class="go" data-lang-key="hnav_about_cta_go">预约到访 →</a>
           </div>
         </div>
       </li>
@@ -368,7 +393,7 @@
           </div>
           <div class="hnav-cta-card">
             <div><div class="t" data-lang-key="hnav_contact_cta_t">立刻沟通</div><div class="s" data-lang-key="hnav_contact_cta_s">填写询价表 24h 反馈</div></div>
-            <a href="#page-contact" class="go" data-lang-key="hnav_cta">立即询价 →</a>
+            <a href="#page-contact" class="go" data-lang-key="hnav_contact_cta_go">立即沟通 →</a>
           </div>
         </div>
       </li>
@@ -983,7 +1008,14 @@
 <div class="page" id="page-mold">
 
   <div class="inner-hero mold-hero-video">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="images/mold-hero-poster.jpg">
+    <!-- 2026-10-05 性能优化：原 preload="auto" + autoplay 会让浏览器在**任何页面**
+         （含首屏首页，用户根本看不到本页）立即下载 17.6MB 视频。
+         autoplay 与 preload 无关，只要存在就强制加载媒体，故一并移除；
+         实际播放改由 assets/js/hero-video.js 在「:target 命中 #page-mold 且真正可见」时调用 play()。
+         弱网 / prefers-reduced-motion / saveData 下不加载，仅展示 poster。
+         muted 保留：autoplay 被移除后仍需静音属性，配合脚本 play() 才不会被浏览器拦截。
+         loop 保留：脚本 play() 后循环播放是原设计效果。 -->
+    <video class="hero-video" muted loop playsinline preload="none" poster="images/mold-hero-poster.jpg">
       <source src="assets/video/mold-hero-hv.mp4" type='video/mp4; codecs="hvc1.1.6.L120.90"'>
       <source src="assets/video/mold-hero-h.mp4" type="video/mp4">
     </video>
@@ -1536,13 +1568,19 @@
 
           </div>
 
-          <div class="form-row">
-
-            <div class="fg"><label for="ct-phone" data-lang-key="ct_tel_label">Phone</label><input id="ct-phone" type="tel" name="phone" autocomplete="tel" placeholder="Your Phone Number" data-ph-key="ct_placeholder_phone" required></div>
-
-            <div class="fg"><label for="ct-email" data-lang-key="ct_email2_label">Email</label><input id="ct-email" type="email" name="email" autocomplete="email" placeholder="Your Email" data-ph-key="ct_placeholder_email" required></div>
-
+          <!-- 电话：国家区号下拉 + 号码输入（2026-10-05 面向海外客户改造）。
+               独占整行而非与邮箱并排：区号下拉（约 132px）会吃掉 .form-row 半栏宽度，
+               并排时号码框净宽只剩 49px，无法正常输入。
+               国家列表与区号由 libphonenumber 元数据生成（245 个国家/地区），
+               校验走 E.164 全球号段规则，不再按中国大陆号段判定。 -->
+          <div class="fg"><label for="ct-phone" data-lang-key="ct_tel_label">Phone</label>
+            <div class="phone-row">
+              <select id="ct-phone-cc" class="phone-cc" name="phone_cc" autocomplete="country" aria-label="Country calling code"></select>
+              <input id="ct-phone" type="tel" name="phone" autocomplete="tel-national" placeholder="(415) 555-2674" data-ph-key="ct_placeholder_phone" required>
+            </div>
           </div>
+
+          <div class="fg"><label for="ct-email" data-lang-key="ct_email2_label">Email</label><input id="ct-email" type="email" name="email" autocomplete="email" placeholder="Your Email" data-ph-key="ct_placeholder_email" required></div>
 
           <div class="fg"><label for="ct-type" data-lang-key="ct_type_label">Inquiry Type</label><select id="ct-type" name="type"><option data-lang-key="ct_type_0">Please Select</option><option data-lang-key="ct_type_1">Medical Device Injection Parts</option><option data-lang-key="ct_type_2">Precision Mold Manufacturing</option><option data-lang-key="ct_type_3">Mold + Injection One-Stop</option><option data-lang-key="ct_type_4">Other Inquiries</option></select></div>
 
@@ -1835,14 +1873,24 @@
 
 
 <!-- ===== HONDVO v18 导航逻辑 ===== -->
-<!-- ================== P1 结构化拆分：外部资源 ================== -->
-<script src="assets/js/sanitize.js"></script>
-<script src="assets/js/i18n.js"></script>
-<script src="assets/js/render.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/home-dyn.js"></script>
-<script src="assets/js/map.js"></script>
-<script src="assets/js/launch.js"></script>
+<!-- ================== P1 结构化拆分：外部资源 ==================
+     2026-10-05：全部加 defer，解除对 HTML 解析的串行阻塞。
+       · defer 保持文档执行顺序，故既有依赖链依然成立
+         （sanitize 必须早于 i18n；render 必须早于 main）。
+       · hero-video.js 负责模具中心背景视频按需加载（不进视口不下载 17.6MB）。
+         地图模块（map.js / #partner-map）保持原状，未作任何改动。
+     ============================================================ -->
+<script src="assets/js/sanitize.js" defer></script>
+<script src="assets/js/i18n.js" defer></script>
+<script src="assets/js/render.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+<script src="assets/js/home-dyn.js" defer></script>
+<script src="assets/js/map.js" defer></script>
+<script src="assets/js/vendor/libphonenumber.min.js" defer></script>
+<script src="assets/js/phone-intl.js" defer></script>
+<script src="assets/js/email-hint.js" defer></script>
+<script src="assets/js/hero-video.js" defer></script>
+<script src="assets/js/launch.js" defer></script>
 <!-- ================================================================== -->
 </body>
 

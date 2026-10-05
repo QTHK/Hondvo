@@ -543,10 +543,14 @@ document.addEventListener('click', function (e) {
   if (!group) return;
   var wasOpen = item.classList.contains('open');
   // 关掉同组内其它已展开条目。
-  // 优先按显式标记 [data-acc-item]；若容器内条目尚未标注，则退化为「本组直接子元素中带 .open 的」，
-  // 保证新旧模板都具备互斥行为（避免未标注时不断累加展开）。
+  // 优先按显式标记 [data-acc-item]；若容器内条目尚未标注，则退化为「本组直接子元素中带 .open 的」。
+  // ⚠️ 回退选择器**必须带 .acc-item 限定**（2026-10-05 修复，勿改回裸 `.open`）：
+  //   FAQ 的 [data-acc-group] 挂在 .m7-faq-list 上，而它的直接子元素就是 6 个 .fq-group。
+  //   原 `:scope > .open` 会在「组内还没有任何展开条目」时命中 `.fq-group.open`，
+  //   于是「点某分组里的第一个问题」会把整个分组的 open 一并删掉 —— 表现为点一下问题整组塌陷，
+  //   且下一次点击时组已经是关的，误以为「第 2 次点击才关闭整个区块」。
   var opens = group.querySelectorAll('[data-acc-item].open');
-  if (!opens.length) { try { opens = group.querySelectorAll(':scope > .open'); } catch (err) { opens = []; } }
+  if (!opens.length) { try { opens = group.querySelectorAll(':scope > .acc-item.open'); } catch (err) { opens = []; } }
   Array.prototype.forEach.call(opens, function (el) { el.classList.remove('open'); });
   if (!wasOpen) item.classList.add('open');
 });
@@ -1559,7 +1563,81 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-    function validatePhone(p){ return /^(\+\d{1,3}\s?)?\d{7,15}$/.test(p.replace(/[\s\-\(\)]/g,'')); }
+    function validatePhone(p){
+      /* 电话校验。历史演进（三次修订，别退回旧版）：
+         v1 /^(\+\d{1,3}\s?)?\d{7,15}$/ —— 放过 1234567、abc 等明显假号
+         v2 长度 + 首位非 0        —— 仍放过 1234567890 / 11111111111（客户实测反馈）
+         v3（本版）分段规则 + 假号排除 + 国际前缀归一化：
+           ⓪ 先剥国际前缀：+ / 00 / 011（否则 008613800138000 会被「首位 0」误判为固话）
+           ① 全同数字（11111111111、0000000000）      → 拒
+           ② 连续顺/逆序（1234567890、9876543210）    → 拒
+           ③ 首位 0 → 国内固话区号形态（区号 3–4 位 + 主体 7–8 位），如 0769-12345678
+           ④ 11 位：1[3-9] 开头 → 大陆手机号；2–9 开头 → 境外号（852…/1415… 等），均放行
+           ⑤ 10 位：1 开头拒（残缺写法）；2–9 开头放行（去掉国家码后的境外本体，如 4155552671）
+           ⑥ 12–17 位 → 含国家码的国际号码，要求第二位非 0
+         设计取舍：宁可放过少量格式正确但并未分配的号，也不误杀真实客户号码
+         —— 校验目的是「明显笔误/占位符」兜底，不做号码有效性核验。 */
+      var raw = String(p).trim();
+      if (!/^\+?[\d\s\-\(\)]{7,20}$/.test(raw)) return false;   // 只允许数字与常见分隔符
+      var s = raw.replace(/[\s\-\(\)]/g, '');
+      /* E.164：国际号码最长 15 位数字（含国家码）。留 1 位余量到 16，
+         用来容纳被剥掉的 '+' 之外的分隔符写法。17 位一律必超长 → 拒。 */
+      if (!/^\+?\d{7,16}$/.test(s)) return false;
+      var body = s.charAt(0) === '+' ? s.slice(1) : s;
+
+      /* ── 国际前缀归一化（2026-10-05 补）──────────────────────────
+         008613800138000 / 00852… 这类写法首位是 0，若不先剥掉 00 前缀，
+         会被下面的「首位 0 = 国内固话」分支误杀。
+         规则：+ 已在上面剥掉；此处再剥 00 / 011（北美国际前缀）。 */
+      if (body.indexOf('00') === 0) body = body.slice(2);
+      else if (body.indexOf('011') === 0) body = body.slice(3);
+
+      /* ── 明显假号排除（2026-10-05 补）────────────────────────────
+         上一版只查「长度 + 首位非 0」，实测放过 1234567890 / 11111111111 /
+         0000000000 / 1234567 这类明显不是号码的输入（客户实测反馈）。
+         补两条低成本高收益的规律性检查：
+           ① 全部数字相同（11111111111、0000…）→ 必是假号；
+           ② 纯顺序递增/递减（1234567890、9876543210）→ 必是假号。 */
+      if (/^(\d)\1+$/.test(body)) return false;                       // 全同数字
+      var digits = body.replace(/\D/g, '');
+      var asc = true, desc = true;
+      for (var i = 1; i < digits.length; i++) {
+        var d = digits.charCodeAt(i) - digits.charCodeAt(i - 1);
+        if (d !== 1) asc = false;
+        if (d !== -1) desc = false;
+      }
+      if ((asc || desc) && digits.length >= 7) return false;          // 连续顺/逆序
+
+      // 以 0 开头 → 视为含区号的固话：区号 3–4 位 + 主体 7–8 位
+      if (body.charAt(0) === '0') return /^0\d{2,3}\d{7,8}$/.test(body);
+
+      /* 11 位有歧义（不带 '+' 时），两种可能都存在：
+           · 1 3x–9x 开头且第二位非 0 → 中国大陆手机号，如 13800138000
+           · 1 2x 开头（12x）           → 北美「1 + 区号」的写法，如 12125551234
+           · 2–9 开头                   → 境外号（852…/278…），放行
+           过去把「11 位一律要求 1[3-9]」会误杀 12125551234 这类美国号码，故按首位分段。 */
+      if (body.length === 11) {
+        if (/^1[3-9][1-9]\d{8}$/.test(body)) return true;   // 大陆手机号（第二位 3-9）
+        if (/^12[1-9]\d{8}$/.test(body)) return true;        // 北美 1+区号
+        if (/^1[2-9]\d{9}$/.test(body)) return true;         // 其余 1x（含 12x 宽松位）
+        return /^[2-9]\d{10}$/.test(body);                   // 境外 11 位号
+      }
+
+      /* 10 位（无 '+' 无 '00' 前缀）—— 大陆不存在，但**境外号码去掉国家码后
+         常为 10 位**（美国 +1 415 555 2671 → 本体 4155552671；澳大利亚 +61 4 1234 5678 → 412345678）。
+         故：首位 1 → 多半是「1 + 国家码」的残缺写法，拒；首位 2–9 → 视为境外本体，放行。
+         顺带把上一版「10 位一律拒」导致的 1234567890 顺子漏网一并挡住（顺子已在前面被规则②拦）。 */
+      if (body.length === 10) return /^[2-9]\d{9}$/.test(body);
+
+      // 12–17 位 —— 含国家码的国际号码（+86 / 0086 / 011 已在上游剥离），要求第二位非 0
+      return body.length >= 12 && body.charAt(1) !== '0';
+    }
+
+    function validateEmail(e){
+      // 补 email 格式校验：原实现只判空，且 form 带 novalidate，
+      // type="email" 的原生校验被 e.preventDefault() 绕过 → 脏数据直达后端。
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e).trim());
+    }
 
 
 
@@ -1643,7 +1721,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
       }
 
-      if (!validatePhone(phone)){
+      /* 2026-10-05：站点面向海外客户，电话校验改用 libphonenumber（E.164 全球号段）。
+         原 validatePhone 是按中国大陆 11 位手机号规则写的，对美/德/法/日客户会大量误杀，
+         现改为「区号下拉 + 号码」组合后按各国真实号段规则判定。
+         库未加载时 phone-intl 内部降级放行（degraded），绝不因校验器故障拦掉询盘。 */
+      var phoneRes = (window.HONDVO_phone && typeof window.HONDVO_phone.validate === 'function')
+        ? window.HONDVO_phone.validate()
+        : { ok: true, code: 'DEGRADED', degraded: true };
+
+      if (!phoneRes.ok){
 
         window.markFg(f.phone);
 
@@ -1651,16 +1737,120 @@ document.addEventListener('DOMContentLoaded', function(){
 
       }
 
+      // 规范化成 E.164 后回填输入框（保证提交给后端/邮件的是 +14155552671 这类国际格式）
+      if (phoneRes.e164 && f.phone) f.phone.value = phoneRes.e164;
+
+      if (!validateEmail(email)){
+
+        window.markFg(f.email);
+
+        window.showToast(t('ct_val_email') || 'Please enter a valid email address.', 'error', [fgLabel(f.email)]); return;
+
+      }
+
 
 
       btnState('loading');
 
-
-
       var source = (location.hash || '').replace(/^#/, '') || 'page-contact';
 
-      // 纯静态站点（2026-09-29）：后台询盘接口 POST /api/inquiries 已移除，
-      // 改为唤起本地邮件客户端并预填询盘内容；表单校验与视觉保持不变。
+      /* ═══════════════════════════════════════════════════════════════
+         询盘提交 —— Web3Forms 接入（2026-10-05）
+         原实现为 location.href = 'mailto:...'（依赖用户本地邮件客户端，
+         静默失败、无留痕、转化率低）。现改为 POST 到 Web3Forms 公开端点：
+           POST https://api.web3forms.com/submit
+           必填 access_key；成功 200 {success:true,message}；
+           400 缺 key/超额、429 限流、500 服务端错误。
+         · access_key 由 Web3Forms 控制台按「你的收件邮箱」生成，属公开前端 key
+           （Web3Forms 文档明确建议用浏览器端提交；服务端用法需付费版 + IP 白名单）。
+         · 失败时**不静默**：toast 报错 + 按钮恢复可点，并把 mailto 作为兜底暴露给用户。
+         ═══════════════════════════════════════════════════════════════ */
+      var WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+      var WEB3FORMS_KEY = (window.HONDVO_WEB3FORMS_KEY || '').trim();
+
+      // 收件内容在此构造一次，供「Web3Forms 提交」与「无 key 降级 mailto」共用
+      var mailSubject = '[Inquiry] ' + (type || 'Website') + ' — ' + name;
+      var mailBody = 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
+        '\nEmail: ' + email + '\nInquiry type: ' + type + '\nSource: ' + source + '\n\n' + desc + '\n';
+
+      function fallbackMailto(subject, body){
+        try {
+          location.href = 'mailto:info@hondvotechnology.com'
+            + '?subject=' + encodeURIComponent(subject)
+            + '&body=' + encodeURIComponent(body);
+          btnState('success');
+          window.showToast(t('mailto_hint'), 'success');
+          resetForm();
+        } catch (err) {
+          btnState('error');
+          window.showToast(t('ct_failure'), 'error');
+        }
+      }
+
+      function resetForm(){
+        f.name.value = ''; f.company.value = ''; f.phone.value = '';
+        f.email.value = ''; f.type.selectedIndex = 0; f.desc.value = '';
+      }
+
+      // 无 key（未在 index.html 填 HONDVO_WEB3FORMS_KEY）→ 直接降级 mailto，
+      // 保证客户侧永远能联系上，不因漏配配置而彻底失能。
+      if (!WEB3FORMS_KEY) { fallbackMailto(mailSubject, mailBody); return; }
+
+      var payload = {
+        access_key: WEB3FORMS_KEY,
+        name: name,
+        email: email,
+        company: company,
+        phone: phone,
+        // E.164 元数据（2026-10-05 海外改造）：便于按国家/地区分析询盘来源
+        phone_e164: phoneRes.e164 || null,
+        phone_country: phoneRes.country || null,
+        phone_type: phoneRes.type || null,
+        subject: mailSubject,
+        message: 'Inquiry type: ' + type + '\nSource: ' + source + '\n\n' + desc + '\n',
+        // 蜜罐：Web3Forms 侧也会判 botcheck 字段；留空即可通过
+        botcheck: '',
+        replyto: email
+      };
+
+      var timer = setTimeout(function () {
+        // 20s 未响应视为网络异常，走兜底
+        btnState('error');
+        window.showToast(t('ct_failure'), 'error');
+      }, 20000);
+
+      fetch(WEB3FORMS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (r) {
+        clearTimeout(timer);
+        return r.json().then(function (j) { return { ok: r.ok, status: r.status, json: j }; });
+      }).then(function (res) {
+        if (res.ok && res.json && res.json.success) {
+          btnState('success');
+          window.showToast(res.json.message || t('ct_success'), 'success');
+          resetForm();
+        } else {
+          btnState('error');
+          var msg = (res.json && (res.json.message || res.json.error)) || ('HTTP ' + res.status);
+          // 429 限流 / 400 配置错误：提示并保留内容，让用户改用邮箱
+          window.showToast(t('ct_failure') + ' (' + msg + ')', 'error');
+        }
+      }).catch(function (err) {
+        clearTimeout(timer);
+        // 网络异常（CORS / 断网 / DNS）：降级 mailto，保证不失联
+        try {
+          fallbackMailto(payload.subject, payload.message + '\n\nName: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone + '\nEmail: ' + email);
+        } catch (e2) {
+          btnState('error');
+          window.showToast(t('ct_failure'), 'error');
+        }
+      });
+
+      return;
+
+      /* ── 旧 mailto 主体（保留在下方仅作兜底模板参考，实际不再直接执行）──
       var mailSubject = '[Inquiry] ' + (type || 'Website') + ' — ' + name;
 
       var mailBody = 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
@@ -1688,6 +1878,7 @@ document.addEventListener('DOMContentLoaded', function(){
         window.showToast(t('ct_failure'), 'error');
 
       }
+      ── 旧实现结束 ── */
 
     }
 
@@ -1879,18 +2070,71 @@ document.addEventListener('DOMContentLoaded', function(){
 
       btn.textContent = t('pc_submitting') || 'Submitting...'; btn.disabled = true;
 
-
-
-      // 纯静态站点（2026-09-29）：后台询盘接口 POST /api/inquiries 已移除，
-      // 改为唤起本地邮件客户端并预填产品询盘内容（source 仍用于来源标注）。
+      /* 产品询盘弹窗 —— 同样改用 Web3Forms（2026-10-05）。
+         原为 mailto: 唤起本地邮件客户端（静默失败、无留痕）。
+         与联系表单共用 window.HONDVO_WEB3FORMS_KEY；未配置或请求失败时降级 mailto。 */
       var source = (location.hash || '').replace(/^#/, '') || 'page-products';
 
       var mailSubject = '[Inquiry] ' + title + ' — ' + name;
-
       var mailBody = 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
         '\nEmail: ' + email + '\nProduct: ' + title + '\nSource: ' + source +
         '\n\n' + msgParts.join('\n') + '\n';
 
+      function modalDone(){
+        btn.textContent = '✓';
+        btn.style.background = 'var(--success)';
+        window.showToast(t('mailto_hint'), 'success');
+        setTimeout(function(){ closeModal(modal.id); resetModalBtn(btn); }, 2500);
+      }
+      function modalFail(msg){
+        btn.disabled = false;
+        btn.textContent = t('pc_failed') || 'Failed';
+        btn.style.background = 'var(--error)';
+        window.showToast((t('ct_failure') || 'Failed') + (msg ? ' (' + msg + ')' : ''), 'error');
+        setTimeout(function(){ resetModalBtn(btn); }, 3000);
+      }
+      function modalMailto(){
+        try {
+          location.href = 'mailto:info@hondvotechnology.com'
+            + '?subject=' + encodeURIComponent(mailSubject)
+            + '&body=' + encodeURIComponent(mailBody);
+          modalDone();
+        } catch (err) { modalFail(); }
+      }
+
+      var WF_KEY = (window.HONDVO_WEB3FORMS_KEY || '').trim();
+      if (!WF_KEY) { modalMailto(); return; }
+
+      var modalTimer = setTimeout(function () { modalFail(); }, 20000);
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WF_KEY,
+          name: name,
+          email: email,
+          company: company,
+          phone: phone,
+          subject: mailSubject,
+          message: 'Product: ' + title + '\nSource: ' + source + '\n\n' + msgParts.join('\n') + '\n',
+          botcheck: '',
+          replyto: email
+        })
+      }).then(function (r) {
+        clearTimeout(modalTimer);
+        return r.json().then(function (j) { return { ok: r.ok, status: r.status, json: j }; });
+      }).then(function (res) {
+        if (res.ok && res.json && res.json.success) modalDone();
+        else modalFail((res.json && (res.json.message || res.json.error)) || ('HTTP ' + res.status));
+      }).catch(function () {
+        clearTimeout(modalTimer);
+        modalMailto();   // 网络异常 → 降级，保证不失联
+      });
+
+      return;
+
+      /* ── 旧 mailto 实现（保留作行为参考，不再执行）──
       try {
 
         location.href = 'mailto:info@hondvotechnology.com'
@@ -1905,17 +2149,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         setTimeout(function(){ closeModal(modal.id); resetModalBtn(btn); }, 2500);
 
-      } catch (err) {
-
-        btn.textContent = t('pc_failure_msg') || 'Failed, please try again';
-
-        btn.style.background = 'var(--error)';
-
-        window.showToast(t('pc_failure_msg') || 'Failed, please try again', 'error');
-
-        setTimeout(function(){ resetModalBtn(btn); }, 3000);
-
-      }
+      ── 旧实现结束 ── */
 
     });
 

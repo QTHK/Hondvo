@@ -77,15 +77,17 @@
     location.hash = hash;
   });
 
-  /* ---------- C. 邮件订阅（静态站：mailto 兜底） ---------- */
-  // 原实现 POST /api/subscribers（位于本文件已删除的 M7 段）。后台移除后改为：
-  // 校验邮箱 → 唤起本地邮件客户端发送订阅邮件 → 在 #m7-sub-msg 提示结果。
-  // 表单控件（#m7-sub-form / #m7-sub-email / #m7-sub-msg）与视觉均保持不变。
+  /* ---------- C. 邮件订阅（Web3Forms） ----------
+     2026-10-05：原为 mailto: 唤起本地邮件客户端（静默失败、依赖客户端、无留痕），
+     改为 POST https://api.web3forms.com/submit，与联系表单同一套后端。
+     access_key 读 window.HONDVO_WEB3FORMS_KEY（index.html 顶部配置）；
+     未配置或请求失败时**降级为 mailto**，保证订阅功能永不彻底失能。 */
   (function () {
     var form = document.getElementById('m7-sub-form');
     if (!form) return;
     var msg = document.getElementById('m7-sub-msg');
     var input = document.getElementById('m7-sub-email');
+    var btn = form.querySelector('button[type="submit"]');
 
     function show(text, ok) {
       if (!msg) return;
@@ -100,23 +102,61 @@
       var entry = (typeof I18N !== 'undefined' && I18N[key]) || null;
       return (entry && (entry[curLang()] || entry.en)) || fallback;
     }
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var email = ((input && input.value) || '').trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        show(t('m7_sub_invalid', 'Invalid email format'), false);
-        return;
-      }
+    function mailtoFallback(email) {
       try {
         location.href = 'mailto:info@hondvotechnology.com'
           + '?subject=' + encodeURIComponent('Newsletter subscription')
           + '&body=' + encodeURIComponent('Please subscribe this address to the HONDVO newsletter:\n' + email + '\n');
         show(t('mailto_hint', 'Email client opened — please send the message to confirm.'), true);
         if (input) input.value = '';
-      } catch (err) {
-        show(t('m7_sub_fail', 'Subscription failed, please try again later'), false);
+        return true;
+      } catch (err) { return false; }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = ((input && input.value) || '').trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        show(t('m7_sub_invalid', 'Invalid email format'), false);
+        return;
       }
+
+      var KEY = (window.HONDVO_WEB3FORMS_KEY || '').trim();
+      if (!KEY) { mailtoFallback(email); return; }   // 未配置 → 降级
+
+      var old = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = t('ct_submitting', 'Submitting…'); }
+
+      var timer = setTimeout(function () { if (btn) { btn.disabled = false; btn.textContent = old; } }, 20000);
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: KEY,
+          subject: 'Newsletter subscription',
+          email: email,
+          message: 'Please subscribe this address to the HONDVO newsletter.',
+          botcheck: ''
+        })
+      }).then(function (r) {
+        clearTimeout(timer);
+        return r.json().then(function (j) { return { ok: r.ok, json: j }; });
+      }).then(function (res) {
+        if (btn) { btn.disabled = false; btn.textContent = old; }
+        if (res.ok && res.json && res.json.success) {
+          show(res.json.message || t('ct_success', 'Subscribed'), true);
+          if (input) input.value = '';
+        } else {
+          var m = (res.json && (res.json.message || res.json.error)) || 'error';
+          show(t('m7_sub_fail', 'Subscription failed, please try again later') + ' (' + m + ')', false);
+        }
+      }).catch(function () {
+        clearTimeout(timer);
+        if (btn) { btn.disabled = false; btn.textContent = old; }
+        // 网络异常 → 降级 mailto
+        if (!mailtoFallback(email)) show(t('m7_sub_fail', 'Subscription failed, please try again later'), false);
+      });
     });
   })();
 
