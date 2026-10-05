@@ -281,7 +281,7 @@
         return '<div class="photo-slot" data-idx="'+i+'">'+img+'<span class="lbl">'+(img?'':esc(p))+'</span></div>';
       }).join('');
       var tags=tagsData.map(function(t){return '<span>'+esc(t)+'</span>';}).join('');
-      item.innerHTML='<div class="cap-head" data-acc-head="1"><div class="cap-ico">'+esc(c.icon||'')+'</div><div class="cap-t"><div class="t-zh">'+esc(title)+'</div><div class="t-en">'+esc(c.en||'')+'</div></div><span class="cap-badge">'+c.photos.length+' '+(MOLD_BADGE[lang]||MOLD_BADGE.en)+'</span><span class="cap-chev">&#9656;</span></div>'+'<div class="cap-body"><p>'+esc(desc)+'</p><div class="cap-tags">'+tags+'</div><div class="cap-photos">'+photos+'</div></div>';
+      item.innerHTML='<div class="cap-head" data-acc-head="1"><div class="cap-ico">'+esc(c.icon||'')+'</div><div class="cap-t"><div class="t-zh">'+esc(title)+'</div></div><span class="cap-badge">'+c.photos.length+' '+(MOLD_BADGE[lang]||MOLD_BADGE.en)+'</span><span class="cap-chev">&#9656;</span></div>'+'<div class="cap-body"><p>'+esc(desc)+'</p><div class="cap-tags">'+tags+'</div><div class="cap-photos">'+photos+'</div></div>';
       capAcc.appendChild(item);
     });
     if(openIdx>-1 && capAcc.children[openIdx]) capAcc.children[openIdx].classList.add('open');
@@ -298,20 +298,88 @@
   });
 
   // 区块三：加工设备（互斥折叠 + 表格），徽标 = 数量求和（2026-09-04 迁移：模具中心 → 资质实力页）
+  // 2026-10-05：完整 i18n 化 —— 分类标题 / 表头 / 机器类型 / 产地 / 单位 / 占位随语言切换；折叠头去「中英混排」
+  var equipCopy = {
+    cnc:{zh:'CNC 数控加工设备',en:'CNC Machining Centers',de:'CNC-Bearbeitungszentren',ru:'Обрабатывающие центры с ЧПУ',fr:'Centres d’usinage CNC',ja:'CNC マシニングセンタ',ko:'CNC 머시닝 센터',es:'Centros de mecanizado CNC'},
+    edm:{zh:'EDM 电火花加工设备',en:'EDM Machines',de:'Funkenerosionsmaschinen',ru:'Электроэрозионные станки',fr:'Machines d’électro-érosion',ja:'放電加工機',ko:'방전가공기',es:'Máquinas de electroerosión'},
+    wire:{zh:'线切割设备',en:'Wire-Cut EDM',de:'Drahterodiermaschinen',ru:'Проволочно-вырезные станки',fr:'Découpe par électro-érosion à fil',ja:'ワイヤ放電加工機',ko:'와이어 컷 방전가공기',es:'Electroerosión por hilo'},
+    grinder:{zh:'精密磨床设备',en:'Precision Grinders',de:'Präzisionsschleifmaschinen',ru:'Прецизионные шлифовальные станки',fr:'Rectifieuses de précision',ja:'精密研削盤',ko:'정밀 연삭기',es:'Rectificadoras de precisión'},
+    injection:{zh:'注塑机',en:'Injection Molding Machines',de:'Spritzgießmaschinen',ru:'Термопластавтоматы',fr:'Presses à injecter',ja:'射出成形機',ko:'사출 성형기',es:'Máquinas de inyección'},
+    qc:{zh:'品质检测设备',en:'Quality Inspection Equipment',de:'Qualitätsprüfgeräte',ru:'Оборудование контроля качества',fr:'Équipement de contrôle qualité',ja:'品質検査設備',ko:'품질 검사 장비',es:'Equipos de inspección de calidad'}
+  };
+  var equipTerm = {
+    '坐标磨':{zh:'坐标磨',en:'Jig Grinder',de:'Koordinatenschleifmaschine',ru:'Координатно-шлифовальный',fr:'Rectifieuse à coordonnées',ja:'ジグ研削盤',ko:'지그 연삭기',es:'Rectificadora de coordenadas'},
+    'CNC车床':{zh:'CNC 车床',en:'CNC Lathe',de:'CNC-Drehmaschine',ru:'Токарный с ЧПУ',fr:'Tour CNC',ja:'CNC旋盤',ko:'CNC 선반',es:'Torno CNC'},
+    '数控磨床':{zh:'数控磨床',en:'CNC Grinder',de:'CNC-Schleifmaschine',ru:'Шлифовальный с ЧПУ',fr:'Rectifieuse CNC',ja:'CNC研削盤',ko:'CNC 연삭기',es:'Rectificadora CNC'},
+    '五轴龙门':{zh:'五轴龙门',en:'5-Axis Gantry',de:'5-Achs-Portal',ru:'5-осевой портальный',fr:'Portique 5 axes',ja:'5軸ガントリー',ko:'5축 갠트리',es:'Pórtico de 5 ejes'},
+    '高速CNC':{zh:'高速 CNC',en:'High-Speed CNC',de:'Hochgeschwindigkeits-CNC',ru:'Высокоскоростной ЧПУ',fr:'CNC haute vitesse',ja:'高速CNC',ko:'고속 CNC',es:'CNC de alta velocidad'},
+    'CNC':{zh:'CNC',en:'CNC',de:'CNC',ru:'ЧПУ',fr:'CNC',ja:'CNC',ko:'CNC',es:'CNC'},
+    '五轴CNC':{zh:'五轴 CNC',en:'5-Axis CNC',de:'5-Achs-CNC',ru:'5-осевой ЧПУ',fr:'CNC 5 axes',ja:'5軸CNC',ko:'5축 CNC',es:'CNC de 5 ejes'},
+    '龙门':{zh:'龙门',en:'Gantry',de:'Portal',ru:'Портальный',fr:'Portique',ja:'ガントリー',ko:'갠트리',es:'Pórtico'},
+    'CNC铣':{zh:'CNC 铣',en:'CNC Milling',de:'CNC-Fräsen',ru:'Фрезерный с ЧПУ',fr:'Fraisage CNC',ja:'CNCフライス',ko:'CNC 밀링',es:'Fresado CNC'},
+    '成型机':{zh:'成型机',en:'Sinker EDM',de:'Senkerodiermaschine',ru:'Прошивочный электроэрозионный',fr:'Enfonçage par EDM',ja:'形彫放電加工機',ko:'형조 방전가공기',es:'Electroerosión por penetración'},
+    '慢走丝':{zh:'慢走丝',en:'Wire EDM',de:'Drahterosion',ru:'Проволочно-электроэрозионный',fr:'Électro-érosion à fil',ja:'ワイヤ放電加工機',ko:'와이어 방전가공기',es:'Electroerosión por hilo'},
+    '精密磨床':{zh:'精密磨床',en:'Precision Grinder',de:'Präzisionsschleifmaschine',ru:'Прецизионный шлифовальный',fr:'Rectifieuse de précision',ja:'精密研削盤',ko:'정밀 연삭기',es:'Rectificadora de precisión'},
+    '电动':{zh:'电动',en:'Electric',de:'Elektrisch',ru:'Электрический',fr:'Électrique',ja:'電動',ko:'전동',es:'Eléctrica'},
+    '通用':{zh:'通用',en:'General Purpose',de:'Universal',ru:'Универсальный',fr:'Standard',ja:'汎用',ko:'범용',es:'Uso general'},
+    '立式':{zh:'立式',en:'Vertical',de:'Vertikal',ru:'Вертикальный',fr:'Verticale',ja:'竪型',ko:'수직형',es:'Vertical'},
+    '液态硅胶专用':{zh:'液态硅胶专用',en:'LSR Dedicated',de:'LSR-spezifisch',ru:'Для LSR',fr:'Dédié LSR',ja:'LSR専用',ko:'LSR 전용',es:'Exclusivo LSR'},
+    'CMM+3D扫描':{zh:'CMM + 3D 扫描',en:'CMM + 3D Scan',de:'CMM + 3D-Scan',ru:'КИМ + 3D-скан',fr:'CMM + scan 3D',ja:'CMM + 3Dスキャン',ko:'CMM + 3D 스캔',es:'CMM + escaneo 3D'},
+    'CMM':{zh:'CMM',en:'CMM',de:'KMG',ru:'КИМ',fr:'CMM',ja:'CMM',ko:'CMM',es:'CMM'},
+    '2.5D CMM':{zh:'2.5D CMM',en:'2.5D CMM',de:'2.5D-KMG',ru:'2.5D КИМ',fr:'CMM 2.5D',ja:'2.5D CMM',ko:'2.5D CMM',es:'CMM 2.5D'},
+    '手持3D扫描':{zh:'手持 3D 扫描',en:'Handheld 3D Scanner',de:'Handheld-3D-Scanner',ru:'Ручной 3D-сканер',fr:'Scanner 3D portable',ja:'ハンディ3Dスキャナ',ko:'휴대용 3D 스캐너',es:'Escáner 3D portátil'}
+  };
+  var equipOrigin = {
+    '瑞士':{zh:'瑞士',en:'Switzerland',de:'Schweiz',ru:'Швейцария',fr:'Suisse',ja:'スイス',ko:'스위스',es:'Suiza'},
+    '日本':{zh:'日本',en:'Japan',de:'Japan',ru:'Япония',fr:'Japon',ja:'日本',ko:'일본',es:'Japón'},
+    '德国':{zh:'德国',en:'Germany',de:'Deutschland',ru:'Германия',fr:'Allemagne',ja:'ドイツ',ko:'독일',es:'Alemania'},
+    '美国':{zh:'美国',en:'USA',de:'USA',ru:'США',fr:'États-Unis',ja:'アメリカ',ko:'미국',es:'EE. UU.'},
+    '台湾':{zh:'中国台湾',en:'Taiwan, China',de:'Taiwan, China',ru:'Тайвань, Китай',fr:'Taïwan, Chine',ja:'中国台湾',ko:'중국 대만',es:'Taiwán, China'},
+    '中国':{zh:'中国',en:'China',de:'China',ru:'Китай',fr:'Chine',ja:'中国',ko:'중국',es:'China'},
+    '—':{zh:'—',en:'—',de:'—',ru:'—',fr:'—',ja:'—',ko:'—',es:'—'}
+  };
+  var equipUi = {
+    headModel:{zh:'设备 / Model',en:'Model',de:'Modell',ru:'Модель',fr:'Modèle',ja:'機種',ko:'모델',es:'Modelo'},
+    headOrigin:{zh:'产地',en:'Origin',de:'Herkunft',ru:'Происхождение',fr:'Origine',ja:'原産地',ko:'원산지',es:'Origen'},
+    headSpec:{zh:'精度 / 吨位',en:'Accuracy / Tonnage',de:'Genauigkeit / Tonnage',ru:'Точность / Тоннаж',fr:'Précision / Tonnage',ja:'精度 / トン数',ko:'정밀도 / 톤수',es:'Precisión / Tonelaje'},
+    headQty:{zh:'数量',en:'Qty',de:'Menge',ru:'Кол-во',fr:'Qté',ja:'数量',ko:'수량',es:'Cant.'},
+    headPhoto:{zh:'图片',en:'Photo',de:'Foto',ru:'Фото',fr:'Photo',ja:'写真',ko:'사진',es:'Foto'},
+    unit:{zh:'台',en:'units',de:'Stk.',ru:'шт.',fr:'unités',ja:'台',ko:'대',es:'uds.'},
+    photoPh:{zh:'设备实拍图',en:'Equipment photo',de:'Gerätefoto',ru:'Фото оборудования',fr:'Photo de l’équipement',ja:'設備写真',ko:'장비 사진',es:'Foto del equipo'}
+  };
+  function equipPick(map, key, lang){ var e = map[key]; return e ? (e[lang] || e.en || e.zh || key) : key; }
   var eqAcc = document.getElementById('qualEqAcc');
-  MOLD.equip.order.forEach(function(key){
-    var c = MOLD.equip.data[key];
-    var total = c.items.reduce(function(s,d){ return s + (parseInt(d.q,10)||1); }, 0);
-    var rows = c.items.map(function(d){
-      return '<tr class="eq-row"><td><span class="eq-dev">'+esc(d.n)+'</span><div class="eq-model">'+esc(d.m||'')+'</div></td><td>'+esc(d.o||'')+'</td><td>'+esc(d.p||'')+'</td><td class="eq-qty">×'+(parseInt(d.q,10)||1)+'</td><td><div class="eq-img" data-cap="'+esc(d.n)+' 设备实拍图">设备<br>实拍图</div></td></tr>';
-    }).join('');
-    var item = document.createElement('div');
-    item.className = 'eq-item';
-    item.setAttribute('data-acc-item', '1');
-    item.id = 'qual-eq-' + key;   // 稳定锚点：资质实力页·加工与检测设备（导航下拉用）
-    item.innerHTML = '<div class="eq-head" data-acc-head="1"><span class="eq-dot"></span><span class="t-zh">'+esc(c.zh)+'</span><span class="t-en">'+esc(c.en||'')+'</span><span class="eq-badge">'+total+' 台</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-scroll"><table class="eq-table"><thead><tr><th>设备 / Model</th><th>产地</th><th>精度 / 吨位</th><th>数量</th><th>图片</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
-    eqAcc.appendChild(item);
-  });
+  function renderEquipment(){
+    if(!eqAcc) return;
+    var lang = moldLang();
+    function T(map,key){ return equipPick(map, key, lang); }
+    function U(k){ return equipPick(equipUi, k, lang); }
+    // 语言切换整块重建：记录并还原展开态
+    var openEl = eqAcc.querySelector('.eq-item.open');
+    var openIdx = openEl ? Array.prototype.indexOf.call(eqAcc.children, openEl) : -1;
+    eqAcc.innerHTML = '';
+    MOLD.equip.order.forEach(function(key){
+      var c = MOLD.equip.data[key];
+      var title = equipPick(equipCopy, key, lang) || c.zh;
+      var total = c.items.reduce(function(s,d){ return s + (parseInt(d.q,10)||1); }, 0);
+      var rows = c.items.map(function(d){
+        return '<tr class="eq-row"><td><span class="eq-dev">'+esc(d.n)+'</span><div class="eq-model">'+esc(T(equipTerm,d.m)||'')+'</div></td>'
+          + '<td>'+esc(T(equipOrigin,d.o)||'')+'</td>'
+          + '<td>'+esc(d.p||'')+'</td>'
+          + '<td class="eq-qty">×'+(parseInt(d.q,10)||1)+'</td>'
+          + '<td><div class="eq-img" data-cap="'+esc(d.n)+' '+esc(U('photoPh'))+'">'+esc(U('photoPh'))+'</div></td></tr>';
+      }).join('');
+      var item = document.createElement('div');
+      item.className = 'eq-item';
+      item.setAttribute('data-acc-item', '1');
+      item.id = 'qual-eq-' + key;   // 稳定锚点：资质实力页·加工与检测设备（导航下拉用）
+      item.innerHTML = '<div class="eq-head" data-acc-head="1"><span class="eq-dot"></span><span class="t-zh">'+esc(title)+'</span><span class="eq-badge">'+total+' '+esc(U('unit'))+'</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-scroll"><table class="eq-table"><thead><tr><th>'+esc(U('headModel'))+'</th><th>'+esc(U('headOrigin'))+'</th><th>'+esc(U('headSpec'))+'</th><th>'+esc(U('headQty'))+'</th><th>'+esc(U('headPhoto'))+'</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+      eqAcc.appendChild(item);
+    });
+    if(openIdx>-1 && eqAcc.children[openIdx]) eqAcc.children[openIdx].classList.add('open');
+  }
+  renderEquipment();
+  document.addEventListener('hondvo:lang', renderEquipment);
   // 设备区块的互斥折叠已交由统一的 [data-acc-head] 委托处理（P1-13）
   // 设备实拍图：点击走轮播 Lightbox（单图占位）
   document.addEventListener('click', function(e){
