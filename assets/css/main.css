@@ -3041,6 +3041,10 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
    该规则是为掩盖 HONDVO.html 中 .prod-grid 缺失闭合标签（区块被吞入栅格）而打，
    HTML 结构修复后 prod-grid 仅含 3 张 .prod-card，规则不再需要，属"用 CSS 掩盖 HTML 错误"。 */
 #page-home .home-news {max-width:var(--container);margin:var(--sp-4) auto 0;padding:0 clamp(24px,5vw,80px);}
+/* 2026-10-05：应用领域 / 全链路制造能力 补上与 .sec-header / .home-news 一致的容器约束 ——
+   此前这两块是裸 100% 宽度（HTML 未使用 .home-sectors-wrap / .home-flow-wrap，那两个类成为死 CSS），
+   导致铺满全屏、与页面上其它模块左右不对齐。现统一为 max-width:var(--container) 居中 + 同档左右留白。 */
+#page-home .home-sectors, #page-home .home-flow {max-width:var(--container);margin:var(--sp-4) auto 0;padding:0 clamp(24px,5vw,80px);}
 
 /* ═══════════ EMAIL INPUT HINT（2026-10-05）═══════════
    邮箱常见域名拼写纠错提示。刻意**不自动改写**输入值（浏览器安全规范：
