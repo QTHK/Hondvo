@@ -345,7 +345,7 @@
     headQty:{zh:'数量',en:'Qty',de:'Menge',ru:'Кол-во',fr:'Qté',ja:'数量',ko:'수량',es:'Cant.'},
     headPhoto:{zh:'图片',en:'Photo',de:'Foto',ru:'Фото',fr:'Photo',ja:'写真',ko:'사진',es:'Foto'},
     unit:{zh:'台',en:'units',de:'Stk.',ru:'шт.',fr:'unités',ja:'台',ko:'대',es:'uds.'},
-    photoPh:{zh:'设备实拍图',en:'Equipment photo',de:'Gerätefoto',ru:'Фото оборудования',fr:'Photo de l’équipement',ja:'設備写真',ko:'장비 사진',es:'Foto del equipo'}
+    photoPh:{zh:'Equipment photo',en:'Equipment photo',de:'Gerätefoto',ru:'Фото оборудования',fr:'Photo de l’équipement',ja:'設備写真',ko:'장비 사진',es:'Foto del equipo'}
   };
   function equipPick(map, key, lang){ var e = map[key]; return e ? (e[lang] || e.en || e.zh || key) : key; }
   var eqAcc = document.getElementById('qualEqAcc');
@@ -384,7 +384,7 @@
   // 设备实拍图：点击走轮播 Lightbox（单图占位）
   document.addEventListener('click', function(e){
     var t = e.target.closest('.eq-img');
-    if (t){ e.stopPropagation(); openMoldCarousel([t.dataset.cap || '设备实拍图'], 0, t.dataset.cap || '设备实拍图'); }
+    if (t){ e.stopPropagation(); openMoldCarousel([t.dataset.cap || 'Equipment photo'], 0, t.dataset.cap || 'Equipment photo'); }
   });
 
   // 区块二：开发流程（8 语言）
@@ -3182,53 +3182,53 @@ document.addEventListener("hondvo:lang", function () {
        discover 暂保留旧结构（待单独决定），渲染函数对两种结构均兼容。 */
     browse: [
       /* 按需求：浏览产品只呈现产品本身，不显示描述（行业描述统一收在「应用行业」Tab） */
-      { img:"images/core_medical_1.webp", icon:"输",
+      { img:"images/core_medical_1.webp", icon:"ID",
         t:"prod1_title",
         tags:["prod1_tag1","prod1_tag2","prod1_tag3","prod1_tag4"] },
       { img:"images/core_medical_2.webp", icon:"IVD",
         t:"prod2_title",
         tags:["prod2_tag1","prod2_tag2","prod2_tag3","prod2_tag4"] },
-      { img:"images/prod_custom.webp", icon:"呼",
+      { img:"images/prod_custom.webp", icon:"RS",
         t:"home_prod4_title",
         tags:["prod4_tag1","prod4_tag2","prod4_tag3","prod4_tag4"] },
-      { img:"images/workshop_1.webp", icon:"包",
+      { img:"images/workshop_1.webp", icon:"PK",
         t:"home_prod5_title",
         tags:["prod5_tag1","prod5_tag2","prod5_tag3","prod5_tag4"] }
     ],
     discover: [
-      { img:"images/prod_enteral.webp", icon:"耗", zh:"一次性耗材方案", en:"Single-use Consumables", pos:"覆盖一次性耗材全链路——从模具设计到批量注塑交付，洁净可控、成本可预期",
+      { img:"images/prod_enteral.webp", icon:"SU", zh:"Single-use Consumables", en:"Single-use Consumables", pos:"End-to-end single-use consumables — from mold design to volume injection molding, clean and controlled with predictable cost.",
         fields:[
-          { k:"典型应用", v:"采血管类 · 输液组件 · 采样耗材" },
-          { k:"工艺说明", v:"高速多腔模具 · 全自动产线" }
+          { k:"Typical Applications", v:"Blood collection tubes · Infusion components · Sampling consumables" },
+          { k:"Process", v:"High-speed multi-cavity molds · Fully automated line" }
         ],
-        items:["采血管类","输液组件","采样耗材"] },
-      { img:"images/prod_custom.webp", icon:"IVD", zh:"诊断试剂盒方案 IVD", en:"IVD Kit Solutions", pos:"微流控结构、试剂腔、卡壳件的高精度成型，精密尺寸与外观兼得",
+        items:["Blood collection tubes","Infusion components","Sampling consumables"] },
+      { img:"images/prod_custom.webp", icon:"IVD", zh:"IVD Kit Solutions", en:"IVD Kit Solutions", pos:"High-precision molding of microfluidic structures, reagent chambers and cartridge housings — precise dimensions with excellent appearance.",
         fields:[
-          { k:"典型应用", v:"微流控芯片 · 试剂盒外壳 · 加样结构件" },
-          { k:"工艺说明", v:"微结构 · 薄壁精密注塑 · 光学级表面" }
+          { k:"Typical Applications", v:"Microfluidic chips · Kit housings · Sample-loading parts" },
+          { k:"Process", v:"Micro-features · Thin-wall precision molding · Optical-grade surface" }
         ],
-        items:["微流控芯片","试剂盒外壳","加样结构件"] },
-      { img:"images/prod_injection.webp", icon:"微", zh:"微创手术器械件", en:"Minimally Invasive Instrument Parts", pos:"微小精密器械件成型，满足 II 类器械结构与装配要求，批量一致性好",
+        items:["Microfluidic chips","Kit housings","Sample-loading parts"] },
+      { img:"images/prod_injection.webp", icon:"MI", zh:"Minimally Invasive Instrument Parts", en:"Minimally Invasive Instrument Parts", pos:"Molding of micro precision instrument parts, meeting Class II device structure requirements with consistent batch quality.",
         fields:[
-          { k:"典型应用", v:"穿刺器结构件 · 内镜配件 · 手术手柄" },
-          { k:"工艺说明", v:"微小精密件 · II 类合规体系配套" }
+          { k:"Typical Applications", v:"Trocar parts · Endoscopic accessories · Surgical handles" },
+          { k:"Process", v:"Micro precision parts · Class II compliance support" }
         ],
-        items:["穿刺器结构件","内镜配件","手术手柄"] }
+        items:["Trocar parts","Endoscopic accessories","Surgical handles"] }
     ],
     industries: [
       /* 描述采用「场景口径」（home_sec_N_scene）：讲清该领域的典型使用场景与关键要求，
          与「浏览产品」（讲我们做什么产品）形成维度分工，避免两个 Tab 内容雷同。
          注：**不要**改回 home_prodN_desc —— 那是首页核心业务的产品口径描述，改它会连带首页一起变。 */
-      { img:"images/core_medical_1.webp", icon:"输",
+      { img:"images/core_medical_1.webp", icon:"ID",
         t:"home_sec_1_t", d:"home_sec_1_scene",
         tags:["home_sec_1_l1","home_sec_1_l2","home_sec_1_l3","home_sec_1_l4"] },
       { img:"images/core_medical_2.webp", icon:"IVD",
         t:"home_sec_2_t", d:"home_sec_2_scene",
         tags:["home_sec_2_l1","home_sec_2_l2","home_sec_2_l3","home_sec_2_l4","home_sec_2_l5"] },
-      { img:"images/prod_custom.webp", icon:"呼",
+      { img:"images/prod_custom.webp", icon:"RS",
         t:"home_sec_3_t", d:"home_sec_3_scene",
         tags:["home_sec_3_l1","home_sec_3_l2","home_sec_3_l3","home_sec_3_l4","home_sec_3_l5","home_sec_3_l6"] },
-      { img:"images/workshop_1.webp", icon:"包",
+      { img:"images/workshop_1.webp", icon:"PK",
         t:"home_sec_4_t", d:"home_sec_4_scene",
         tags:["home_sec_4_l1","home_sec_4_l2","home_sec_4_l3","home_sec_4_l4"] }
     ]
@@ -3287,7 +3287,7 @@ document.addEventListener("hondvo:lang", function () {
         var pos = desc ? '<div class="t-sub">' + escProd(desc) + '</div>' : "";
         var tags = accTags(g).map(function(t){ return "<span>" + escProd(t) + "</span>"; }).join("");
         var photos = [1, 2].map(function(i){
-          return '<div class="photo-slot" data-cap="' + escProd(title) + ' 实拍 ' + i + '"><span class="lbl">' + escProd(title) + ' 实拍 ' + i + '</span></div>';
+          return '<div class="photo-slot" data-cap="' + escProd(title) + ' Photo ' + i + '"><span class="lbl">' + escProd(title) + ' Photo ' + i + '</span></div>';
         }).join("");
         return '<div class="prod-item" id="prod-' + tab + '-' + gi + '" data-acc-item="1">'
           + '<div class="prod-head" data-acc-head="1"><div class="prod-ico">' + escProd(g.icon || "") + '</div>'

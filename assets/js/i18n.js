@@ -1182,9 +1182,9 @@ const FOOTER_HTML = `
 
         <div class="logo-area">
 
-          <img src="images/logo.webp" alt="弘欧" loading="lazy">
+          <img src="images/logo.webp" alt="HONDVO" loading="lazy">
 
-          <div class="brand-name">弘欧科技<small>HONDVO Technology</small></div>
+          <div class="brand-name">HONDVO Technology<small>Precision Medical Manufacturing</small></div>
 
         </div>
 
@@ -1234,9 +1234,9 @@ const FOOTER_HTML = `
 
         <a class="si-link" href="mailto:info@hondvotechnology.com" data-tip="info@hondvotechnology.com" aria-label="Email"><img class="si-img" src="images/email-circle.png" alt="Email"></a>
 
-        <a class="si-link" href="#social-wechat" data-qr="images/wecom-qrcode.webp" data-tip="WeChat / 企业微信" aria-label="WeChat"><img class="si-img" src="images/logo-wechat.png" alt="WeChat"></a>
+        <a class="si-link" href="#social-wechat" data-qr="images/wecom-qrcode.webp" data-tip="WeChat / WeCom" aria-label="WeChat"><img class="si-img" src="images/logo-wechat.png" alt="WeChat"></a>
 
-        <a class="si-link" href="#social-facebook" data-tip="Facebook: 待绑定" aria-label="Facebook"><!-- TODO: 接入真实 Facebook 主页后替换 href 为真实链接 --><img class="si-img" src="images/logo-square-facebook.png" alt="Facebook"></a>
+        <a class="si-link" href="#social-facebook" data-tip="Facebook" aria-label="Facebook"><!-- TODO: 接入真实 Facebook 主页后替换 href 为真实链接 --><img class="si-img" src="images/logo-square-facebook.png" alt="Facebook"></a>
 
       </div>
 
