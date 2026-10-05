@@ -1016,7 +1016,10 @@
          muted 保留：autoplay 被移除后仍需静音属性，配合脚本 play() 才不会被浏览器拦截。
          loop 保留：脚本 play() 后循环播放是原设计效果。 -->
     <video class="hero-video" muted loop playsinline preload="none" poster="images/mold-hero-poster.jpg">
-      <source src="assets/video/mold-hero-hv.mp4" type='video/mp4; codecs="hvc1.1.6.L120.90"'>
+      <!-- 2026-10-05：移除 H.265 版 mold-hero-hv.mp4 —— 该素材画面含「AI 生成」水印（用户指令：站点不得出现 AI 字样）。
+           支持 H.265 硬解的 Chrome/Edge 会优先选中它导致水印可见；现统一播放 H.264 原片
+           mold-hero-h.mp4（已抽 7 帧核验 0.2s–13.3s 全程无水印，13.6s 1080p）。
+           preload="none" 懒加载下体积可接受。 -->
       <source src="assets/video/mold-hero-h.mp4" type="video/mp4">
     </video>
     <span class="eyebrow" data-lang-key="mold_hero_eyebrow">医疗器械精密制造</span>
