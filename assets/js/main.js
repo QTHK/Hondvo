@@ -1816,7 +1816,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-      if (!name || !phone || !email){
+      /* 询盘类型自 2026-10-06 起为必填：未选时该 option 的 value 为空字符串。
+         不加此校验会导致客户跳过选填项，使分类统计出现大量 unspecified。 */
+      var typeChosen = !!(f.type && f.type.value);
+
+      if (!name || !phone || !email || !typeChosen){
 
         var missingLabels = [];
 
@@ -1825,6 +1829,8 @@ document.addEventListener('DOMContentLoaded', function(){
         if (!phone) { window.markFg(f.phone); missingLabels.push(fgLabel(f.phone)); }
 
         if (!email) { window.markFg(f.email); missingLabels.push(fgLabel(f.email)); }
+
+        if (!typeChosen) { window.markFg(f.type); missingLabels.push(fgLabel(f.type)); }
 
         window.showToast(t('ct_val_required'), 'error', missingLabels); return;
 
