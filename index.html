@@ -1899,7 +1899,9 @@
        · defer 保持文档执行顺序，故既有依赖链依然成立
          （sanitize 必须早于 i18n；render 必须早于 main）。
        · hero-video.js 负责模具中心背景视频按需加载（不进视口不下载 17.6MB）。
-         地图模块（map.js / #partner-map）保持原状，未作任何改动。
+         2026-10-06：地图模块完成「根上清理」——map.js 移除 22 处硬编码高亮与单点命中算法，
+         版图点亮职责移交配套脚本 map-partner.js。两者必须同时引入、缺一不可：
+         map.js 负责底图/标记/飞线，map-partner.js 负责点亮/标签避让/入场动效。
      ============================================================ -->
 <script src="assets/js/sanitize.js" defer></script>
 <script src="assets/js/i18n.js" defer></script>
@@ -1908,6 +1910,7 @@
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/home-dyn.js" defer></script>
 <script src="assets/js/map.js" defer></script>
+<script src="assets/js/map-partner.js" defer></script>
 <script src="assets/js/vendor/libphonenumber.min.js" defer></script>
 <script src="assets/js/phone-intl.js" defer></script>
 <script src="assets/js/email-hint.js" defer></script>
