@@ -1901,7 +1901,6 @@ document.addEventListener('DOMContentLoaded', function(){
       payload.company = company;
       payload.phone = phone;
       payload.phone_country = phoneRes.country || '';
-      payload.phone_type = phoneRes.type || '';
       payload.email = email;
       payload.message = desc;
 
@@ -2276,9 +2275,9 @@ document.addEventListener('DOMContentLoaded', function(){
       payload.name = name;
       payload.company = company;
       payload.phone = phone;
-      /* 电话元数据（2026-10-06）：弹窗加上区号下拉后，国别与号码类型同样可采集 */
+      /* 电话国别元数据（2026-10-06）：弹窗加上区号下拉后可采集。
+         注：phone_type（手机/固话）已移除——libphonenumber 最小构建下该值恒为空。 */
       payload.phone_country = phoneRes.country || '';
-      payload.phone_type = phoneRes.type || '';
       payload.email = email;
       for (var mk in fields) {
         if (Object.prototype.hasOwnProperty.call(fields, mk) && fields[mk]) payload[mk] = fields[mk];
