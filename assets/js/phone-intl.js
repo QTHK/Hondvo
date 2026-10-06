@@ -53,8 +53,10 @@
      ⚠️ API 名踩坑：libphonenumber-js 1.13.x 的 bundle 导出的是
         `getCountries()`（返回 245 个 ISO 代码），**没有** `getSupportedCountries()`。
         写成后者会静默 return，导致下拉空、进而所有组合号码缺前缀而校验失败。 */
-  function buildCountrySelect() {
-    var sel = document.getElementById('ct-phone-cc');
+  function buildCountrySelect(target) {
+    /* 参数化（2026-10-06）：同一套逻辑服务于联系表单 + 三个产品弹窗共四处电话组合。
+       不传参数时回落到首个 .phone-cc，保持对既有调用的兼容。 */
+    var sel = target || document.querySelector('.phone-row .phone-cc') || document.getElementById('ct-phone-cc');
     var g = LPN();
     if (!sel) return;
     if (!g || typeof g.getCountries !== 'function') return;   // 库未就绪 → 保留空，校验降级
@@ -101,12 +103,21 @@
     else if (all.indexOf('US') >= 0) sel.value = 'US';
   }
 
+  /* 为页面上**所有**电话组合（.phone-row .phone-cc）填充国家/地区下拉。
+     联系表单与三个产品弹窗共用同一套排序规则与文案格式。 */
+  function buildAllCountrySelects() {
+    var sels = document.querySelectorAll('.phone-row .phone-cc');
+    for (var i = 0; i < sels.length; i++) buildCountrySelect(sels[i]);
+  }
+
   /* 组合最终要校验的号码：区号下拉 + 输入框内容
      · 下拉为空（库未加载）→ 只校验输入框自身
      · 输入框已带 + / 00 国际前缀 → 忽略下拉，避免拼成 +1+1415… 的废号 */
-  function composeInput() {
-    var cc = document.getElementById('ct-phone-cc');
-    var input = document.getElementById('ct-phone');
+  function composeInput(root) {
+    /* root 可传某个弹窗元素，只在该容器内查找；不传则在整页查找（联系表单）。 */
+    var scope = root || document;
+    var cc = scope.querySelector('.phone-row .phone-cc') || document.getElementById('ct-phone-cc');
+    var input = scope.querySelector('.phone-row input[type="tel"]') || document.getElementById('ct-phone');
     var raw = ((input && input.value) || '').trim();
     if (!raw) return { text: '', hasPrefix: false, cc: cc ? cc.value : '' };
     if (/^\s*(\+|00)/.test(raw)) return { text: raw, hasPrefix: true, cc: cc ? cc.value : '' };
@@ -149,8 +160,10 @@
    * @returns {{ok:boolean, code:string, e164?:string, country?:string, type?:string, degraded?:boolean}}
    *   ok=false 仅在「确定无效」时返回；库缺失/异常一律 ok=true 且 degraded=true
    */
-  function validate(raw) {
-    var composed = raw !== undefined ? { text: String(raw || '').trim(), hasPrefix: /^\+/.test(String(raw || '')), cc: '' } : composeInput();
+  function validate(raw, root) {
+    var composed = (raw !== undefined && raw !== null)
+      ? { text: String(raw || '').trim(), hasPrefix: /^\+/.test(String(raw || '')), cc: '' }
+      : composeInput(root);
     var input = composed.text;
 
     var loose = looseCheck(input);
@@ -192,14 +205,14 @@
 
   /* ── 初始化 ── */
   function init() {
-    buildCountrySelect();
+    buildAllCountrySelects();
 
-    /* 切语言时重建下拉文案（保留已选国家）。
+    /* 切语言时重建**全部**下拉文案（保留已选国家）。
        ⚠️ 必须监听 **document** 而非 window：i18n.js 的 switchLang 末尾是
        `document.dispatchEvent(new CustomEvent('hondvo:lang', ...))`，
        自定义事件只向上冒泡到 document，**不会反向冒泡到 window**，
        挂在 window 上永远收不到 → 区号列表要刷新页面才对。 */
-    document.addEventListener('hondvo:lang', function () { buildCountrySelect(); });
+    document.addEventListener('hondvo:lang', function () { buildAllCountrySelects(); });
   }
 
   if (document.readyState === 'loading') {
@@ -210,6 +223,7 @@
   window.HONDVO_phone = {
     validate: validate,
     buildCountrySelect: buildCountrySelect,
+    buildAllCountrySelects: buildAllCountrySelects,
     callingCode: callingCode,
     countryName: countryName,
     _lib: LPN

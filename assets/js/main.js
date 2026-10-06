@@ -2197,6 +2197,30 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
+      /* 电话校验（2026-10-06）：弹窗改用「区号下拉 + 号码」组合，与联系表单共用同一套
+         libphonenumber 规则。校验失败即拦截；库未加载时降级放行，
+         绝不因校验器故障拦掉询盘。 */
+      var modalPhoneEl = modal.querySelector('input[type="tel"]');
+
+      var phoneRes = (window.HONDVO_phone && typeof window.HONDVO_phone.validate === 'function')
+        ? window.HONDVO_phone.validate(undefined, modal)
+        : { ok: true, code: 'DEGRADED', degraded: true };
+
+      if (!phoneRes.ok) {
+
+        if (modalPhoneEl && modalPhoneEl.closest) window.markFg(modalPhoneEl);
+
+        window.showToast(t('ct_val_phone') || 'Please enter a valid phone number.', 'error');
+
+        return;
+
+      }
+
+      // 规范化成 E.164 后回填（保证提交与入库统一为 +14155552671 这类国际格式）
+      if (phoneRes.e164 && modalPhoneEl) modalPhoneEl.value = phoneRes.e164;
+
+
+
       var emailInput = modal.querySelector('input[type="email"]');
 
       var email = (emailInput && emailInput.value.trim()) || '';
@@ -2252,6 +2276,9 @@ document.addEventListener('DOMContentLoaded', function(){
       payload.name = name;
       payload.company = company;
       payload.phone = phone;
+      /* 电话元数据（2026-10-06）：弹窗加上区号下拉后，国别与号码类型同样可采集 */
+      payload.phone_country = phoneRes.country || '';
+      payload.phone_type = phoneRes.type || '';
       payload.email = email;
       for (var mk in fields) {
         if (Object.prototype.hasOwnProperty.call(fields, mk) && fields[mk]) payload[mk] = fields[mk];
