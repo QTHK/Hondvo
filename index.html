@@ -152,9 +152,12 @@
 
 
 
-  <!-- 统计配置：把真实 ID 填入本文件顶部的 window.HONDVO_CFG 即自动启用；baidu=百度统计ID，ga4=GA4 Measurement ID -->
+  <!-- 统计配置：把真实 ID 填入下面的 window.HONDVO_CFG 即自动启用（留空则不加载、不产生请求）。
+       baidu   = 百度统计 ID（国内访客）
+       ga4     = GA4 Measurement ID（需 Google 账号，本环境未启用）
+       clarity = Microsoft Clarity Project ID（热图 + 会话录屏，免费无限量） -->
 
-  <script>window.HONDVO_CFG = window.HONDVO_CFG || { baidu: '', ga4: '' };</script>
+  <script>window.HONDVO_CFG = window.HONDVO_CFG || { baidu: '', ga4: '', clarity: 'yt921txb1g' };</script>
 
   <!-- ═══════════════════════════════════════════════════════════════
        Web3Forms 询盘接入配置（2026-10-05）

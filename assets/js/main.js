@@ -35,6 +35,29 @@
 
       }
 
+      if (c.clarity) {
+
+        /* Microsoft Clarity（2026-10-06 接入）：免费无限量的行为分析，
+           提供热图与会话录屏，用于观察客户在页面上的真实操作路径与卡点。
+           采用它而非 GA4 的原因：GA4 需 Google 账号，本环境无法注册。
+           未填 ID 时不加载、不产生任何外部请求。 */
+
+        (function (w, d, id) {
+
+          w.clarity = w.clarity || function () { (w.clarity.q = w.clarity.q || []).push(arguments); };
+
+          var t = d.createElement('script');
+
+          t.async = 1; t.src = 'https://www.clarity.ms/tag/' + encodeURIComponent(id);
+
+          var y = d.getElementsByTagName('script')[0];
+
+          y.parentNode.insertBefore(t, y);
+
+        })(window, document, c.clarity);
+
+      }
+
     })();
 
 (function(){
