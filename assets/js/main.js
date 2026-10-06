@@ -1796,7 +1796,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
       var phone = (f.phone||{}).value||''; var email = (f.email||{}).value||'';
 
-      var type = (f.type||{}).options ? (f.type.options[f.type.selectedIndex]||{}).text || '' : '';
+      /* 分类值必须语言无关：取选中项的 data-lang-key 并映射为稳定值。
+         原实现取 .text（本地化可见文本）→ 同一业务类型在 8 种语言下会落成
+         8 个互不相同的字符串，聚合统计直接失效。 */
+      var META = window.HONDVO_meta;
+      var type = META ? META.inquiryType(f.type || {}) : 'unspecified';
 
       var desc = (f.desc||{}).value||'';
 
@@ -1873,10 +1877,34 @@ document.addEventListener('DOMContentLoaded', function(){
       var WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
       var WEB3FORMS_KEY = (window.HONDVO_WEB3FORMS_KEY || '').trim();
 
-      // 收件内容在此构造一次，供「Web3Forms 提交」与「无 key 降级 mailto」共用
-      var mailSubject = '[Inquiry] ' + (type || 'Website') + ' — ' + name;
-      var mailBody = 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
-        '\nEmail: ' + email + '\nInquiry type: ' + type + '\nSource: ' + source + '\n\n' + desc + '\n';
+      /* ── 结构化分类与追踪字段（2026-10-05）────────────────────────────
+         字段名与《HONDVO询盘表格字段设计》一一对应：提交什么、表格就存什么。
+         form_type 标识表单归属；inquiry_type 为语言无关的询盘类型；
+         其余为来源/环境追踪字段，供统计与归因使用。 */
+      var payload = META ? META.envMeta() : {
+        schema_version: 1,
+        submission_id: String(Date.now()) + '-' + Math.random().toString(36).slice(2, 10),
+        site_lang: 'en',
+        source_page: 'index',
+        source_anchor: source,
+        submitted_at: new Date().toISOString()
+      };
+      payload.form_type = 'contact';
+      payload.inquiry_type = type;
+      payload.name = name;
+      payload.company = company;
+      payload.phone = phone;
+      payload.phone_country = phoneRes.country || '';
+      payload.phone_type = phoneRes.type || '';
+      payload.email = email;
+      payload.message = desc;
+
+      // 收件主题/正文在此构造一次，供「Web3Forms 提交」与「无 key 降级 mailto」共用
+      var mailSubject = META ? META.subject('contact', type, company || name)
+        : '[Inquiry] ' + (type || 'Website') + ' — ' + name;
+      var mailBody = META ? META.bodyText(payload)
+        : 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
+          '\nEmail: ' + email + '\nInquiry type: ' + type + '\nSource: ' + source + '\n\n' + desc + '\n';
 
       function fallbackMailto(subject, body){
         try {
@@ -1901,22 +1929,17 @@ document.addEventListener('DOMContentLoaded', function(){
       // 保证客户侧永远能联系上，不因漏配配置而彻底失能。
       if (!WEB3FORMS_KEY) { fallbackMailto(mailSubject, mailBody); return; }
 
-      var payload = {
-        access_key: WEB3FORMS_KEY,
-        name: name,
-        email: email,
-        company: company,
-        phone: phone,
-        // E.164 元数据（2026-10-05 海外改造）：便于按国家/地区分析询盘来源
-        phone_e164: phoneRes.e164 || null,
-        phone_country: phoneRes.country || null,
-        phone_type: phoneRes.type || null,
-        subject: mailSubject,
-        message: 'Inquiry type: ' + type + '\nSource: ' + source + '\n\n' + desc + '\n',
-        // 蜜罐：Web3Forms 侧也会判 botcheck 字段；留空即可通过
-        botcheck: '',
-        replyto: email
-      };
+      /* 补齐 Web3Forms 保留字段。业务数据已在 payload 中按列名铺好，
+         故不再把分类信息塞进 message（那是旧实现的人读文本方案）。 */
+      payload.access_key = WEB3FORMS_KEY;
+      payload.subject = mailSubject;
+      // 蜜罐：Web3Forms 侧也会判 botcheck 字段；留空即可通过
+      payload.botcheck = '';
+      payload.replyto = email;
+
+      // 表格链路（可选）：与邮件链路并行发出。失败不影响用户与邮件结果，
+      // 未配置中转端点时 pushToSheet 内部直接返回，不产生任何请求。
+      if (META) { try { META.pushToSheet(payload); } catch (e) {} }
 
       var timer = setTimeout(function () {
         // 20s 未响应视为网络异常，走兜底
@@ -1946,7 +1969,7 @@ document.addEventListener('DOMContentLoaded', function(){
         clearTimeout(timer);
         // 网络异常（CORS / 断网 / DNS）：降级 mailto，保证不失联
         try {
-          fallbackMailto(payload.subject, payload.message + '\n\nName: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone + '\nEmail: ' + email);
+          fallbackMailto(mailSubject, mailBody);
         } catch (e2) {
           btnState('error');
           window.showToast(t('ct_failure'), 'error');
@@ -2053,6 +2076,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
       var inputs = modal.querySelectorAll('input, select, textarea');
 
+      var META = window.HONDVO_meta;
+
       var fields = {};
 
       var radioGroups = {};
@@ -2063,21 +2088,40 @@ document.addEventListener('DOMContentLoaded', function(){
 
         if (el.type === 'radio') {
 
+          // radio 组以 name 为键（稳定，不随语言变），合并时再映射为表格列名
           if (!radioGroups[el.name]) radioGroups[el.name] = '';
 
           if (el.checked) radioGroups[el.name] = el.value;
 
         } else if (el.tagName === 'SELECT') {
 
-          fields[el.parentElement.querySelector('label').textContent] = el.options[el.selectedIndex].text;
+          // 下拉：优先 data-field，其次 label 的 data-lang-key（二者均语言无关）
+          var selKey = el.getAttribute('data-field');
+
+          if (!selKey) {
+
+            var selLab = el.parentElement.querySelector('label');
+
+            selKey = selLab ? selLab.getAttribute('data-lang-key') : '';
+
+          }
+
+          if (selKey) fields[selKey] = el.value;
 
         } else if (el.tagName === 'TEXTAREA') {
 
-          fields[el.parentElement.querySelector('label').textContent] = el.value.trim();
+          // 需求描述统一归入 message 列
+          fields.message = el.value.trim();
 
         } else if (el.type !== 'radio' && el.type !== 'submit' && el.type !== 'button') {
 
-          fields[el.parentElement.querySelector('label').textContent] = el.value.trim();
+          /* 业务字段以 data-field 为键（mold_type / steel_grade / cavity_count …）。
+             name / company / phone / email 无 data-field，已由上方独立取出，
+             不进 fields，避免与联系人列重复。
+             ⚠️ 此前用 label 的本地化文本作键 → 列名随语言分裂，已于 2026-10-05 修正。 */
+          var fKey = el.getAttribute('data-field');
+
+          if (fKey) fields[fKey] = el.value.trim();
 
         }
 
@@ -2085,9 +2129,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-      // Merge radio groups
+      // Merge radio groups（oem-drawing → drawing_status，与表格列名对齐）
 
-      for (var key in radioGroups) { if (radioGroups[key]) fields[key] = radioGroups[key]; }
+      for (var rk in radioGroups) {
+
+        if (radioGroups[rk]) fields[(META && META.RADIO_MAP[rk]) || rk] = radioGroups[rk];
+
+      }
 
 
 
@@ -2180,10 +2228,35 @@ document.addEventListener('DOMContentLoaded', function(){
          与联系表单共用 window.HONDVO_WEB3FORMS_KEY；未配置或请求失败时降级 mailto。 */
       var source = (location.hash || '').replace(/^#/, '') || 'page-products';
 
-      var mailSubject = '[Inquiry] ' + title + ' — ' + name;
-      var mailBody = 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
-        '\nEmail: ' + email + '\nProduct: ' + title + '\nSource: ' + source +
-        '\n\n' + msgParts.join('\n') + '\n';
+      /* ── 结构化分类与追踪字段（2026-10-05）────────────────────────────
+         product_line 由弹窗标题的 data-lang-key 解析（语言无关）；
+         D 组业务明细字段以 data-field 为键，直接铺入 payload。 */
+      var productLine = META ? META.productLine(modal) : 'unknown';
+
+      var payload = META ? META.envMeta() : {
+        schema_version: 1,
+        submission_id: String(Date.now()) + '-' + Math.random().toString(36).slice(2, 10),
+        site_lang: 'en',
+        source_page: 'index',
+        source_anchor: source,
+        submitted_at: new Date().toISOString()
+      };
+      payload.form_type = 'product_modal';
+      payload.product_line = productLine;
+      payload.name = name;
+      payload.company = company;
+      payload.phone = phone;
+      payload.email = email;
+      for (var mk in fields) {
+        if (Object.prototype.hasOwnProperty.call(fields, mk) && fields[mk]) payload[mk] = fields[mk];
+      }
+
+      var mailSubject = META ? META.subject('product_modal', productLine, company || name)
+        : '[Inquiry] ' + title + ' — ' + name;
+      var mailBody = META ? META.bodyText(payload)
+        : 'Name: ' + name + '\nCompany: ' + company + '\nPhone: ' + phone +
+          '\nEmail: ' + email + '\nProduct: ' + title + '\nSource: ' + source +
+          '\n\n' + msgParts.join('\n') + '\n';
 
       function modalDone(){
         btn.textContent = '✓';
@@ -2212,20 +2285,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
       var modalTimer = setTimeout(function () { modalFail(); }, 20000);
 
+      payload.access_key = WF_KEY;
+      payload.subject = mailSubject;
+      payload.botcheck = '';
+      payload.replyto = email;
+
+      // 表格链路（可选）：与邮件链路并行发出
+      if (META) { try { META.pushToSheet(payload); } catch (e) {} }
+
       fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          access_key: WF_KEY,
-          name: name,
-          email: email,
-          company: company,
-          phone: phone,
-          subject: mailSubject,
-          message: 'Product: ' + title + '\nSource: ' + source + '\n\n' + msgParts.join('\n') + '\n',
-          botcheck: '',
-          replyto: email
-        })
+        body: JSON.stringify(payload)
       }).then(function (r) {
         clearTimeout(modalTimer);
         return r.json().then(function (j) { return { ok: r.ok, status: r.status, json: j }; });

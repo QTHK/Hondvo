@@ -178,6 +178,18 @@
       get: function () { return _k; },
       set: function (v) { _k = v == null ? '' : String(v); }
     });
+
+    /* 表格链路中转端点（Cloudflare Worker 地址）。
+       ⚠️ 留空 = 不启用表格链路，仅发 Web3Forms 邮件。
+       已配置为 HONDVO 自建中转：提交时与邮件链路**并行**写入询盘台账（D1），
+       管理页：https://hondvo-intake.2789536032.workers.dev/admin?token=<ADMIN_TOKEN> */
+    var _intake = 'https://hondvo-intake.2789536032.workers.dev';
+    Object.defineProperty(window, 'HONDVO_INTAKE_ENDPOINT', {
+      configurable: true,
+      enumerable: true,
+      get: function () { return _intake; },
+      set: function (v) { _intake = v == null ? '' : String(v); }
+    });
   })();
 </script>
 
@@ -1751,11 +1763,11 @@
 
     </div>
 
-    <div class="fg"><label data-lang-key="pc_mold_type">Mold Type</label><input type="text" placeholder=""></div>
+    <div class="fg"><label data-lang-key="pc_mold_type">Mold Type</label><input type="text" placeholder="" data-field="mold_type"></div>
 
-    <div class="fg"><label data-lang-key="pc_steel">Steel Grade</label><input type="text" placeholder=""></div>
+    <div class="fg"><label data-lang-key="pc_steel">Steel Grade</label><input type="text" placeholder="" data-field="steel_grade"></div>
 
-    <div class="fg"><label data-lang-key="pc_cavity">Number of Cavities</label><input type="text" placeholder=""></div>
+    <div class="fg"><label data-lang-key="pc_cavity">Number of Cavities</label><input type="text" placeholder="" data-field="cavity_count"></div>
 
     <div class="fg"><label data-lang-key="ct_desc_label">Requirements</label><textarea rows="3" placeholder=""></textarea></div>
 
@@ -1793,11 +1805,11 @@
 
     </div>
 
-    <div class="fg"><label data-lang-key="pc_product_name">Product Name</label><input type="text" placeholder=""></div>
+    <div class="fg"><label data-lang-key="pc_product_name">Product Name</label><input type="text" placeholder="" data-field="product_name"></div>
 
-    <div class="fg"><label data-lang-key="pc_quantity">Annual Demand / Batch Quantity</label><input type="text" placeholder=""></div>
+    <div class="fg"><label data-lang-key="pc_quantity">Annual Demand / Batch Quantity</label><input type="text" placeholder="" data-field="demand_qty"></div>
 
-    <div class="fg"><label data-lang-key="pc_packaging">Packaging Requirements</label><input type="text" placeholder=""></div>
+    <div class="fg"><label data-lang-key="pc_packaging">Packaging Requirements</label><input type="text" placeholder="" data-field="packaging_req"></div>
 
     <div class="fg"><label data-lang-key="ct_desc_label">Requirements</label><textarea rows="3" placeholder=""></textarea></div>
 
@@ -1835,7 +1847,7 @@
 
     </div>
 
-    <div class="fg"><label data-lang-key="pc_oem_type">OEM Type</label><input type="text" placeholder=""></div>
+    <div class="fg"><label data-lang-key="pc_oem_type">OEM Type</label><input type="text" placeholder="" data-field="oem_type"></div>
 
     <div class="fg"><label data-lang-key="pc_drawing">Drawing / Sample Availability</label>
 
@@ -1851,7 +1863,7 @@
 
     </div>
 
-    <div class="fg"><label data-lang-key="pc_est_quantity">Estimated Batch Size</label><input type="text" placeholder=""></div>
+    <div class="fg"><label data-lang-key="pc_est_quantity">Estimated Batch Size</label><input type="text" placeholder="" data-field="batch_size"></div>
 
     <div class="fg"><label data-lang-key="ct_desc_label">Requirements</label><textarea rows="3" placeholder=""></textarea></div>
 
@@ -1885,6 +1897,7 @@
      ============================================================ -->
 <script src="assets/js/sanitize.js" defer></script>
 <script src="assets/js/i18n.js" defer></script>
+<script src="assets/js/inquiry-meta.js" defer></script>
 <script src="assets/js/render.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/home-dyn.js" defer></script>

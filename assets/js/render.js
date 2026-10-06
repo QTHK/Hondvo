@@ -129,16 +129,29 @@
 
       var timer = setTimeout(function () { if (btn) { btn.disabled = false; btn.textContent = old; } }, 20000);
 
+      /* 订阅同样携带分类与来源字段（form_type = newsletter），
+         使通知邮件与落地表格可按列区分来源与语言。 */
+      var META = window.HONDVO_meta;
+      var payload = META ? META.envMeta() : {
+        schema_version: 1,
+        submission_id: String(Date.now()) + '-' + Math.random().toString(36).slice(2, 10),
+        site_lang: curLang(),
+        submitted_at: new Date().toISOString()
+      };
+      payload.access_key = KEY;
+      payload.form_type = 'newsletter';
+      payload.email = email;
+      payload.message = 'Please subscribe this address to the HONDVO newsletter.';
+      payload.subject = META ? META.subject('newsletter', '-', email) : 'Newsletter subscription';
+      payload.botcheck = '';
+
+      // 表格链路（可选）：与邮件链路并行发出
+      if (META) { try { META.pushToSheet(payload); } catch (e) {} }
+
       fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          access_key: KEY,
-          subject: 'Newsletter subscription',
-          email: email,
-          message: 'Please subscribe this address to the HONDVO newsletter.',
-          botcheck: ''
-        })
+        body: JSON.stringify(payload)
       }).then(function (r) {
         clearTimeout(timer);
         return r.json().then(function (j) { return { ok: r.ok, json: j }; });
