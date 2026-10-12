@@ -125,7 +125,7 @@ const I18N = {
 "home_sec_4_l4":{"zh":"分药盒","en":"Pill organizers","de":"Tablettendosen","ru":"Таблетницы","fr":"Piluliers","ja":"ピルケース","ko":"약통·알약 케이스","es":"Pastilleros"},
 
 "prod1_tag1":{"zh":"输液泵","en":"Infusion pumps","de":"Infusionspumpen","ru":"Инфузионные насосы","fr":"Pompes à perfusion","ja":"輸液ポンプ","ko":"주입 펌프","es":"Bombas de infusión"},
-"prod1_tag2":{"zh":"注射器","en":"Syringes","de":"Spritzen","ru":"Шприцы","fr":"Seringues","ja":"注射器","ko":"주사기","es":"Jeringas"},
+"prod1_tag2":{"zh":"注射器","en":"Syringes","de":"Spritzen","ru":"Шприцы","fr":"Seringues","ja":"シリンジ","ko":"주사기","es":"Jeringas"},
 "prod1_tag3":{"zh":"胰岛素笔","en":"Insulin pens","de":"Insulinpens","ru":"Инсулиновые ручки","fr":"Stylos à insuline","ja":"インスリンペン","ko":"인슐린 펜","es":"Plumas de insulina"},
 "prod1_tag4":{"zh":"肠内喂养","en":"Enteral feeding","de":"Enterale Ernährung","ru":"Энтеральное питание","fr":"Nutrition entérale","ja":"経腸栄養","ko":"경장 영양","es":"Nutrición enteral"},
 "prod2_tag1":{"zh":"试管","en":"Test tubes","de":"Teströhrchen","ru":"Пробирки","fr":"Tubes à essai","ja":"試験管","ko":"시험관","es":"Tubos de ensayo"},
@@ -524,7 +524,7 @@ const I18N = {
 
     "prod_tag_grade":{"zh":"医疗级","en":"Medical Grade","de":"Medizinische Qualität","ru":"Медицинский класс","fr":"Qualité médicale","ja":"医療グレード","ko":"의료 등급","es":"Grado médico"},
 
-  "prod_tag_heat":{"zh":"耐高温","en":"Heat Resistant","de":"Hitzebeständig","ru":"Термостойкий","fr":"Résistant à la chaleur","ja":"耐高温","ko":"내열","es":"Resistente al calor"},
+  "prod_tag_heat":{"zh":"耐高温","en":"Heat Resistant","de":"Hitzebeständig","ru":"Термостойкий","fr":"Résistant à la chaleur","ja":"耐熱","ko":"내열","es":"Resistente al calor"},
 
   "prod_tag_clear":{"zh":"透明","en":"Transparent","de":"Transparent","ru":"Прозрачный","fr":"Transparent","ja":"透明","ko":"투명","es":"Transparente"},
 
@@ -682,7 +682,7 @@ const I18N = {
 
   "about_values_title":{"zh":"核心价值","en":"Core Values","de":"Kernwerte","ru":"Наши ценности","fr":"Nos valeurs","ja":"コアバリュー","ko":"핵심 가치","es":"Valores fundamentales"},
 
-  "about_spirit_title":{"zh":"弘欧精神","en":"Hondvo Spirit","de":"Hondvo-Geist","ru":"Дух Hondvo","fr":"Esprit Hondvo","ja":"弘欧精神","ko":"홍오 정신","es":"Espíritu Hondvo"},
+  "about_spirit_title":{"zh":"弘欧精神","en":"Hondvo Spirit","de":"Hondvo-Geist","ru":"Дух Hondvo","fr":"Esprit Hondvo","ja":"HONDVOの精神","ko":"홍오 정신","es":"Espíritu Hondvo"},
 
   "about_partners_title":{"zh":"全球合作伙伴","en":"Global Partners","de":"Globale Partner","ru":"Глобальные партнеры","fr":"Partenaires mondiaux","ja":"グローバルパートナー","ko":"글로벌 파트너","es":"Socios globales"},
 
@@ -732,7 +732,7 @@ const I18N = {
 
 
 
-  "about_sp1_icon":{"zh":"匠心","en":"Craft","de":"Handwerkskunst","ru":"Мастерство","fr":"Savoir-faire","ja":"匠心","ko":"장인정신","es":"Artesanía"},
+  "about_sp1_icon":{"zh":"匠心","en":"Craft","de":"Handwerkskunst","ru":"Мастерство","fr":"Savoir-faire","ja":"匠の技","ko":"장인정신","es":"Artesanía"},
 
   "about_sp1_title":{"zh":"工匠精神","en":"Craftsmanship","de":"Handwerkskunst","ru":"Мастерство","fr":"Savoir-faire","ja":"匠の精神","ko":"장인 정신","es":"Artesanía"},
 
@@ -760,7 +760,7 @@ const I18N = {
 
   "ft_about_values":{"zh":"核心价值","en":"Core Values","de":"Kernwerte","ru":"Наши ценности","fr":"Nos valeurs","ja":"コアバリュー","ko":"핵심 가치","es":"Valores fundamentales"},
 
-  "ft_about_spirit":{"zh":"弘欧精神","en":"Hondvo Spirit","de":"Hondvo-Geist","ru":"Дух Hondvo","fr":"Esprit Hondvo","ja":"弘欧精神","ko":"홍오 정신","es":"Espíritu Hondvo"},
+  "ft_about_spirit":{"zh":"弘欧精神","en":"Hondvo Spirit","de":"Hondvo-Geist","ru":"Дух Hondvo","fr":"Esprit Hondvo","ja":"HONDVOの精神","ko":"홍오 정신","es":"Espíritu Hondvo"},
 
   "ft_about_partners":{"zh":"全球合作伙伴","en":"Global Partners","de":"Globale Partner","ru":"Глобальные партнеры","fr":"Partenaires mondiaux","ja":"グローバルパートナー","ko":"글로벌 파트너","es":"Socios globales"},
 
@@ -883,35 +883,35 @@ const I18N = {
 
   // 注：logo_wall_title / logo_wall_sub（"Trusted Partners"标题块）已下线（2026-08-26），DOM 与 i18n 一同删除
 
-  "pc_ph_mold_type":{"zh":"例如：普通注塑模、液态注塑模、双色多色模","en":"e.g. Standard injection mold, LSR mold, two-shot mold","de":"例如：普通注塑模、液态注塑模、双色多色模","ru":"例如：普通注塑模、液态注塑模、双色多色模","fr":"例如：普通注塑模、液态注塑模、双色多色模","ja":"例如：普通注塑模、液态注塑模、双色多色模","ko":"例如：普通注塑模、液态注塑模、双色多色模","es":"例如：普通注塑模、液态注塑模、双色多色模"},
+  "pc_ph_mold_type":{"zh":"例如：普通注塑模、液态注塑模、双色多色模","en":"e.g. Standard injection mold, LSR mold, two-shot mold","de":"z. B. Standard-Spritzgussform, LSR-Form, 2K-Form","ru":"напр. стандартная пресс-форма литья под давлением, LSR-форма, двухцветная форма","fr":"ex. moule d'injection standard, moule LSR, moule bi-injection","ja":"例：標準射出成形金型、LSR金型、二色成形金型","ko":"예: 표준 사출 금형, LSR 금형, 투샷 금형","es":"p. ej. molde de inyección estándar, molde LSR, molde de doble inyección"},
 
-  "pc_ph_steel":{"zh":"例如：S136、NAK80、H13","en":"e.g. S136, NAK80, H13","de":"例如：S136、NAK80、H13","ru":"例如：S136、NAK80、H13","fr":"例如：S136、NAK80、H13","ja":"例如：S136、NAK80、H13","ko":"例如：S136、NAK80、H13","es":"例如：S136、NAK80、H13"},
+  "pc_ph_steel":{"zh":"例如：S136、NAK80、H13","en":"e.g. S136, NAK80, H13","de":"z. B. S136, NAK80, H13","ru":"напр. S136, NAK80, H13","fr":"ex. S136, NAK80, H13","ja":"例：S136、NAK80、H13","ko":"예: S136, NAK80, H13","es":"p. ej. S136, NAK80, H13"},
 
-  "pc_ph_pkg":{"zh":"例如：普通包装、洁净室包装","en":"e.g. Standard packaging, cleanroom packaging","de":"例如：普通包装、洁净室包装","ru":"例如：普通包装、洁净室包装","fr":"例如：普通包装、洁净室包装","ja":"例如：普通包装、洁净室包装","ko":"例如：普通包装、洁净室包装","es":"例如：普通包装、洁净室包装"},
+  "pc_ph_pkg":{"zh":"例如：普通包装、洁净室包装","en":"e.g. Standard packaging, cleanroom packaging","de":"z. B. Standardverpackung, Reinraumverpackung","ru":"напр. стандартная упаковка, упаковка для чистых помещений","fr":"ex. emballage standard, emballage en salle blanche","ja":"例：標準包装、クリーンルーム包装","ko":"예: 표준 포장, 클린룸 포장","es":"p. ej. embalaje estándar, embalaje para sala limpia"},
 
-  "pc_ph_oem_type":{"zh":"例如：注塑代工、组装代工、全流程代工","en":"e.g. Injection OEM, assembly OEM, full-process OEM","de":"例如：注塑代工、组装代工、全流程代工","ru":"例如：注塑代工、组装代工、全流程代工","fr":"例如：注塑代工、组装代工、全流程代工","ja":"例如：注塑代工、组装代工、全流程代工","ko":"例如：注塑代工、组装代工、全流程代工","es":"例如：注塑代工、组装代工、全流程代工"},
+  "pc_ph_oem_type":{"zh":"例如：注塑代工、组装代工、全流程代工","en":"e.g. Injection OEM, assembly OEM, full-process OEM","de":"z. B. Spritzguss-OEM, Montage-OEM, Komplett-OEM","ru":"напр. OEM литья, OEM сборки, OEM полного цикла","fr":"ex. OEM d'injection, OEM d'assemblage, OEM complet","ja":"例：射出成形OEM、組立OEM、一貫生産OEM","ko":"예: 사출 OEM, 조립 OEM, 일괄 공정 OEM","es":"p. ej. OEM de inyección, OEM de ensamblaje, OEM de proceso completo"},
 
-  "pc_mold_opt1":{"zh":"普通注塑模","en":"Standard Injection Mold","de":"普通注塑模","ru":"普通注塑模","fr":"普通注塑模","ja":"普通注塑模","ko":"普通注塑模","es":"普通注塑模"},
+  "pc_mold_opt1":{"zh":"普通注塑模","en":"Standard Injection Mold","de":"Standard-Spritzgussform","ru":"Стандартная пресс-форма","fr":"Moule d'injection standard","ja":"標準射出成形金型","ko":"표준 사출 금형","es":"Molde de inyección estándar"},
 
-  "pc_mold_opt2":{"zh":"液态注塑模","en":"Liquid Silicone Mold (LSR)","de":"液态注塑模","ru":"液态注塑模","fr":"液态注塑模","ja":"液态注塑模","ko":"液态注塑模","es":"液态注塑模"},
+  "pc_mold_opt2":{"zh":"液态注塑模","en":"Liquid Silicone Mold (LSR)","de":"Flüssigsilikonform (LSR)","ru":"Форма для жидкого силикона (LSR)","fr":"Moule en silicone liquide (LSR)","ja":"液体シリコーン金型（LSR）","ko":"액상 실리콘 금형(LSR)","es":"Molde de silicona líquida (LSR)"},
 
-  "pc_mold_opt3":{"zh":"双色/多色模","en":"Two-shot / Multi-color Mold","de":"双色/多色模","ru":"双色/多色模","fr":"双色/多色模","ja":"双色/多色模","ko":"双色/多色模","es":"双色/多色模"},
+  "pc_mold_opt3":{"zh":"双色/多色模","en":"Two-shot / Multi-color Mold","de":"2K- / Mehrfarbenform","ru":"Двухцветная / многокрасочная пресс-форма","fr":"Moule bi-injection / multicouleur","ja":"二色・多色成形金型","ko":"투샷 / 다색 금형","es":"Molde de doble inyección / multicolor"},
 
-  "pc_steel_other":{"zh":"其他","en":"Other","de":"其他","ru":"其他","fr":"其他","ja":"其他","ko":"其他","es":"其他"},
+  "pc_steel_other":{"zh":"其他","en":"Other","de":"Sonstige","ru":"Другое","fr":"Autre","ja":"その他","ko":"기타","es":"Otro"},
 
-  "pc_pkg_opt1":{"zh":"普通包装","en":"Standard Packaging","de":"普通包装","ru":"普通包装","fr":"普通包装","ja":"普通包装","ko":"普通包装","es":"普通包装"},
+  "pc_pkg_opt1":{"zh":"普通包装","en":"Standard Packaging","de":"Standardverpackung","ru":"Стандартная упаковка","fr":"Emballage standard","ja":"標準包装","ko":"표준 포장","es":"Embalaje estándar"},
 
-  "pc_pkg_opt2":{"zh":"洁净室包装","en":"Cleanroom Packaging","de":"洁净室包装","ru":"洁净室包装","fr":"洁净室包装","ja":"洁净室包装","ko":"洁净室包装","es":"洁净室包装"},
+  "pc_pkg_opt2":{"zh":"洁净室包装","en":"Cleanroom Packaging","de":"Reinraumverpackung","ru":"Упаковка для чистых помещений","fr":"Emballage en salle blanche","ja":"クリーンルーム包装","ko":"클린룸 포장","es":"Embalaje en sala limpia"},
 
-  "pc_pkg_opt3":{"zh":"其他","en":"Other","de":"其他","ru":"其他","fr":"其他","ja":"其他","ko":"其他","es":"其他"},
+  "pc_pkg_opt3":{"zh":"其他","en":"Other","de":"Sonstige","ru":"Другое","fr":"Autre","ja":"その他","ko":"기타","es":"Otro"},
 
-  "pc_oem_opt1":{"zh":"注塑代工","en":"Injection OEM","de":"注塑代工","ru":"注塑代工","fr":"注塑代工","ja":"注塑代工","ko":"注塑代工","es":"注塑代工"},
+  "pc_oem_opt1":{"zh":"注塑代工","en":"Injection OEM","de":"Spritzguss-OEM","ru":"OEM литья под давлением","fr":"OEM d'injection","ja":"射出成形OEM","ko":"사출 OEM","es":"OEM de inyección"},
 
-  "pc_oem_opt2":{"zh":"组装代工","en":"Assembly OEM","de":"组装代工","ru":"组装代工","fr":"组装代工","ja":"组装代工","ko":"组装代工","es":"组装代工"},
+  "pc_oem_opt2":{"zh":"组装代工","en":"Assembly OEM","de":"Montage-OEM","ru":"OEM сборки","fr":"OEM d'assemblage","ja":"組立OEM","ko":"조립 OEM","es":"OEM de ensamblaje"},
 
-  "pc_oem_opt3":{"zh":"印刷代工","en":"Printing OEM","de":"印刷代工","ru":"印刷代工","fr":"印刷代工","ja":"印刷代工","ko":"印刷代工","es":"印刷代工"},
+  "pc_oem_opt3":{"zh":"印刷代工","en":"Printing OEM","de":"Druck-OEM","ru":"OEM печати","fr":"OEM d'impression","ja":"印刷OEM","ko":"인쇄 OEM","es":"OEM de impresión"},
 
-  "pc_oem_opt4":{"zh":"全流程代工","en":"Full-Process OEM","de":"全流程代工","ru":"全流程代工","fr":"全流程代工","ja":"全流程代工","ko":"全流程代工","es":"全流程代工"},
+  "pc_oem_opt4":{"zh":"全流程代工","en":"Full-Process OEM","de":"Komplett-OEM","ru":"OEM полного цикла","fr":"OEM complet","ja":"一貫生産OEM","ko":"일괄 공정 OEM","es":"OEM de proceso completo"},
 
   "pc_draw_opt1":{"zh":"有图纸","en":"With Drawing","de":"Mit Zeichnung","ru":"С чертежом","fr":"Avec plan","ja":"図面あり","ko":"도면 있음","es":"Con plano"},
 
@@ -919,27 +919,27 @@ const I18N = {
 
   "pc_draw_opt3":{"zh":"仅有概念","en":"Concept Only","de":"Nur Konzept","ru":"Только концепция","fr":"Concept seulement","ja":"コンセプトのみ","ko":"컨셉만 있음","es":"Solo concepto"},
 
-  "pc_ph_name":{"zh":"请输入您的姓名","en":"Your Name","de":"请输入您的姓名","ru":"请输入您的姓名","fr":"请输入您的姓名","ja":"请输入您的姓名","ko":"请输入您的姓名","es":"请输入您的姓名"},
+  "pc_ph_name":{"zh":"请输入您的姓名","en":"Your Name","de":"Ihr Name","ru":"Ваше имя","fr":"Votre nom","ja":"お名前","ko":"성함","es":"Su nombre"},
 
-  "pc_ph_company":{"zh":"请输入公司名称","en":"Your Company","de":"请输入公司名称","ru":"请输入公司名称","fr":"请输入公司名称","ja":"请输入公司名称","ko":"请输入公司名称","es":"请输入公司名称"},
+  "pc_ph_company":{"zh":"请输入公司名称","en":"Your Company","de":"Ihr Unternehmen","ru":"Ваша компания","fr":"Votre société","ja":"会社名","ko":"회사명","es":"Su empresa"},
 
-  "pc_ph_phone":{"zh":"请输入电话号码","en":"Phone Number","de":"请输入电话号码","ru":"请输入电话号码","fr":"请输入电话号码","ja":"请输入电话号码","ko":"请输入电话号码","es":"请输入电话号码"},
+  "pc_ph_phone":{"zh":"请输入电话号码","en":"Phone Number","de":"Telefonnummer","ru":"Телефон","fr":"Numéro de téléphone","ja":"電話番号","ko":"전화번호","es":"Número de teléfono"},
 
-  "pc_ph_email":{"zh":"请输入邮箱地址","en":"Email Address","de":"请输入邮箱地址","ru":"请输入邮箱地址","fr":"请输入邮箱地址","ja":"请输入邮箱地址","ko":"请输入邮箱地址","es":"请输入邮箱地址"},
+  "pc_ph_email":{"zh":"请输入邮箱地址","en":"Email Address","de":"E-Mail-Adresse","ru":"Адрес эл. почты","fr":"Adresse e-mail","ja":"メールアドレス","ko":"이메일 주소","es":"Correo electrónico"},
 
-  "pc_ph_cavity":{"zh":"例如：1出4 / 1+1","en":"e.g. 1+1 / 4 cavities","de":"例如：1出4 / 1+1","ru":"例如：1出4 / 1+1","fr":"例如：1出4 / 1+1","ja":"例如：1出4 / 1+1","ko":"例如：1出4 / 1+1","es":"例如：1出4 / 1+1"},
+  "pc_ph_cavity":{"zh":"例如：1出4 / 1+1","en":"e.g. 1+1 / 4 cavities","de":"z. B. 1+1 / 4 Kavitäten","ru":"напр. 1+1 / 4 гнезда","fr":"ex. 1+1 / 4 empreintes","ja":"例：1+1／4個取り","ko":"예: 1+1 / 4 캐비티","es":"p. ej. 1+1 / 4 cavidades"},
 
-  "pc_ph_mold_req":{"zh":"请描述产品图纸、技术规格等","en":"Describe product drawings, technical specs, etc.","de":"请描述产品图纸、技术规格等","ru":"请描述产品图纸、技术规格等","fr":"请描述产品图纸、技术规格等","ja":"请描述产品图纸、技术规格等","ko":"请描述产品图纸、技术规格等","es":"请描述产品图纸、技术规格等"},
+  "pc_ph_mold_req":{"zh":"请描述产品图纸、技术规格等","en":"Describe product drawings, technical specs, etc.","de":"Produktzeichnungen, technische Daten usw. angeben","ru":"Опишите чертежи изделия, технические характеристики и т. д.","fr":"Décrivez les plans produit, les spécifications techniques, etc.","ja":"製品図面、技術仕様などをご記入ください","ko":"제품 도면, 기술 사양 등을 입력하세요","es":"Describa los planos del producto, especificaciones técnicas, etc."},
 
-  "pc_ph_prod_name":{"zh":"例如：肠内营养连接器、鲁尔接头","en":"e.g. Enteral nutrition connector, Luer lock","de":"例如：肠内营养连接器、鲁尔接头","ru":"例如：肠内营养连接器、鲁尔接头","fr":"例如：肠内营养连接器、鲁尔接头","ja":"例如：肠内营养连接器、鲁尔接头","ko":"例如：肠内营养连接器、鲁尔接头","es":"例如：肠内营养连接器、鲁尔接头"},
+  "pc_ph_prod_name":{"zh":"例如：肠内营养连接器、鲁尔接头","en":"e.g. Enteral nutrition connector, Luer lock","de":"z. B. Konnektor für enterale Ernährung, Luer-Lock","ru":"напр. коннектор для энтерального питания, Luer-Lock","fr":"ex. connecteur de nutrition entérale, Luer Lock","ja":"例：経腸栄養コネクタ、ルアーロック","ko":"예: 경장영양 커넥터, 루어락","es":"p. ej. conector de nutrición enteral, Luer Lock"},
 
-  "pc_ph_quantity":{"zh":"例如：10万件/年","en":"e.g. 100,000 pcs/year","de":"例如：10万件/年","ru":"例如：10万件/年","fr":"例如：10万件/年","ja":"例如：10万件/年","ko":"例如：10万件/年","es":"例如：10万件/年"},
+  "pc_ph_quantity":{"zh":"例如：10万件/年","en":"e.g. 100,000 pcs/year","de":"z. B. 100.000 Stück/Jahr","ru":"напр. 100 000 шт./год","fr":"ex. 100 000 pièces/an","ja":"例：10万個／年","ko":"예: 연 10만 개","es":"p. ej. 100.000 uds./año"},
 
-  "pc_ph_prod_req":{"zh":"请描述规格、交期要求等","en":"Specifications, delivery requirements, etc.","de":"请描述规格、交期要求等","ru":"请描述规格、交期要求等","fr":"请描述规格、交期要求等","ja":"请描述规格、交期要求等","ko":"请描述规格、交期要求等","es":"请描述规格、交期要求等"},
+  "pc_ph_prod_req":{"zh":"请描述规格、交期要求等","en":"Specifications, delivery requirements, etc.","de":"Spezifikationen, Lieferanforderungen usw.","ru":"Спецификации, требования к поставке и т. д.","fr":"Spécifications, exigences de livraison, etc.","ja":"仕様、納期要件などをご記入ください","ko":"사양, 납기 요건 등을 입력하세요","es":"Especificaciones, requisitos de entrega, etc."},
 
-  "pc_ph_batch":{"zh":"例如：5万件/批","en":"e.g. 50,000 pcs/batch","de":"例如：5万件/批","ru":"例如：5万件/批","fr":"例如：5万件/批","ja":"例如：5万件/批","ko":"例如：5万件/批","es":"例如：5万件/批"},
+  "pc_ph_batch":{"zh":"例如：5万件/批","en":"e.g. 50,000 pcs/batch","de":"z. B. 50.000 Stück/Charge","ru":"напр. 50 000 шт./партия","fr":"ex. 50 000 pièces/lot","ja":"例：5万個／ロット","ko":"예: 50,000개/배치","es":"p. ej. 50.000 uds./lote"},
 
-  "pc_ph_oem_req":{"zh":"请描述工艺要求、交期、特殊需求等","en":"Process requirements, delivery timeline, special needs, etc.","de":"请描述工艺要求、交期、特殊需求等","ru":"请描述工艺要求、交期、特殊需求等","fr":"请描述工艺要求、交期、特殊需求等","ja":"请描述工艺要求、交期、特殊需求等","ko":"请描述工艺要求、交期、特殊需求等","es":"请描述工艺要求、交期、特殊需求等"},
+  "pc_ph_oem_req":{"zh":"请描述工艺要求、交期、特殊需求等","en":"Process requirements, delivery timeline, special needs, etc.","de":"Prozessanforderungen, Lieferzeitplan, Sonderwünsche usw.","ru":"Требования к процессу, сроки поставки, особые пожелания и т. д.","fr":"Exigences de process, délais de livraison, besoins particuliers, etc.","ja":"工程要件、納期、特別なご要望などをご記入ください","ko":"공정 요건, 납기, 특별 요청사항 등을 입력하세요","es":"Requisitos de proceso, plazos de entrega, necesidades especiales, etc."},
 
   "pc_submitting":{"zh":"提交中...","en":"Submitting...","de":"Wird gesendet...","ru":"Отправка...","fr":"Envoi en cours...","ja":"送信中...","ko":"제출 중...","es":"Enviando..."},
   "pc_failed":{"zh":"提交失败","en":"Failed","de":"Fehlgeschlagen","ru":"Ошибка отправки","fr":"Échec de l'envoi","ja":"送信失敗","ko":"전송 실패","es":"Error de envío"},
