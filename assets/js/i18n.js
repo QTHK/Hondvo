@@ -11,7 +11,7 @@
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 /* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T08:35:00.669Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T08:56:26.608Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T08:57:55.463Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -1217,7 +1217,7 @@ const I18N = {
 
   "hnav_lang": {"en":"English","zh":"中文","de":"Deutsch","ru":"Русский","fr":"Français","ja":"日本語","ko":"한국어","es":"Español"},
 
-  "hnav_nav_home": {"en":"Home","zh":"1234","de":"Start","ru":"Главная","fr":"Accueil","ja":"ホーム","ko":"홈","es":"Inicio"},
+  "hnav_nav_home": {"en":"Home","zh":"首页","de":"Start","ru":"Главная","fr":"Accueil","ja":"ホーム","ko":"홈","es":"Inicio"},
 
   "hnav_nav_products": {"en":"Products & Services","zh":"产品与服务","de":"Produkte & Services","ru":"Продукция и услуги","fr":"Produits & Services","ja":"製品・サービス","ko":"제품 & 서비스","es":"Productos y Servicios"},
 
