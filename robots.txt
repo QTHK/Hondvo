@@ -1,15 +1,12 @@
 # HONDVO Technology (Dongguan) Co., Ltd.
-# Site: https://qthk.github.io/Hondvo/
+# Site: https://hondvo.icu/
 #
-# NOTE (path case): GitHub Pages serves this project at /Hondvo/ — capital H,
-# matching the repository name. Paths are case-sensitive, so /hondvo/ returns
-# 404. All absolute URLs in this site use the correct /Hondvo/ form.
+# NOTE (domain): 2026-10-12 起官网由自有域名 https://hondvo.icu/ 提供服务
+# （原 GitHub Pages 项目页 https://qthk.github.io/Hondvo/ 保留作过渡，将逐步下线）。
+# 站点位于域名根目录，无路径前缀问题。
 #
 # NOTE (scope): crawlers only read robots.txt at the host root
-# (https://qthk.github.io/robots.txt). While the site is served as a GitHub
-# project page, this file therefore has no effect. It is prepared in advance
-# and becomes authoritative as-is once the site moves to a dedicated domain
-# (e.g. hondvotechnology.com).
+# (https://hondvo.icu/robots.txt) — this file is now authoritative.
 #
 # Policy: allow full crawl. Do NOT Disallow ?lang=* — the multilingual versions
 # are served via ?lang=xx and are referenced by canonical and 9 hreflang links,
@@ -18,4 +15,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://qthk.github.io/Hondvo/sitemap.xml
+Sitemap: https://hondvo.icu/sitemap.xml
