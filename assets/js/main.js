@@ -2937,7 +2937,9 @@ function dict(){
   for (var k in I18N) {
     if (k.indexOf("hnav_") !== 0) continue;
     var e = I18N[k];
-    d[k.slice(5)] = (e && (e[l] || e.zh || e.en)) || "";
+    /* 回落顺序必须是 en 优先：源语言 = en（2026-10-12 修正）。
+       原为 e.zh || e.en —— 缺译文时会把中文抛给德语/日语用户。 */
+    d[k.slice(5)] = (e && (e[l] || e.en || e.zh)) || "";
   }
   return d;
 }
@@ -3380,10 +3382,12 @@ document.addEventListener("hondvo:lang", function () {
     if (!k || typeof I18N === "undefined") return "";
     var e = I18N[k];
     if (!e) return "";
-    return e[accLang()] || e.zh || e.en || "";
+    /* en 为源语言 ⇒ 缺译文时回落 en，绝不回落中文（2026-10-12 修正） */
+    return e[accLang()] || e.en || e.zh || "";
   }
   // 标题：新结构 t = i18n key；旧结构直接读 zh
-  function accTitle(g){ return g.t ? accI18n(g.t) : (g.zh || ""); }
+  /* 旧结构（discover 段）同时带 zh/en ⇒ en 优先，与「源语言 = en」保持一致 */
+  function accTitle(g){ return g.t ? accI18n(g.t) : (g.en || g.zh || ""); }
   // 描述：新结构 d = i18n key；旧结构直接读 pos
   function accDesc(g){ return g.d ? accI18n(g.d) : (g.pos || ""); }
   // 标签：新结构 tags = [i18n key]（全量）；旧结构由 fields 按 · 拆分（上限 4）

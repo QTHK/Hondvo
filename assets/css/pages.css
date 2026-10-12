@@ -220,6 +220,16 @@ html.launch-armed.launch-leave .hnav{
   font-size:14px;font-weight:700;letter-spacing:.04em;
   color:var(--accent-hover);               /* 白底上深蓝字 */
 }
+/* 2026-10-12：长/短两版标签。
+   原实现 max-width:150px + text-overflow:ellipsis 直接加在容器上 ⇒
+   德语「Angebot anfordern」在 ≤1380px 被截成「Angebot anfo…」（真机截图确认）。
+   现改为：长标签自身限宽（保留极端情况的省略号兜底），窄屏切短标签。 */
+.hnav-cta-new .cta-long{display:inline-block;max-width:200px;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom}
+.hnav-cta-new .cta-short{display:none}
+@media (max-width:1380px){
+  .hnav-cta-new .cta-long{display:none}
+  .hnav-cta-new .cta-short{display:inline-block}
+}
 .hnav-cta-new:hover .button-decor{transform:translate(0)}
 .hnav-cta-new:hover .button__text{color:#fff}   /* 橙底上白字 */
 
@@ -466,70 +476,38 @@ html.launch-armed.launch-leave .hnav{
 
 
 /* 中等屏（1024–1280）：两行布局·工具上 + 菜单下 */
-@media (max-width:1280px) and (min-width:921px){
-  .hnav{
-    border-radius:0 0 14px 14px;
-  }
-  .hnav-inner{
-    height:auto;
-    grid-template-columns:auto 1fr auto;
-    grid-template-areas:
-      "logo . tools"
-      "menu menu menu";
-    grid-template-rows:54px auto;
-    row-gap:8px;
-    padding:10px 24px 12px;
-    align-items:center;
-  }
-  /* 行 1：Logo + 工具 */
-  .hnav-logo{grid-area:logo;min-width:0}
-  .hnav-tools{grid-area:tools}
-  /* 行 2：菜单横排居中（橙系卡片沿用，width 收缩至内容宽度） */
-  .hnav-menu{
-    grid-area:menu;
-    justify-self:center;
-    width:fit-content;
-    max-width:calc(100% - 16px);
-    padding:6px 8px;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:2px;
-  }
-  .hnav-link{padding:8px 10px;font-size:13.5px}
-  /* 下拉强制居中（覆盖 align-left/right） */
+/* 中等屏（1181–1380）：**压缩单行**。
+   2026-10-12 重构：原 921–1280 两行布局在德语等长语言下菜单胶囊内容宽达 1221px
+   > 视口宽 ⇒ 横向溢出、第二行胶囊错位破版（真机截图确认）。
+   现在：≥1381 维持原单行；1181–1380 压缩字号/间距保住单行；≤1180 交给汉堡抽屉。
+   ⚠️ 面板改为居中弹出：单行下若仍按各 item 锚定，靠右的面板会顶出视口。 */
+@media (max-width:1380px) and (min-width:1181px){
+  .hnav-inner{padding:0 18px;gap:14px}
+  .hnav-logo{font-size:16px}
+  .hnav-logo .mark{height:26px}
+  .hnav-menu{padding:5px 6px;gap:0}
+  .hnav-link{padding:8px 7px;font-size:12.5px}
+  .hnav-search{display:none}
   .hnav-panel{
-    left:50% !important;
-    right:auto !important;
+    left:50% !important;right:auto !important;
     transform:translate(-50%,-6px) scaleY(.96);
-    width:min(calc(100vw - 40px), 700px);
+    width:min(calc(100vw - 40px),700px);
   }
   .hnav-item.align-left .hnav-panel,
   .hnav-item.align-right .hnav-panel{
-    left:50% !important;
-    right:auto !important;
-    transform:translate(-50%,-6px) scaleY(.96);
+    left:50% !important;right:auto !important;
   }
   .hnav-item.open .hnav-panel,
   .hnav-item.align-left.open .hnav-panel,
-  .hnav-item.align-right.open .hnav-panel{
-    transform:translate(-50%,0) scaleY(1);
-  }
-  /* 下拉小三角回到正中央 */
+  .hnav-item.align-right.open .hnav-panel{transform:translate(-50%,0) scaleY(1)}
   .hnav-panel::before,
   .hnav-item.align-left .hnav-panel::before,
-  .hnav-item.align-right .hnav-panel::before{
-    left:50%;right:auto;
-    transform:translateX(-50%) rotate(45deg);
-  }
-  .hnav-cta-card{flex-direction:column;align-items:flex-start;gap:10px}
-  .hero{margin-top:160px}
+  .hnav-item.align-right .hnav-panel::before{left:50%;right:auto;transform:translateX(-50%) rotate(45deg)}
 }
 /* 中等屏缩字兜底（仅当 ≤1180 仍单行时） */
-@media (max-width:1180px) and (min-width:921px){
-  .hnav-link{padding:8px 8px;font-size:12.5px}
-}
+
 /* 极窄屏（≤920）：汉堡抽屉 */
-@media (max-width:920px){
+@media (max-width:1180px){
   .hnav-inner{height:60px;padding:0 18px;grid-template-columns:auto 1fr auto;grid-template-areas:"logo . tools";gap:10px}
   .hnav-menu{display:none}
   .hnav-burger{display:flex}

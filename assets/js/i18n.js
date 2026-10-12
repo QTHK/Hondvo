@@ -7,23 +7,23 @@
 
 const I18N = {
 
-  "nav_首页":{"zh":"首页","en":"Home","de":"Startseite","ru":"Главная","fr":"Accueil","ja":"ホーム","ko":"홈","es":"Inicio"},
+  "nav_home":{"zh":"首页","en":"Home","de":"Startseite","ru":"Главная","fr":"Accueil","ja":"ホーム","ko":"홈","es":"Inicio"},
 
-  "nav_关于我们":{"zh":"关于我们","en":"About Us","de":"Über uns","ru":"О нас","fr":"À propos","ja":"会社概要","ko":"회사소개","es":"Sobre nosotros"},
+  "nav_about":{"zh":"关于我们","en":"About Us","de":"Über uns","ru":"О нас","fr":"À propos","ja":"会社概要","ko":"회사소개","es":"Sobre nosotros"},
 
-  "nav_产品与服务":{"zh":"产品与服务","en":"Products & Services","de":"Produkte & Dienstleistungen","ru":"Продукты и услуги","fr":"Produits & services","ja":"製品・サービス","ko":"제품 및 서비스","es":"Productos y servicios"},
+  "nav_products":{"zh":"产品与服务","en":"Products & Services","de":"Produkte & Dienstleistungen","ru":"Продукты и услуги","fr":"Produits & services","ja":"製品・サービス","ko":"제품 및 서비스","es":"Productos y servicios"},
 
-  "nav_模具中心":{"zh":"模具中心","en":"Mold Center","de":"Werkzeugbau","ru":"Центр пресс-форм","fr":"Centre de moules","ja":"金型センター","ko":"금형 센터","es":"Centro de moldes"},
+  "nav_mold":{"zh":"模具中心","en":"Mold Center","de":"Werkzeugbau","ru":"Центр пресс-форм","fr":"Centre de moules","ja":"金型センター","ko":"금형 센터","es":"Centro de moldes"},
 
-  "nav_资质实力":{"zh":"资质实力","en":"Qualifications","de":"Qualifikationen","ru":"Квалификации","fr":"Qualifications","ja":"認定資格","ko":"인증 및 역량","es":"Certificaciones"},
+  "nav_qualifications":{"zh":"资质实力","en":"Qualifications","de":"Qualifikationen","ru":"Квалификации","fr":"Qualifications","ja":"認定資格","ko":"인증 및 역량","es":"Certificaciones"},
 
-  "nav_新闻动态":{"zh":"新闻动态","en":"News","de":"Nachrichten","ru":"Новости","fr":"Actualités","ja":"ニュース","ko":"뉴스","es":"Noticias"},
+  "nav_news":{"zh":"新闻动态","en":"News","de":"Nachrichten","ru":"Новости","fr":"Actualités","ja":"ニュース","ko":"뉴스","es":"Noticias"},
 
-  "nav_联系我们":{"zh":"联系我们","en":"Contact Us","de":"Kontakt","ru":"Контакты","fr":"Contact","ja":"お問い合わせ","ko":"문의하기","es":"Contacto"},
+  "nav_contact":{"zh":"联系我们","en":"Contact Us","de":"Kontakt","ru":"Контакты","fr":"Contact","ja":"お問い合わせ","ko":"문의하기","es":"Contacto"},
 
-  "nav_常见问题":{"zh":"常见问题","en":"FAQ","de":"FAQ","ru":"Часто задаваемые вопросы","fr":"FAQ","ja":"よくある質問","ko":"자주 묻는 질문","es":"Preguntas frecuentes"},
+  "nav_faq":{"zh":"常见问题","en":"FAQ","de":"FAQ","ru":"Часто задаваемые вопросы","fr":"FAQ","ja":"よくある質問","ko":"자주 묻는 질문","es":"Preguntas frecuentes"},
 
-  "nav_人才招聘":{"zh":"人才招聘","en":"Careers","de":"Karriere","ru":"Карьера","fr":"Carrières","ja":"採用情報","ko":"채용","es":"Carreras"},
+  "nav_careers":{"zh":"人才招聘","en":"Careers","de":"Karriere","ru":"Карьера","fr":"Carrières","ja":"採用情報","ko":"채용","es":"Carreras"},
 
   "faq_dd_qa":{"zh":"常见问题","en":"FAQ","de":"FAQ","ru":"Вопросы и ответы","fr":"FAQ","ja":"よくある質問","ko":"자주 묻는 질문","es":"Preguntas frecuentes"},
 
@@ -39,7 +39,7 @@ const I18N = {
 
   /* 2026-09-29：人才招聘页 hero 已按批注删除 → 原 careers_hero / careers_hero_sub 两键随之移除（全仓零引用） */
 
-  "nav_btn_询价":{"zh":"立即询价","en":"Get a Quote","de":"Angebot anfordern","ru":"Запросить цену","fr":"Demander un devis","ja":"見積り依頼","ko":"견적 요청","es":"Solicitar cotización"},
+  "nav_btn_quote":{"zh":"立即询价","en":"Get a Quote","de":"Angebot anfordern","ru":"Запросить цену","fr":"Demander un devis","ja":"見積り依頼","ko":"견적 요청","es":"Solicitar cotización"},
 
 
 
@@ -1084,6 +1084,12 @@ const I18N = {
   /* ══ 导航/下拉/抽屉专用条目（P1-11 由 main.js 的 HNAV_I18N 合并而来，前缀 hnav_）══ */
 "hnav_brand":{"zh":"HONDVO","en":"HONDVO","ja":"HONDVO","ko":"HONDVO","de":"HONDVO","fr":"HONDVO","es":"HONDVO","ru":"HONDVO"},
   "hnav_cta":{"zh":"立即询价","en":"Get a Quote","ja":"今すぐ見積もり","ko":"견적 요청","de":"Angebot anfordern","fr":"Demander un devis","es":"Pedir cotización","ru":"Запросить цену"},
+
+  /* 2026-10-12 新增：顶栏 CTA 的**窄屏短标签**。
+     背景：顶栏 CTA 文字框有 max-width:150px + 省略号，德语等长语言在 ≤1380px 被截成
+     「Angebot anfo…」（真机截图确认）。窄屏改用短标签而不是截断文字 ——
+     ⚠️ 短标签为本次新撰写，需业务方审阅后再对外（尤其 ja/ko/ru 的用词习惯）。 */
+  "hnav_cta_short":{"zh":"询价","en":"Quote","ja":"見積り","ko":"견적","de":"Angebot","fr":"Devis","es":"Cotización","ru":"Расчёт"},
   "hnav_lang":{"zh":"中文","en":"English","ja":"日本語","ko":"한국어","de":"Deutsch","fr":"Français","es":"Español","ru":"Русский"},
   "hnav_nav_home":{"zh":"首页","en":"Home","ja":"ホーム","ko":"홈","de":"Start","fr":"Accueil","es":"Inicio","ru":"Главная"},
   "hnav_nav_products":{"zh":"产品与服务","en":"Products & Services","ja":"製品・サービス","ko":"제품 & 서비스","de":"Produkte & Services","fr":"Produits & Services","es":"Productos y Servicios","ru":"Продукция и услуги"},
