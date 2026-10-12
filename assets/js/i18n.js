@@ -7,6 +7,8 @@
 
 /* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T07:57:36.225Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T08:23:09.418Z）。
+   如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
   "nav_home": {"en":"Home","zh":"123","de":"Startseite","ru":"Главная","fr":"Accueil","ja":"ホーム","ko":"홈","es":"Inicio"},
@@ -1341,6 +1343,7 @@ const I18N = {
 
   "hnav_contact_cta_go": {"en":"Contact Us →","zh":"立即沟通 →","de":"Jetzt kontaktieren →","ru":"Связаться с нами →","fr":"Nous contacter →","ja":"今すぐ連絡 →","ko":"지금 연락 →","es":"Contactar ahora →"}
 };
+;
 ;
 
 
