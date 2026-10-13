@@ -2,7 +2,11 @@
 # Site: https://hondvo.icu/
 #
 # NOTE (domain): 2026-10-12 起官网由自有域名 https://hondvo.icu/ 提供服务
-# （原 GitHub Pages 项目页 https://qthk.github.io/Hondvo/ 保留作过渡，将逐步下线）。
+# （原 GitHub Pages 项目页 https://qthk.github.io/Hondvo/ 保留为**过渡入口**：旧链接与搜索引擎仍可访问。）
+#   2026-10-13 决定的边界：该入口**不单独维护** —— Pages 由本仓库 main 自动构建，内容随仓库同步
+#   （实测 qthk.github.io/Hondvo 与 hondvo.icu 的 assets/js/i18n.js 逐字节一致）；
+#   对搜索引擎的唯一事实源是 hondvo.icu：全站 8 个页面都声明 canonical 指向它，本文件与 sitemap.xml 也只声明 hondvo.icu。
+#   是否下线该入口待后续决定，本次不动。
 # 站点位于域名根目录，无路径前缀问题。
 #
 # NOTE (scope): crawlers only read robots.txt at the host root
