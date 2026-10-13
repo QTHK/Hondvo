@@ -5,33 +5,10 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T07:57:36.225Z）。
-   如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T08:23:09.418Z）。
-   如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T08:35:00.669Z）。
-   如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-12T08:57:55.463Z）。
-   如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-13T01:12:26.903Z）。
+   如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。
+   2026-10-13：清理 9 个零引用旧键（nav_* 旧命名，详见后台操作日志）。 */
 const I18N = {
-
-  "nav_home": {"en":"Home","zh":"首页","de":"Startseite","ru":"Главная","fr":"Accueil","ja":"ホーム","ko":"홈","es":"Inicio"},
-
-  "nav_about": {"en":"About Us","zh":"关于我们","de":"Über uns","ru":"О нас","fr":"À propos","ja":"会社概要","ko":"회사소개","es":"Sobre nosotros"},
-
-  "nav_products": {"en":"Products & Services","zh":"产品与服务","de":"Produkte & Dienstleistungen","ru":"Продукты и услуги","fr":"Produits & services","ja":"製品・サービス","ko":"제품 및 서비스","es":"Productos y servicios"},
-
-  "nav_mold": {"en":"Mold Center","zh":"模具中心","de":"Werkzeugbau","ru":"Центр пресс-форм","fr":"Centre de moules","ja":"金型センター","ko":"금형 센터","es":"Centro de moldes"},
-
-  "nav_qualifications": {"en":"Qualifications","zh":"资质实力","de":"Qualifikationen","ru":"Квалификации","fr":"Qualifications","ja":"認定資格","ko":"인증 및 역량","es":"Certificaciones"},
-
-  "nav_news": {"en":"News","zh":"新闻动态","de":"Nachrichten","ru":"Новости","fr":"Actualités","ja":"ニュース","ko":"뉴스","es":"Noticias"},
-
-  "nav_contact": {"en":"Contact Us","zh":"联系我们","de":"Kontakt","ru":"Контакты","fr":"Contact","ja":"お問い合わせ","ko":"문의하기","es":"Contacto"},
-
-  "nav_faq": {"en":"FAQ","zh":"常见问题","de":"FAQ","ru":"Часто задаваемые вопросы","fr":"FAQ","ja":"よくある質問","ko":"자주 묻는 질문","es":"Preguntas frecuentes"},
-
-  "nav_careers": {"en":"Careers","zh":"人才招聘","de":"Karriere","ru":"Карьера","fr":"Carrières","ja":"採用情報","ko":"채용","es":"Carreras"},
 
   "faq_dd_qa": {"en":"FAQ","zh":"常见问题","de":"FAQ","ru":"Вопросы и ответы","fr":"FAQ","ja":"よくある質問","ko":"자주 묻는 질문","es":"Preguntas frecuentes"},
 
@@ -1347,12 +1324,6 @@ const I18N = {
 
   "hnav_contact_cta_go": {"en":"Contact Us →","zh":"立即沟通 →","de":"Jetzt kontaktieren →","ru":"Связаться с нами →","fr":"Nous contacter →","ja":"今すぐ連絡 →","ko":"지금 연락 →","es":"Contactar ahora →"}
 };
-;
-;
-;
-;
-
-
 
 /* ═══════════ SHARED FOOTER (injected into every .site-footer-mount) ═══════════ */
 
