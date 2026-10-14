@@ -129,7 +129,10 @@
     var frag = document.createDocumentFragment();
     items.forEach(function (it) {
       var card = el('div', 'case-card');
-      var ind = (it.meta && it.meta.industry) || '';
+      /* 行业标签读的是**可翻译字段** industry（2026-10-14 修订）。
+         ⚠️ 它原先读 meta.industry（不翻译的结构化数据）⇒ 中文站点上会一直显示
+            英文的 IVD / Drug Delivery，用户实测发现"切到中文文字没变"。 */
+      var ind = field(it, 'industry');
       if (ind) card.appendChild(el('span', 'case-industry', ind));
       card.appendChild(el('h4', null, field(it, 'title')));
 
