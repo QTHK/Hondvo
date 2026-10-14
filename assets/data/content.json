@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-14T05:36:58.534Z",
+  "generatedAt": "2026-10-14T06:14:13.143Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -18,7 +18,7 @@
   ],
   "counts": {
     "news": 7,
-    "case": 4
+    "case": 3
   },
   "items": [
     {
@@ -34,48 +34,56 @@
       "texts": {
         "en": {
           "challenge": "Case details to be added",
+          "industry": "IVD",
           "result": "Key outcomes to be added",
           "solution": "Delivery approach to be added",
           "title": "Microfluidic Chip Mass Production"
         },
         "zh": {
           "challenge": "（案例详情整理中，敬请期待）",
+          "industry": "体外诊断",
           "result": "（关键成效整理中，敬请期待）",
           "solution": "（交付方案整理中，敬请期待）",
           "title": "微流控芯片量产"
         },
         "de": {
           "challenge": "Fallstudie folgt",
+          "industry": "IVD",
           "result": "Ergebnisse folgen",
           "solution": "Lösungsansatz folgt",
           "title": "Microfluidic Chip Mass Production"
         },
         "ru": {
           "challenge": "Детали кейса готовятся",
+          "industry": "IVD",
           "result": "Результаты готовятся",
           "solution": "Подход готовится",
           "title": "Microfluidic Chip Mass Production"
         },
         "fr": {
           "challenge": "Étude de cas à venir",
+          "industry": "IVD",
           "result": "Résultats à venir",
           "solution": "Approche à venir",
           "title": "Microfluidic Chip Mass Production"
         },
         "ja": {
           "challenge": "事例詳細準備中",
+          "industry": "IVD",
           "result": "成果準備中",
           "solution": "提供手法準備中",
           "title": "Microfluidic Chip Mass Production"
         },
         "ko": {
           "challenge": "사례 상세 준비 중",
+          "industry": "IVD",
           "result": "성과 준비 중",
           "solution": "제공 방식 준비 중",
           "title": "Microfluidic Chip Mass Production"
         },
         "es": {
           "challenge": "Caso en preparación",
+          "industry": "IVD",
           "result": "Resultados en preparación",
           "solution": "Enfoque en preparación",
           "title": "Microfluidic Chip Mass Production"
@@ -95,48 +103,56 @@
       "texts": {
         "en": {
           "challenge": "Case details to be added",
+          "industry": "Drug Delivery",
           "result": "Key outcomes to be added",
           "solution": "Delivery approach to be added",
           "title": "Precision Molding of Prefilled Syringe Components"
         },
         "zh": {
           "challenge": "（案例详情整理中，敬请期待）",
+          "industry": "给药装置",
           "result": "（关键成效整理中，敬请期待）",
           "solution": "（交付方案整理中，敬请期待）",
           "title": "预灌封注射器组件精密注塑"
         },
         "de": {
           "challenge": "Fallstudie folgt",
+          "industry": "Drug Delivery",
           "result": "Ergebnisse folgen",
           "solution": "Lösungsansatz folgt",
           "title": "Precision Molding of Prefilled Syringe Components"
         },
         "ru": {
           "challenge": "Детали кейса готовятся",
+          "industry": "Drug Delivery",
           "result": "Результаты готовятся",
           "solution": "Подход готовится",
           "title": "Precision Molding of Prefilled Syringe Components"
         },
         "fr": {
           "challenge": "Étude de cas à venir",
+          "industry": "Drug Delivery",
           "result": "Résultats à venir",
           "solution": "Approche à venir",
           "title": "Precision Molding of Prefilled Syringe Components"
         },
         "ja": {
           "challenge": "事例詳細準備中",
+          "industry": "Drug Delivery",
           "result": "成果準備中",
           "solution": "提供手法準備中",
           "title": "Precision Molding of Prefilled Syringe Components"
         },
         "ko": {
           "challenge": "사례 상세 준비 중",
+          "industry": "Drug Delivery",
           "result": "성과 준비 중",
           "solution": "제공 방식 준비 중",
           "title": "Precision Molding of Prefilled Syringe Components"
         },
         "es": {
           "challenge": "Caso en preparación",
+          "industry": "Drug Delivery",
           "result": "Resultados en preparación",
           "solution": "Enfoque en preparación",
           "title": "Precision Molding of Prefilled Syringe Components"
@@ -156,105 +172,59 @@
       "texts": {
         "en": {
           "challenge": "Case details to be added",
+          "industry": "Surgical Instruments",
           "result": "Key outcomes to be added",
           "solution": "Delivery approach to be added",
           "title": "Disposable Trocar Structural Components"
         },
         "zh": {
           "challenge": "（案例详情整理中，敬请期待）",
+          "industry": "手术器械",
           "result": "（关键成效整理中，敬请期待）",
           "solution": "（交付方案整理中，敬请期待）",
           "title": "一次性穿刺器结构件交付"
         },
         "de": {
           "challenge": "Fallstudie folgt",
+          "industry": "Surgical Instruments",
           "result": "Ergebnisse folgen",
           "solution": "Lösungsansatz folgt",
           "title": "Disposable Trocar Structural Components"
         },
         "ru": {
           "challenge": "Детали кейса готовятся",
+          "industry": "Surgical Instruments",
           "result": "Результаты готовятся",
           "solution": "Подход готовится",
           "title": "Disposable Trocar Structural Components"
         },
         "fr": {
           "challenge": "Étude de cas à venir",
+          "industry": "Surgical Instruments",
           "result": "Résultats à venir",
           "solution": "Approche à venir",
           "title": "Disposable Trocar Structural Components"
         },
         "ja": {
           "challenge": "事例詳細準備中",
+          "industry": "Surgical Instruments",
           "result": "成果準備中",
           "solution": "提供手法準備中",
           "title": "Disposable Trocar Structural Components"
         },
         "ko": {
           "challenge": "사례 상세 준비 중",
+          "industry": "Surgical Instruments",
           "result": "성과 준비 중",
           "solution": "제공 방식 준비 중",
           "title": "Disposable Trocar Structural Components"
         },
         "es": {
           "challenge": "Caso en preparación",
+          "industry": "Surgical Instruments",
           "result": "Resultados en preparación",
           "solution": "Enfoque en preparación",
           "title": "Disposable Trocar Structural Components"
-        }
-      }
-    },
-    {
-      "id": 1,
-      "type": "case",
-      "slug": "ISO",
-      "sort": 0,
-      "meta": {
-        "industry": "器械",
-        "year": "2026.10.14"
-      },
-      "publishedAt": "2026-10-14 05:36:26",
-      "updatedAt": "2026-10-14 05:36:26",
-      "texts": {
-        "en": {
-          "body": "N/A",
-          "summary": "N/A",
-          "title": "Prefilled Syringe Components"
-        },
-        "zh": {
-          "body": "N/A",
-          "summary": "N/A",
-          "title": "Prefilled Syringe Components"
-        },
-        "de": {
-          "body": "N/A",
-          "summary": "N/A",
-          "title": "Prefilled Syringe Components"
-        },
-        "ru": {
-          "body": "N/A",
-          "summary": "N/A",
-          "title": "Prefilled Syringe Components"
-        },
-        "fr": {
-          "body": "N/A",
-          "summary": "N/A",
-          "title": "Prefilled Syringe Components"
-        },
-        "ja": {
-          "body": "N/A",
-          "summary": "N/A",
-          "title": "Prefilled Syringe Components"
-        },
-        "ko": {
-          "body": "N/A",
-          "summary": "N/A",
-          "title": "Prefilled Syringe Components"
-        },
-        "es": {
-          "body": "N/A",
-          "summary": "N/A",
-          "title": "Prefilled Syringe Components"
         }
       }
     },
