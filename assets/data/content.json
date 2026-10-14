@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-14T05:34:25.051Z",
+  "generatedAt": "2026-10-14T05:36:58.534Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -18,7 +18,7 @@
   ],
   "counts": {
     "news": 7,
-    "case": 3
+    "case": 4
   },
   "items": [
     {
@@ -201,6 +201,60 @@
           "result": "Resultados en preparación",
           "solution": "Enfoque en preparación",
           "title": "Disposable Trocar Structural Components"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": "case",
+      "slug": "ISO",
+      "sort": 0,
+      "meta": {
+        "industry": "器械",
+        "year": "2026.10.14"
+      },
+      "publishedAt": "2026-10-14 05:36:26",
+      "updatedAt": "2026-10-14 05:36:26",
+      "texts": {
+        "en": {
+          "body": "N/A",
+          "summary": "N/A",
+          "title": "Prefilled Syringe Components"
+        },
+        "zh": {
+          "body": "N/A",
+          "summary": "N/A",
+          "title": "Prefilled Syringe Components"
+        },
+        "de": {
+          "body": "N/A",
+          "summary": "N/A",
+          "title": "Prefilled Syringe Components"
+        },
+        "ru": {
+          "body": "N/A",
+          "summary": "N/A",
+          "title": "Prefilled Syringe Components"
+        },
+        "fr": {
+          "body": "N/A",
+          "summary": "N/A",
+          "title": "Prefilled Syringe Components"
+        },
+        "ja": {
+          "body": "N/A",
+          "summary": "N/A",
+          "title": "Prefilled Syringe Components"
+        },
+        "ko": {
+          "body": "N/A",
+          "summary": "N/A",
+          "title": "Prefilled Syringe Components"
+        },
+        "es": {
+          "body": "N/A",
+          "summary": "N/A",
+          "title": "Prefilled Syringe Components"
         }
       }
     },
