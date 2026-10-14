@@ -1,0 +1,523 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-14T05:34:25.051Z",
+  "sourceLang": "en",
+  "langs": [
+    "en",
+    "zh",
+    "de",
+    "ru",
+    "fr",
+    "ja",
+    "ko",
+    "es"
+  ],
+  "types": [
+    "news",
+    "case"
+  ],
+  "counts": {
+    "news": 7,
+    "case": 3
+  },
+  "items": [
+    {
+      "id": 9,
+      "type": "case",
+      "slug": "microfluidic-chip-mass-production",
+      "sort": 9,
+      "meta": {
+        "industry": "IVD"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "challenge": "Case details to be added",
+          "result": "Key outcomes to be added",
+          "solution": "Delivery approach to be added",
+          "title": "Microfluidic Chip Mass Production"
+        },
+        "zh": {
+          "challenge": "（案例详情整理中，敬请期待）",
+          "result": "（关键成效整理中，敬请期待）",
+          "solution": "（交付方案整理中，敬请期待）",
+          "title": "微流控芯片量产"
+        },
+        "de": {
+          "challenge": "Fallstudie folgt",
+          "result": "Ergebnisse folgen",
+          "solution": "Lösungsansatz folgt",
+          "title": "Microfluidic Chip Mass Production"
+        },
+        "ru": {
+          "challenge": "Детали кейса готовятся",
+          "result": "Результаты готовятся",
+          "solution": "Подход готовится",
+          "title": "Microfluidic Chip Mass Production"
+        },
+        "fr": {
+          "challenge": "Étude de cas à venir",
+          "result": "Résultats à venir",
+          "solution": "Approche à venir",
+          "title": "Microfluidic Chip Mass Production"
+        },
+        "ja": {
+          "challenge": "事例詳細準備中",
+          "result": "成果準備中",
+          "solution": "提供手法準備中",
+          "title": "Microfluidic Chip Mass Production"
+        },
+        "ko": {
+          "challenge": "사례 상세 준비 중",
+          "result": "성과 준비 중",
+          "solution": "제공 방식 준비 중",
+          "title": "Microfluidic Chip Mass Production"
+        },
+        "es": {
+          "challenge": "Caso en preparación",
+          "result": "Resultados en preparación",
+          "solution": "Enfoque en preparación",
+          "title": "Microfluidic Chip Mass Production"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "case",
+      "slug": "precision-molding-of-prefilled-syringe-components",
+      "sort": 8,
+      "meta": {
+        "industry": "Drug Delivery"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "challenge": "Case details to be added",
+          "result": "Key outcomes to be added",
+          "solution": "Delivery approach to be added",
+          "title": "Precision Molding of Prefilled Syringe Components"
+        },
+        "zh": {
+          "challenge": "（案例详情整理中，敬请期待）",
+          "result": "（关键成效整理中，敬请期待）",
+          "solution": "（交付方案整理中，敬请期待）",
+          "title": "预灌封注射器组件精密注塑"
+        },
+        "de": {
+          "challenge": "Fallstudie folgt",
+          "result": "Ergebnisse folgen",
+          "solution": "Lösungsansatz folgt",
+          "title": "Precision Molding of Prefilled Syringe Components"
+        },
+        "ru": {
+          "challenge": "Детали кейса готовятся",
+          "result": "Результаты готовятся",
+          "solution": "Подход готовится",
+          "title": "Precision Molding of Prefilled Syringe Components"
+        },
+        "fr": {
+          "challenge": "Étude de cas à venir",
+          "result": "Résultats à venir",
+          "solution": "Approche à venir",
+          "title": "Precision Molding of Prefilled Syringe Components"
+        },
+        "ja": {
+          "challenge": "事例詳細準備中",
+          "result": "成果準備中",
+          "solution": "提供手法準備中",
+          "title": "Precision Molding of Prefilled Syringe Components"
+        },
+        "ko": {
+          "challenge": "사례 상세 준비 중",
+          "result": "성과 준비 중",
+          "solution": "제공 방식 준비 중",
+          "title": "Precision Molding of Prefilled Syringe Components"
+        },
+        "es": {
+          "challenge": "Caso en preparación",
+          "result": "Resultados en preparación",
+          "solution": "Enfoque en preparación",
+          "title": "Precision Molding of Prefilled Syringe Components"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": "case",
+      "slug": "disposable-trocar-structural-components",
+      "sort": 7,
+      "meta": {
+        "industry": "Surgical Instruments"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "challenge": "Case details to be added",
+          "result": "Key outcomes to be added",
+          "solution": "Delivery approach to be added",
+          "title": "Disposable Trocar Structural Components"
+        },
+        "zh": {
+          "challenge": "（案例详情整理中，敬请期待）",
+          "result": "（关键成效整理中，敬请期待）",
+          "solution": "（交付方案整理中，敬请期待）",
+          "title": "一次性穿刺器结构件交付"
+        },
+        "de": {
+          "challenge": "Fallstudie folgt",
+          "result": "Ergebnisse folgen",
+          "solution": "Lösungsansatz folgt",
+          "title": "Disposable Trocar Structural Components"
+        },
+        "ru": {
+          "challenge": "Детали кейса готовятся",
+          "result": "Результаты готовятся",
+          "solution": "Подход готовится",
+          "title": "Disposable Trocar Structural Components"
+        },
+        "fr": {
+          "challenge": "Étude de cas à venir",
+          "result": "Résultats à venir",
+          "solution": "Approche à venir",
+          "title": "Disposable Trocar Structural Components"
+        },
+        "ja": {
+          "challenge": "事例詳細準備中",
+          "result": "成果準備中",
+          "solution": "提供手法準備中",
+          "title": "Disposable Trocar Structural Components"
+        },
+        "ko": {
+          "challenge": "사례 상세 준비 중",
+          "result": "성과 준비 중",
+          "solution": "제공 방식 준비 중",
+          "title": "Disposable Trocar Structural Components"
+        },
+        "es": {
+          "challenge": "Caso en preparación",
+          "result": "Resultados en preparación",
+          "solution": "Enfoque en preparación",
+          "title": "Disposable Trocar Structural Components"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "news",
+      "slug": "hondvo-technology-passed-iso-13485-annual-surveillance-audit",
+      "sort": 20260728,
+      "meta": {
+        "date": "2026-07-28"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "summary": "HONDVO Technology has successfully passed the ISO 13485 medical device quality management system annual surveillance audit, covering the entire injection molding production process.",
+          "title": "HONDVO Technology Passed ISO 13485 Annual Surveillance Audit"
+        },
+        "zh": {
+          "summary": "近日，弘欧科技顺利通过 ISO 13485 医疗器械质量管理体系年度监督审核，审核范围覆盖注塑件生产全过程。",
+          "title": "弘欧科技通过 ISO 13485 年度监督审核"
+        },
+        "de": {
+          "summary": "HONDVO Technology hat das jährliche ISO 13485-Überwachungsaudit für Qualitätsmanagement bei Medizinprodukten erfolgreich bestanden – der Auditumfang deckte den gesamten Spritzgießprozess ab.",
+          "title": "HONDVO Technology hat das jährliche ISO 13485-Überwachungsaudit bestanden"
+        },
+        "ru": {
+          "summary": "HONDVO Technology успешно прошла ежегодный надзорный аудит системы менеджмента качества медицинских изделий ISO 13485, охвативший весь процесс литьевого производства.",
+          "title": "HONDVO Technology успешно прошла ежегодный надзорный аудит ISO 13485"
+        },
+        "fr": {
+          "summary": "HONDVO Technology a réussi l'audit annuel de surveillance ISO 13485 du système de management de la qualité des dispositifs médicaux, couvrant l'ensemble du processus de production par injection.",
+          "title": "HONDVO Technology a réussi l'audit annuel de surveillance ISO 13485"
+        },
+        "ja": {
+          "summary": "このたび弘欧科技は、ISO 13485医療機器品質マネジメントシステムの年次サーベイランス審査に合格しました。審査範囲は射出成形品の生産全工程をカバーしています。",
+          "title": "弘欧科技、ISO 13485年次サーベイランス審査に合格"
+        },
+        "ko": {
+          "summary": "최근 HONDVO Technology는 ISO 13485 의료기기 품질경영시스템 연간 감시 심사를 성공적으로 통과했습니다. 심사 범위는 사출 성형품 생산 전 공정을 포함합니다.",
+          "title": "HONDVO Technology, ISO 13485 연간 감시 심사 통과"
+        },
+        "es": {
+          "summary": "HONDVO Technology ha superado con éxito la auditoría anual de vigilancia del sistema de gestión de calidad de dispositivos médicos ISO 13485, cubriendo todo el proceso de producción de inyección.",
+          "title": "HONDVO Technology superó la auditoría anual de vigilancia ISO 13485"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "news",
+      "slug": "two-new-toyo-cs-230-all-electric-injection-machines-put-into-production",
+      "sort": 20260615,
+      "meta": {
+        "date": "2026-06-15"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "summary": "To meet the growing order demands from medical device clients, the company has introduced two new Japanese TOYO CS-230 all-electric injection machines, now officially operating in the Class 100,000 cleanroom.",
+          "title": "Two New TOYO CS-230 All-Electric Injection Machines Put into Production"
+        },
+        "zh": {
+          "summary": "为满足医疗器械客户日益增长的订单需求，公司新引进两台日本 TOYO CS-230 全电动注塑机，已正式投入十万级净化车间运行。",
+          "title": "新增两台 TOYO CS-230 全电动注塑机投入生产"
+        },
+        "de": {
+          "summary": "Um die wachsende Nachfrage von Medizintechnikkunden zu bedienen, hat das Unternehmen zwei neue vollelektrische TOYO CS-230 Spritzgießmaschinen aus Japan installiert, die jetzt im Reinraum Klasse 100.000 in Betrieb sind.",
+          "title": "Zwei neue vollelektrische TOYO CS-230 Spritzgießmaschinen in Produktion genommen"
+        },
+        "ru": {
+          "summary": "Для удовлетворения растущего спроса клиентов в сфере медицинских изделий компания установила два новых полностью электрических термопластавтомата TOYO CS-230 (Япония), которые уже введены в эксплуатацию в чистом помещении класса 100 000.",
+          "title": "Два новых полностью электрических термопластавтомата TOYO CS-230 запущены в производство"
+        },
+        "fr": {
+          "summary": "Pour répondre à la demande croissante des clients DM, l'entreprise a installé deux nouvelles machines d'injection tout électrique TOYO CS-230 (Japon), désormais opérationnelles en salle blanche classe 100 000.",
+          "title": "Deux nouvelles machines d'injection tout électrique TOYO CS-230 mises en production"
+        },
+        "ja": {
+          "summary": "医療機器顧客の増加する受注需要に応えるため、日本製TOYO CS-230全電動射出成形機2台を新たに導入し、クラス100,000クリーンルームでの稼働を開始しました。",
+          "title": "新型TOYO CS-230全電動射出成形機2台が生産稼働開始"
+        },
+        "ko": {
+          "summary": "의료기기 고객의 증가하는 주문 수요에 대응하기 위해 일본 TOYO CS-230 전동식 사출 성형기 2대를 신규 도입하여 클래스 100,000 클린룸에서 정식 가동 중입니다.",
+          "title": "TOYO CS-230 전동식 사출 성형기 2대 신규 생산 투입"
+        },
+        "es": {
+          "summary": "Para satisfacer la creciente demanda de pedidos de clientes de dispositivos médicos, la empresa ha incorporado dos nuevas máquinas de inyección totalmente eléctricas TOYO CS-230 japonesas, ya operativas en la sala limpia clase 100.000.",
+          "title": "Dos nuevas máquinas de inyección totalmente eléctricas TOYO CS-230 puestas en producción"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "news",
+      "slug": "hondvo-showcases-at-cmef-2026-china-international-medical-equipment-fair",
+      "sort": 20260510,
+      "meta": {
+        "date": "2026-05-10"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "summary": "HONDVO Technology showcased its core products including enteral nutrition infusion systems and injection drug delivery systems at CMEF 2026, reaching cooperation intentions with multiple domestic and international medical device companies.",
+          "title": "HONDVO Showcases at CMEF 2026 China International Medical Equipment Fair"
+        },
+        "zh": {
+          "summary": "弘欧科技携肠内营养输注系统、注射给药系统等核心产品亮相 CMEF 2026，与多家国内外医疗器械企业达成合作意向。",
+          "title": "公司参加 2026 中国国际医疗器械博览会（CMEF）"
+        },
+        "de": {
+          "summary": "HONDVO Technology präsentierte auf der CMEF 2026 Kernprodukte wie enterale Ernährungssysteme und Injektionssysteme und erzielte Kooperationsabsichten mit mehreren in- und ausländischen Medizintechnikunternehmen.",
+          "title": "HONDVO stellt auf der CMEF 2026 – China International Medical Equipment Fair aus"
+        },
+        "ru": {
+          "summary": "HONDVO Technology представила на CMEF 2026 основные продукты, включая системы энтерального питания и инъекционные системы, достигнув договоренностей о сотрудничестве с рядом отечественных и зарубежных компаний.",
+          "title": "HONDVO представляет продукцию на CMEF 2026 – Китайской международной выставке медицинского оборудования"
+        },
+        "fr": {
+          "summary": "HONDVO Technology a présenté à la CMEF 2026 ses produits phares – systèmes de nutrition entérale et systèmes d'injection – et a établi des intentions de coopération avec plusieurs entreprises nationales et internationales.",
+          "title": "HONDVO expose à la CMEF 2026 – Foire internationale chinoise de l'équipement médical"
+        },
+        "ja": {
+          "summary": "弘欧科技はCMEF 2026にて経腸栄養注入システム、注射薬物送達システムなどの主力製品を出展し、国内外の多くの医療機器企業と協業意向を達成しました。",
+          "title": "CMEF 2026 中国国際医療機器博覧会に出展"
+        },
+        "ko": {
+          "summary": "HONDVO Technology는 CMEF 2026에서 경장 영양 주입 시스템, 주사 약물 전달 시스템 등 주요 제품을 선보이며 다수의 국내외 의료기기 기업과 협력 의향을 체결했습니다.",
+          "title": "CMEF 2026 중국 국제 의료기기 박람회 참가"
+        },
+        "es": {
+          "summary": "HONDVO Technology presentó en CMEF 2026 sus productos principales, incluyendo sistemas de nutrición enteral y sistemas de administración de fármacos por inyección, alcanzando intenciones de cooperación con múltiples empresas nacionales e internacionales.",
+          "title": "HONDVO se presenta en CMEF 2026 – Feria Internacional China de Equipamiento Médico"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "news",
+      "slug": "swiss-hauser-s35-jig-grinder-installation-commissioning-completed",
+      "sort": 20260422,
+      "meta": {
+        "date": "2026-04-22"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "summary": "The Hauser S35 jig grinder with 0.001mm precision has completed installation and commissioning in the mold workshop, further enhancing precision mold manufacturing capabilities.",
+          "title": "Swiss Hauser S35 Jig Grinder Installation & Commissioning Completed"
+        },
+        "zh": {
+          "summary": "精度达到 0.001mm 的 Hauser S35 坐标磨在模具车间完成安装调试，进一步提升了精密模具的加工能力。",
+          "title": "瑞士 Hauser S35 坐标磨完成安装调试"
+        },
+        "de": {
+          "summary": "Die Hauser S35 Koordinatenschleifmaschine mit 0,001 mm Genauigkeit wurde im Werkzeugbau installiert und in Betrieb genommen, wodurch die Präzisionswerkzeug-Fertigungskapazität weiter gesteigert wurde.",
+          "title": "Installation und Inbetriebnahme der Schweizer Hauser S35 Koordinatenschleifmaschine abgeschlossen"
+        },
+        "ru": {
+          "summary": "Координатно-шлифовальный станок Hauser S35 с точностью 0,001 мм завершил установку и наладку в инструментальном цехе, дополнительно повысив возможности изготовления прецизионных пресс-форм.",
+          "title": "Завершены установка и пусконаладка швейцарского координатно-шлифовального станка Hauser S35"
+        },
+        "fr": {
+          "summary": "La rectifieuse à coordonnées Hauser S35 d'une précision de 0,001 mm a terminé son installation et sa mise en service dans l'atelier de moules, améliorant encore les capacités de fabrication de moules de précision.",
+          "title": "Installation et mise en service de la rectifieuse à coordonnées suisse Hauser S35 terminées"
+        },
+        "ja": {
+          "summary": "精度0.001mmのHauser S35ジグ研削盤が金型工場での設置・調整を完了し、精密金型の加工能力をさらに向上させました。",
+          "title": "スイスHauser S35ジグ研削盤の設置・調整が完了"
+        },
+        "ko": {
+          "summary": "정밀도 0.001mm의 Hauser S35 지그 연삭기가 금형 작업장에 설치 및 시운전을 완료하여 정밀 금형 가공 역량을 한층 강화했습니다.",
+          "title": "스위스 Hauser S35 지그 연삭기 설치 및 시운전 완료"
+        },
+        "es": {
+          "summary": "La rectificadora de coordenadas Hauser S35 con precisión de 0,001 mm ha completado su instalación y puesta en marcha en el taller de moldes, mejorando aún más la capacidad de fabricación de moldes de precisión.",
+          "title": "Instalación y puesta en marcha de la rectificadora de coordenadas suiza Hauser S35 completada"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "news",
+      "slug": "hondvo-tooling-passed-iatf-16949-recertification-audit",
+      "sort": 20260308,
+      "meta": {
+        "date": "2026-03-08"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "summary": "HONDVO TOOLING successfully passed the IATF 16949 automotive quality management system recertification audit. System effectiveness was highly praised by auditors, continuing to meet stringent automotive supply chain requirements.",
+          "title": "HONDVO TOOLING Passed IATF 16949 Recertification Audit"
+        },
+        "zh": {
+          "summary": "弘欧精密模具顺利通过 IATF 16949 汽车行业质量管理体系换证审核，体系运行有效性获审核组高度评价，持续满足汽车供应链严苛要求。",
+          "title": "弘欧精密模具通过 IATF 16949 换证审核"
+        },
+        "de": {
+          "summary": "HONDVO TOOLING hat das IATF 16949-Rezertifizierungsaudit für Qualitätsmanagement in der Automobilindustrie erfolgreich bestanden. Die Wirksamkeit des Systems wurde vom Auditteam hoch bewertet; die strengen Anforderungen der automobilen Lieferkette werden weiterhin erfüllt.",
+          "title": "HONDVO TOOLING hat das IATF 16949-Rezertifizierungsaudit bestanden"
+        },
+        "ru": {
+          "summary": "HONDVO TOOLING успешно прошла ресертификационный аудит системы менеджмента качества IATF 16949 для автомобильной промышленности. Эффективность системы получила высокую оценку аудиторов; строгие требования автомобильной цепочки поставок продолжают выполняться.",
+          "title": "HONDVO TOOLING успешно прошла ресертификационный аудит IATF 16949"
+        },
+        "fr": {
+          "summary": "HONDVO TOOLING a réussi l'audit de recertification IATF 16949 pour le SMQ automobile. L'efficacité du système a été hautement appréciée par les auditeurs, continuant à satisfaire aux exigences strictes de la chaîne d'approvisionnement automobile.",
+          "title": "HONDVO TOOLING a réussi l'audit de recertification IATF 16949"
+        },
+        "ja": {
+          "summary": "弘欧精密模具はIATF 16949自動車産業品質マネジメントシステムの更新審査に合格しました。システムの有効性について審査チームから高い評価を受け、自動車サプライチェーンの厳格な要求事項を継続的に満たしています。",
+          "title": "弘欧精密模具、IATF 16949更新審査に合格"
+        },
+        "ko": {
+          "summary": "HONDVO TOOLING은 IATF 16949 자동차 산업 품질경영시스템 갱신 심사를 성공적으로 통과했습니다. 시스템 운영의 유효성은 심사팀으로부터 높은 평가를 받았으며, 자동차 공급망의 엄격한 요구사항을 지속적으로 충족하고 있습니다.",
+          "title": "HONDVO TOOLING, IATF 16949 갱신 심사 통과"
+        },
+        "es": {
+          "summary": "HONDVO TOOLING superó con éxito la auditoría de recertificación del sistema de gestión de calidad automotriz IATF 16949. La eficacia del sistema fue altamente valorada por los auditores, cumpliendo continuamente con los estrictos requisitos de la cadena de suministro automotriz.",
+          "title": "HONDVO TOOLING superó la auditoría de recertificación IATF 16949"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": "news",
+      "slug": "class-100k-cleanroom-passed-international-client-annual-on-site-audit",
+      "sort": 20260220,
+      "meta": {
+        "date": "2026-02-20"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "summary": "The Class 100,000 cleanroom successfully passed the annual on-site audit by a European medical device client, covering cleanliness control, SOP compliance, and batch traceability. Achieved excellent assessment with zero corrective actions required.",
+          "title": "Class 100K Cleanroom Passed International Client Annual On-Site Audit"
+        },
+        "zh": {
+          "summary": "公司十万级净化车间顺利通过欧洲医疗器械客户年度现场审计，涵盖洁净度控制、人员操作规范、批次追溯全流程，获得客户免整改通过的优异评价。",
+          "title": "十万级净化车间通过国际客户年度现场审计"
+        },
+        "de": {
+          "summary": "Der Reinraum Klasse 100.000 hat das jährliche Vor-Ort-Audit eines europäischen Medizintechnikkunden erfolgreich bestanden – einschließlich Reinheitskontrolle, Personalverfahren und Chargenrückverfolgbarkeit – mit ausgezeichneter Bewertung ohne Korrekturmaßnahmen.",
+          "title": "Reinraum Klasse 100.000 hat jährliches Vor-Ort-Audit eines internationalen Kunden bestanden"
+        },
+        "ru": {
+          "summary": "Чистое помещение класса 100 000 успешно прошло ежегодный выездной аудит европейского клиента в сфере медицинских изделий, включая контроль чистоты, соблюдение процедур и прослеживаемость партий, получив отличную оценку без необходимости корректирующих действий.",
+          "title": "Чистое помещение класса 100 000 прошло ежегодный выездной аудит международного клиента"
+        },
+        "fr": {
+          "summary": "La salle blanche classe 100 000 a réussi l'audit annuel sur site d'un client européen du DM, couvrant le contrôle de la propreté, les procédures opérationnelles et la traçabilité des lots, avec une excellente évaluation sans actions correctives requises.",
+          "title": "La salle blanche classe 100 000 a réussi l'audit annuel sur site d'un client international"
+        },
+        "ja": {
+          "summary": "クラス100,000クリーンルームが欧州医療機器顧客の年次現地監査に合格しました。清浄度管理、作業手順遵守、ロットトレーサビリティの全工程が審査され、是正措置不要の優秀評価を獲得しました。",
+          "title": "クラス100,000クリーンルームが国際顧客の年次現地監査に合格"
+        },
+        "ko": {
+          "summary": "클래스 100,000 클린룸이 유럽 의료기기 고객의 연간 현장 심사를 성공적으로 통과했습니다. 청정도 관리, 작업자 운영 규정, 배치 추적성 전 과정을 포함하여 시정 조치 없는 우수 평가를 받았습니다.",
+          "title": "클래스 100,000 클린룸, 국제 고객 연간 현장 심사 통과"
+        },
+        "es": {
+          "summary": "La sala limpia clase 100.000 superó con éxito la auditoría anual in situ de un cliente europeo de dispositivos médicos, cubriendo control de limpieza, procedimientos operativos y trazabilidad de lotes, obteniendo una calificación excelente sin acciones correctivas requeridas.",
+          "title": "La sala limpia clase 100.000 superó la auditoría anual in situ de un cliente internacional"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "news",
+      "slug": "new-german-roders-high-speed-machining-center-delivered-to-mold-center",
+      "sort": 20260112,
+      "meta": {
+        "date": "2026-01-12"
+      },
+      "publishedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-10-14 03:54:20",
+      "texts": {
+        "en": {
+          "summary": "Following the Hauser S35 jig grinder, the mold center adds another major equipment — a German RODERS RXP 500 DCS high-speed machining center has completed installation and acceptance, achieving dual improvements in mold machining precision and efficiency.",
+          "title": "New German RODERS High-Speed Machining Center Delivered to Mold Center"
+        },
+        "zh": {
+          "summary": "继 Hauser S35 坐标磨后，模具中心再添重量级设备——德国 RODERS RXP 500 DCS 高速加工中心完成安装验收，模具加工精度与效率实现双提升。",
+          "title": "模具中心新增德国 RODERS 高速加工中心完成交付"
+        },
+        "de": {
+          "summary": "Nach der Hauser S35 Koordinatenschleifmaschine erhält der Werkzeugbau eine weitere bedeutende Anlage – ein deutsches RODERS RXP 500 DCS Hochgeschwindigkeits-Bearbeitungszentrum wurde installiert und abgenommen, was sowohl Präzision als auch Effizienz im Werkzeugbau steigert.",
+          "title": "Neues deutsches RODERS Hochgeschwindigkeits-Bearbeitungszentrum an den Werkzeugbau geliefert"
+        },
+        "ru": {
+          "summary": "Вслед за координатно-шлифовальным станком Hauser S35 инструментальный центр пополнился еще одной важной единицей – немецкий высокоскоростной обрабатывающий центр RODERS RXP 500 DCS завершил установку и приемку, обеспечив двойное повышение точности и эффективности обработки пресс-форм.",
+          "title": "Новый немецкий высокоскоростной обрабатывающий центр RODERS поставлен в инструментальный центр"
+        },
+        "fr": {
+          "summary": "Après la rectifieuse Hauser S35, le centre de moules s'enrichit d'un équipement majeur – un centre d'usinage grande vitesse allemand RODERS RXP 500 DCS installé et réceptionné, offrant une double amélioration de la précision et de l'efficacité d'usinage des moules.",
+          "title": "Nouveau centre d'usinage grande vitesse allemand RODERS livré au centre de moules"
+        },
+        "ja": {
+          "summary": "Hauser S35ジグ研削盤に続き、金型センターに独RODERS RXP 500 DCS高速マシニングセンタが新たに導入され、設置検収を完了しました。金型加工の精度と効率がともに向上しています。",
+          "title": "ドイツRODERS高速マシニングセンタを金型センターに新規導入"
+        },
+        "ko": {
+          "summary": "Hauser S35 지그 연삭기에 이어 금형 센터에 독일 RODERS RXP 500 DCS 고속 머시닝 센터가 추가 도입되어 설치 및 검수를 완료했습니다. 금형 가공 정밀도와 효율성을 동시에 향상시켰습니다.",
+          "title": "독일 RODERS 고속 머시닝 센터, 금형 센터에 신규 도입 완료"
+        },
+        "es": {
+          "summary": "Tras la rectificadora Hauser S35, el centro de moldes suma otro equipo de primer nivel: un centro de mecanizado de alta velocidad alemán RODERS RXP 500 DCS ha completado su instalación y aceptación, logrando una doble mejora en precisión y eficiencia de mecanizado de moldes.",
+          "title": "Nuevo centro de mecanizado de alta velocidad alemán RODERS entregado al centro de moldes"
+        }
+      }
+    }
+  ]
+}
