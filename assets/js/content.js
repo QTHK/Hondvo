@@ -62,6 +62,19 @@
     return s.length > n ? s.slice(0, n - 1) + '…' : s;
   }
 
+  /** 取 i18n.js 里某个键在当前语言下的文本（案例三段的小标题用它）。
+      i18n.js 用 `const I18N = {...}` 声明在脚本顶层，同一页面的其它脚本可直接引用。
+      取不到就回退英文 —— 宁可显示英文小标题，也不要显示一个空标题。 */
+  function i18nText(key, fallback) {
+    try {
+      if (typeof I18N !== 'undefined' && I18N && I18N[key]) {
+        var v = I18N[key][curLang()] || I18N[key].en;
+        if (v) return v;
+      }
+    } catch (e) { /* i18n.js 未就绪时走兜底 */ }
+    return fallback;
+  }
+
   function el(tag, cls, text) {
     var e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -120,14 +133,31 @@
       if (ind) card.appendChild(el('span', 'case-industry', ind));
       card.appendChild(el('h4', null, field(it, 'title')));
 
-      var body = field(it, 'body');
-      var sum = field(it, 'summary');
-      if (body) {
-        var v = el('div', 'case-v');
-        v.innerHTML = sanitize(body);             /* ← 唯一一处 trusted HTML，已过白名单 */
+      /* 三段与官网静态卡片的「Challenge / Solution / Result」一一对应 ——
+         后台内容模型是 title/challenge/solution/result，这里按段输出，
+         视觉与既有的静态卡片保持同族（.case-k 小标题 + .case-v 值）。
+
+         ⚠️ 段标题**不能写死英文**：静态卡片里的它们是多语言的
+            （i18n 的 case_ch_label / case_sol_label / case_res_label）。
+            这里复用同一批键，取不到再用英文兜底。 */
+      var segs = [
+        ['challenge', 'case_ch_label', 'Challenge'],
+        ['solution', 'case_sol_label', 'Solution'],
+        ['result', 'case_res_label', 'Result']
+      ];
+      var any = false;
+      segs.forEach(function (s) {
+        var val = field(it, s[0]);
+        if (!val) return;
+        any = true;
+        card.appendChild(el('span', 'case-k', i18nText(s[1], s[2])));
+        var v = el('span', 'case-v');
+        v.innerHTML = sanitize(val);              /* ← trusted HTML，已过白名单 */
         card.appendChild(v);
-      } else if (sum) {
-        card.appendChild(el('div', 'case-v', sum));
+      });
+      if (!any) {
+        var sum = field(it, 'summary');
+        if (sum) card.appendChild(el('span', 'case-v', sum));
       }
       frag.appendChild(card);
     });
