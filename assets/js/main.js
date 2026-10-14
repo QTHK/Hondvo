@@ -2954,8 +2954,17 @@ function bindLists(){
   const d = dict();
   document.querySelectorAll("ul[data-list]").forEach(ul=>{
     const k = ul.getAttribute("data-list");
-    const items = d[k];
+    var items = d[k];
     ul.innerHTML = "";
+    /* ⚠️ i18n 里这些列表键的值是**逗号分隔的字符串**，不是数组
+       （如 hnav_prod_browse_items: "输液与给药系统,体外诊断与采样（IVD）,呼吸系统,…"）。
+       原实现只判 `Array.isArray(items)` ⇒ 一个子项都不渲染，
+       于是「产品与服务 / 模具中心 / 资质实力…」下拉菜单的三列**长期是空的**
+       —— 用户实测反馈"我的官网导航不见了"才发现（2026-10-14）。
+       这里补上字符串分支（数组分支保留，两种形态都吃）。 */
+    if (typeof items === "string" && items.trim()) {
+      items = items.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    }
     if(Array.isArray(items)){
       items.forEach((text, idx)=>{
         const li = document.createElement("li");
