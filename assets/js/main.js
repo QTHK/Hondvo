@@ -3332,24 +3332,52 @@ document.addEventListener("hondvo:lang", function () {
         t:"home_prod5_title",
         tags:["prod5_tag1","prod5_tag2","prod5_tag3","prod5_tag4"] }
     ],
+    /* ⚠️ 本段仍是「旧结构」（技术债：本该像 browse/industries 那样用 i18n 键）。
+       2026-10-14 用户实测：切中文后这里**整块是英文** —— 因为 zh/en 两个字段写的都是英文，
+       且渲染处写成 `en || zh`（en 永远优先）。现改为按当前语言取，并补齐中文。
+       ⚠️ 目前只提供 zh/en：其它 6 语言回落 en（与之前表现一致，无退步）。 */
     discover: [
-      { img:"images/prod_enteral.webp", icon:"SU", zh:"Single-use Consumables", en:"Single-use Consumables", pos:"End-to-end single-use consumables — from mold design to volume injection molding, clean and controlled with predictable cost.",
-        fields:[
-          { k:"Typical Applications", v:"Blood collection tubes · Infusion components · Sampling consumables" },
-          { k:"Process", v:"High-speed multi-cavity molds · Fully automated line" }
-        ],
+      { img:"images/prod_enteral.webp", icon:"SU", zh:"一次性耗材解决方案", en:"Single-use Consumables",
+        pos:{ zh:"从模具设计到批量注塑交付的一站式一次性耗材生产，洁净可控、成本可预期。",
+              en:"End-to-end single-use consumables — from mold design to volume injection molding, clean and controlled with predictable cost." },
+        fields:{
+          zh:[
+            { k:"典型应用", v:"采血管 · 输液部件 · 采样耗材" },
+            { k:"工艺", v:"高速多腔模具 · 全自动产线" }
+          ],
+          en:[
+            { k:"Typical Applications", v:"Blood collection tubes · Infusion components · Sampling consumables" },
+            { k:"Process", v:"High-speed multi-cavity molds · Fully automated line" }
+          ]
+        },
         items:["Blood collection tubes","Infusion components","Sampling consumables"] },
-      { img:"images/prod_custom.webp", icon:"IVD", zh:"IVD Kit Solutions", en:"IVD Kit Solutions", pos:"High-precision molding of microfluidic structures, reagent chambers and cartridge housings — precise dimensions with excellent appearance.",
-        fields:[
-          { k:"Typical Applications", v:"Microfluidic chips · Kit housings · Sample-loading parts" },
-          { k:"Process", v:"Micro-features · Thin-wall precision molding · Optical-grade surface" }
-        ],
+      { img:"images/prod_custom.webp", icon:"IVD", zh:"IVD 试剂盒方案", en:"IVD Kit Solutions",
+        pos:{ zh:"微流控结构、试剂腔与卡盒外壳的高精密注塑——尺寸精准、外观优异。",
+              en:"High-precision molding of microfluidic structures, reagent chambers and cartridge housings — precise dimensions with excellent appearance." },
+        fields:{
+          zh:[
+            { k:"典型应用", v:"微流控芯片 · 试剂盒外壳 · 加样部件" },
+            { k:"工艺", v:"微特征成型 · 薄壁精密注塑 · 光学级表面" }
+          ],
+          en:[
+            { k:"Typical Applications", v:"Microfluidic chips · Kit housings · Sample-loading parts" },
+            { k:"Process", v:"Micro-features · Thin-wall precision molding · Optical-grade surface" }
+          ]
+        },
         items:["Microfluidic chips","Kit housings","Sample-loading parts"] },
-      { img:"images/prod_injection.webp", icon:"MI", zh:"Minimally Invasive Instrument Parts", en:"Minimally Invasive Instrument Parts", pos:"Molding of micro precision instrument parts, meeting Class II device structure requirements with consistent batch quality.",
-        fields:[
-          { k:"Typical Applications", v:"Trocar parts · Endoscopic accessories · Surgical handles" },
-          { k:"Process", v:"Micro precision parts · Class II compliance support" }
-        ],
+      { img:"images/prod_injection.webp", icon:"MI", zh:"微创器械零件", en:"Minimally Invasive Instrument Parts",
+        pos:{ zh:"微精密器械零件注塑，满足 Class II 器械结构要求，批次质量稳定。",
+              en:"Molding of micro precision instrument parts, meeting Class II device structure requirements with consistent batch quality." },
+        fields:{
+          zh:[
+            { k:"典型应用", v:"穿刺器零件 · 内窥镜附件 · 手术手柄" },
+            { k:"工艺", v:"微精密零件 · Class II 合规支持" }
+          ],
+          en:[
+            { k:"Typical Applications", v:"Trocar parts · Endoscopic accessories · Surgical handles" },
+            { k:"Process", v:"Micro precision parts · Class II compliance support" }
+          ]
+        },
         items:["Trocar parts","Endoscopic accessories","Surgical handles"] }
     ],
     industries: [
@@ -3394,16 +3422,26 @@ document.addEventListener("hondvo:lang", function () {
     /* en 为源语言 ⇒ 缺译文时回落 en，绝不回落中文（2026-10-12 修正） */
     return e[accLang()] || e.en || e.zh || "";
   }
-  // 标题：新结构 t = i18n key；旧结构直接读 zh
-  /* 旧结构（discover 段）同时带 zh/en ⇒ en 优先，与「源语言 = en」保持一致 */
-  function accTitle(g){ return g.t ? accI18n(g.t) : (g.en || g.zh || ""); }
-  // 描述：新结构 d = i18n key；旧结构直接读 pos
-  function accDesc(g){ return g.d ? accI18n(g.d) : (g.pos || ""); }
+  /* 旧结构（discover 段）的字段：支持「字符串」与「{zh,en,…} 多语言对象」两种形态。
+     ⚠️ 2026-10-14 用户实测：切中文后「发现方案」卡片仍全英文 ——
+        根因是旧结构写成 `g.en || g.zh`（**en 永远优先**）且 zh 值本身就是英文，
+        等于这条链路完全没接语言。现在按当前语言取，缺译文回落 en（源语言）。 */
+  function pickLang(v) {
+    if (v && typeof v === "object") return v[accLang()] || v.en || v.zh || "";
+    return v || "";
+  }
+  // 标题：新结构 t = i18n key；旧结构读 {zh,en}
+  function accTitle(g){ return g.t ? accI18n(g.t) : pickLang(g); }
+  // 描述：新结构 d = i18n key；旧结构读 pos（字符串或 {zh,en}）
+  function accDesc(g){ return g.d ? accI18n(g.d) : pickLang(g.pos); }
   // 标签：新结构 tags = [i18n key]（全量）；旧结构由 fields 按 · 拆分（上限 4）
   function accTags(g){
     if (g.tags && g.tags.length) return g.tags.map(accI18n).filter(Boolean);
+    var src = [];
+    if (Array.isArray(g.fields)) src = g.fields;
+    else if (g.fields && typeof g.fields === "object") src = g.fields[accLang()] || g.fields.en || [];
     var out = [], seen = {};
-    (g.fields || []).forEach(function(f){
+    src.forEach(function(f){
       String(f.v || "").split("·").forEach(function(s){
         s = s.replace(/^\s+|\s+$/g, "");
         if (s && !seen[s] && out.length < 4) { seen[s] = 1; out.push(s); }
