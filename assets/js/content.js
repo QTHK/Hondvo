@@ -113,6 +113,39 @@
     return true;
   }
 
+  /* ── 首页新闻：.home-news（2026-10-14 补）──
+     ⚠️ 为什么必须补：首页的 `.home-news` 是**静态 3 条**（写死 news_title_1/2/3），
+        而本脚本此前只接管了 `#page-news .news-list` ⇒
+        **后台改了新闻，首页永远显示旧的 3 条**（用户实测发现）。
+     结构沿用静态卡片（.news-card / .news-tag / h3），才能吃到同一套 CSS；
+     ⚠️ 动态卡片**不能加 .reveal** —— 那样入场动画会把新插入的节点永久留在 opacity:0。 */
+  function renderHomeNews() {
+    var box = document.querySelector('.home-news');
+    if (!box) return false;
+    var items = (data.items || []).filter(function (i) { return i.type === 'news'; }).slice(0, 3);
+    if (!items.length) return false;              /* 没有动态内容 ⇒ 保留静态卡片 */
+
+    /* 标签取当前语言的 i18n 值（与静态卡同一个键，视觉一致） */
+    var tag = '';
+    try {
+      var e = window.I18N && window.I18N['news_tag_company'];
+      var lang = document.documentElement.lang || 'zh';
+      tag = (e && (e[lang] || e.en || e.zh)) || '';
+    } catch (err) { tag = ''; }
+
+    var frag = document.createDocumentFragment();
+    items.forEach(function (it) {
+      var a = el('a', 'news-card');
+      a.href = '#page-news';
+      if (tag) a.appendChild(el('span', 'news-tag', tag));
+      a.appendChild(el('h3', null, field(it, 'title')));
+      frag.appendChild(a);
+    });
+    box.innerHTML = '';
+    box.appendChild(frag);
+    return true;
+  }
+
   /* ── 案例：.cases-grid ──
      ⚠️ 官网静态卡片是「Challenge / Solution / Result」三段式，而 M3 的 case 模型是
         title + summary + body 三段**结构不同**。这里刻意不硬凑三段
@@ -173,6 +206,7 @@
     if (!data) return;
     var a = renderNews();
     var b = renderCases();
+    var c = renderHomeNews();
     if (a || b) document.dispatchEvent(new CustomEvent('hondvo:content-rendered'));
   }
 
