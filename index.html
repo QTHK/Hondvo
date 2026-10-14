@@ -182,11 +182,15 @@
       set: function (v) { _k = v == null ? '' : String(v); }
     });
 
-    /* 表格链路中转端点（Cloudflare Worker 地址）。
+    /* 表格链路端点（询盘台账）。
        ⚠️ 留空 = 不启用表格链路，仅发 Web3Forms 邮件。
-       已配置为 HONDVO 自建中转：提交时与邮件链路**并行**写入询盘台账（D1），
-       管理页：https://hondvo-intake.2789536032.workers.dev/admin?token=<ADMIN_TOKEN> */
-    var _intake = 'https://hondvo-intake.2789536032.workers.dev';
+       2026-10-14 起**改指自有后端**：原 Cloudflare Worker（hondvo-intake）一切正常，
+       但 `*.workers.dev` 在国内被网络阻断 ⇒ **管理页打不开**，台账形同虚设；
+       且数据在第三方、与自有后台割裂。新端点即后台「询盘线索」页的数据来源。
+       Worker 暂不删除，保留作观察期（有问题可随时把这一行改回去）。
+       ⚠️ 前端逻辑无需改动：pushToSheet 用 `text/plain` 规避 CORS 预检，
+          自有后端同样接受这种提交方式（readBody 不依赖 Content-Type）。 */
+    var _intake = 'https://admin.hondvo.icu/api/inquiries';
     Object.defineProperty(window, 'HONDVO_INTAKE_ENDPOINT', {
       configurable: true,
       enumerable: true,
