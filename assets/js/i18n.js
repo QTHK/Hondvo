@@ -5,7 +5,7 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-10-14T06:14:09.827Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-04T09:19:32.891Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -73,7 +73,7 @@ const I18N = {
 
   "home_sectors_title": {"en":"Application Areas","zh":"应用领域","de":"Anwendungsbereiche","ru":"Области применения","fr":"Domaines d'application","ja":"応用分野","ko":"응용 분야","es":"Áreas de aplicación"},
 
-  "home_sectors_sub": {"en":"Precision injection-molded components for Class II passive medical devices across mainstream clinical scenarios","zh":"聚焦 II 类无源医疗器械注塑组件，覆盖临床主流应用场景","de":"Präzisions-Spritzgussteile für passive Medizinprodukte der Klasse II in klinischen Hauptszenarien","ru":"Прецизионные литые компоненты для пассивных медизделий класса II","fr":"Composants moulés de précision pour dispositifs médicaux passifs de classe II","ja":"クラスII受動医療機器向け精密射出成形部品","ko":"클래스 II 수동 의료기기용 정밀 사출 부품","es":"Componentes moldeados de precisión para dispositivos médicos pasivos Clase II"},
+  "home_sectors_sub": {"en":"Precision injection-molded components for Class II medical devices across mainstream clinical scenarios","zh":"聚焦 II 类医疗器械注塑组件，覆盖临床主流应用场景","de":"Präzisions-Spritzgussteile für Medizinprodukte der Klasse II in klinischen Hauptszenarien","ru":"Прецизионные литые компоненты для медизделий класса II","fr":"Composants moulés de précision pour dispositifs médicaux de classe II","ja":"クラスII医療機器向け精密射出成形部品","ko":"클래스 II 의료기기용 정밀 사출 부품","es":"Componentes moldeados de precisión para dispositivos médicos Clase II"},
 
   "home_sec_1_t": {"en":"IV Therapy & Nutrition Support","zh":"静脉治疗与营养支持","de":"Infusionstherapie & Ernährung","ru":"Инфузионная терапия и питание","fr":"Thérapie IV et nutrition","ja":"輸液治療と栄養サポート","ko":"정맥 치료 및 영양 지원","es":"Terapia intravenosa y nutrición"},
 
@@ -1348,7 +1348,7 @@ const FOOTER_HTML = `
 
         </div>
 
-        <p data-lang-key="footer_desc">HONDVO Technology (Dongguan) Co., Ltd. · HONDVO TOOLING LIMITED (Dongguan) Co., Ltd.<br>Specialized in Class II passive medical device injection components & precision mold manufacturing</p>
+        <p data-lang-key="footer_desc">HONDVO Technology (Dongguan) Co., Ltd.<br>HONDVO TOOLING LIMITED (Dongguan) Co., Ltd.<br>Specialized in medical device injection components & precision mold manufacturing</p>
 
       </div>
 
