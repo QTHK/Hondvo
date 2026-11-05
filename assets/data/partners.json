@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-05T08:43:47.732Z",
+  "generatedAt": "2026-11-05T08:45:04.318Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -12,7 +12,7 @@
     "ko",
     "es"
   ],
-  "count": 11,
+  "count": 12,
   "items": [
     {
       "id": "au",
@@ -75,6 +75,27 @@
         "ja": "ニュージーランド",
         "ko": "뉴질랜드",
         "es": "Nueva Zelanda"
+      }
+    },
+    {
+      "id": "za",
+      "code": "ZA",
+      "name": "South Africa",
+      "capital": "Pretoria",
+      "lat": -25.75,
+      "lng": 28.19,
+      "type": "oem",
+      "sort": 0,
+      "on": true,
+      "names": {
+        "en": "South Africa",
+        "zh": "南非",
+        "de": "Südafrika",
+        "ru": "Южно-Африканская Республика",
+        "fr": "Afrique du Sud",
+        "ja": "南アフリカ",
+        "ko": "남아프리카",
+        "es": "Sudáfrica"
       }
     },
     {
