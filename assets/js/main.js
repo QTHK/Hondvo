@@ -1023,6 +1023,31 @@ document.addEventListener('keydown', function(e){
 
   function getDots() { return document.querySelectorAll('.hero-dot'); }
 
+  /* 背景按帧加载（2026-11-05）：轮播第二帧绝对定位叠在第一帧上、始终在视口内，
+     原来的 IntersectionObserver 会把它当"可见"直接下载 112KB，压在首屏关键路径上。
+     现在只让 active 帧走 IO；其余帧在切换时、或首帧稳定 3s 后预加载。 */
+  function loadBg(slide) {
+
+    if (!slide) return;
+
+    var bg = slide.getAttribute('data-bg');
+
+    if (!bg) return;
+
+    slide.removeAttribute('data-bg');
+
+    var im = new Image();
+
+    im.onload = function () { slide.style.backgroundImage = 'url(' + bg + ')'; };
+
+    im.onerror = function () { slide.setAttribute('data-bg', bg); };
+
+    im.src = bg;
+
+  }
+
+  window.__hondvoHeroBg = loadBg;
+
   function go(idx) {
 
     var slides = getSlides(), dots = getDots();
@@ -1037,7 +1062,7 @@ document.addEventListener('keydown', function(e){
 
     cur = (idx + total) % total;
 
-    if (slides[cur]) slides[cur].classList.add('active');
+    if (slides[cur]) { loadBg(slides[cur]); slides[cur].classList.add('active'); }
 
     if (dots[cur]) dots[cur].classList.add('active');
 
@@ -1052,6 +1077,16 @@ document.addEventListener('keydown', function(e){
   });
 
   // 减少动效：不自动轮播（用户仍可点击指示点手动切换）
+  // 首帧稳定 3s 后预加载下一帧：不压首屏，也不至于切过去时空白
+
+  setTimeout(function () {
+
+    var sl = getSlides();
+
+    if (sl.length > 1) loadBg(sl[(cur + 1) % sl.length]);
+
+  }, 3000);
+
   if (!prefersReduceMotion()) setInterval(function(){ go(cur + 1); }, 8000);
 
 })();
@@ -1110,23 +1145,19 @@ document.addEventListener('keydown', function(e){
 
 
 
-    // Hero slides background lazy loading
+    // Hero slides：只观察当前帧。其余帧由轮播逻辑在「切换时 / 首帧 3s 后」加载，
+    // 避免绝对定位叠在首帧上、永远处于视口内 ⇒ IO 误判可见而提前下载第二帧（112KB）。
+    var activeHero = document.querySelector('.hero-slide.active[data-bg]');
 
-    lazyHeroSlides.forEach(function(slide) {
+    if (activeHero) {
 
-      var heroObserver = new IntersectionObserver(function(entries) {
+      var heroObserver = new IntersectionObserver(function (entries) {
 
-        entries.forEach(function(entry) {
+        entries.forEach(function (entry) {
 
           if (!entry.isIntersecting) return;
 
-          var bgUrl = entry.target.getAttribute('data-bg'); // 动态读取，支持 media-sync 替换
-
-          if (!bgUrl) return;
-
-          entry.target.style.backgroundImage = 'url(' + bgUrl + ')';
-
-          entry.target.removeAttribute('data-bg');
+          if (window.__hondvoHeroBg) window.__hondvoHeroBg(entry.target);
 
           heroObserver.unobserve(entry.target);
 
@@ -1134,9 +1165,9 @@ document.addEventListener('keydown', function(e){
 
       }, { rootMargin: '400px 0px' });
 
-      heroObserver.observe(slide);
+      heroObserver.observe(activeHero);
 
-    });
+    }
 
   } else {
 
