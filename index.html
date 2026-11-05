@@ -21,50 +21,6 @@
 })();
 </script>
 
-<!-- C5：启动屏存在期间暂缓 .hnav 入场动画（由 launch.js 收幕时放行），
-     避免导航入场动画全程被启动屏遮住。JS 禁用时不添加此类，行为保持原样。
-     2026-09-29：启动幕布改为**每个会话只在首次进入时播放** —— 本次会话已看过时，
-     这里改加 .launch-skip（launch.css 里首帧即隐藏幕布），并且不加 .launch-armed，
-     导航按常规动画入场。必须在这里（<head> 内联、首帧渲染前）判定，否则会"闪一下再消失"。 -->
-<script>
-(function () {
-  var h = document.documentElement;
-  var seen = false;
-  try { seen = sessionStorage.getItem('hondvo_launch_seen') === '1'; } catch (e) { seen = false; }
-  // sessionStorage 不可用（隐私模式等）时按"未看过"处理：宁可多播一次，也不要整站无幕布
-  h.classList.add(seen ? 'launch-skip' : 'launch-armed');
-  if (seen) return;
-
-  /* 兜底收幕（2026-11-05）：不依赖 launch.js —— 它在 12 个 defer 脚本之后才执行，
-     资源慢时幕布会一直等到那时（线上实测 3–7s）。这里 1.2s 强制收。
-     关键：不依赖 #launch 是否已解析 —— 给 html 加 .launch-skip，
-     launch.css 的 `html.launch-skip #launch{display:none!important}` 会隐藏幕布，
-     元素后到时也不会闪出来。与 launch.js 的 close() 幂等。 */
-  function forceClose() {
-    h.classList.add('launch-skip');
-    h.classList.remove('launch-lock');
-    h.classList.add('launch-leave');
-    var el = document.getElementById('launch');
-    if (el) {
-      // 元素已在 → 走淡出，视觉平滑
-      el.classList.add('leave');
-      setTimeout(function () { el.style.display = 'none'; }, 900);
-    } else {
-      // 慢网下 HTML 还没解析到 #launch → 盯着 DOM，一出现立刻隐藏（内联样式，不等 CSS）
-      var ob = new MutationObserver(function () {
-        var e = document.getElementById('launch');
-        if (!e) return;
-        ob.disconnect();
-        e.style.display = 'none';
-      });
-      ob.observe(document.documentElement, { childList: true, subtree: true });
-    }
-    try { sessionStorage.setItem('hondvo_launch_seen', '1'); } catch (e) {}
-  }
-  setTimeout(forceClose, 1200);
-})();
-</script>
-
 <!-- 纯静态站点（2026-09-29）：原后台/CMS API 通道已整体移除，页面内容全部由静态 HTML + i18n.js 提供。 -->
 
 <meta name="description" content="HONDVO Technology (Dongguan) Co., Ltd. specializes in precision medical device components and precision mold manufacturing. Triple-certified with ISO 13485 / IATF 16949 / ISO 9001, we deliver medical-grade injection molding, liquid silicone rubber (LSR), two-shot molding, and turnkey precision tooling.">
@@ -107,7 +63,6 @@
 <link rel="stylesheet" href="assets/css/main.css">
 <link rel="stylesheet" href="assets/css/pages.css">
 <link rel="stylesheet" href="assets/css/home-dyn.css">
-<link rel="stylesheet" href="assets/css/launch.css">
 <!-- ═══════════ JSON-LD Structured Data (Organization) ═══════════ -->
 
 <script type="application/ld+json">
@@ -220,13 +175,6 @@
 
 <body>
 
-<!-- ═══ 启动加载屏（brand launch screen，配套 launch.css/js，可整体回滚）═══ -->
-<div id="launch" role="status" aria-label="Loading HONDVO">
-  <div class="launch-logo"><img src="images/logo.webp" alt="HONDVO"></div>
-  <div class="launch-tagline"><span class="launch-welcome">Welcome to</span> <span class="launch-brand">HONDVO</span></div>
-  <div class="launch-bar"><i></i></div>
-</div>
-
 <a href="#page-home" class="skip-link">Skip to content</a>
 
 
@@ -237,10 +185,10 @@
 
 
 
-<!-- P1-30：原 #skeleton 骨架屏已移除。其 z-index(9999) 低于 #launch，
-     启动阶段全程被品牌启动屏遮住，从不真正可见，属冗余的第二层加载态。
-     （若将来要恢复骨架屏，请同时恢复 main.css 的 #skeleton/.sk-* 规则
-       与 main.js 的 SKELETON SCREEN IIFE。） -->
+<!-- P1-30：原 #skeleton 骨架屏已移除（当时被品牌启动屏遮住，属冗余的第二层加载态）。
+     2026-11-05：品牌启动屏本身也已移除（#launch / launch.css / launch.js 均不再引用）。
+     若将来要恢复骨架屏，需同时恢复 main.css 的 #skeleton/.sk-* 规则
+     与 main.js 的 SKELETON SCREEN IIFE。 -->
 
 
 
@@ -1912,7 +1860,6 @@
 <script src="assets/js/phone-intl.js" defer></script>
 <script src="assets/js/email-hint.js" defer></script>
 <script src="assets/js/hero-video.js" defer></script>
-<script src="assets/js/launch.js" defer></script>
 <!-- M3 内容渲染（2026-10-14）：读 assets/data/content.json 渲染新闻/案例。
      由后台「一键上线」生成该文件；文件不存在时静默保留上面的静态卡片。 -->
 <script src="assets/js/content.js" defer></script>
