@@ -296,7 +296,12 @@
 
       try {
 
-        var curLang = (typeof currentLang === 'function') ? currentLang() : 'en';
+        /* 2026-11-05：`currentLang()` 这个全局函数**已经不存在了** ——
+           i18n 拆包后只剩 switchLang + hondvo:lang 事件，当前语言落在 <html lang> 上。
+           原写法 `: 'en'` 导致中文站的地图标签**一直显示英文**（后台填了中文国名也出不来）。
+           兜底改为读 <html lang>：那是 i18n 语言总线的事实源，也是壳页/SEO 用的同一个值。 */
+        var curLang = (typeof currentLang === 'function') ? currentLang()
+                    : (document.documentElement.lang || 'en');
 
         gM.querySelectorAll('[data-lang-key]').forEach(function(el){
 
