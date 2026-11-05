@@ -1891,7 +1891,7 @@
     /* 2026-11-05：动态创建的 script 带不上构建期指纹（hash-assets.py 只管 HTML 里静态写的），
        而 nginx 对 .js 缓存 1 小时 ⇒ 修完 bug 用户强刷前仍拿旧文件。
        这里手动挂一个版本号，改这两个文件时记得同步 +1。 */
-    a.src = 'assets/js/map.js?v=20261105b';
+    a.src = 'assets/js/map.js?v=20261105c';
     a.onload = function () {
       /* 后台「合作伙伴地图」发布的数据（2026-11-05）：
          map.js 内置 9 国，后台发布后由 __setPartnerCountries 覆盖内置数组。
@@ -1902,7 +1902,7 @@
          与 content.js「拿不到 content.json 就保留静态卡片」是同一套降级哲学。 */
       function partnerScript() {
         var b = document.createElement('script');
-        b.src = 'assets/js/map-partner.js?v=20261105b';
+        b.src = 'assets/js/map-partner.js?v=20261105c';
         document.head.appendChild(b);
       }
       if (typeof window.__setPartnerCountries !== 'function') { partnerScript(); return; }

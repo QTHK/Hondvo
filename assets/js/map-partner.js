@@ -254,7 +254,59 @@
           + (r.unknown.length ? ' · ⚠无映射 ' + r.unknown.join(',') : ''));
       } catch (e) {}
     }
+    chips(ids);
     return { countries: ids.length, lit: r.lit, newIds: newIds, unknown: r.unknown };
+  }
+
+  /* ── 职责四：小屏国家清单（2026-11-05）──
+     桌面端不渲染（CSS 默认 display:none），只有 ≤640px 才建 DOM。
+     国家名直接从**已渲染的标签**取 —— 那是 map.js 按当前语言算好的值，
+     不在这里重复一套语言回落逻辑，否则两处口径迟早漂。 */
+  function isNarrow() {
+    try { return window.matchMedia('(max-width: 640px)').matches; } catch (e) { return false; }
+  }
+
+  function chips(ids) {
+    var host = document.getElementById('partner-map');
+    if (!host) return;
+    var wrap = document.getElementById('hmp-chips');
+    if (!isNarrow()) {
+      if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      return;
+    }
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.id = 'hmp-chips';
+      wrap.className = 'hmp-chips';
+      host.insertBefore(wrap, host.firstChild);
+    }
+    var names = {};
+    markerGroups().forEach(function (g) {
+      var t = g.querySelector('.map-marker-label');
+      if (!t) return;
+      var id = idOfLabel(t);
+      if (id) names[id] = t.textContent.trim();
+    });
+
+    wrap.innerHTML = '';
+    ids.forEach(function (id) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'hmp-chip';
+      b.textContent = names[id] || id.toUpperCase();
+      b.addEventListener('click', function () {
+        var hit = null;
+        markerGroups().forEach(function (g) {
+          g.classList.remove('hmp-active');
+          var t = g.querySelector('.map-marker-label');
+          if (!hit && t && idOfLabel(t) === id) hit = g;
+        });
+        if (!hit) return;
+        hit.classList.add('hmp-active');
+        setTimeout(function () { hit.classList.remove('hmp-active'); }, 2400);
+      });
+      wrap.appendChild(b);
+    });
   }
 
   /* ── 挂钩：包装注入入口，注入后自动重新点亮（不改 map.js） ── */
@@ -308,7 +360,21 @@
       '.map-marker-label.hmp-label{opacity:0;animation:hmpLabel .7s ease-out .75s forwards}',
       '@media (prefers-reduced-motion: reduce){.hmp-arc,.hmp-ring,.hmp-core,.hmp-new,',
       '.map-marker-dot.hmp-pop,.map-marker-label.hmp-label{animation:none!important}',
-      '.hmp-new,.map-marker-label.hmp-label{opacity:1}.hmp-core{transform:scale(1.35)}}'
+      '.hmp-new,.map-marker-label.hmp-label{opacity:1}.hmp-core{transform:scale(1.35)}}',
+      /* ── 小屏国家清单（2026-11-05）──
+         SVG 固定 viewBox 1000×378，390px 宽时高度只剩 132px，12 个国家名挤成一团、
+         完全不可读（真机截图实测）。小屏改为：隐藏图上文字与引线 + 图上方一排 chips。
+         桌面端 .hmp-chips 默认 display:none，不占位。 */
+      '.hmp-chips{display:none}',
+      '@media (max-width:640px){',
+      '.map-marker-label,.map-leader{display:none}',
+      '.hmp-chips{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px 6px}',
+      '}',
+      '.hmp-chip{font:inherit;font-size:11px;line-height:1.6;padding:2px 9px;border-radius:999px;',
+      'border:1px solid rgba(0,0,0,.14);background:#fff;color:var(--t1,#1F2328);cursor:pointer;white-space:nowrap}',
+      '.hmp-chip:active{background:var(--brand,#D87830);color:#fff;border-color:transparent}',
+      '.map-marker-group{transition:transform .25s ease;transform-box:fill-box;transform-origin:center}',
+      '.map-marker-group.hmp-active{transform:scale(2.2)}'
     ].join('');
     var st = document.createElement('style');
     st.id = 'hmp-style';
