@@ -17,15 +17,6 @@
 <meta property="og:image:alt" content="Products & Services — HONDVO Technology">
 <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="alternate" hreflang="zh" href="https://hondvo.icu/products.html?lang=zh">
-  <link rel="alternate" hreflang="en" href="https://hondvo.icu/products.html?lang=en">
-  <link rel="alternate" hreflang="de" href="https://hondvo.icu/products.html?lang=de">
-  <link rel="alternate" hreflang="ru" href="https://hondvo.icu/products.html?lang=ru">
-  <link rel="alternate" hreflang="fr" href="https://hondvo.icu/products.html?lang=fr">
-  <link rel="alternate" hreflang="ja" href="https://hondvo.icu/products.html?lang=ja">
-  <link rel="alternate" hreflang="ko" href="https://hondvo.icu/products.html?lang=ko">
-  <link rel="alternate" hreflang="es" href="https://hondvo.icu/products.html?lang=es">
-  <link rel="alternate" hreflang="x-default" href="https://hondvo.icu/products.html?lang=en">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <script type="application/ld+json">
 {
@@ -66,25 +57,11 @@
   ]
 }
 </script>
-<script>
-/* P1-17：:target SPA 的独立入口。
-   保持 ?lang 与既有语言偏好，随后进入对应的 #page-xxx 视图。
-   （本页保留可爬取的静态快照，避免被判定为软 404。） */
-(function () {
-  try {
-    var m = location.search.match(/[?&]lang=([a-z]{2})/);
-    var l = (m && m[1]) || sessionStorage.getItem('hondvo_lang') || 'en';
-    if (!/^(zh|en|de|ru|fr|ja|ko|es)$/.test(l)) l = 'en';
-    location.replace('./?lang=' + encodeURIComponent(l) + '#page-products');
-  } catch (e) {
-    location.replace('./?lang=en#page-products');
-  }
-})();
-</script>
 </head>
 <body>
   <main>
   <h1>Products &amp; Services</h1>
+  <p class="to-spa"><a href="./?lang=en#page-products" style="display:inline-block;padding:10px 18px;background:#A34B10;color:#fff;border-radius:6px;text-decoration:none;font-weight:600">Open interactive version →</a></p>
   <p>HONDVO Technology (Dongguan) Co., Ltd. supplies precision injection moulded components for Class II medical devices, covering tooling, moulding and cleanroom production under a triple-certified quality system.</p>
   <h2>Core Product Lines</h2>
     <ul>

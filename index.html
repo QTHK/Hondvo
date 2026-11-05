@@ -66,30 +66,9 @@
 
 <meta name="twitter:description" content="Triple internationally certified (ISO 13485 / IATF 16949 / ISO 9001). Medical-grade injection molding and precision tooling.">
 
-<!-- canonical 与 hreflang 必须同源：本站默认语言为 en，故 canonical 指向 ?lang=en -->
+<!-- canonical：默认语言 en。多语言经 ?lang=xx 提供，但本阶段不声明 hreflang
+     （旧声明与 canonical 互斥，7 个语言版本被判为重复；独立语言路径见 B 包） -->
 <link rel="canonical" href="https://hondvo.icu/?lang=en">
-
-<!-- 多语言 hreflang：各语言经 ?lang=xx 提供（init 会读取并落地），x-default 指向默认页 -->
-
-<link rel="alternate" hreflang="zh" href="https://hondvo.icu/?lang=zh">
-
-<link rel="alternate" hreflang="en" href="https://hondvo.icu/?lang=en">
-
-<link rel="alternate" hreflang="de" href="https://hondvo.icu/?lang=de">
-
-<link rel="alternate" hreflang="ru" href="https://hondvo.icu/?lang=ru">
-
-<link rel="alternate" hreflang="fr" href="https://hondvo.icu/?lang=fr">
-
-<link rel="alternate" hreflang="ja" href="https://hondvo.icu/?lang=ja">
-
-<link rel="alternate" hreflang="ko" href="https://hondvo.icu/?lang=ko">
-
-<link rel="alternate" hreflang="es" href="https://hondvo.icu/?lang=es">
-
-<!-- x-default 指向默认语言版本（en），与 canonical 同一 URL，避免二者互相冲突 -->
-<link rel="alternate" hreflang="x-default" href="https://hondvo.icu/?lang=en">
-
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 <link rel="apple-touch-icon" href="images/logo.webp">
@@ -157,39 +136,23 @@
        ga4     = GA4 Measurement ID（需 Google 账号，本环境未启用）
        clarity = Microsoft Clarity Project ID（热图 + 会话录屏，免费无限量） -->
 
-  <script>window.HONDVO_CFG = window.HONDVO_CFG || { baidu: '', ga4: '', clarity: 'yt921txb1g' };</script>
+  <script>window.HONDVO_CFG = window.HONDVO_CFG || { baidu: '', ga4: '', clarity: '' };</script>
 
   <!-- ═══════════════════════════════════════════════════════════════
-       Web3Forms 询盘接入配置（2026-10-05）
-       用途：联系表单 / 订阅表单的后端投递（替代原 mailto 方案）。
-       填入方式：到 web3forms.com 用「接收询盘的邮箱」注册，控制台复制 Access Key
-                 （形如 w3f_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx），填到下面即可。
-       留空时的行为：自动降级为 mailto:info@hondvotechnology.com，
-                     站点仍可正常联系，不会因漏配而彻底失能（main.js submit() 内已兜底）。
-       说明：Web3Forms 官方明确该 key 属「浏览器端公开 key」，可安全置于前端；
-             服务端调用才需付费版 + 服务器 IP 白名单。
+       询盘端点配置（2026-11-05 起为唯一提交通道）
+       联系表单 / 产品询盘弹窗 / 邮件订阅三处共用 window.HONDVO_INTAKE_ENDPOINT。
+       端点 = 自有后端 POST /api/inquiries（蜜罐 / IP 限流 / 字段白名单 / 幂等）。
+       留空 = 三处全部降级为 mailto:info@hondvotechnology.com，站点仍可联系。
        ═══════════════════════════════════════════════════════════════ -->
 
   <script>
-  /* 用「惰性 getter」而非直接赋值：避免覆盖外部（如多环境注入）已设置的 key。
-     读取方 main.js / render.js 只需 window.HONDVO_WEB3FORMS_KEY，语义不变。 */
   (function () {
-    var _k = '2b63e2dc-1a6a-4610-8dfd-3e2a1ef6d064';
-    Object.defineProperty(window, 'HONDVO_WEB3FORMS_KEY', {
-      configurable: true,
-      enumerable: true,
-      get: function () { return _k; },
-      set: function (v) { _k = v == null ? '' : String(v); }
-    });
-
-    /* 表格链路端点（询盘台账）。
-       ⚠️ 留空 = 不启用表格链路，仅发 Web3Forms 邮件。
-       2026-10-14 起**改指自有后端**：原 Cloudflare Worker（hondvo-intake）一切正常，
-       但 `*.workers.dev` 在国内被网络阻断 ⇒ **管理页打不开**，台账形同虚设；
+    /* 询盘入库端点。
+       2026-10-14 改指自有后端：原 Cloudflare Worker（hondvo-intake）功能正常，
+       但 `*.workers.dev` 在国内被阻断 ⇒ 管理页打不开，台账形同虚设；
        且数据在第三方、与自有后台割裂。新端点即后台「询盘线索」页的数据来源。
        Worker 暂不删除，保留作观察期（有问题可随时把这一行改回去）。
-       ⚠️ 前端逻辑无需改动：pushToSheet 用 `text/plain` 规避 CORS 预检，
-          自有后端同样接受这种提交方式（readBody 不依赖 Content-Type）。 */
+       ⚠️ 用 `text/plain` 规避 CORS 预检，自有后端 readBody 不依赖 Content-Type。 */
     var _intake = 'https://admin.hondvo.icu/api/inquiries';
     Object.defineProperty(window, 'HONDVO_INTAKE_ENDPOINT', {
       configurable: true,
@@ -924,7 +887,7 @@
 
   <div class="team-card reveal"><div class="team-avatar"><img src="images/team_2.webp" alt="Li"></div><h4 data-lang-key="team2_name">Li Qi</h4><div class="role" data-lang-key="team2_role">Chief Mold Designer</div><p class="bio" data-lang-key="team2_bio">23 years of design experience; Master of Mechanical Engineering. Focused on high-precision, complex structural design, with deep expertise in two-shot molds and hot-runner system optimization, improving mold life and production efficiency through innovative design.</p></div>
 
-  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_3.webp" alt="?"></div><h4 data-lang-key="team3_name">TBA</h4><div class="role" data-lang-key="team3_role">Production Supervisor</div><p class="bio" data-lang-key="team3_bio">20 years in process planning and production control. Master of precision machining processes, delivering efficient, high-accuracy solutions for complex molds, resolving numerous process challenges and substantially raising production yield.</p></div>
+  <div class="team-card reveal"><div class="team-avatar"><img src="images/team_3.webp" alt="TBA"></div><h4 data-lang-key="team3_name">TBA</h4><div class="role" data-lang-key="team3_role">Production Supervisor</div><p class="bio" data-lang-key="team3_bio">20 years in process planning and production control. Master of precision machining processes, delivering efficient, high-accuracy solutions for complex molds, resolving numerous process challenges and substantially raising production yield.</p></div>
 
   <div class="team-card reveal"><div class="team-avatar"><img src="images/team_4.webp" alt="Hu"></div><h4 data-lang-key="team4_name">Hu Senwen</h4><div class="role" data-lang-key="team4_role">Quality Manager</div><p class="bio" data-lang-key="team4_bio">10 years in quality control; ISO 13485 internal auditor. Driven by a “zero-defect” philosophy, he has built a full-process quality control system, rigorously controlling every stage from raw material to finished product to ensure consistent quality.</p></div>
 
@@ -1716,7 +1679,7 @@
 
   <div class="lb-content">
 
-    <img src="" alt="" loading="lazy">
+    <img alt="" loading="lazy">
 
   </div>
 
