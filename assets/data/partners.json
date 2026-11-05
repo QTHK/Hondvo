@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-05T08:34:12.602Z",
+  "generatedAt": "2026-11-05T08:43:47.732Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -68,13 +68,13 @@
       "on": true,
       "names": {
         "en": "New Zealand",
-        "zh": "New Zealand",
-        "de": "New Zealand",
-        "ru": "New Zealand",
-        "fr": "New Zealand",
-        "ja": "New Zealand",
-        "ko": "New Zealand",
-        "es": "New Zealand"
+        "zh": "新西兰",
+        "de": "Neuseeland",
+        "ru": "Новая Зеландия",
+        "fr": "Nouvelle-Zélande",
+        "ja": "ニュージーランド",
+        "ko": "뉴질랜드",
+        "es": "Nueva Zelanda"
       }
     },
     {
