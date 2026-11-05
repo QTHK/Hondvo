@@ -1354,7 +1354,7 @@ const FOOTER_HTML = `
 
       <div class="col"><h4 data-lang-key="ft_about">About Us</h4><a href="#page-about" data-scroll-to="about-who" data-lang-key="ft_about_who">Who We Are</a><a href="#page-about" data-scroll-to="about-values" data-lang-key="ft_about_values">Core Values</a><a href="#page-about" data-scroll-to="about-spirit" data-lang-key="ft_about_spirit">Hondvo Spirit</a><a href="#page-about" data-scroll-to="about-partners" data-lang-key="ft_about_partners">Global Partners</a><a href="#page-about" data-scroll-to="about-cases" data-lang-key="ft_about_cases">Case Studies</a><a href="#page-about" data-scroll-to="about-team" data-lang-key="ft_about_team">Our Team</a></div>
 
-      <div class="col"><h4 data-lang-key="ft_products">Products & Services</h4><a href="#page-products" data-goto-tab="browse" data-lang-key="ft_prod_browse">Browse Products</a><a href="#page-products" data-goto-tab="discover" data-lang-key="ft_prod_discover">Discover Solutions</a><a href="#page-products" data-goto-tab="industries" data-lang-key="ft_prod_industries">Industries</a><a href="#page-mold" data-lang-key="ft_prod_mold">Precision Mold</a></div>
+      <div class="col"><h4 data-lang-key="ft_products">Products & Services</h4><a href="#page-products" data-goto-tab="browse" data-lang-key="ft_prod_browse">Browse Products</a><a href="#page-products" data-goto-tab="discover" data-lang-key="ft_prod_discover">Discover Solutions</a><a href="#page-products" data-goto-tab="industries" data-lang-key="ft_prod_industries">Application Areas</a><a href="#page-mold" data-lang-key="ft_prod_mold">Precision Mold</a></div>
 
       <div class="col"><h4 data-lang-key="ft_mold">Mold Center</h4><a href="#page-mold" data-lang-key="ft_mold_design">Mold Design</a><a href="#page-mold" data-lang-key="ft_mold_machining">Precision Machining</a><a href="#page-mold" data-lang-key="ft_mold_injection">Injection Production</a><a href="#page-mold" data-lang-key="ft_mold_quality">Quality Control</a></div>
 
@@ -1711,6 +1711,150 @@ function switchLang(lang) {
   }
 
 })();
+/* ═══════════ 页面级 SEO 元数据（2026-11-05）═══════════
+   背景：SPA 切页面不刷新文档头，`<title>` 与 `meta[description]` 永远停在首页英文版 ——
+   用户切到德语产品页，标签栏与搜索结果仍是英文首页描述。
+   做法：按「当前语言 × 当前页面」重写 title / description / og:*，文案**全部复用现有键**，
+        不新增翻译；任何键缺失就回退 en，再缺就保持原样（绝不写空）。
+
+   ⚠️ 为什么写在这里（epilogue）而不是首页内联脚本：
+      i18n.js 是发布台产物，epilogue 存在数据库模板里，随每次一键上线原样拼回；
+      写在 HTML 里会被下次发布覆盖，等于白改。
+   ⚠️ 与壳页（/en/products/ 等静态页）不冲突：那些页面本身不带 JS，各写各的 meta。 */
+
+var HONDVO_META = {
+
+  home:           { t: 'page_title',       d: ['hero_desc', 'home_core_sub'] },
+  products:       { t: 'prod_hero',        d: ['prod_hero_sub', 'home_core_sub'] },
+  mold:           { t: 'mold_hero',        d: ['mold_hero_sub', 'mold_cap_sub'] },
+  qualifications: { t: 'qual_hero',        d: ['qual_hero_sub', 'qual_iq_sub'] },
+  about:          { t: 'about_hero',       d: ['about_hero_sub', 'about_tech_cert'] },
+  news:           { t: 'news_hero',        d: ['news_hero_sub'] },
+  faq:            { t: 'm7_faq_title',     d: ['m7_faq_sub'] },
+  careers:        { t: 'cr_concept_title', d: ['cr_concept_body'] },
+  contact:        { t: 'ct_hero',          d: ['ct_hero_sub', 'ct_tech_addr'] },
+  privacy:        { t: 'ft_privacy',       d: ['footer_desc'] },
+  terms:          { t: 'ft_terms',         d: ['footer_desc'] }
+
+};
+
+function hondvoDictText(key, lang) {
+
+  var cell = (typeof I18N !== 'undefined') ? I18N[key] : null;
+
+  if (!cell) return '';
+
+  var v = cell[lang] || cell.en || '';
+
+  return String(v == null ? '' : v);
+
+}
+
+function hondvoPlain(s) {
+
+  return String(s == null ? '' : s)
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+}
+
+function hondvoClip(s, n) {
+
+  if (s.length <= n) return s;
+
+  var cut = s.slice(0, n);
+
+  var at = cut.lastIndexOf(' ');
+
+  return (at > n * 0.6 ? cut.slice(0, at) : cut).replace(/[,;:·\-\s]+$/, '') + '…';
+
+}
+
+function hondvoCurrentPage() {
+
+  var h = String(location.hash || '').replace(/^#/, '');
+
+  var pid = h.indexOf('page-') === 0 ? h.slice(5) : '';
+
+  if (!pid) {
+
+    var m = location.search.match(/[?&]page=([a-z\-]+)/);
+
+    pid = m ? m[1] : '';
+
+  }
+
+  return HONDVO_META[pid] ? pid : 'home';
+
+}
+
+function hondvoApplyMeta() {
+
+  var lang = (document.documentElement.getAttribute('lang') || 'en').slice(0, 2);
+
+  var pid = hondvoCurrentPage();
+
+  var map = HONDVO_META[pid];
+
+  if (!map) return;
+
+  var name = hondvoPlain(hondvoDictText(map.t, lang));
+
+  var title = pid === 'home'
+
+    ? (name || document.title)
+
+    : (name ? name + ' | HONDVO' : document.title);
+
+  if (title && document.title !== title) document.title = title;
+
+  var desc = hondvoClip(hondvoPlain(map.d.map(function (k) { return hondvoDictText(k, lang); })
+
+    .filter(Boolean).join(' · ')), 155);
+
+  if (!desc) return;
+
+  var set = function (sel, val) {
+
+    var el = document.querySelector(sel);
+
+    if (el) el.setAttribute('content', val);
+
+  };
+
+  set('meta[name="description"]', desc);
+
+  set('meta[property="og:title"]', title);
+
+  set('meta[property="og:description"]', desc);
+
+  set('meta[name="twitter:title"]', title);
+
+  set('meta[name="twitter:description"]', desc);
+
+}
+
+try {
+
+  document.addEventListener('hondvo:lang', hondvoApplyMeta);
+
+  window.addEventListener('hashchange', hondvoApplyMeta);
+
+  if (document.readyState === 'loading') {
+
+    document.addEventListener('DOMContentLoaded', hondvoApplyMeta);
+
+  } else {
+
+    hondvoApplyMeta();
+
+  }
+
+} catch (e) {}
+
+
 /* 2026-09-29：原 /publish/i18n-bridge 后台桥接块（fetch 后台 i18n 覆盖 + mergeBridge
  * + HONDVO_mergeBridge 自测出口）已随后台通道整体移除。站点 i18n 的唯一事实来源
  * 即本文件内的 I18N 字典。 */
