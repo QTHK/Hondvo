@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-05T07:43:31.132Z",
+  "generatedAt": "2026-11-05T07:45:56.750Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -12,7 +12,7 @@
     "ko",
     "es"
   ],
-  "count": 9,
+  "count": 10,
   "items": [
     {
       "id": "de",
@@ -33,6 +33,27 @@
         "ja": "ドイツ",
         "ko": "독일",
         "es": "Alemania"
+      }
+    },
+    {
+      "id": "ua",
+      "code": "UA",
+      "name": "Ukraine",
+      "capital": "Kyiv",
+      "lat": 50.45,
+      "lng": 30.52,
+      "type": "distributor",
+      "sort": 0,
+      "on": true,
+      "names": {
+        "en": "Ukraine",
+        "zh": "Ukraine",
+        "de": "Ukraine",
+        "ru": "Ukraine",
+        "fr": "Ukraine",
+        "ja": "Ukraine",
+        "ko": "Ukraine",
+        "es": "Ukraine"
       }
     },
     {
