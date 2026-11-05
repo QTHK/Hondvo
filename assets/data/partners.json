@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-05T07:45:56.750Z",
+  "generatedAt": "2026-11-05T07:48:45.636Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -12,7 +12,7 @@
     "ko",
     "es"
   ],
-  "count": 10,
+  "count": 11,
   "items": [
     {
       "id": "de",
@@ -33,6 +33,27 @@
         "ja": "ドイツ",
         "ko": "독일",
         "es": "Alemania"
+      }
+    },
+    {
+      "id": "ie",
+      "code": "IE",
+      "name": "Ireland",
+      "capital": "Dublin",
+      "lat": 53.35,
+      "lng": -6.26,
+      "type": "distributor",
+      "sort": 0,
+      "on": true,
+      "names": {
+        "en": "Ireland",
+        "zh": "Ireland",
+        "de": "Ireland",
+        "ru": "Ireland",
+        "fr": "Ireland",
+        "ja": "Ireland",
+        "ko": "Ireland",
+        "es": "Ireland"
       }
     },
     {
