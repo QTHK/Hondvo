@@ -12,7 +12,7 @@
   --border:#EAECEF;
   --brand:#D87830;
   --brand-blue:#304878;  /* logo 蓝（对应真实站点 --accent） */
-  --brand-strong:#C5571A;
+  --brand-strong:#A34B10;
   --brand-soft:rgba(216,120,48,.10);
   --brand-15:rgba(216,120,48,.15);
   --shadow-card:0 18px 42px -18px rgba(20,30,50,.22), 0 4px 10px -4px rgba(20,30,50,.08);
@@ -107,7 +107,7 @@ html.launch-armed.launch-leave .hnav{
 @supports not ((-webkit-background-clip:text) or (background-clip:text)){
   .hnav-logo > span[data-lang-key="hnav_brand"]{
     -webkit-text-fill-color:initial;
-    color:var(--brand);
+    color:var(--brand-strong);
   }
 }
 
@@ -146,7 +146,7 @@ html.launch-armed.launch-leave .hnav{
 }
 .hnav-link:hover,
 .hnav-item.open .hnav-link{
-  color:var(--brand);
+  color:var(--brand-strong);
   background:rgba(216,120,48,.08);
 }
 .hnav-link .caret{
@@ -173,8 +173,8 @@ html.launch-armed.launch-leave .hnav{
   cursor:pointer;
   transition:color var(--t-fast) var(--ease);
 }
-.hnav-lang:hover{color:var(--brand)}
-.hnav-lang.open{color:var(--brand)}
+.hnav-lang:hover{color:var(--brand-strong)}
+.hnav-lang.open{color:var(--brand-strong)}
 
 /* ===== 询价 CTA（Uiverse Creatlydev Payments 风 · 品牌橙 + 白底 · 图标+文字横卡 · hover 橙条滑入） ===== */
 .hnav-cta-new{
@@ -247,7 +247,7 @@ html.launch-armed.launch-leave .hnav{
   outline:none;
   transition:color var(--t-fast) var(--ease);
 }
-.hnav-lang-btn:hover{color:var(--brand)}
+.hnav-lang-btn:hover{color:var(--brand-strong)}
 .hnav-lang-btn.is-switching #lang-label{opacity:0;transform:translateY(-3px)}
 .hnav-lang svg{transition:transform var(--t) var(--ease)}
 .hnav-lang.open svg{transform:rotate(180deg)}
@@ -408,7 +408,7 @@ html.launch-armed.launch-leave .hnav{
 .hnav-cta-card .go{
   flex-shrink:0;display:inline-flex;align-items:center;gap:6px;
   height:34px;padding:0 14px;border-radius:var(--r-pill);
-  background:var(--brand);color:#fff;font-size:12.5px;font-weight:600;
+  background:var(--brand-strong);color:#fff;font-size:12.5px;font-weight:600;
   transition:transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
   position:relative;z-index:1;
 }
@@ -471,7 +471,7 @@ html.launch-armed.launch-leave .hnav{
 }
 .hnav-drawer .cta{
   display:block;margin-top:18px;text-align:center;height:42px;line-height:42px;border-radius:var(--r-pill);
-  background:linear-gradient(135deg,var(--brand) 0%,#F18F50 100%);color:#fff;font-weight:600;
+  background:linear-gradient(135deg,#A34B10 0%,#B0500F 100%);color:#fff;font-weight:600;
 }
 
 
