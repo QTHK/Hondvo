@@ -83,16 +83,16 @@
     caps: [
       {icon:'⊟', key:'ivd', zh:'诊断与 IVD 耗材模具', en:'Diagnostic & IVD Molds',
        desc:'Precision injection molds for IVD in-vitro diagnostic consumables, for rapid-test cassettes, reagent cartridges and microfluidic medical components.',
-       tags:['快速检测卡','试剂盒','微流控医疗部件'], photos:['images/ivd_mold_1.png','images/ivd_mold_2.png','images/ivd_mold_3.png','images/ivd_mold_4.png']},
+       tags:['快速检测卡','试剂盒','微流控医疗部件'], photos:['images/ivd_mold_1.webp','images/ivd_mold_2.webp','images/ivd_mold_3.webp','images/ivd_mold_4.webp']},
       {icon:'✚', key:'interv', zh:'介入与植入精密模具', en:'Interventional & Implantable Molds',
        desc:'Ultra-precision injection molds for interventional & implantable medical parts. Micron-level cavity tolerance, compatible with implant-grade PEEK, ISO 13485 compliant for orthopedic implants and micro interventional instrument components.',
-       tags:['微米级公差','骨科植入物','微创介入部件'], photos:['images/interv_mold_1.png','images/interv_mold_2.png','images/interv_mold_3.png','images/interv_mold_4.png','images/interv_mold_5.png']},
+       tags:['微米级公差','骨科植入物','微创介入部件'], photos:['images/interv_mold_1.webp','images/interv_mold_2.webp','images/interv_mold_3.webp','images/interv_mold_4.webp','images/interv_mold_5.webp']},
       {icon:'⊞', key:'drug', zh:'给药与药包模具', en:'Drug Delivery & Packaging Molds',
        desc:'Multi-cavity valve-gate hot-runner, low-contamination clean-room design for auto-injector pens, nasal spray and pharmaceutical packaging parts, GMP & ISO 13485 compliant for high-volume production.',
-       tags:['多腔热流道','自动注射笔','药品包装部件'], photos:['images/drug_mold_1.png','images/drug_mold_2.png','images/drug_mold_3.png','images/drug_mold_4.png']},
+       tags:['多腔热流道','自动注射笔','药品包装部件'], photos:['images/drug_mold_1.webp','images/drug_mold_2.webp','images/drug_mold_3.webp','images/drug_mold_4.webp']},
       {icon:'◑', key:'lsr', zh:'LSR 液态硅胶模具', en:'LSR Liquid Silicone Rubber Molds',
        desc:'Injection molds for medical silicone parts, seals, baby nipples, goggles, electronic keypads and automotive silicone components. Suitable for multi-cavity tooling, cold runner systems and high-precision cavity manufacturing, supporting clean production and medical device compliance.',
-       tags:['冷流道多腔','医疗硅胶件','密封件'], photos:['images/lsr_mold_1.png','images/lsr_mold_2.png','images/lsr_mold_3.png','images/lsr_mold_4.png']}
+       tags:['冷流道多腔','医疗硅胶件','密封件'], photos:['images/lsr_mold_1.webp','images/lsr_mold_2.webp','images/lsr_mold_3.webp','images/lsr_mold_4.webp']}
     ],
     flow: [
       {n:'1', zh:'DFM 分析', en:'DFM Review', desc:'结合医疗法规做可制造性与风险分析，含生物相容材料选型。'},
