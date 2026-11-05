@@ -66,9 +66,15 @@
 
 <meta name="twitter:description" content="Triple internationally certified (ISO 13485 / IATF 16949 / ISO 9001). Medical-grade injection molding and precision tooling.">
 
-<!-- canonical：默认语言 en。多语言经 ?lang=xx 提供，但本阶段不声明 hreflang
-     （旧声明与 canonical 互斥，7 个语言版本被判为重复；独立语言路径见 B 包） -->
-<link rel="canonical" href="https://hondvo.icu/?lang=en">
+<!-- canonical / hreflang（2026-11-05 A-软收口）：
+     英文首页的规范地址改为 /en/ 壳页，与 sitemap 已删除 /?lang=en 的动作保持一致。
+     · 本站 SPA 仍可经 /?lang=xx 访问并保留全部交互功能，故**暂不做 301**：
+       壳页有 6 处 CTA 指向 /?lang=en#page-*，301 会导致点击后回环到壳页自身。
+     · 其余 7 语言壳页（/zh/ /de/ /ja/ /ko/ /ru/ /fr/ /es/）尚未生成，本轮只声明
+       en + x-default；待阶段 2 补齐后再逐语言追加 alternate，届时才评估 301。 -->
+<link rel="canonical" href="https://hondvo.icu/en/">
+<link rel="alternate" hreflang="en" href="https://hondvo.icu/en/">
+<link rel="alternate" hreflang="x-default" href="https://hondvo.icu/en/">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 <link rel="apple-touch-icon" href="images/logo.webp">
