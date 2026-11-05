@@ -2732,23 +2732,39 @@ document.addEventListener('DOMContentLoaded', function(){
 
     var st = document.createElement('style'); st.id = 'hondvo-consent-style';
 
-    st.textContent = '#hondvo-consent-mask{position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:20px;font-family:inherit;pointer-events:none;}'
+    st.textContent = '#hondvo-consent-mask{position:fixed;left:0;right:0;bottom:0;z-index:100000;background:transparent;pointer-events:none;font-family:inherit;}'
 
-      + '#hondvo-consent{position:relative;max-width:460px;width:100%;background:var(--white);color:var(--neutral-900);border-radius:14px;box-shadow:0 24px 60px rgba(15,23,42,.35);overflow:hidden;pointer-events:auto;}'
+      + '#hondvo-consent{pointer-events:auto;background:#111418;color:#fff;border-top:1px solid rgba(255,255,255,.14);box-shadow:0 -10px 34px rgba(0,0,0,.28);}'
 
-      + '#hondvo-consent .hc-card{padding:26px 26px 22px;}'
+      + '#hondvo-consent .hc-inner{max-width:1320px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;gap:32px;}'
 
-      + '#hondvo-consent .hc-title{font-size:17px;font-weight:700;margin:0 0 10px;color:var(--neutral-900);}'
+      + '#hondvo-consent .hc-copy{flex:1 1 auto;min-width:0;}'
 
-      + '#hondvo-consent .hc-text{font-size:13.5px;line-height:1.7;opacity:.86;margin:0 0 20px;}'
+      + '#hondvo-consent .hc-title{font-size:14px;font-weight:700;margin:0 0 6px;color:#fff;letter-spacing:.2px;}'
 
-      + '#hondvo-consent .hc-actions{display:flex;gap:12px;flex-wrap:wrap;}'
+      + '#hondvo-consent .hc-text{font-size:12.5px;line-height:1.65;color:rgba(255,255,255,.74);margin:0;max-width:880px;}'
 
-      + '#hondvo-consent .hc-btn{border:none;cursor:pointer;padding:11px 20px;border-radius:8px;font-size:13.5px;font-weight:600;flex:1;min-width:130px;}'
+      + '#hondvo-consent .hc-actions{display:flex;gap:10px;flex:0 0 auto;}'
 
-      + '#hondvo-consent .hc-accept{background:var(--brand);color:var(--white);}'
+      + '#hondvo-consent .hc-btn{border:none;cursor:pointer;padding:10px 20px;border-radius:4px;font-size:13px;font-weight:600;white-space:nowrap;transition:background .18s,border-color .18s;}'
 
-      + '#hondvo-consent .hc-reject{background:var(--white);color:var(--neutral-900);border:1px solid rgba(15,23,42,.15);}'
+      + '#hondvo-consent .hc-accept{background:var(--brand-strong);color:#fff;}'
+
+      + '#hondvo-consent .hc-accept:hover{background:#8A3F0D;}'
+
+      + '#hondvo-consent .hc-reject{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.38);}'
+
+      + '#hondvo-consent .hc-reject:hover{border-color:#fff;}'
+
+      + '@media (max-width:860px){#hondvo-consent .hc-inner{flex-direction:column;align-items:stretch;gap:12px;padding:14px 16px;}'
+
+      + '#hondvo-consent .hc-title{font-size:13px;margin-bottom:4px;}'
+
+      + '#hondvo-consent .hc-text{font-size:11.5px;line-height:1.55;}'
+
+      + '#hondvo-consent .hc-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}'
+
+      + '#hondvo-consent .hc-btn{padding:11px 14px;font-size:12.5px;}}'
 
       + '#hondvo-manage{position:fixed;right:14px;bottom:14px;z-index:100000;border:none;cursor:pointer;background:var(--accent);color:var(--white);font-size:12px;padding:7px 13px;border-radius:20px;box-shadow:0 4px 14px var(--black-25);}'
       // P1-25：移动端 #mobile-cta 占满底部（约 68px 高），原 bottom:14px 会与其重叠。
@@ -2788,29 +2804,39 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function showBanner() {
 
-    if (document.getElementById('hondvo-consent-mask')) { document.getElementById('hondvo-consent-mask').style.display = 'flex'; applyBannerLang(); return; }
+    if (document.getElementById('hondvo-consent-mask')) { document.getElementById('hondvo-consent-mask').style.display = 'block'; applyBannerLang(); var mg0 = document.getElementById('hondvo-manage'); if (mg0) mg0.style.display = 'none'; return; }
 
     var mask = document.createElement('div'); mask.id = 'hondvo-consent-mask';
 
-    mask.innerHTML = '<div id="hondvo-consent"><div class="hc-card">'
+    mask.innerHTML = '<div id="hondvo-consent"><div class="hc-inner">'
+
+      + '<div class="hc-copy">'
 
       + '<p class="hc-title" data-lang-key="cookie_title">Cookie 与数据收集同意</p>'
 
       + '<p class="hc-text" data-lang-key="cookie_body">我们使用 Cookie 与匿名统计技术，了解您浏览的页面、停留时长与搜索偏好，以改进网站与服务质量。您可点击「仅必要」拒绝行为追踪，拒绝后不会收集任何浏览行为数据（您主动提交的询盘除外）。</p>'
 
-      + '<div class="hc-actions"><button class="hc-btn hc-accept" id="hc-accept" data-lang-key="cookie_accept">接受并继续</button>'
+      + '</div>'
 
-      + '<button class="hc-btn hc-reject" id="hc-reject" data-lang-key="cookie_reject">仅必要</button></div>'
+      + '<div class="hc-actions">'
+
+      + '<button class="hc-btn hc-reject" id="hc-reject" data-lang-key="cookie_reject">仅必要</button>'
+
+      + '<button class="hc-btn hc-accept" id="hc-accept" data-lang-key="cookie_accept">接受并继续</button>'
+
+      + '</div>'
 
       + '</div></div>';
 
     document.body.appendChild(mask);
 
+    var mg1 = document.getElementById('hondvo-manage'); if (mg1) mg1.style.display = 'none';
+
     applyBannerLang();
 
   }
 
-  function hideBanner() { var m = document.getElementById('hondvo-consent-mask'); if (m) m.style.display = 'none'; }
+  function hideBanner() { var m = document.getElementById('hondvo-consent-mask'); if (m) m.style.display = 'none'; var mg = document.getElementById('hondvo-manage'); if (mg) mg.style.display = ''; }
 
   function buildManage() {
 
