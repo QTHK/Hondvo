@@ -991,7 +991,7 @@
          弱网 / prefers-reduced-motion / saveData 下不加载，仅展示 poster。
          muted 保留：autoplay 被移除后仍需静音属性，配合脚本 play() 才不会被浏览器拦截。
          loop 保留：脚本 play() 后循环播放是原设计效果。 -->
-    <video class="hero-video" muted loop playsinline preload="none" poster="images/mold-hero-poster.webp?v=3">
+    <video class="hero-video" muted loop playsinline preload="none" data-poster="images/mold-hero-poster.webp?v=4">
       <!-- 2026-10-05：移除 H.265 版 mold-hero-hv.mp4（含「AI 生成」水印，用户指令禁用）；统一播 H.264 原片。
            2026-10-05 压缩：原 1080p / 7266kbps / 11.76MB 重编码为 720p / 1120kbps / 1.91MB
            （画面内容完全一致，仅降码率），解决线上加载与播放卡顿。原片备份于工作区 _tools/backup/。
@@ -1906,7 +1906,7 @@
 <!-- libphonenumber（179KB）改为按需加载：phone-intl.js 在进入联系页 / 聚焦电话框 / 打开询盘弹窗时才拉取。 -->
 <script src="assets/js/phone-intl.js?v=5c0a577b" defer></script>
 <script src="assets/js/email-hint.js?v=2d05a49c" defer></script>
-<script src="assets/js/hero-video.js?v=fc2adfbf" defer></script>
+<script src="assets/js/hero-video.js?v=da5e1ab1" defer></script>
 <!-- M3 内容渲染（2026-10-14）：读 assets/data/content.json 渲染新闻/案例。
      由后台「一键上线」生成该文件；文件不存在时静默保留上面的静态卡片。 -->
 <script src="assets/js/content.js?v=3b6c9ee2" defer></script>

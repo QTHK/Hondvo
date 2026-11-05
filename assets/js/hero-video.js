@@ -38,7 +38,8 @@
 
   if (skipVideo()) {
     videos.forEach(function (v) {
-      // 彻底不请求：清空 source 并标记，避免 <video> 自行加载
+      // 彻底不请求视频；但海报要显示出来（否则该区块一片空白）
+      applyPoster(v);
       v.removeAttribute('autoplay');
       v.removeAttribute('preload');
       v.dataset.videoSkipped = '1';
@@ -46,9 +47,27 @@
     return;
   }
 
+  /* 海报延迟（2026-11-05）：video 的 poster 属性会让浏览器在 HTML 解析时就下载，
+     而这段视频在「模具中心」页 —— 首页访客白下 40KB。改成 data-poster，
+     由本脚本在「需要显示」时才挂上（省流量分支 / 真正要播视频前）。 */
+  function applyPoster(v) {
+
+    var p = v.getAttribute('data-poster');
+
+    if (p && !v.getAttribute('poster')) {
+
+      v.setAttribute('poster', p);
+
+      v.removeAttribute('data-poster');
+
+    }
+
+  }
+
   function hydrate(v) {
     if (v.dataset.videoLoaded === '1') return;
     v.dataset.videoLoaded = '1';
+    applyPoster(v);
     // 元素上已无 autoplay（2026-10-05 移除，否则浏览器会在首屏直接拉 17.6MB），
     // 必须由脚本显式 load() + play()；autoplay 属「用户主动交互」范畴，不会被拦截。
     try { v.load(); } catch (e) { /* 忽略 */ }
