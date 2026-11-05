@@ -106,34 +106,34 @@
       order:['cnc','edm','wire','grinder','injection','qc'],
       data: {
         cnc:{zh:'CNC 数控加工设备', en:'CNC Machining Centers', items:[
-          {n:'Hauser S35',m:'坐标磨',o:'瑞士',p:'0.001mm',q:1},{n:'Hauser S50L',m:'坐标磨',o:'瑞士',p:'0.001mm',q:1},
-          {n:'Mazak QTE 200L',m:'CNC车床',o:'日本',p:'±0.002mm',q:1},{n:'Kellenberger K10',m:'数控磨床',o:'瑞士',p:'±0.0005mm',q:1},
-          {n:'MAKINO V90S',m:'五轴龙门',o:'日本',p:'0.005mm',q:1},{n:'YASDA YMC430',m:'高速CNC',o:'日本',p:'0.001mm',q:2},
-          {n:'YASDA YMC650',m:'高速CNC',o:'日本',p:'0.001mm',q:1},{n:'RODERS RXP501',m:'CNC',o:'德国',p:'0.002mm',q:1},
-          {n:'RODERS RXP601DSH',m:'五轴CNC',o:'德国',p:'0.002mm',q:1},{n:'FANUC A-T14iF',m:'CNC',o:'日本',p:'0.005mm',q:1},
-          {n:'FANUC a-D21MiB',m:'CNC',o:'日本',p:'0.005mm',q:2},{n:'HURCO VMX42HSi',m:'CNC',o:'美国',p:'0.005mm',q:2},
-          {n:'AWEA SP-2016',m:'龙门',o:'台湾',p:'0.01mm',q:1},{n:'WELE RB-212',m:'龙门',o:'台湾',p:'0.01mm',q:1},
-          {n:'YCM NCV-102AM',m:'CNC铣',o:'台湾',p:'—',q:2},{n:'YCM NXV-1020AM',m:'CNC铣',o:'台湾',p:'—',q:1},
-          {n:'KERUISI K-540A',m:'CNC',o:'中国',p:'0.005mm',q:2},{n:'KERUISI K540iH',m:'CNC',o:'中国',p:'0.005mm',q:2}]},
+          {n:'Hauser S35',id:'hauser-s35',m:'坐标磨',o:'瑞士',p:'0.001mm',q:1},{n:'Hauser S50L',id:'hauser-s50l',m:'坐标磨',o:'瑞士',p:'0.001mm',q:1},
+          {n:'Mazak QTE 200L',id:'mazak-qte-200l',m:'CNC车床',o:'日本',p:'±0.002mm',q:1},{n:'Kellenberger K10',id:'kellenberger-k10',m:'数控磨床',o:'瑞士',p:'±0.0005mm',q:1},
+          {n:'MAKINO V90S',id:'makino-v90s',m:'五轴龙门',o:'日本',p:'0.005mm',q:1},{n:'YASDA YMC430',id:'yasda-ymc430',m:'高速CNC',o:'日本',p:'0.001mm',q:2},
+          {n:'YASDA YMC650',id:'yasda-ymc650',m:'高速CNC',o:'日本',p:'0.001mm',q:1},{n:'RODERS RXP501',id:'roders-rxp501',m:'CNC',o:'德国',p:'0.002mm',q:1},
+          {n:'RODERS RXP601DSH',id:'roders-rxp601dsh',m:'五轴CNC',o:'德国',p:'0.002mm',q:1},{n:'FANUC A-T14iF',id:'fanuc-a-t14if',m:'CNC',o:'日本',p:'0.005mm',q:1},
+          {n:'FANUC a-D21MiB',id:'fanuc-a-d21mib',m:'CNC',o:'日本',p:'0.005mm',q:2},{n:'HURCO VMX42HSi',id:'hurco-vmx42hsi',m:'CNC',o:'美国',p:'0.005mm',q:2},
+          {n:'AWEA SP-2016',id:'awea-sp-2016',m:'龙门',o:'台湾',p:'0.01mm',q:1},{n:'WELE RB-212',id:'wele-rb-212',m:'龙门',o:'台湾',p:'0.01mm',q:1},
+          {n:'YCM NCV-102AM',id:'ycm-ncv-102am',m:'CNC铣',o:'台湾',p:'—',q:2},{n:'YCM NXV-1020AM',id:'ycm-nxv-1020am',m:'CNC铣',o:'台湾',p:'—',q:1},
+          {n:'KERUISI K-540A',id:'keruisi-k-540a',m:'CNC',o:'中国',p:'0.005mm',q:2},{n:'KERUISI K540iH',id:'keruisi-k540ih',m:'CNC',o:'中国',p:'0.005mm',q:2}]},
         edm:{zh:'EDM 电火花加工设备', en:'EDM Machines', items:[
-          {n:'AgieCharmilles Form P350',m:'成型机',o:'瑞士',p:'0.002mm',q:3},{n:'Sodick AD32Ls',m:'成型机',o:'日本',p:'0.005mm',q:2},
-          {n:'MAKINO EDGE3i',m:'成型机',o:'日本',p:'0.005mm',q:1},{n:'MAKINO EDGE2i',m:'成型机',o:'日本',p:'0.003mm',q:1}]},
+          {n:'AgieCharmilles Form P350',id:'agiecharmilles-form-p350',m:'成型机',o:'瑞士',p:'0.002mm',q:3},{n:'Sodick AD32Ls',id:'sodick-ad32ls',m:'成型机',o:'日本',p:'0.005mm',q:2},
+          {n:'MAKINO EDGE3i',id:'makino-edge3i',m:'成型机',o:'日本',p:'0.005mm',q:1},{n:'MAKINO EDGE2i',id:'makino-edge2i',m:'成型机',o:'日本',p:'0.003mm',q:1}]},
         wire:{zh:'线切割设备', en:'Wire-Cut EDM', items:[
-          {n:'Seibu M50HP',m:'慢走丝',o:'日本',p:'—',q:2},{n:'SODICK AQ550LS',m:'慢走丝',o:'日本',p:'0.003mm',q:1},
-          {n:'SODICK AQ360LS',m:'慢走丝',o:'日本',p:'0.005mm',q:1},{n:'SANNIU',m:'慢走丝',o:'台湾',p:'—',q:3}]},
+          {n:'Seibu M50HP',id:'seibu-m50hp',m:'慢走丝',o:'日本',p:'—',q:2},{n:'SODICK AQ550LS',id:'sodick-aq550ls',m:'慢走丝',o:'日本',p:'0.003mm',q:1},
+          {n:'SODICK AQ360LS',id:'sodick-aq360ls',m:'慢走丝',o:'日本',p:'0.005mm',q:1},{n:'SANNIU',id:'sanniu',m:'慢走丝',o:'台湾',p:'—',q:3}]},
         grinder:{zh:'精密磨床设备', en:'Precision Grinders', items:[
-          {n:'Okamoto 126DX',m:'精密磨床',o:'日本',p:'0.002mm',q:1},{n:'Okamoto 95DX',m:'精密磨床',o:'日本',p:'0.005mm',q:1},
-          {n:'Okamoto ACC-450ST',m:'精密磨床',o:'日本',p:'0.002mm',q:2},{n:'PERMANET 618S',m:'精密磨床',o:'台湾',p:'0.005mm',q:1},
-          {n:'PERMANET HF618S',m:'精密磨床',o:'台湾',p:'0.01mm',q:1}]},
+          {n:'Okamoto 126DX',id:'okamoto-126dx',m:'精密磨床',o:'日本',p:'0.002mm',q:1},{n:'Okamoto 95DX',id:'okamoto-95dx',m:'精密磨床',o:'日本',p:'0.005mm',q:1},
+          {n:'Okamoto ACC-450ST',id:'okamoto-acc-450st',m:'精密磨床',o:'日本',p:'0.002mm',q:2},{n:'PERMANET 618S',id:'permanet-618s',m:'精密磨床',o:'台湾',p:'0.005mm',q:1},
+          {n:'PERMANET HF618S',id:'permanet-hf618s',m:'精密磨床',o:'台湾',p:'0.01mm',q:1}]},
         injection:{zh:'注塑机', en:'Injection Molding Machines', items:[
-          {n:'SUMITOMO SE50EV',m:'电动',o:'日本',p:'500KN',q:2},{n:'SUMITOMO SE100EV',m:'电动',o:'日本',p:'1000KN',q:4},
-          {n:'SUMITOMO SE180EV',m:'电动',o:'日本',p:'1800KN',q:4},{n:'TOYO CS-230',m:'电动',o:'日本',p:'2300KN',q:2},
-          {n:'TOYO CS-280',m:'电动',o:'日本',p:'2800KN',q:1},{n:'HAITIAN 90~800',m:'通用',o:'中国',p:'900~8000KN',q:4},
-          {n:'BALZEA V200SD',m:'立式',o:'—',p:'2000KN',q:1},{n:'ZSV160/120-LSR',m:'液态硅胶专用',o:'—',p:'—',q:3}]},
+          {n:'SUMITOMO SE50EV',id:'sumitomo-se50ev',m:'电动',o:'日本',p:'500KN',q:2},{n:'SUMITOMO SE100EV',id:'sumitomo-se100ev',m:'电动',o:'日本',p:'1000KN',q:4},
+          {n:'SUMITOMO SE180EV',id:'sumitomo-se180ev',m:'电动',o:'日本',p:'1800KN',q:4},{n:'TOYO CS-230',id:'toyo-cs-230',m:'电动',o:'日本',p:'2300KN',q:2},
+          {n:'TOYO CS-280',id:'toyo-cs-280',m:'电动',o:'日本',p:'2800KN',q:1},{n:'HAITIAN 90~800',id:'haitian-90-800',m:'通用',o:'中国',p:'900~8000KN',q:4},
+          {n:'BALZEA V200SD',id:'balzea-v200sd',m:'立式',o:'—',p:'2000KN',q:1},{n:'ZSV160/120-LSR',id:'zsv160-120-lsr',m:'液态硅胶专用',o:'—',p:'—',q:3}]},
         qc:{zh:'品质检测设备', en:'Quality Inspection Equipment', items:[
-          {n:'HEXAGON VIEWMAX D4',m:'CMM+3D扫描',o:'—',p:'0.005mm',q:1},{n:'HEXAGON Global S 5.07.05',m:'CMM',o:'—',p:'0.0012mm',q:1},
-          {n:'HEXAGON Classic 686',m:'CMM',o:'—',p:'0.0017mm',q:1},{n:'NIKON VMA-4540',m:'2.5D CMM',o:'—',p:'0.0012mm',q:1},
-          {n:'HEXAGON RigelScan Ultra',m:'手持3D扫描',o:'—',p:'0.02mm',q:1}]}
+          {n:'HEXAGON VIEWMAX D4',id:'hexagon-viewmax-d4',m:'CMM+3D扫描',o:'—',p:'0.005mm',q:1},{n:'HEXAGON Global S 5.07.05',id:'hexagon-global-s-5-07-05',m:'CMM',o:'—',p:'0.0012mm',q:1},
+          {n:'HEXAGON Classic 686',id:'hexagon-classic-686',m:'CMM',o:'—',p:'0.0017mm',q:1},{n:'NIKON VMA-4540',id:'nikon-vma-4540',m:'2.5D CMM',o:'—',p:'0.0012mm',q:1},
+          {n:'HEXAGON RigelScan Ultra',id:'hexagon-rigelscan-ultra',m:'手持3D扫描',o:'—',p:'0.02mm',q:1}]}
       }
     },
     qc: [
@@ -405,7 +405,9 @@
           + '<td>'+esc(T(equipOrigin,d.o)||'')+'</td>'
           + '<td>'+esc(d.p||'')+'</td>'
           + '<td class="eq-qty">×'+(parseInt(d.q,10)||1)+'</td>'
-          + '<td><div class="eq-img" data-cap="'+esc(d.n)+' '+esc(U('photoPh'))+'">'+esc(U('photoPh'))+'</div></td></tr>';
+          + '<td><div class="eq-img" data-cap="'+esc(d.n)+' '+esc(U('photoPh'))+'" data-ph="'+esc(U('photoPh'))+'">'
+          + '<img loading="lazy" src="images/equip/'+esc(d.id)+'.webp" alt="'+esc(d.n)+'" onerror="this.parentNode.classList.add(\'no-img\');this.remove()">'
+          + '</div></td></tr>';
       }).join('');
       var item = document.createElement('div');
       item.className = 'eq-item';
