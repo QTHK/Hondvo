@@ -36,22 +36,32 @@
   if (seen) return;
 
   /* 兜底收幕（2026-11-05）：不依赖 launch.js —— 它在 12 个 defer 脚本之后才执行，
-     资源慢时幕布会一直等到那时（线上实测 3.1s）。这里 1.2s 强制收。
-     与 launch.js 的 close() 幂等：谁先到谁生效，重复调用无副作用。 */
+     资源慢时幕布会一直等到那时（线上实测 3–7s）。这里 1.2s 强制收。
+     关键：不依赖 #launch 是否已解析 —— 给 html 加 .launch-skip，
+     launch.css 的 `html.launch-skip #launch{display:none!important}` 会隐藏幕布，
+     元素后到时也不会闪出来。与 launch.js 的 close() 幂等。 */
   function forceClose() {
-    var el = document.getElementById('launch');
-    if (!el) return false;
-    if (el.style.display === 'none') return true;
+    h.classList.add('launch-skip');
     h.classList.remove('launch-lock');
     h.classList.add('launch-leave');
-    el.classList.add('leave');
-    setTimeout(function () { el.style.display = 'none'; }, 900);
-    return true;
+    var el = document.getElementById('launch');
+    if (el) {
+      // 元素已在 → 走淡出，视觉平滑
+      el.classList.add('leave');
+      setTimeout(function () { el.style.display = 'none'; }, 900);
+    } else {
+      // 慢网下 HTML 还没解析到 #launch → 盯着 DOM，一出现立刻隐藏（内联样式，不等 CSS）
+      var ob = new MutationObserver(function () {
+        var e = document.getElementById('launch');
+        if (!e) return;
+        ob.disconnect();
+        e.style.display = 'none';
+      });
+      ob.observe(document.documentElement, { childList: true, subtree: true });
+    }
+    try { sessionStorage.setItem('hondvo_launch_seen', '1'); } catch (e) {}
   }
-  setTimeout(function () {
-    // 1.2s 时 body 尚未解析完（极慢网络）→ 等 DOMContentLoaded 再收
-    if (!forceClose()) document.addEventListener('DOMContentLoaded', forceClose, { once: true });
-  }, 1200);
+  setTimeout(forceClose, 1200);
 })();
 </script>
 
