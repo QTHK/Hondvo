@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-05T07:43:31.132Z",
+  "sourceLang": "en",
+  "langs": [
+    "en",
+    "zh",
+    "de",
+    "ru",
+    "fr",
+    "ja",
+    "ko",
+    "es"
+  ],
+  "count": 9,
+  "items": [
+    {
+      "id": "de",
+      "code": "DE",
+      "name": "Germany",
+      "capital": "Berlin",
+      "lat": 52.52,
+      "lng": 13.4,
+      "type": "hub",
+      "sort": 0,
+      "on": true,
+      "names": {
+        "en": "Germany",
+        "zh": "德国",
+        "de": "Deutschland",
+        "ru": "Германия",
+        "fr": "Allemagne",
+        "ja": "ドイツ",
+        "ko": "독일",
+        "es": "Alemania"
+      }
+    },
+    {
+      "id": "pl",
+      "code": "PL",
+      "name": "Poland",
+      "capital": "Warsaw",
+      "lat": 52.23,
+      "lng": 21.01,
+      "type": "distributor",
+      "sort": 1,
+      "on": true,
+      "names": {
+        "en": "Poland",
+        "zh": "波兰",
+        "de": "Polen",
+        "ru": "Польша",
+        "fr": "Pologne",
+        "ja": "ポーランド",
+        "ko": "폴란드",
+        "es": "Polonia"
+      }
+    },
+    {
+      "id": "fr",
+      "code": "FR",
+      "name": "France",
+      "capital": "Paris",
+      "lat": 48.85,
+      "lng": 2.35,
+      "type": "distributor",
+      "sort": 2,
+      "on": true,
+      "names": {
+        "en": "France",
+        "zh": "法国",
+        "de": "Frankreich",
+        "ru": "Франция",
+        "fr": "France",
+        "ja": "フランス",
+        "ko": "프랑스",
+        "es": "Francia"
+      }
+    },
+    {
+      "id": "cz",
+      "code": "CZ",
+      "name": "Czech Republic",
+      "capital": "Prague",
+      "lat": 50.08,
+      "lng": 14.44,
+      "type": "distributor",
+      "sort": 3,
+      "on": true,
+      "names": {
+        "en": "Czech Republic",
+        "zh": "捷克共和国",
+        "de": "Tschechien",
+        "ru": "Чехия",
+        "fr": "Tchéquie",
+        "ja": "チェコ",
+        "ko": "체코",
+        "es": "República Checa"
+      }
+    },
+    {
+      "id": "at",
+      "code": "AT",
+      "name": "Austria",
+      "capital": "Vienna",
+      "lat": 48.21,
+      "lng": 16.37,
+      "type": "distributor",
+      "sort": 4,
+      "on": true,
+      "names": {
+        "en": "Austria",
+        "zh": "奥地利",
+        "de": "Österreich",
+        "ru": "Австрия",
+        "fr": "Autriche",
+        "ja": "オーストリア",
+        "ko": "오스트리아",
+        "es": "Austria"
+      }
+    },
+    {
+      "id": "es",
+      "code": "ES",
+      "name": "Spain",
+      "capital": "Madrid",
+      "lat": 40.42,
+      "lng": -3.7,
+      "type": "distributor",
+      "sort": 5,
+      "on": true,
+      "names": {
+        "en": "Spain",
+        "zh": "西班牙",
+        "de": "Spanien",
+        "ru": "Испания",
+        "fr": "Espagne",
+        "ja": "スペイン",
+        "ko": "스페인",
+        "es": "España"
+      }
+    },
+    {
+      "id": "br",
+      "code": "BR",
+      "name": "Brazil",
+      "capital": "Brasília",
+      "lat": -15.79,
+      "lng": -47.88,
+      "type": "distributor",
+      "sort": 6,
+      "on": true,
+      "names": {
+        "en": "Brazil",
+        "zh": "巴西",
+        "de": "Brasilien",
+        "ru": "Бразилия",
+        "fr": "Brésil",
+        "ja": "ブラジル",
+        "ko": "브라질",
+        "es": "Brasil"
+      }
+    },
+    {
+      "id": "us",
+      "code": "US",
+      "name": "United States",
+      "capital": "Washington, D.C.",
+      "lat": 38.9,
+      "lng": -77.04,
+      "type": "distributor",
+      "sort": 7,
+      "on": true,
+      "names": {
+        "en": "United States",
+        "zh": "美国",
+        "de": "USA",
+        "ru": "США",
+        "fr": "États-Unis",
+        "ja": "アメリカ",
+        "ko": "미국",
+        "es": "Estados Unidos"
+      }
+    },
+    {
+      "id": "mx",
+      "code": "MX",
+      "name": "Mexico",
+      "capital": "Mexico City",
+      "lat": 19.43,
+      "lng": -99.13,
+      "type": "distributor",
+      "sort": 8,
+      "on": true,
+      "names": {
+        "en": "Mexico",
+        "zh": "墨西哥",
+        "de": "Mexiko",
+        "ru": "Мексика",
+        "fr": "Mexique",
+        "ja": "メキシコ",
+        "ko": "멕시코",
+        "es": "México"
+      }
+    }
+  ]
+}
