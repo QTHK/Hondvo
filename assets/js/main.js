@@ -35,12 +35,20 @@
 
       }
 
-      if (c.clarity) {
+      /* Microsoft Clarity（2026-10-06 接入；2026-11-05 改为「同意后加载」）
+         免费无限量的行为分析，提供热图与会话录屏，用于观察客户真实操作路径。
+         采用它而非 GA4 的原因：GA4 需 Google 账号，本环境无法注册。
 
-        /* Microsoft Clarity（2026-10-06 接入）：免费无限量的行为分析，
-           提供热图与会话录屏，用于观察客户在页面上的真实操作路径与卡点。
-           采用它而非 GA4 的原因：GA4 需 Google 账号，本环境无法注册。
-           未填 ID 时不加载、不产生任何外部请求。 */
+         ⚠️ 合规约束：只有用户在 Cookie 横幅点「接受并继续」后才允许注入。
+         选「仅必要」（rejected）则永不加载，全程不产生任何 clarity.ms 请求。
+         调用入口：① 本文件末尾同意层的 accept 回调；② 下方「已同意回访者」判断。 */
+      var clarityLoaded = false;
+
+      window.HONDVO_loadClarity = function () {
+
+        if (clarityLoaded || !c.clarity) return;
+
+        clarityLoaded = true;
 
         (function (w, d, id) {
 
@@ -56,7 +64,14 @@
 
         })(window, document, c.clarity);
 
-      }
+      };
+
+      // 回访者：上次已点「接受」→ 直接加载，不必再等横幅
+      try {
+
+        if (localStorage.getItem('hondvo_cookie_consent') === 'accepted') window.HONDVO_loadClarity();
+
+      } catch (e) {}
 
     })();
 
@@ -2860,7 +2875,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     var reject = document.getElementById('hc-reject');
 
-    if (accept) accept.onclick = function () { setConsent('accepted'); hideBanner(); };
+    if (accept) accept.onclick = function () { setConsent('accepted'); hideBanner(); if (window.HONDVO_loadClarity) window.HONDVO_loadClarity(); };
 
     if (reject) reject.onclick = function () { setConsent('rejected'); hideBanner(); };
 
@@ -2881,7 +2896,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
       var c = getConsent();
 
-      if (c === 'accepted') { return; }
+      if (c === 'accepted') { if (window.HONDVO_loadClarity) window.HONDVO_loadClarity(); return; }
 
       if (c === 'rejected') { return; }
 
