@@ -1890,9 +1890,28 @@
     var a = document.createElement('script');
     a.src = 'assets/js/map.js';
     a.onload = function () {
-      var b = document.createElement('script');
-      b.src = 'assets/js/map-partner.js';
-      document.head.appendChild(b);
+      /* 后台「合作伙伴地图」发布的数据（2026-11-05）：
+         map.js 内置 9 国，后台发布后由 __setPartnerCountries 覆盖内置数组。
+         顺序很重要 —— **先注入数据，再挂 map-partner.js**：
+         配套脚本 boot 时会 sync 一次（点亮各国版图），它必须看到最终数据；
+         反过来先挂脚本再注入，会先按 9 国点亮、再重绘一次，视觉上闪一下。
+         拿不到文件（未发布 / 404 / 离线）⇒ 什么都不做，保留内置 9 国，
+         与 content.js「拿不到 content.json 就保留静态卡片」是同一套降级哲学。 */
+      function partnerScript() {
+        var b = document.createElement('script');
+        b.src = 'assets/js/map-partner.js';
+        document.head.appendChild(b);
+      }
+      if (typeof window.__setPartnerCountries !== 'function') { partnerScript(); return; }
+      try {
+        fetch('assets/data/partners.json', { cache: 'no-cache' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (j) {
+            if (j && j.items && j.items.length) window.__setPartnerCountries(j.items);
+          })
+          .catch(function () {})
+          .then(partnerScript);
+      } catch (e) { partnerScript(); }
     };
     a.onerror = function () { state = 0; };
     document.head.appendChild(a);
