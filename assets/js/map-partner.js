@@ -321,6 +321,15 @@
     styles();
     hook();
     sync({ verbose: true });
+    /* 2026-11-05：切语言时重绘地图。
+       ⚠️ 此前只有 content.js 订阅了 hondvo:lang，map.js 与本脚本都没订阅 ——
+          点语言按钮后页面文字变了、**地图标签不变**（用户实测："改变不了地图上的语言"）。
+       renderPartnerMap() 内部用 <html lang> 取当前语言重画标记；
+       hook() 已包装该函数，调用后会自动 sync（重新点亮版图 + 标签避让）。
+       放在 boot 里而不是脚本顶层：此时 renderPartnerMap 一定已存在。 */
+    document.addEventListener('hondvo:lang', function () {
+      if (typeof window.renderPartnerMap === 'function') window.renderPartnerMap();
+    });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(boot, 0); });
   else setTimeout(boot, 0);
