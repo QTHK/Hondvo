@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-05T07:49:49.041Z",
+  "generatedAt": "2026-11-05T08:34:12.602Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -12,8 +12,29 @@
     "ko",
     "es"
   ],
-  "count": 9,
+  "count": 11,
   "items": [
+    {
+      "id": "au",
+      "code": "AU",
+      "name": "Australia",
+      "capital": "Canberra",
+      "lat": -35.28,
+      "lng": 149.13,
+      "type": "oem",
+      "sort": 0,
+      "on": true,
+      "names": {
+        "en": "Australia",
+        "zh": "澳大利亚",
+        "de": "Australien",
+        "ru": "Австралия",
+        "fr": "Australie",
+        "ja": "オーストラリア",
+        "ko": "오스트레일리아",
+        "es": "Australia"
+      }
+    },
     {
       "id": "de",
       "code": "DE",
@@ -33,6 +54,27 @@
         "ja": "ドイツ",
         "ko": "독일",
         "es": "Alemania"
+      }
+    },
+    {
+      "id": "nz",
+      "code": "NZ",
+      "name": "New Zealand",
+      "capital": "Wellington",
+      "lat": -41.29,
+      "lng": 174.78,
+      "type": "distributor",
+      "sort": 0,
+      "on": true,
+      "names": {
+        "en": "New Zealand",
+        "zh": "New Zealand",
+        "de": "New Zealand",
+        "ru": "New Zealand",
+        "fr": "New Zealand",
+        "ja": "New Zealand",
+        "ko": "New Zealand",
+        "es": "New Zealand"
       }
     },
     {
