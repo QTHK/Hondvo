@@ -1893,18 +1893,13 @@ document.addEventListener('DOMContentLoaded', function(){
       var source = (location.hash || '').replace(/^#/, '') || 'page-contact';
 
       /* ═══════════════════════════════════════════════════════════════
-         询盘提交 —— Web3Forms 接入（2026-10-05）
-         原实现为 location.href = 'mailto:...'（依赖用户本地邮件客户端，
-         静默失败、无留痕、转化率低）。现改为 POST 到 Web3Forms 公开端点：
-           POST https://api.web3forms.com/submit
-           必填 access_key；成功 200 {success:true,message}；
-           400 缺 key/超额、429 限流、500 服务端错误。
-         · access_key 由 Web3Forms 控制台按「你的收件邮箱」生成，属公开前端 key
-           （Web3Forms 文档明确建议用浏览器端提交；服务端用法需付费版 + IP 白名单）。
-         · 失败时**不静默**：toast 报错 + 按钮恢复可点，并把 mailto 作为兜底暴露给用户。
+         询盘提交 —— 自有后端（2026-11-05 切换；原 Web3Forms 已整体移除）
+         端点：POST https://admin.hondvo.icu/api/inquiries
+           · 蜜罐 / IP 限流 / 字段白名单 / 幂等由后端负责，前端不再持有任何 key
+           · 成功 200 {ok:true}；校验失败 400；限流 429；服务端异常 5xx
+         · 4xx = 用户可修正（提示错误、保留已填内容，不降级）
+         · 0（网络/跨域）或 5xx = 后端不可用 → 降级 mailto，保证不失联
          ═══════════════════════════════════════════════════════════════ */
-      var WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
-      var WEB3FORMS_KEY = (window.HONDVO_WEB3FORMS_KEY || '').trim();
 
       /* ── 结构化分类与追踪字段（2026-10-05）────────────────────────────
          字段名与《HONDVO询盘表格字段设计》一一对应：提交什么、表格就存什么。
@@ -1927,7 +1922,7 @@ document.addEventListener('DOMContentLoaded', function(){
       payload.email = email;
       payload.message = desc;
 
-      // 收件主题/正文在此构造一次，供「Web3Forms 提交」与「无 key 降级 mailto」共用
+      // 收件主题/正文在此构造一次，供降级 mailto 使用
       var mailSubject = META ? META.subject('contact', type, company || name)
         : '[Inquiry] ' + (type || 'Website') + ' — ' + name;
       var mailBody = META ? META.bodyText(payload)
@@ -1953,21 +1948,13 @@ document.addEventListener('DOMContentLoaded', function(){
         f.email.value = ''; f.type.selectedIndex = 0; f.desc.value = '';
       }
 
-      // 无 key（未在 index.html 填 HONDVO_WEB3FORMS_KEY）→ 直接降级 mailto，
-      // 保证客户侧永远能联系上，不因漏配配置而彻底失能。
-      if (!WEB3FORMS_KEY) { fallbackMailto(mailSubject, mailBody); return; }
-
-      /* 补齐 Web3Forms 保留字段。业务数据已在 payload 中按列名铺好，
-         故不再把分类信息塞进 message（那是旧实现的人读文本方案）。 */
-      payload.access_key = WEB3FORMS_KEY;
+      /* 保留原字段名：subject / replyto 供后续邮件通知使用，
+         botcheck 是蜜罐（留空即通过）。后端白名单会忽略不认识的列。 */
       payload.subject = mailSubject;
-      // 蜜罐：Web3Forms 侧也会判 botcheck 字段；留空即可通过
       payload.botcheck = '';
       payload.replyto = email;
 
-      // 表格链路（可选）：与邮件链路并行发出。失败不影响用户与邮件结果，
-      // 未配置中转端点时 pushToSheet 内部直接返回，不产生任何请求。
-      if (META) { try { META.pushToSheet(payload); } catch (e) {} }
+      if (!META || !META.pushToSheet) { fallbackMailto(mailSubject, mailBody); return; }
 
       var timer = setTimeout(function () {
         // 20s 未响应视为网络异常，走兜底
@@ -1975,27 +1962,21 @@ document.addEventListener('DOMContentLoaded', function(){
         window.showToast(t('ct_failure'), 'error');
       }, 20000);
 
-      fetch(WEB3FORMS_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      }).then(function (r) {
+      META.pushToSheet(payload).then(function (res) {
         clearTimeout(timer);
-        return r.json().then(function (j) { return { ok: r.ok, status: r.status, json: j }; });
-      }).then(function (res) {
-        if (res.ok && res.json && res.json.success) {
+        if (res && res.ok) {
           btnState('success');
-          window.showToast(res.json.message || t('ct_success'), 'success');
+          window.showToast(t('ct_success'), 'success');
           resetForm();
-        } else {
-          btnState('error');
-          var msg = (res.json && (res.json.message || res.json.error)) || ('HTTP ' + res.status);
-          // 429 限流 / 400 配置错误：提示并保留内容，让用户改用邮箱
-          window.showToast(t('ct_failure') + ' (' + msg + ')', 'error');
+          return;
         }
-      }).catch(function (err) {
-        clearTimeout(timer);
-        // 网络异常（CORS / 断网 / DNS）：降级 mailto，保证不失联
+        // 4xx：后端明确拒收（邮箱格式 / 正文为空 / 限流）→ 提示，保留已填内容
+        if (res && res.status >= 400 && res.status < 500) {
+          btnState('error');
+          window.showToast(t('ct_failure') + ' (HTTP ' + res.status + ')', 'error');
+          return;
+        }
+        // 0（网络/跨域）/ 5xx：后端不可用 → 降级 mailto，保证不失联
         try {
           fallbackMailto(mailSubject, mailBody);
         } catch (e2) {
@@ -2275,9 +2256,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
       btn.textContent = t('pc_submitting') || 'Submitting...'; btn.disabled = true;
 
-      /* 产品询盘弹窗 —— 同样改用 Web3Forms（2026-10-05）。
-         原为 mailto: 唤起本地邮件客户端（静默失败、无留痕）。
-         与联系表单共用 window.HONDVO_WEB3FORMS_KEY；未配置或请求失败时降级 mailto。 */
+      /* 产品询盘弹窗 —— 走自有后端（2026-11-05 起；原 Web3Forms 已移除）。
+         与联系表单共用同一端点与同一套降级规则：
+         4xx 提示可修正，0/5xx 降级 mailto。 */
       var source = (location.hash || '').replace(/^#/, '') || 'page-products';
 
       /* ── 结构化分类与追踪字段（2026-10-05）────────────────────────────
@@ -2335,32 +2316,24 @@ document.addEventListener('DOMContentLoaded', function(){
         } catch (err) { modalFail(); }
       }
 
-      var WF_KEY = (window.HONDVO_WEB3FORMS_KEY || '').trim();
-      if (!WF_KEY) { modalMailto(); return; }
-
-      var modalTimer = setTimeout(function () { modalFail(); }, 20000);
-
-      payload.access_key = WF_KEY;
       payload.subject = mailSubject;
       payload.botcheck = '';
       payload.replyto = email;
 
-      // 表格链路（可选）：与邮件链路并行发出
-      if (META) { try { META.pushToSheet(payload); } catch (e) {} }
+      if (!META || !META.pushToSheet) { modalMailto(); return; }
 
-      fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      }).then(function (r) {
+      var modalTimer = setTimeout(function () { modalFail(); }, 20000);
+
+      META.pushToSheet(payload).then(function (res) {
         clearTimeout(modalTimer);
-        return r.json().then(function (j) { return { ok: r.ok, status: r.status, json: j }; });
-      }).then(function (res) {
-        if (res.ok && res.json && res.json.success) modalDone();
-        else modalFail((res.json && (res.json.message || res.json.error)) || ('HTTP ' + res.status));
-      }).catch(function () {
-        clearTimeout(modalTimer);
-        modalMailto();   // 网络异常 → 降级，保证不失联
+        if (res && res.ok) { modalDone(); return; }
+        // 4xx：后端明确拒收 → 提示可修正，不降级
+        if (res && res.status >= 400 && res.status < 500) {
+          modalFail('HTTP ' + res.status);
+          return;
+        }
+        // 0 / 5xx：后端不可用 → 降级 mailto
+        modalMailto();
       });
 
       return;

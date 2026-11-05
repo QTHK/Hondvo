@@ -2,7 +2,7 @@
    询盘分类元数据（inquiry-meta.js）· 2026-10-05
    ───────────────────────────────────────────────────────────────────────────
    作用：为三处询盘提交（联系表单 / 产品询盘弹窗 / 邮件订阅）提供**语言无关**
-   的分类字段与来源追踪字段，使 Web3Forms 通知邮件与落地表格可以直接按列
+   的分类字段与来源追踪字段，使通知邮件与落地表格可以直接按列
    筛选、统计、导入 CRM。字段定义见《HONDVO询盘表格字段设计》。
 
    两条不可违背的设计约束：
@@ -148,15 +148,17 @@
     }, '');
   }
 
-  /* ── 表格链路：把同一条载荷送进自建中转，与 Web3Forms 邮件链路**并行** ──
-     · 剔除 access_key / botcheck / replyto 等保留字段，中转侧只收业务数据。
+  /* ── 询盘入库：把载荷送进自有后端（2026-11-05 起为主链路，替代 Web3Forms）──
+     · 剔除 access_key / botcheck 以外的保留字段，后端只收白名单列。
      · Content-Type 用 text/plain 规避 CORS 预检（GAS Web App 不支持 OPTIONS）。
-     · 返回 Promise<boolean>，但**调用方不得据此判断提交成败**：
-       GAS 场景下浏览器读不到响应会 reject，而数据其实已写入表格。
-       因此表格链路失败绝不阻塞用户，也不影响邮件链路的成功提示。 */
+     · 返回 Promise<{ok:boolean, status:number}>：
+       status 0 = 未配置端点 / 网络失败 / 跨域被拒（**可降级 mailto**）；
+       status 4xx = 后端明确拒收（邮箱/正文等校验失败，**不应降级**，要提示改）；
+       status 5xx = 后端异常（可降级）。
+       2026-11-05 起本链路是**主链路**，成败直接决定用户看到的提示。 */
   function pushToSheet(payload) {
     var url = intakeEndpoint();
-    if (!url) return Promise.resolve(false);
+    if (!url) return Promise.resolve({ ok: false, status: 0 });
     var row = {};
     for (var k in payload) {
       if (!Object.prototype.hasOwnProperty.call(payload, k)) continue;
@@ -170,9 +172,10 @@
         redirect: 'follow',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(row)
-      }).then(function (r) { return !!r.ok; }).catch(function () { return false; });
+      }).then(function (r) { return { ok: !!r.ok, status: r.status }; })
+        .catch(function () { return { ok: false, status: 0 }; });
     } catch (e) {
-      return Promise.resolve(false);
+      return Promise.resolve({ ok: false, status: 0 });
     }
   }
 

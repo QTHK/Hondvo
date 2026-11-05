@@ -77,11 +77,11 @@
     location.hash = hash;
   });
 
-  /* ---------- C. 邮件订阅（Web3Forms） ----------
-     2026-10-05：原为 mailto: 唤起本地邮件客户端（静默失败、依赖客户端、无留痕），
-     改为 POST https://api.web3forms.com/submit，与联系表单同一套后端。
-     access_key 读 window.HONDVO_WEB3FORMS_KEY（index.html 顶部配置）；
-     未配置或请求失败时**降级为 mailto**，保证订阅功能永不彻底失能。 */
+  /* ---------- C. 邮件订阅（自有后端） ----------
+     2026-10-05：原为 mailto: 唤起本地邮件客户端（静默失败、依赖客户端、无留痕）。
+     2026-11-05：改为 POST 自有后端 /api/inquiries，与联系表单同一条链路。
+     端点读 window.HONDVO_INTAKE_ENDPOINT（index.html 顶部配置）；
+     未配置、4xx 或请求失败时按情形提示或**降级为 mailto**，订阅功能不会彻底失能。 */
   (function () {
     var form = document.getElementById('m7-sub-form');
     if (!form) return;
@@ -121,16 +121,12 @@
         return;
       }
 
-      var KEY = (window.HONDVO_WEB3FORMS_KEY || '').trim();
-      if (!KEY) { mailtoFallback(email); return; }   // 未配置 → 降级
-
       var old = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = t('ct_submitting', 'Submitting…'); }
 
-      var timer = setTimeout(function () { if (btn) { btn.disabled = false; btn.textContent = old; } }, 20000);
-
       /* 订阅同样携带分类与来源字段（form_type = newsletter），
-         使通知邮件与落地表格可按列区分来源与语言。 */
+         使落地表格可按列区分来源与语言。
+         2026-11-05：改走自有后端（原 Web3Forms 已移除）。 */
       var META = window.HONDVO_meta;
       var payload = META ? META.envMeta() : {
         schema_version: 1,
@@ -138,36 +134,34 @@
         site_lang: curLang(),
         submitted_at: new Date().toISOString()
       };
-      payload.access_key = KEY;
       payload.form_type = 'newsletter';
       payload.email = email;
       payload.message = 'Please subscribe this address to the HONDVO newsletter.';
       payload.subject = META ? META.subject('newsletter', '-', email) : 'Newsletter subscription';
       payload.botcheck = '';
 
-      // 表格链路（可选）：与邮件链路并行发出
-      if (META) { try { META.pushToSheet(payload); } catch (e) {} }
+      if (!META || !META.pushToSheet) {
+        if (btn) { btn.disabled = false; btn.textContent = old; }
+        mailtoFallback(email);
+        return;
+      }
 
-      fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      }).then(function (r) {
+      var timer = setTimeout(function () { if (btn) { btn.disabled = false; btn.textContent = old; } }, 20000);
+
+      META.pushToSheet(payload).then(function (res) {
         clearTimeout(timer);
-        return r.json().then(function (j) { return { ok: r.ok, json: j }; });
-      }).then(function (res) {
         if (btn) { btn.disabled = false; btn.textContent = old; }
-        if (res.ok && res.json && res.json.success) {
-          show(res.json.message || t('ct_success', 'Subscribed'), true);
+        if (res && res.ok) {
+          show(t('ct_success', 'Subscribed'), true);
           if (input) input.value = '';
-        } else {
-          var m = (res.json && (res.json.message || res.json.error)) || 'error';
-          show(t('m7_sub_fail', 'Subscription failed, please try again later') + ' (' + m + ')', false);
+          return;
         }
-      }).catch(function () {
-        clearTimeout(timer);
-        if (btn) { btn.disabled = false; btn.textContent = old; }
-        // 网络异常 → 降级 mailto
+        // 4xx：后端明确拒收（邮箱格式等）→ 提示可修正，不降级
+        if (res && res.status >= 400 && res.status < 500) {
+          show(t('m7_sub_fail', 'Subscription failed, please try again later') + ' (HTTP ' + res.status + ')', false);
+          return;
+        }
+        // 0 / 5xx：后端不可用 → 降级 mailto
         if (!mailtoFallback(email)) show(t('m7_sub_fail', 'Subscription failed, please try again later'), false);
       });
     });
