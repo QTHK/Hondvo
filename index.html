@@ -33,6 +33,25 @@
   try { seen = sessionStorage.getItem('hondvo_launch_seen') === '1'; } catch (e) { seen = false; }
   // sessionStorage 不可用（隐私模式等）时按"未看过"处理：宁可多播一次，也不要整站无幕布
   h.classList.add(seen ? 'launch-skip' : 'launch-armed');
+  if (seen) return;
+
+  /* 兜底收幕（2026-11-05）：不依赖 launch.js —— 它在 12 个 defer 脚本之后才执行，
+     资源慢时幕布会一直等到那时（线上实测 3.1s）。这里 1.2s 强制收。
+     与 launch.js 的 close() 幂等：谁先到谁生效，重复调用无副作用。 */
+  function forceClose() {
+    var el = document.getElementById('launch');
+    if (!el) return false;
+    if (el.style.display === 'none') return true;
+    h.classList.remove('launch-lock');
+    h.classList.add('launch-leave');
+    el.classList.add('leave');
+    setTimeout(function () { el.style.display = 'none'; }, 900);
+    return true;
+  }
+  setTimeout(function () {
+    // 1.2s 时 body 尚未解析完（极慢网络）→ 等 DOMContentLoaded 再收
+    if (!forceClose()) document.addEventListener('DOMContentLoaded', forceClose, { once: true });
+  }, 1200);
 })();
 </script>
 
