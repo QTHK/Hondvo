@@ -204,15 +204,70 @@
   }
 
   /* ── 初始化 ── */
+  /* 按需加载 libphonenumber（179KB）。首屏不再无条件下载：
+     进入联系页 / 打开产品询盘弹窗 / 聚焦电话输入框时才拉。
+     库未到时 validate() 返回 degraded 放行，绝不因校验器缺失拦掉询盘。 */
+  var libState = 0;
+
+  function ensureLib() {
+
+    if (LPN()) { buildAllCountrySelects(); return; }
+
+    if (libState) return;
+
+    libState = 1;
+
+    var sc = document.createElement('script');
+
+    sc.src = 'assets/js/vendor/libphonenumber.min.js';
+
+    sc.onload = function () { libState = 2; buildAllCountrySelects(); };
+
+    sc.onerror = function () { libState = 0; };
+
+    document.head.appendChild(sc);
+
+  }
+
   function init() {
-    buildAllCountrySelects();
+
+    if (LPN()) buildAllCountrySelects();
+
+    // 触发点：路由命中联系页 / 聚焦电话框 / 点开产品询盘
+    function pageHit() { return (location.hash || '').indexOf('page-contact') !== -1; }
+
+    if (pageHit()) ensureLib();
+
+    window.addEventListener('hashchange', function () { if (pageHit()) ensureLib(); });
+
+    document.addEventListener('focusin', function (e) {
+
+      if (e.target && e.target.id && /^ct-phone|^modal-phone/.test(e.target.id)) ensureLib();
+
+    }, true);
+
+    document.addEventListener('click', function (e) {
+
+      var t = e.target;
+
+      while (t && t !== document) {
+
+        var c = t.className;
+
+        if (typeof c === 'string' && /(^|\s)(pc-btn|pc-icon|m7-dl-btn)(\s|$)/.test(c)) { ensureLib(); return; }
+
+        t = t.parentNode;
+
+      }
+
+    }, true);
 
     /* 切语言时重建**全部**下拉文案（保留已选国家）。
        ⚠️ 必须监听 **document** 而非 window：i18n.js 的 switchLang 末尾是
        `document.dispatchEvent(new CustomEvent('hondvo:lang', ...))`，
        自定义事件只向上冒泡到 document，**不会反向冒泡到 window**，
        挂在 window 上永远收不到 → 区号列表要刷新页面才对。 */
-    document.addEventListener('hondvo:lang', function () { buildAllCountrySelects(); });
+    document.addEventListener('hondvo:lang', function () { if (LPN()) buildAllCountrySelects(); });
   }
 
   if (document.readyState === 'loading') {
@@ -221,6 +276,7 @@
 
   // 对外接口
   window.HONDVO_phone = {
+    loadLib: ensureLib,
     validate: validate,
     buildCountrySelect: buildCountrySelect,
     buildAllCountrySelects: buildAllCountrySelects,
