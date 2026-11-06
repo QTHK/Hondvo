@@ -1,0 +1,63 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "slug": "iatf",
+      "slot": "cert_iatf",
+      "file": "cert_1_page1.webp",
+      "issuer": "",
+      "issuedAt": "",
+      "expiresAt": "",
+      "names": {
+        "zh": "IATF 16949 汽车行业质量管理体系",
+        "de": "IATF 16949 Qualitätsmanagement für die Automobilindustrie",
+        "ru": "IATF 16949 Система менеджмента качества для автомобильной промышленности",
+        "fr": "IATF 16949 Système de management de la qualité automobile",
+        "ja": "IATF 16949 自動車産業品質マネジメントシステム",
+        "ko": "IATF 16949 자동차 산업 품질경영시스템",
+        "es": "IATF 16949 Sistema de gestión de calidad automotriz",
+        "en": "IATF 16949 Automotive Quality Management System"
+      }
+    },
+    {
+      "id": 2,
+      "slug": "13485",
+      "slot": "cert_13485",
+      "file": "cert_2_page1.webp",
+      "issuer": "",
+      "issuedAt": "",
+      "expiresAt": "",
+      "names": {
+        "zh": "ISO 13485 医疗器械质量管理体系",
+        "de": "ISO 13485 Qualitätsmanagement für Medizinprodukte",
+        "ru": "ISO 13485 Система менеджмента качества медицинских изделий",
+        "fr": "ISO 13485 Système de management de la qualité des dispositifs médicaux",
+        "ja": "ISO 13485 医療機器品質マネジメントシステム",
+        "ko": "ISO 13485 의료기기 품질경영시스템",
+        "es": "ISO 13485 Sistema de gestión de calidad de dispositivos médicos",
+        "en": "ISO 13485 Medical Device Quality Management System"
+      }
+    },
+    {
+      "id": 3,
+      "slug": "9001",
+      "slot": "cert_9001",
+      "file": "cert_3_page1.webp",
+      "issuer": "",
+      "issuedAt": "",
+      "expiresAt": "",
+      "names": {
+        "zh": "ISO 9001 质量管理体系",
+        "de": "ISO 9001 Qualitätsmanagementsystem",
+        "ru": "ISO 9001 Система менеджмента качества",
+        "fr": "ISO 9001 Système de management de la qualité",
+        "ja": "ISO 9001 品質マネジメントシステム",
+        "ko": "ISO 9001 품질경영시스템",
+        "es": "ISO 9001 Sistema de gestión de calidad",
+        "en": "ISO 9001 Quality Management System"
+      }
+    }
+  ],
+  "count": 3,
+  "generatedAt": "2026-11-06T09:03:24.672Z"
+}
