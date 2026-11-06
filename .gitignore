@@ -32,3 +32,12 @@ _shots/
 # mold-hero-h.mp4 两个 source），从版本管理移除以缩小仓库与发布体积。
 # 文件仍保留在本地磁盘，需要时可 `git checkout 59939ea -- assets/video/mold-hero.mp4` 恢复。
 assets/video/mold-hero.mp4
+
+# 媒体库（M6，2026-11-06）
+# images/pool/ 是后台「图片池」的素材库（内容哈希命名）。它**不进版本库**：
+#   · 池子只是备选素材，官网实际用的是 images/ 下的位置图（那些都在库里）；
+#   · 池子图会随上传不断增长，进库会让仓库无限膨胀；
+#   · 灾难恢复后池子为空不影响官网，需要时重新上传即可。
+images/pool/
+# 换图时的旧文件备份（后台自动生成，本地留一份用于回退）
+images/*.bak
