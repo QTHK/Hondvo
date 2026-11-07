@@ -56,27 +56,8 @@
         "ko": "ISO 9001 품질경영시스템",
         "es": "ISO 9001 Sistema de gestión de calidad"
       }
-    },
-    {
-      "id": 16,
-      "slug": "cert",
-      "slot": "cert_cert",
-      "file": "cert_cert.webp",
-      "issuer": "",
-      "issuedAt": "",
-      "expiresAt": "",
-      "names": {
-        "en": "Dun & Bradstreet",
-        "zh": "邓白氏",
-        "de": "Dun & Bradstreet",
-        "ru": "Dun & Bradstreet",
-        "fr": "Dun & Bradstreet",
-        "ja": "Dun & Bradstreet",
-        "ko": "Dun & Bradstreet",
-        "es": "Dun & Bradstreet"
-      }
     }
   ],
-  "count": 4,
-  "generatedAt": "2026-11-07T05:36:18.429Z"
+  "count": 3,
+  "generatedAt": "2026-11-07T05:37:51.974Z"
 }
