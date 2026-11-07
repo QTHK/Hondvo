@@ -3109,19 +3109,19 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
      推进的，smooth 会把每次微调都变成一次动画，结果是原地抖或干脆不动。
      平滑只在箭头点击时通过 scrollBy({behavior:'smooth'}) 临时启用。 */
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
   padding-bottom: 18px !important;
+  /* 循环滚动后滚动条位置是失真的（内容被克隆了一份），干脆隐藏；
+     导航交给左右箭头 + 触摸滑动 + 自动轮播 */
+  scrollbar-width: none;
 }
+.cert-gallery::-webkit-scrollbar { display: none; }
 .cert-gallery > .img-cert-card {
   flex: 0 0 auto;
   width: 340px;
   max-width: 82vw;
 }
-/* 细滚动条：给桌面用户一个"这里能滑"的可见提示 */
-.cert-gallery::-webkit-scrollbar { height: 6px; }
-.cert-gallery::-webkit-scrollbar-track { background: transparent; }
-.cert-gallery::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, .18); border-radius: 3px; }
-.cert-gallery::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, .32); }
+/* 细滚动条样式已删除：循环滚动后滚动条位置失真（内容被克隆了一份），
+   已在上面的 .cert-gallery 里整体隐藏。 */
 @media (max-width: 860px) {
   .cert-gallery > .img-cert-card { width: 78vw; }
 }
