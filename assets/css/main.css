@@ -3089,3 +3089,72 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
 @media (prefers-reduced-motion: reduce){
   .phone-cc{transition:none;}
 }
+
+/* ═══════════ 证书区：横向滚动 + 自动轮播（2026-11-07）═══════════
+   为什么要改：证书会随后台新增而变多，写死 3 列的网格迟早装不下；
+   窄屏下 3 列还会把卡片压到看不清（用户实测截图：第三张被切掉一半）。
+   改成一行横向排列：能滑、能自动缓慢滚动、鼠标悬停即停。
+
+   ⚠️ 用 !important 覆盖前面 4 处媒体查询里的 grid-template-columns：
+      那些规则散在 852 / 952 / 970 / 1852 行，逐个改容易漏，且它们都在
+      "手机 / 平板 / 桌面"三种断点下重复声明过同一个属性。
+   ⚠️ 只作用于 .cert-gallery，不碰 .workshop-gallery（车间图仍是网格）。 */
+.cert-gallery {
+  display: flex !important;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* ⚠️ 这里**不能**写 scroll-behavior:smooth —— 自动轮播是靠 scrollLeft 每帧 +0.5px
+     推进的，smooth 会把每次微调都变成一次动画，结果是原地抖或干脆不动。
+     平滑只在箭头点击时通过 scrollBy({behavior:'smooth'}) 临时启用。 */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  padding-bottom: 18px !important;
+}
+.cert-gallery > .img-cert-card {
+  flex: 0 0 auto;
+  width: 340px;
+  max-width: 82vw;
+}
+/* 细滚动条：给桌面用户一个"这里能滑"的可见提示 */
+.cert-gallery::-webkit-scrollbar { height: 6px; }
+.cert-gallery::-webkit-scrollbar-track { background: transparent; }
+.cert-gallery::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, .18); border-radius: 3px; }
+.cert-gallery::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, .32); }
+@media (max-width: 860px) {
+  .cert-gallery > .img-cert-card { width: 78vw; }
+}
+
+/* 外层包裹：只为给左右箭头一个定位参考，不改原有宽度约束 */
+.cert-scroll { position: relative; max-width: 1220px; margin: 0 auto; }
+.cert-scroll .cert-gallery { max-width: none; margin: 0; }
+
+.cert-nav {
+  position: absolute; top: 42%; z-index: 3;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  /* ⚠️ 必须用深色底：证书图片本身是白底扫描件，白按钮压上去等于隐形（第一版就是白的） */
+  border: 1px solid rgba(255, 255, 255, .35);
+  background: rgba(15, 23, 42, .58);
+  box-shadow: 0 3px 14px rgba(15, 23, 42, .28);
+  color: #fff; cursor: pointer;
+  padding: 0; line-height: 1;
+  transition: opacity .18s, transform .18s, background .18s;
+  opacity: 0; pointer-events: none;
+}
+.cert-nav:hover { background: rgba(15, 23, 42, .82); transform: scale(1.08); }
+.cert-nav.prev { left: 10px; }
+.cert-nav.next { right: 10px; }
+/* 只在"确实能滚"时才出现，避免静止时两个多余按钮压在证书上 */
+.cert-scroll.can-scroll .cert-nav { opacity: 1; pointer-events: auto; }
+.cert-scroll.can-scroll .cert-nav.prev[disabled],
+.cert-scroll.can-scroll .cert-nav.next[disabled] { opacity: .32; pointer-events: none; }
+@media (hover: none), (max-width: 720px) {
+  /* 触屏用滑动即可，箭头反而挡住证书 */
+  .cert-nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cert-nav { transition: none; }
+}
+
