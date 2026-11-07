@@ -56,8 +56,27 @@
         "es": "ISO 9001 Sistema de gestión de calidad",
         "en": "ISO 9001 Quality Management System"
       }
+    },
+    {
+      "id": 16,
+      "slug": "cert",
+      "slot": "cert_cert",
+      "file": "cert_cert.webp",
+      "issuer": "",
+      "issuedAt": "",
+      "expiresAt": "",
+      "names": {
+        "en": "邓白氏",
+        "zh": "邓白氏",
+        "de": "邓白氏",
+        "ru": "邓白氏",
+        "fr": "邓白氏",
+        "ja": "邓白氏",
+        "ko": "邓白氏",
+        "es": "邓白氏"
+      }
     }
   ],
-  "count": 3,
-  "generatedAt": "2026-11-06T09:03:24.672Z"
+  "count": 4,
+  "generatedAt": "2026-11-07T02:04:44.185Z"
 }
