@@ -9,14 +9,14 @@
       "issuedAt": "",
       "expiresAt": "",
       "names": {
+        "en": "IATF 16949 Automotive Quality Management System",
         "zh": "IATF 16949 汽车行业质量管理体系",
         "de": "IATF 16949 Qualitätsmanagement für die Automobilindustrie",
         "ru": "IATF 16949 Система менеджмента качества для автомобильной промышленности",
         "fr": "IATF 16949 Système de management de la qualité automobile",
         "ja": "IATF 16949 自動車産業品質マネジメントシステム",
         "ko": "IATF 16949 자동차 산업 품질경영시스템",
-        "es": "IATF 16949 Sistema de gestión de calidad automotriz",
-        "en": "IATF 16949 Automotive Quality Management System"
+        "es": "IATF 16949 Sistema de gestión de calidad automotriz"
       }
     },
     {
@@ -28,14 +28,14 @@
       "issuedAt": "",
       "expiresAt": "",
       "names": {
+        "en": "ISO 13485 Medical Device Quality Management System",
         "zh": "ISO 13485 医疗器械质量管理体系",
         "de": "ISO 13485 Qualitätsmanagement für Medizinprodukte",
         "ru": "ISO 13485 Система менеджмента качества медицинских изделий",
         "fr": "ISO 13485 Système de management de la qualité des dispositifs médicaux",
         "ja": "ISO 13485 医療機器品質マネジメントシステム",
         "ko": "ISO 13485 의료기기 품질경영시스템",
-        "es": "ISO 13485 Sistema de gestión de calidad de dispositivos médicos",
-        "en": "ISO 13485 Medical Device Quality Management System"
+        "es": "ISO 13485 Sistema de gestión de calidad de dispositivos médicos"
       }
     },
     {
@@ -47,14 +47,14 @@
       "issuedAt": "",
       "expiresAt": "",
       "names": {
+        "en": "ISO 9001 Quality Management System",
         "zh": "ISO 9001 质量管理体系",
         "de": "ISO 9001 Qualitätsmanagementsystem",
         "ru": "ISO 9001 Система менеджмента качества",
         "fr": "ISO 9001 Système de management de la qualité",
         "ja": "ISO 9001 品質マネジメントシステム",
         "ko": "ISO 9001 품질경영시스템",
-        "es": "ISO 9001 Sistema de gestión de calidad",
-        "en": "ISO 9001 Quality Management System"
+        "es": "ISO 9001 Sistema de gestión de calidad"
       }
     },
     {
@@ -66,17 +66,17 @@
       "issuedAt": "",
       "expiresAt": "",
       "names": {
-        "en": "邓白氏",
+        "en": "Dun & Bradstreet",
         "zh": "邓白氏",
-        "de": "邓白氏",
-        "ru": "邓白氏",
-        "fr": "邓白氏",
-        "ja": "邓白氏",
-        "ko": "邓白氏",
-        "es": "邓白氏"
+        "de": "Dun & Bradstreet",
+        "ru": "Dun & Bradstreet",
+        "fr": "Dun & Bradstreet",
+        "ja": "Dun & Bradstreet",
+        "ko": "Dun & Bradstreet",
+        "es": "Dun & Bradstreet"
       }
     }
   ],
   "count": 4,
-  "generatedAt": "2026-11-07T02:04:44.185Z"
+  "generatedAt": "2026-11-07T05:36:18.429Z"
 }
