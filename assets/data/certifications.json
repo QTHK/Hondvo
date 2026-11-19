@@ -1,25 +1,6 @@
 {
   "items": [
     {
-      "id": 28,
-      "slug": "iatf",
-      "slot": "cert_iatf",
-      "file": "cert_1_page1.webp",
-      "issuer": "",
-      "issuedAt": "",
-      "expiresAt": "",
-      "names": {
-        "en": "IATF 16949 Automotive Quality Management System",
-        "zh": "IATF 16949 汽车行业质量管理体系",
-        "de": "IATF 16949 Qualitätsmanagement für die Automobilindustrie",
-        "ru": "IATF 16949 Система менеджмента качества для автомобильной промышленности",
-        "fr": "IATF 16949 Système de management de la qualité automobile",
-        "ja": "IATF 16949 自動車産業品質マネジメントシステム",
-        "ko": "IATF 16949 자동차 산업 품질경영시스템",
-        "es": "IATF 16949 Sistema de gestión de calidad automotriz"
-      }
-    },
-    {
       "id": 2,
       "slug": "13485",
       "slot": "cert_13485",
@@ -77,6 +58,6 @@
       }
     }
   ],
-  "count": 4,
-  "generatedAt": "2026-11-19T08:25:54.373Z"
+  "count": 3,
+  "generatedAt": "2026-11-19T08:27:51.971Z"
 }
