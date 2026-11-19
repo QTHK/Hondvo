@@ -5,7 +5,7 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-19T08:31:11.265Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-19T09:09:46.662Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -1321,7 +1321,61 @@ const I18N = {
 
   "hnav_contact_cta_s": {"en":"Submit RFQ — 24h response"},
 
-  "hnav_contact_cta_go": {"en":"Contact Us →"}
+  "hnav_contact_cta_go": {"en":"Contact Us →"},
+
+  "slide_browse_0_0_desc": {"en":"Precision molded parts for infusion pumps and syringes, where sealing and flow consistency are the primary controls."},
+
+  "slide_browse_0_1_desc": {"en":"Enteral feeding bags and tubing sets molded in Class 100,000 cleanrooms to meet biocompatibility requirements."},
+
+  "slide_browse_0_2_desc": {"en":"High-density injection parts with stable dimensions and full batch traceability for uninterrupted volume delivery."},
+
+  "slide_browse_1_0_desc": {"en":"IVD test tubes, specimen cups and microplates with high cleanliness and consistent batches."},
+
+  "slide_browse_1_1_desc": {"en":"Tooling for diagnostic consumables: microchannels, cartridge structures and high-precision cavities."},
+
+  "slide_browse_1_2_desc": {"en":"Medical-grade precision molds with micron-level cavity tolerance for long-term production."},
+
+  "slide_browse_2_0_desc": {"en":"Ventilator housings, nebulizer parts and respiratory masks, balancing safety and reliability."},
+
+  "slide_browse_2_1_desc": {"en":"Valve bodies, connectors and precision seals meeting airtight and low-leakage requirements."},
+
+  "slide_browse_3_0_desc": {"en":"Food-grade and medical-grade packaging, odorless and safe for direct content contact."},
+
+  "slide_browse_3_1_desc": {"en":"Baby and maternal care parts with soft touch and durable finish for consumer-scale production."},
+
+  "slide_discover_0_0_desc": {"en":"Enteral feeding bags and tubing: one chain from tooling design to volume molding."},
+
+  "slide_discover_0_1_desc": {"en":"Infusion consumables molded in cleanrooms with controlled sealing and flow consistency."},
+
+  "slide_discover_0_2_desc": {"en":"High-speed multi-cavity tooling with automated lines for predictable cost and lead time."},
+
+  "slide_discover_1_0_desc": {"en":"Precision molding of kit housings and microfluidic structures with tight dimensions and clean appearance."},
+
+  "slide_discover_1_1_desc": {"en":"Reagent chambers, cartridges and sample-loading parts — thin-wall molding without warp or flash."},
+
+  "slide_discover_1_2_desc": {"en":"IVD tooling with optical-grade cavity finish for clear detection windows."},
+
+  "slide_discover_2_0_desc": {"en":"Precision parts for trocars and surgical handles, meeting Class II device structure requirements."},
+
+  "slide_discover_2_1_desc": {"en":"Endoscopic accessories and micro structures with stable, traceable batch quality."},
+
+  "slide_discover_2_2_desc": {"en":"Interventional tooling with micron-level cavity tolerance for implant-grade materials."},
+
+  "slide_industries_0_0_desc": {"en":"IV infusion and enteral nutrition demand tight sealing, consistent flow and biocompatibility."},
+
+  "slide_industries_0_1_desc": {"en":"Nutrition bags and infusion sets molded and assembled in cleanrooms."},
+
+  "slide_industries_1_0_desc": {"en":"Laboratory medicine relies on high-cleanliness consumables with no contamination during sampling."},
+
+  "slide_industries_1_1_desc": {"en":"Diagnostic tooling ensures dimensional consistency across microplates and specimen cups."},
+
+  "slide_industries_2_0_desc": {"en":"Respiratory care requires airtight circuits, low leakage and long-term reliability."},
+
+  "slide_industries_2_1_desc": {"en":"Valve bodies, connectors and mask parts molded to medical-grade standards."},
+
+  "slide_industries_3_0_desc": {"en":"Baby care and food-contact parts with safe materials and a soft touch."},
+
+  "slide_industries_3_1_desc": {"en":"Class 100,000 cleanrooms support consumer-scale production with stable, traceable batches."}
 };
 
 /* ═══════════ SHARED FOOTER (injected into every .site-footer-mount) ═══════════ */
