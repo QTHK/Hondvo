@@ -5,7 +5,7 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-19T08:27:47.548Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-19T08:30:22.254Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -27,7 +27,7 @@ const I18N = {
 
   "hero_sub": {"en":"Reverence for Life"},
 
-  "hero_desc": {"en":"ISO 13485 / ISO 9001 / IATF 16949 certified"},
+  "hero_desc": {"en":"ISO 13485 / ISO 9001 certified"},
 
   "hero_btn_quote": {"en":"Get a Quote"},
 
@@ -755,7 +755,7 @@ const I18N = {
 
   "about_val2_title": {"en":"Medical Compliance"},
 
-  "about_val2_desc": {"en":"Dual ISO 13485 / IATF 16949 system, full IQ/OQ/PQ validation"},
+  "about_val2_desc": {"en":"ISO 13485 / ISO 9001 system, full IQ/OQ/PQ validation"},
 
   "about_val3_title": {"en":"Rapid Response"},
 
@@ -1249,7 +1249,7 @@ const I18N = {
 
   "hnav_qual_browse": {"en":"Certifications"},
 
-  "hnav_qual_browse_items": {"en":"IATF 16949,ISO 13485,ISO 9001"},
+  "hnav_qual_browse_items": {"en":"ISO 13485,ISO 9001"},
 
   "hnav_qual_discover": {"en":"Environment & Validation"},
 
