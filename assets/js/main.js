@@ -302,56 +302,87 @@
   var MOLD_BADGE = {zh:'图', en:'photos', de:'Fotos', ru:'фото', fr:'photos', ja:'点', ko:'장', es:'fotos'};
   function moldCopyFor(key, lang){ var m = key ? moldCopy[key] : null; return m ? (m[lang] || m.en || null) : null; }
 
-  /* ═══════════ 2026-11-19 市场部：每个品类一块「图在上、文案在下」 ═══════════
-     产品页三个 Tab（Browse / Discover / Application Areas）共用。
-     版式约束（用户 2026-11-19 定）：
-       · 不出现左右箭头、不出现 01/04 序号、不出现右下角页码
-       · 多图自动轮播，悬停暂停；2 张以上才给圆点（可点）
+  /* ═══════════ 2026-11-19 v3：每个品类一块「图在上、文案在下」 ═══════════
+     产品页三个 Tab（Browse / Discover / Application Areas）与模具中心共用。
+     交互契约（用户逐条确认）：
+       · 常驻界面**没有**左右箭头、没有 01/04 序号、没有 1/3 页码
+       · 图片左右各一个**隐形热区**，hover 才淡入提示；点左一张上一张、点右一张下一张
+       · 自动切换 3 秒；悬停整块暂停，移开继续
+       · **每张图带自己的描述**（切图时描述/标签同步换），不是一组图共用一个泛描述
      ⚠️ 动态插入的元素不加 .reveal —— 否则永远停在 opacity:0（2026-10 踩过）。 */
   function buildFlow(host, blocks){
     if(!host) return;
+    var lang = (window.sessionStorage && sessionStorage.getItem('hondvo_lang')) || 'en';
+
+    /* 描述既可以是内嵌 {zh,en}，也可以是 i18n 键（8 语言齐，推荐）。
+       后台「翻译中心」新增键后随一键上线写进 i18n.js / 语言包。 */
+    function local(v){
+      if(v == null) return '';
+      if(typeof v === 'string'){
+        /* i18n.js 用 const 挂在全局词法作用域（不是 window 属性），必须直接引用 */
+        if(typeof I18N !== 'undefined' && I18N && I18N[v]) return String(I18N[v][lang] || I18N[v].en || I18N[v].zh || '');
+        return v;
+      }
+      return String(v[lang] || v.en || v.zh || '');
+    }
+    function srcOf(p){ return typeof p === 'string' ? p : String((p && p.src) || ''); }
+
     host.innerHTML = blocks.map(function(b){
       var photos = (b.photos && b.photos.length) ? b.photos : [];
       if(!photos.length) return '';
-      var slides = photos.map(function(src, i){
-        return '<div class="fb-slide'+(i===0?' on':'')+'"><img src="'+esc(src)+'" alt="'+esc(b.title)+' '+(i+1)+'" loading="lazy"></div>';
+      var slides = photos.map(function(p, i){
+        return '<div class="fb-slide'+(i===0?' on':'')+'"><img src="'+esc(srcOf(p))+'" alt="'+esc(b.title)+' '+(i+1)+'"></div>';
       }).join('');
+      var zones = photos.length > 1
+        ? '<button type="button" class="fb-zone prev" aria-label="上一张"></button>'
+          + '<button type="button" class="fb-zone next" aria-label="下一张"></button>'
+        : '';
       var dots = photos.length > 1
         ? '<div class="fb-dots">' + photos.map(function(_, i){
             return '<i data-i="'+i+'"'+(i===0?' class="on"':'')+'></i>';
           }).join('') + '</div>'
         : '';
-      var tags = (b.tags||[]).map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('');
+      var first = photos[0];
+      var tg = (first && first.tags) || b.tags || [];
       return '<div class="flow-block"'+(b.id?' id="'+esc(b.id)+'"':'')+'>'
-        + '<figure class="fb-figure"><div class="fb-stage">'+slides+'</div>'+dots+'</figure>'
+        + '<figure class="fb-figure"><div class="fb-stage">'+slides+zones+'</div>'+dots+'</figure>'
         + '<div class="fb-body">'
         +   '<h3>'+esc(b.title)+'</h3>'
-        +   (b.desc?'<p>'+esc(b.desc)+'</p>':'')
-        +   (tags?'<div class="cap-tags">'+tags+'</div>':'')
+        +   '<p class="fb-desc">'+esc(local(first && first.desc) || b.desc || '')+'</p>'
+        +   '<div class="fb-tags">'+tg.map(function(t){ return '<span>'+esc(local(t))+'</span>'; }).join('')+'</div>'
         + '</div></div>';
     }).join('');
 
-    host.querySelectorAll('.flow-block').forEach(function(block){
+    host.querySelectorAll('.flow-block').forEach(function(block, bi){
       var slides = block.querySelectorAll('.fb-slide');
-      if(slides.length < 2) return;      // 单图不轮播、不出圆点
       var dots = block.querySelectorAll('.fb-dots i');
+      var descEl = block.querySelector('.fb-desc');
+      var tagsEl = block.querySelector('.fb-tags');
+      var photos = blocks[bi].photos || [];
       var i = 0, timer = null;
+
       function paint(){
         slides.forEach(function(el, idx){ el.classList.toggle('on', idx===i); });
         dots.forEach(function(el, idx){ el.classList.toggle('on', idx===i); });
+        var p = photos[i] || {};
+        var d = local(p.desc) || blocks[bi].desc || '';
+        if(descEl) descEl.textContent = d;
+        var tg = p.tags || blocks[bi].tags || [];
+        if(tagsEl) tagsEl.innerHTML = tg.map(function(t){ return '<span>'+esc(local(t))+'</span>'; }).join('');
       }
       function go(n){ i = (i+n+slides.length) % slides.length; paint(); }
-      function play(){ stop(); timer = setInterval(function(){ go(1); }, 5600); }
+      function play(){ stop(); timer = setInterval(function(){ go(1); }, 3000); }
       function stop(){ if(timer){ clearInterval(timer); timer = null; } }
 
+      var prev = block.querySelector('.fb-zone.prev'), next = block.querySelector('.fb-zone.next');
+      if(prev) prev.addEventListener('click', function(){ go(-1); play(); });
+      if(next) next.addEventListener('click', function(){ go(1); play(); });
       dots.forEach(function(d){ d.addEventListener('click', function(){ i = +d.dataset.i; paint(); play(); }); });
-      var fig = block.querySelector('.fb-figure');
-      if(fig){
-        fig.addEventListener('mouseenter', stop);
-        fig.addEventListener('mouseleave', play);
-      }
+
+      block.addEventListener('mouseenter', stop);
+      block.addEventListener('mouseleave', play);
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(!reduce) play();
+      if(slides.length > 1 && !reduce) play();
     });
   }
   /* renderProdAcc 在另一个 IIFE 里（产品页 tab 逻辑），跨作用域只能走全局 */
@@ -442,8 +473,8 @@
       var title = equipPick(equipCopy, key, lang) || c.zh;
       var total = c.items.reduce(function(s,d){ return s + (parseInt(d.q,10)||1); }, 0);
       /* 2026-11-19 市场部：抽屉内由「五列表格」改为「名称在上、图片在下」的卡片轨道。 */
-      var rows = c.items.map(function(d){
-        return '<article class="eq-card">'
+      var rows = c.items.map(function(d, di){
+        return '<article class="eq-card" role="button" tabindex="0" data-j="'+di+'" aria-label="查看 '+esc(d.n)+' 详情">'
           + '<div class="eq-nm">'+esc(d.n)+'</div>'
           + '<div class="eq-ph" data-ph="'+esc(U('photoPh'))+'">'
           +   '<img loading="lazy" src="images/equip/'+esc(d.id)+'.webp" alt="'+esc(d.n)+'" onerror="this.parentNode.classList.add(\'no-img\');this.remove()">'
@@ -456,12 +487,19 @@
       item.className = 'eq-item';
       item.setAttribute('data-acc-item', '1');
       item.id = 'qual-eq-' + key;   // 稳定锚点：资质实力页·加工与检测设备（导航下拉用）
+      item.dataset.eq = key;        // 详情弹层据此取 MOLD.equip.data[key]
       item.innerHTML = '<div class="eq-head" data-acc-head="1"><span class="eq-dot"></span><span class="t-zh">'+esc(title)+'</span><span class="eq-badge">'+total+' '+esc(U('unit'))+'</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-rail">'+rows+'</div></div>';
       eqAcc.appendChild(item);
       var rail = item.querySelector('.eq-rail');
       if(rail){
         rail.dataset.k = 'eq-' + key;
-        rail.addEventListener('mouseenter', function(){ eqRailStop('eq-' + key); });
+        /* ⚠️ 展开动画 0.38s 后才开始滚；这段宽限用来吃掉「点抽屉头时鼠标正好落在轨道上」
+           而误触发 mouseenter → 立刻暂停的假死现象。宽限内的 mouseenter 一律忽略。 */
+        rail.dataset.readyAt = '0';
+        rail.addEventListener('mouseenter', function(){
+          if(Date.now() - Number(rail.dataset.readyAt || 0) < 500) return;
+          eqRailStop('eq-' + key);
+        });
         rail.addEventListener('mouseleave', function(){ if(item.classList.contains('open')) eqRailStart(rail, 'eq-' + key); });
       }
     });
@@ -499,7 +537,7 @@
     var st = eqTickers[key] = { on: true, acc: 0 };
     (function tick(){
       if(!st.on) return;
-      st.acc += 1.2;
+      st.acc += 3.0;
       var step = Math.floor(st.acc);
       if(step){
         st.acc -= step;
@@ -518,17 +556,95 @@
       if(!rail) return;
       var key = rail.dataset.k || ('eq-' + idx);
       rail.dataset.k = key;
-      if(item.classList.contains('open')){ eqEnsureLoop(rail); eqRailStart(rail, key); }
+      if(item.classList.contains('open')){
+        window.setTimeout(function(){
+          if(!item.classList.contains('open')) return;
+          eqEnsureLoop(rail);
+          rail.dataset.readyAt = String(Date.now());
+          eqRailStart(rail, key);
+        }, 250);
+      }
       else eqRailStop(key);
     });
   }
+  /* ── 设备卡片详情弹层（2026-11-19 v3）：左图右文，点卡片打开 ── */
+  var eqDetail = document.createElement('div');
+  eqDetail.className = 'eq-detail';
+  eqDetail.setAttribute('aria-hidden', 'true');
+  eqDetail.innerHTML = '<div class="eqd-mask"></div>'
+    + '<div class="eqd-box" role="dialog" aria-modal="true" aria-labelledby="eqdTitle">'
+    + '<button type="button" class="eqd-close" aria-label="关闭设备详情">×</button>'
+    + '<div class="eqd-photo"><img alt=""><span class="eqd-ph">Equipment photo</span></div>'
+    + '<div class="eqd-info"><span class="eqd-kicker"></span><h3 id="eqdTitle"></h3>'
+    + '<dl class="eqd-facts"></dl><p class="eqd-desc"></p></div></div>';
+  document.body.appendChild(eqDetail);
+
+  function closeEqDetail(){
+    eqDetail.classList.remove('open');
+    eqDetail.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  function openEqDetail(gkey, di){
+    var gdata = MOLD.equip.data[gkey];
+    var d = gdata && gdata.items[di];
+    if(!d) return;
+    var lang = moldLang();
+    function T(map, k){ return equipPick(map, k, lang); }
+    var type = T(equipTerm, d.m) || '';
+    var origin = T(equipOrigin, d.o) || '';
+    var spec = d.p || '—';
+    var qty = parseInt(d.q, 10) || 1;
+    var intro = lang === 'zh'
+      ? d.n + ' 为' + (origin && origin !== '—' ? origin + '的' : '') + type + '，精度 ' + spec
+        + '，现场配置 ' + qty + ' 台。设备用于精密模具型腔加工与医疗注塑件量产，纳入 ISO 13485 体系内的保养与校准管理。'
+      : d.n + ' is a ' + type + (origin && origin !== '—' ? ' from ' + origin : '')
+        + ', accuracy ' + spec + ', ' + qty + (qty === 1 ? ' unit' : ' units')
+        + ' in service. It supports precision mold cavity machining'
+        + ' and volume medical molding under an ISO 13485 maintenance and calibration program.';
+
+    var img = eqDetail.querySelector('.eqd-photo img');
+    var ph = eqDetail.querySelector('.eqd-photo');
+    img.src = 'images/equip/' + esc(d.id) + '.webp';
+    img.alt = d.n;
+    img.style.display = '';
+    ph.classList.remove('no-img');
+    img.onerror = function(){ ph.classList.add('no-img'); img.style.display = 'none'; };
+    eqDetail.querySelector('.eqd-kicker').textContent = T(equipCopy, gkey) || gdata.zh || '';
+    eqDetail.querySelector('#eqdTitle').textContent = d.n;
+    eqDetail.querySelector('.eqd-facts').innerHTML =
+        '<div><dt>'+esc(T(equipUi,'headModel'))+'</dt><dd>'+esc(type)+'</dd></div>'
+      + '<div><dt>'+esc(T(equipUi,'headOrigin'))+'</dt><dd>'+esc(origin)+'</dd></div>'
+      + '<div><dt>'+esc(T(equipUi,'headSpec'))+'</dt><dd>'+esc(spec)+'</dd></div>'
+      + '<div><dt>'+esc(T(equipUi,'headQty'))+'</dt><dd>×'+qty+'</dd></div>';
+    eqDetail.querySelector('.eqd-desc').textContent = intro;
+    eqDetail.classList.add('open');
+    eqDetail.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    eqDetail.querySelector('.eqd-close').focus();
+  }
+
   if(eqAcc){
     eqAcc.addEventListener('click', function(e){
-      if(!e.target.closest || !e.target.closest('.eq-head')) return;
-      window.setTimeout(syncEqRails, 0);   // 等统一的 [data-acc-head] 委托切换完 .open
+      var head = e.target.closest && e.target.closest('.eq-head');
+      if(head){ window.setTimeout(syncEqRails, 0); return; }   // 等统一委托切完 .open
+      var card = e.target.closest && e.target.closest('.eq-card');
+      if(card){
+        var item = card.closest('.eq-item');
+        if(item) openEqDetail(item.dataset.eq, +card.dataset.j);
+      }
+    });
+    eqAcc.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      var card = e.target.closest && e.target.closest('.eq-card');
+      if(!card) return;
+      e.preventDefault();
+      var item = card.closest('.eq-item');
+      if(item) openEqDetail(item.dataset.eq, +card.dataset.j);
     });
   }
-  // 2026-11-19：原「点表格里的设备图开灯箱」已随表格一起移除。
+  eqDetail.querySelector('.eqd-close').addEventListener('click', closeEqDetail);
+  eqDetail.querySelector('.eqd-mask').addEventListener('click', closeEqDetail);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && eqDetail.classList.contains('open')) closeEqDetail(); });
 
   // 区块二：开发流程（8 语言）
   function renderMoldFlow(){
@@ -3105,6 +3221,13 @@ function bindLists(){
   document.querySelectorAll("ul[data-list]").forEach(ul=>{
     const k = ul.getAttribute("data-list");
     var items = d[k];
+    /* 资质下拉由证书产物驱动：后台加/删证书后自动同步，不再写死在 i18n 键里 */
+    if (k === "qual_browse_items" && window.HONDVO_CERTS && window.HONDVO_CERTS.length) {
+      var cl = (document.documentElement.getAttribute("lang") || "en").split("-")[0].toLowerCase();
+      items = window.HONDVO_CERTS.map(function (c) {
+        return (c.names && (c.names[cl] || c.names.en)) || c.slug;
+      });
+    }
     ul.innerHTML = "";
     /* ⚠️ i18n 里这些列表键的值是**逗号分隔的字符串**，不是数组
        （如 hnav_prod_browse_items: "输液与给药系统,体外诊断与采样（IVD）,呼吸系统,…"）。
@@ -3254,6 +3377,9 @@ function bindLists(){
         };
         {
           var override = ITEM_LINK[k] && ITEM_LINK[k][idx];
+          if (k === "qual_browse_items" && window.HONDVO_CERTS && window.HONDVO_CERTS[idx]) {
+            override = { page: "page-qualifications", id: "qual-cert-" + window.HONDVO_CERTS[idx].slug };
+          }
           if (override) {
             a.href = "#" + override.page;
             if (override.tab) a.setAttribute("data-scroll-tab", override.tab);
@@ -3270,6 +3396,8 @@ function bindLists(){
     }
   });
 }
+/* 证书产物异步到达后重绑一次导航（fetch 完成晚于首次 bindLists） */
+document.addEventListener('hondvo:certs', function(){ try { bindLists(); } catch (e) {} });
 
 /* 语言浮窗（纯文字单列）*/
 function bindLangPop(){
@@ -3468,23 +3596,54 @@ document.addEventListener("hondvo:lang", function () {
        语言切换时整块重建，确保产品与服务页与首页永不脱节。
        discover 暂保留旧结构（待单独决定），渲染函数对两种结构均兼容。 */
     browse: [
-      /* 按需求：浏览产品只呈现产品本身，不显示描述（行业描述统一收在「应用行业」Tab） */
+      /* 2026-11-19 v3：每张图带自己的描述/标签，轮播切换时文案同步换。
+         描述用内嵌 {zh,en}，其余 6 语言回落 en（图注不新开 i18n 键）。 */
       { img:"images/core_medical_1.webp", icon:"ID",
-        photos:["images/core_medical_1.webp","images/prod_enteral.webp","images/prod_injection.webp"],
         t:"prod1_title", d:"home_prod1_desc",
-        tags:["prod1_tag1","prod1_tag2","prod1_tag3","prod1_tag4"] },
+        tags:["prod1_tag1","prod1_tag2","prod1_tag3","prod1_tag4"],
+        photos:[
+          {src:"images/core_medical_1.webp",
+           desc:'slide_browse_0_0_desc',
+           tags:[{zh:'输液泵',en:'Infusion pumps'},{zh:'注射器',en:'Syringes'},{zh:'密封件',en:'Seals'}]},
+          {src:"images/prod_enteral.webp",
+           desc:'slide_browse_0_1_desc',
+           tags:[{zh:'肠内喂养',en:'Enteral feeding'},{zh:'洁净注塑',en:'Cleanroom molding'},{zh:'生物相容',en:'Biocompatible'}]},
+          {src:"images/prod_injection.webp",
+           desc:'slide_browse_0_2_desc',
+           tags:[{zh:'精密注塑',en:'Precision molding'},{zh:'尺寸稳定',en:'Dimensional stability'},{zh:'批次追溯',en:'Batch traceability'}]}]},
       { img:"images/core_medical_2.webp", icon:"IVD",
-        photos:["images/core_medical_2.webp","images/ivd_mold_1.webp","images/core_mold_3.webp"],
         t:"prod2_title", d:"home_prod2_desc",
-        tags:["prod2_tag1","prod2_tag2","prod2_tag3","prod2_tag4"] },
+        tags:["prod2_tag1","prod2_tag2","prod2_tag3","prod2_tag4"],
+        photos:[
+          {src:"images/core_medical_2.webp",
+           desc:'slide_browse_1_0_desc',
+           tags:[{zh:'试管',en:'Test tubes'},{zh:'标本杯',en:'Specimen cups'},{zh:'微孔板',en:'Microplates'}]},
+          {src:"images/ivd_mold_1.webp",
+           desc:'slide_browse_1_1_desc',
+           tags:[{zh:'微流控',en:'Microfluidics'},{zh:'试剂盒',en:'Reagent kits'},{zh:'高精度型腔',en:'Precision cavities'}]},
+          {src:"images/core_mold_3.webp",
+           desc:'slide_browse_1_2_desc',
+           tags:[{zh:'微米公差',en:'Micron tolerance'},{zh:'长寿命模具',en:'Long-life tooling'}]}]},
       { img:"images/prod_custom.webp", icon:"RS",
-        photos:["images/prod_custom.webp","images/prod_injection.webp"],
         t:"home_prod4_title", d:"home_prod4_desc",
-        tags:["prod4_tag1","prod4_tag2","prod4_tag3","prod4_tag4"] },
+        tags:["prod4_tag1","prod4_tag2","prod4_tag3","prod4_tag4"],
+        photos:[
+          {src:"images/prod_custom.webp",
+           desc:'slide_browse_2_0_desc',
+           tags:[{zh:'呼吸机外壳',en:'Ventilator housings'},{zh:'雾化器',en:'Nebulizers'},{zh:'面罩',en:'Masks'}]},
+          {src:"images/prod_injection.webp",
+           desc:'slide_browse_2_1_desc',
+           tags:[{zh:'阀体',en:'Valve bodies'},{zh:'接头',en:'Connectors'},{zh:'低泄漏',en:'Low leakage'}]}]},
       { img:"images/workshop_1.webp", icon:"PK",
-        photos:["images/workshop_1.webp","images/workshop_2.webp"],
         t:"home_prod5_title", d:"home_prod5_desc",
-        tags:["prod5_tag1","prod5_tag2","prod5_tag3","prod5_tag4"] }
+        tags:["prod5_tag1","prod5_tag2","prod5_tag3","prod5_tag4"],
+        photos:[
+          {src:"images/workshop_1.webp",
+           desc:'slide_browse_3_0_desc',
+           tags:[{zh:'食品级',en:'Food grade'},{zh:'医疗级',en:'Medical grade'},{zh:'直接接触',en:'Direct contact'}]},
+          {src:"images/workshop_2.webp",
+           desc:'slide_browse_3_1_desc',
+           tags:[{zh:'母婴护理',en:'Baby & maternal'},{zh:'柔和触感',en:'Soft touch'},{zh:'耐用',en:'Durable'}]}]}
     ],
     /* ⚠️ 本段仍是「旧结构」（技术债：本该像 browse/industries 那样用 i18n 键）。
        2026-10-14 用户实测：切中文后这里**整块是英文** —— 因为 zh/en 两个字段写的都是英文，
@@ -3504,7 +3663,11 @@ document.addEventListener("hondvo:lang", function () {
             { k:"Process", v:"High-speed multi-cavity molds · Fully automated line" }
           ]
         },
-        items:["Blood collection tubes","Infusion components","Sampling consumables"] },
+        items:["Blood collection tubes","Infusion components","Sampling consumables"],
+        photos:[
+          {src:"images/prod_enteral.webp",desc:'slide_discover_0_0_desc'},
+          {src:"images/core_medical_1.webp",desc:'slide_discover_0_1_desc'},
+          {src:"images/prod_injection.webp",desc:'slide_discover_0_2_desc'}] },
       { img:"images/prod_custom.webp", icon:"IVD", zh:"IVD 试剂盒方案", en:"IVD Kit Solutions",
         pos:{ zh:"微流控结构、试剂腔与卡盒外壳的高精密注塑——尺寸精准、外观优异。",
               en:"High-precision molding of microfluidic structures, reagent chambers and cartridge housings — precise dimensions with excellent appearance." },
@@ -3518,7 +3681,11 @@ document.addEventListener("hondvo:lang", function () {
             { k:"Process", v:"Micro-features · Thin-wall precision molding · Optical-grade surface" }
           ]
         },
-        items:["Microfluidic chips","Kit housings","Sample-loading parts"] },
+        items:["Microfluidic chips","Kit housings","Sample-loading parts"],
+        photos:[
+          {src:"images/prod_custom.webp",desc:'slide_discover_1_0_desc'},
+          {src:"images/core_medical_2.webp",desc:'slide_discover_1_1_desc'},
+          {src:"images/ivd_mold_2.webp",desc:'slide_discover_1_2_desc'}] },
       { img:"images/prod_injection.webp", icon:"MI", zh:"微创器械零件", en:"Minimally Invasive Instrument Parts",
         pos:{ zh:"微精密器械零件注塑，满足 Class II 器械结构要求，批次质量稳定。",
               en:"Molding of micro precision instrument parts, meeting Class II device structure requirements with consistent batch quality." },
@@ -3532,7 +3699,11 @@ document.addEventListener("hondvo:lang", function () {
             { k:"Process", v:"Micro precision parts · Class II compliance support" }
           ]
         },
-        items:["Trocar parts","Endoscopic accessories","Surgical handles"] }
+        items:["Trocar parts","Endoscopic accessories","Surgical handles"],
+        photos:[
+          {src:"images/prod_injection.webp",desc:'slide_discover_2_0_desc'},
+          {src:"images/prod_custom.webp",desc:'slide_discover_2_1_desc'},
+          {src:"images/interv_mold_3.webp",desc:'slide_discover_2_2_desc'}] }
     ],
     industries: [
       /* 描述采用「场景口径」（home_sec_N_scene）：讲清该领域的典型使用场景与关键要求，
@@ -3540,16 +3711,28 @@ document.addEventListener("hondvo:lang", function () {
          注：**不要**改回 home_prodN_desc —— 那是首页核心业务的产品口径描述，改它会连带首页一起变。 */
       { img:"images/core_medical_1.webp", icon:"ID",
         t:"home_sec_1_t", d:"home_sec_1_scene",
-        tags:["home_sec_1_l1","home_sec_1_l2","home_sec_1_l3","home_sec_1_l4"] },
+        tags:["home_sec_1_l1","home_sec_1_l2","home_sec_1_l3","home_sec_1_l4"],
+        photos:[
+          {src:"images/core_medical_1.webp",desc:'slide_industries_0_0_desc'},
+          {src:"images/prod_enteral.webp",desc:'slide_industries_0_1_desc'}] },
       { img:"images/core_medical_2.webp", icon:"IVD",
         t:"home_sec_2_t", d:"home_sec_2_scene",
-        tags:["home_sec_2_l1","home_sec_2_l2","home_sec_2_l3","home_sec_2_l4","home_sec_2_l5"] },
+        tags:["home_sec_2_l1","home_sec_2_l2","home_sec_2_l3","home_sec_2_l4","home_sec_2_l5"],
+        photos:[
+          {src:"images/core_medical_2.webp",desc:'slide_industries_1_0_desc'},
+          {src:"images/ivd_mold_2.webp",desc:'slide_industries_1_1_desc'}] },
       { img:"images/prod_custom.webp", icon:"RS",
         t:"home_sec_3_t", d:"home_sec_3_scene",
-        tags:["home_sec_3_l1","home_sec_3_l2","home_sec_3_l3","home_sec_3_l4","home_sec_3_l5","home_sec_3_l6"] },
+        tags:["home_sec_3_l1","home_sec_3_l2","home_sec_3_l3","home_sec_3_l4","home_sec_3_l5","home_sec_3_l6"],
+        photos:[
+          {src:"images/prod_custom.webp",desc:'slide_industries_2_0_desc'},
+          {src:"images/prod_injection.webp",desc:'slide_industries_2_1_desc'}] },
       { img:"images/workshop_1.webp", icon:"PK",
         t:"home_sec_4_t", d:"home_sec_4_scene",
-        tags:["home_sec_4_l1","home_sec_4_l2","home_sec_4_l3","home_sec_4_l4"] }
+        tags:["home_sec_4_l1","home_sec_4_l2","home_sec_4_l3","home_sec_4_l4"],
+        photos:[
+          {src:"images/workshop_1.webp",desc:'slide_industries_3_0_desc'},
+          {src:"images/workshop_2.webp",desc:'slide_industries_3_1_desc'}] }
     ]
   };
 
@@ -3615,8 +3798,10 @@ document.addEventListener("hondvo:lang", function () {
       /* 2026-11-19 市场部：三个 Tab 统一为「图在上、文案在下」。
          Browse 有 2–3 张图（轮播）；Discover / Application Areas 目前各 1 张（静态块，版面一致）。 */
       if (typeof window.HONDVO_buildFlow !== "function") return;   // 防御：主 IIFE 未就绪时下次还能重试
-      window.HONDVO_buildFlow(root, groups.map(function(g){
+      window.HONDVO_buildFlow(root, groups.map(function(g, gi){
         return {
+          /* 导航下拉靠 prod-<tab>-<i> 定位；版式改了但 id 契约不能断 */
+          id: 'prod-' + tab + '-' + gi,
           title: accTitle(g),
           desc: accDesc(g),
           tags: accTags(g),

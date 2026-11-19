@@ -45,6 +45,10 @@
         + '<div class="card-label">' + esc(name) + '</div>'
         + '</div>';
     }).join('');
+    /* 证书数据交给导航；main.js 的 bindLists 会据此重建「资质实力」下拉。
+       异步 fetch 完成晚于 bindLists 的首次渲染，所以派发事件让它再绑一次。 */
+    window.HONDVO_CERTS = items;
+    try { document.dispatchEvent(new CustomEvent('hondvo:certs')); } catch (e) {}
     /* 卡片数量变了 ⇒ 循环副本、是否显示箭头都要重算 */
     delete grid.dataset.loop;
     delete grid.dataset.loopCount;

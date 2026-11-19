@@ -726,3 +726,52 @@ html.launch-armed.launch-leave .hnav{
 @media (max-width: 700px) {
   .mcert-row > .mcert { flex: 1 1 100%; max-width: none; }
 }
+
+
+/* ═══════════ 2026-11-19 v3：图与文案拉开距离 + 隐形左右热区 ═══════════ */
+.fb-body { padding-top: 48px; }
+.fb-zone { position: absolute; top: 0; bottom: 0; width: 50%; border: 0; padding: 0; background: transparent; cursor: pointer; z-index: 2; }
+.fb-zone.prev { left: 0; }
+.fb-zone.next { right: 0; }
+.fb-zone::after { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; background: rgba(20,22,28,.55); color: #fff; font-size: 26px; line-height: 40px; text-align: center; opacity: 0; transition: opacity .2s ease; }
+.fb-zone.prev::after { left: 18px; content: '\2039'; }
+.fb-zone.next::after { right: 18px; content: '\203A'; }
+.fb-zone:hover::after, .fb-zone:focus-visible::after { opacity: 1; }
+.fb-zone:focus-visible { outline: 2px solid var(--brand, #D87830); outline-offset: -4px; }
+
+/* 设备卡可点击：hover 抬升 + 键盘焦点 */
+.eq-card { cursor: pointer; transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.eq-card:hover { border-color: var(--brand, #D87830); box-shadow: 0 10px 24px rgba(216,120,48,.12); transform: translateY(-2px); }
+.eq-card:focus-visible { outline: 2px solid var(--brand, #D87830); outline-offset: 2px; }
+
+/* 设备详情弹层：左图右文（WCAG：Esc 关闭、遮罩关闭、焦点入框） */
+.eq-detail { position: fixed; inset: 0; z-index: 1200; display: none; align-items: center; justify-content: center; padding: 24px; }
+.eq-detail.open { display: flex; }
+.eqd-mask { position: absolute; inset: 0; background: rgba(16,22,30,.62); backdrop-filter: blur(3px); }
+.eqd-box { position: relative; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); width: min(920px, 100%); max-height: 86vh; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 90px rgba(10,18,28,.35); }
+.eqd-close { position: absolute; right: 14px; top: 12px; z-index: 3; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(20,22,28,.55); color: #fff; font-size: 22px; line-height: 1; cursor: pointer; }
+.eqd-photo { position: relative; background: #F3F5F8; display: flex; align-items: center; justify-content: center; min-height: 420px; overflow: hidden; }
+.eqd-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.eqd-photo .eqd-ph { position: absolute; color: #9AA1A9; font-size: 12px; }
+.eqd-photo.no-img { background: repeating-linear-gradient(45deg, #F1F4F7, #F1F4F7 8px, #E9EEF3 8px, #E9EEF3 16px); }
+.eqd-info { padding: 42px 38px; overflow-y: auto; }
+.eqd-kicker { display: block; font-size: 11px; letter-spacing: .14em; color: var(--brand-strong, #A34B10); font-weight: 600; margin-bottom: 10px; }
+.eqd-info h3 { font-size: 26px; line-height: 1.25; margin: 0 0 22px; color: #1B2530; }
+.eqd-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; margin: 0 0 24px; }
+.eqd-facts div { border-top: 1px solid #E9EBEE; padding-top: 10px; }
+.eqd-facts dt { font-size: 11px; color: #8A9099; margin-bottom: 4px; }
+.eqd-facts dd { margin: 0; font-size: 14px; font-weight: 600; color: #1F2328; }
+.eqd-desc { font-size: 14px; line-height: 1.8; color: #5B6470; margin: 0; }
+@media (max-width: 760px) {
+  .fb-body { padding-top: 32px; }
+  .eqd-box { grid-template-columns: 1fr; }
+  .eqd-photo { min-height: 240px; }
+  .eqd-info { padding: 26px 22px; }
+}
+
+
+/* 2026-11-19 v4：副标题与首块图片拉开，避免视觉粘连 */
+.prod-tab-panel > .sec-header { margin-bottom: 36px !important; }
+@media (max-width: 900px) {
+  .prod-tab-panel > .sec-header { margin-bottom: 26px !important; }
+}
