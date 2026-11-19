@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "id": 1,
+      "id": 28,
       "slug": "iatf",
       "slot": "cert_iatf",
       "file": "cert_1_page1.webp",
@@ -56,8 +56,27 @@
         "ko": "ISO 9001 품질경영시스템",
         "es": "ISO 9001 Sistema de gestión de calidad"
       }
+    },
+    {
+      "id": 27,
+      "slug": "duns",
+      "slot": "cert_duns",
+      "file": "cert_duns.webp",
+      "issuer": "华夏邓白氏",
+      "issuedAt": "2026-07-01",
+      "expiresAt": "2027-07-31",
+      "names": {
+        "en": "D-U-N-S® Registered® Company",
+        "zh": "邓白氏注册® 认证企业",
+        "de": "D-U-N-S®-registriertes Unternehmen",
+        "ru": "Компания, зарегистрированная в D-U-N-S®",
+        "fr": "Société enregistrée D-U-N-S®",
+        "ja": "D-U-N-S® 登録企業",
+        "ko": "D-U-N-S® 등록 기업",
+        "es": "Empresa registrada en D-U-N-S®"
+      }
     }
   ],
-  "count": 3,
-  "generatedAt": "2026-11-07T06:29:29.052Z"
+  "count": 4,
+  "generatedAt": "2026-11-19T08:25:54.373Z"
 }
