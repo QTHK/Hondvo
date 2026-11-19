@@ -409,7 +409,7 @@ window.__I18N_PACK={lang:"fr",dict:{
   "ft_mold_quality":"Contrôle qualité",
   "ft_qual":"Qualifications",
   "ft_qual_13485":"ISO 13485",
-  "ft_qual_16949":"IATF 16949",
+  "ft_qual_16949":"D-U-N-S",
   "ft_qual_9001":"ISO 9001",
   "ft_qual_env":"Environnement de production",
   "ft_qual_iqoq":"Validation IQ/OQ/PQ",

@@ -409,7 +409,7 @@ window.__I18N_PACK={lang:"ko",dict:{
   "ft_mold_quality":"품질 관리",
   "ft_qual":"인증 및 역량",
   "ft_qual_13485":"ISO 13485",
-  "ft_qual_16949":"IATF 16949",
+  "ft_qual_16949":"D-U-N-S",
   "ft_qual_9001":"ISO 9001",
   "ft_qual_env":"생산 환경",
   "ft_qual_iqoq":"IQ/OQ/PQ 밸리데이션",

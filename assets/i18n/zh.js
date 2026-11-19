@@ -409,7 +409,7 @@ window.__I18N_PACK={lang:"zh",dict:{
   "ft_mold_quality":"品质管控",
   "ft_qual":"资质实力",
   "ft_qual_13485":"ISO 13485",
-  "ft_qual_16949":"IATF 16949",
+  "ft_qual_16949":"D-U-N-S",
   "ft_qual_9001":"ISO 9001",
   "ft_qual_env":"生产环境",
   "ft_qual_iqoq":"IQ/OQ/PQ 验证",
