@@ -301,39 +301,80 @@
   // 徽标单位随语言本地化
   var MOLD_BADGE = {zh:'图', en:'photos', de:'Fotos', ru:'фото', fr:'photos', ja:'点', ko:'장', es:'fotos'};
   function moldCopyFor(key, lang){ var m = key ? moldCopy[key] : null; return m ? (m[lang] || m.en || null) : null; }
+
+  /* ═══════════ 2026-11-19 市场部：每个品类一块「图在上、文案在下」 ═══════════
+     产品页三个 Tab（Browse / Discover / Application Areas）共用。
+     版式约束（用户 2026-11-19 定）：
+       · 不出现左右箭头、不出现 01/04 序号、不出现右下角页码
+       · 多图自动轮播，悬停暂停；2 张以上才给圆点（可点）
+     ⚠️ 动态插入的元素不加 .reveal —— 否则永远停在 opacity:0（2026-10 踩过）。 */
+  function buildFlow(host, blocks){
+    if(!host) return;
+    host.innerHTML = blocks.map(function(b){
+      var photos = (b.photos && b.photos.length) ? b.photos : [];
+      if(!photos.length) return '';
+      var slides = photos.map(function(src, i){
+        return '<div class="fb-slide'+(i===0?' on':'')+'"><img src="'+esc(src)+'" alt="'+esc(b.title)+' '+(i+1)+'" loading="lazy"></div>';
+      }).join('');
+      var dots = photos.length > 1
+        ? '<div class="fb-dots">' + photos.map(function(_, i){
+            return '<i data-i="'+i+'"'+(i===0?' class="on"':'')+'></i>';
+          }).join('') + '</div>'
+        : '';
+      var tags = (b.tags||[]).map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('');
+      return '<div class="flow-block"'+(b.id?' id="'+esc(b.id)+'"':'')+'>'
+        + '<figure class="fb-figure"><div class="fb-stage">'+slides+'</div>'+dots+'</figure>'
+        + '<div class="fb-body">'
+        +   '<h3>'+esc(b.title)+'</h3>'
+        +   (b.desc?'<p>'+esc(b.desc)+'</p>':'')
+        +   (tags?'<div class="cap-tags">'+tags+'</div>':'')
+        + '</div></div>';
+    }).join('');
+
+    host.querySelectorAll('.flow-block').forEach(function(block){
+      var slides = block.querySelectorAll('.fb-slide');
+      if(slides.length < 2) return;      // 单图不轮播、不出圆点
+      var dots = block.querySelectorAll('.fb-dots i');
+      var i = 0, timer = null;
+      function paint(){
+        slides.forEach(function(el, idx){ el.classList.toggle('on', idx===i); });
+        dots.forEach(function(el, idx){ el.classList.toggle('on', idx===i); });
+      }
+      function go(n){ i = (i+n+slides.length) % slides.length; paint(); }
+      function play(){ stop(); timer = setInterval(function(){ go(1); }, 5600); }
+      function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+
+      dots.forEach(function(d){ d.addEventListener('click', function(){ i = +d.dataset.i; paint(); play(); }); });
+      var fig = block.querySelector('.fb-figure');
+      if(fig){
+        fig.addEventListener('mouseenter', stop);
+        fig.addEventListener('mouseleave', play);
+      }
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(!reduce) play();
+    });
+  }
+  /* renderProdAcc 在另一个 IIFE 里（产品页 tab 逻辑），跨作用域只能走全局 */
+  window.HONDVO_buildFlow = buildFlow;
+
   function renderMoldCaps(){
     if(!capAcc) return;
     var lang=moldLang();
-    var IMG_RE=/\.(png|jpe?g|webp|gif|svg)(\?|#|$)/i; // 照片路径才输出 <img>；文案占位（如「介入模具实拍 1」）保持纯文本槽，避免 404
-    // 语言切换会整块重建：记录并还原展开态，避免切换语言后所有卡片被收起
-    var openEl=capAcc.querySelector('.cap-item.open');
-    var openIdx=openEl?Array.prototype.indexOf.call(capAcc.children, openEl):-1;
-    capAcc.innerHTML='';
-    MOLD.caps.forEach(function(c){
-      var item=document.createElement('div'); item.className='cap-item'; item.setAttribute('data-acc-item','1');
-      item.id='mold-cap-'+c.key;   // 稳定锚点：导航下拉子项据此跨页定位并自动展开
-      var copy=moldCopyFor(c.key, lang);
-      var title=copy?copy.title:c.zh, desc=copy?copy.desc:c.desc, tagsData=copy?copy.tags:c.tags;
-      var photos=c.photos.map(function(p,i){
-        var img=IMG_RE.test(p)?'<img src="'+esc(p)+'" alt="'+esc(title)+' '+(i+1)+'" loading="lazy">':'';
-        return '<div class="photo-slot" data-idx="'+i+'">'+img+'<span class="lbl">'+(img?'':esc(p))+'</span></div>';
-      }).join('');
-      var tags=tagsData.map(function(t){return '<span>'+esc(t)+'</span>';}).join('');
-      item.innerHTML='<div class="cap-head" data-acc-head="1"><div class="cap-ico">'+esc(c.icon||'')+'</div><div class="cap-t"><div class="t-zh">'+esc(title)+'</div></div><span class="cap-badge">'+c.photos.length+' '+(MOLD_BADGE[lang]||MOLD_BADGE.en)+'</span><span class="cap-chev">&#9656;</span></div>'+'<div class="cap-body"><p>'+esc(desc)+'</p><div class="cap-tags">'+tags+'</div><div class="cap-photos">'+photos+'</div></div>';
-      capAcc.appendChild(item);
+    var blocks = MOLD.caps.map(function(c){
+      var copy = moldCopyFor(c.key, lang);
+      return {
+        id: 'mold-cap-' + c.key,          // 保留导航下拉的稳定锚点
+        title: copy ? copy.title : c.zh,
+        desc: copy ? copy.desc : c.desc,
+        tags: copy ? copy.tags : c.tags,
+        photos: c.photos || []
+      };
     });
-    if(openIdx>-1 && capAcc.children[openIdx]) capAcc.children[openIdx].classList.add('open');
+    buildFlow(capAcc, blocks);
   }
   renderMoldCaps();
   document.addEventListener('hondvo:lang', renderMoldCaps);
-  capAcc.addEventListener('click', function(e){
-    var slot=e.target.closest('.photo-slot');
-    if(slot){
-      var item=slot.closest('.cap-item'), idx=+slot.dataset.idx, ci=Array.prototype.indexOf.call(capAcc.children,item);
-      var cp=moldCopyFor(MOLD.caps[ci].key, moldLang());
-      openMoldCarousel(MOLD.caps[ci].photos, idx, cp?cp.title:MOLD.caps[ci].zh);
-    }
-  });
+  // 2026-11-19：模具中心改为独立轮播，原「点缩略图开灯箱」的委托已无对应节点，移除。
 
   // 区块三：加工设备（互斥折叠 + 表格），徽标 = 数量求和（2026-09-04 迁移：模具中心 → 资质实力页）
   // 2026-10-05：完整 i18n 化 —— 分类标题 / 表头 / 机器类型 / 产地 / 单位 / 占位随语言切换；折叠头去「中英混排」
@@ -400,32 +441,94 @@
       var c = MOLD.equip.data[key];
       var title = equipPick(equipCopy, key, lang) || c.zh;
       var total = c.items.reduce(function(s,d){ return s + (parseInt(d.q,10)||1); }, 0);
+      /* 2026-11-19 市场部：抽屉内由「五列表格」改为「名称在上、图片在下」的卡片轨道。 */
       var rows = c.items.map(function(d){
-        return '<tr class="eq-row"><td><span class="eq-dev">'+esc(d.n)+'</span><div class="eq-model">'+esc(T(equipTerm,d.m)||'')+'</div></td>'
-          + '<td>'+esc(T(equipOrigin,d.o)||'')+'</td>'
-          + '<td>'+esc(d.p||'')+'</td>'
-          + '<td class="eq-qty">×'+(parseInt(d.q,10)||1)+'</td>'
-          + '<td><div class="eq-img" data-cap="'+esc(d.n)+' '+esc(U('photoPh'))+'" data-ph="'+esc(U('photoPh'))+'">'
-          + '<img loading="lazy" src="images/equip/'+esc(d.id)+'.webp" alt="'+esc(d.n)+'" onerror="this.parentNode.classList.add(\'no-img\');this.remove()">'
-          + '</div></td></tr>';
+        return '<article class="eq-card">'
+          + '<div class="eq-nm">'+esc(d.n)+'</div>'
+          + '<div class="eq-ph" data-ph="'+esc(U('photoPh'))+'">'
+          +   '<img loading="lazy" src="images/equip/'+esc(d.id)+'.webp" alt="'+esc(d.n)+'" onerror="this.parentNode.classList.add(\'no-img\');this.remove()">'
+          + '</div>'
+          + '<div class="eq-meta"><span>'+esc(T(equipTerm,d.m)||'')+'</span><span>'+esc(d.p||'')+'</span></div>'
+          + '<div class="eq-org">'+esc(T(equipOrigin,d.o)||'')+'</div>'
+          + '</article>';
       }).join('');
       var item = document.createElement('div');
       item.className = 'eq-item';
       item.setAttribute('data-acc-item', '1');
       item.id = 'qual-eq-' + key;   // 稳定锚点：资质实力页·加工与检测设备（导航下拉用）
-      item.innerHTML = '<div class="eq-head" data-acc-head="1"><span class="eq-dot"></span><span class="t-zh">'+esc(title)+'</span><span class="eq-badge">'+total+' '+esc(U('unit'))+'</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-scroll"><table class="eq-table"><thead><tr><th>'+esc(U('headModel'))+'</th><th>'+esc(U('headOrigin'))+'</th><th>'+esc(U('headSpec'))+'</th><th>'+esc(U('headQty'))+'</th><th>'+esc(U('headPhoto'))+'</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+      item.innerHTML = '<div class="eq-head" data-acc-head="1"><span class="eq-dot"></span><span class="t-zh">'+esc(title)+'</span><span class="eq-badge">'+total+' '+esc(U('unit'))+'</span><span class="eq-chev">&#9656;</span></div><div class="eq-body"><div class="eq-rail">'+rows+'</div></div>';
       eqAcc.appendChild(item);
+      var rail = item.querySelector('.eq-rail');
+      if(rail){
+        rail.dataset.k = 'eq-' + key;
+        rail.addEventListener('mouseenter', function(){ eqRailStop('eq-' + key); });
+        rail.addEventListener('mouseleave', function(){ if(item.classList.contains('open')) eqRailStart(rail, 'eq-' + key); });
+      }
     });
     if(openIdx>-1 && eqAcc.children[openIdx]) eqAcc.children[openIdx].classList.add('open');
+    window.setTimeout(syncEqRails, 0);
   }
   renderEquipment();
   document.addEventListener('hondvo:lang', renderEquipment);
-  // 设备区块的互斥折叠已交由统一的 [data-acc-head] 委托处理（P1-13）
-  // 设备实拍图：点击走轮播 Lightbox（单图占位）
-  document.addEventListener('click', function(e){
-    var t = e.target.closest('.eq-img');
-    if (t){ e.stopPropagation(); openMoldCarousel([t.dataset.cap || 'Equipment photo'], 0, t.dataset.cap || 'Equipment photo'); }
-  });
+
+  /* 抽屉展开后才滚动；切换/收起立即停 —— 同一时刻最多一条轨道在动（44 张卡不一起跑）。
+     2026-11-19：改为无缝循环 —— 克隆一份卡片接在后面，越过一份宽度就折回，
+     视觉上永远不「到头停一下再跳回」。 */
+  var eqTickers = {};
+
+  function eqEnsureLoop(rail){
+    if(rail.dataset.loop) return;
+    var n = rail.children.length;
+    if(!n) return;
+    var first = rail.children[0], last = rail.children[n-1];
+    var contentW = (last.offsetLeft + last.offsetWidth) - first.offsetLeft;
+    if(contentW <= rail.clientWidth + 4){ rail.dataset.loop = 'full'; return; }  // 放得下就没得滚
+    rail.dataset.n = String(n);
+    rail.insertAdjacentHTML('beforeend',
+      rail.innerHTML.replace(/<article class="eq-card">/g, '<article class="eq-card" aria-hidden="true">'));
+    rail.dataset.loop = '1';
+  }
+  function eqCycle(rail){
+    var n = +rail.dataset.n || 0;
+    if(!n || rail.children.length <= n) return 0;
+    return rail.children[n].offsetLeft - rail.children[0].offsetLeft;
+  }
+
+  function eqRailStart(rail, key){
+    if(eqTickers[key] && eqTickers[key].on) return;
+    var st = eqTickers[key] = { on: true, acc: 0 };
+    (function tick(){
+      if(!st.on) return;
+      st.acc += 1.2;
+      var step = Math.floor(st.acc);
+      if(step){
+        st.acc -= step;
+        rail.scrollLeft += step;
+        var cyc = eqCycle(rail);
+        if(cyc > 0 && rail.scrollLeft >= cyc) rail.scrollLeft -= cyc;   // 两段内容相同，折回无接缝
+      }
+      requestAnimationFrame(tick);
+    })();
+  }
+  function eqRailStop(key){ if(eqTickers[key]) eqTickers[key].on = false; }
+  function syncEqRails(){
+    if(!eqAcc) return;
+    Array.prototype.forEach.call(eqAcc.children, function(item, idx){
+      var rail = item.querySelector('.eq-rail');
+      if(!rail) return;
+      var key = rail.dataset.k || ('eq-' + idx);
+      rail.dataset.k = key;
+      if(item.classList.contains('open')){ eqEnsureLoop(rail); eqRailStart(rail, key); }
+      else eqRailStop(key);
+    });
+  }
+  if(eqAcc){
+    eqAcc.addEventListener('click', function(e){
+      if(!e.target.closest || !e.target.closest('.eq-head')) return;
+      window.setTimeout(syncEqRails, 0);   // 等统一的 [data-acc-head] 委托切换完 .open
+    });
+  }
+  // 2026-11-19：原「点表格里的设备图开灯箱」已随表格一起移除。
 
   // 区块二：开发流程（8 语言）
   function renderMoldFlow(){
@@ -3367,16 +3470,20 @@ document.addEventListener("hondvo:lang", function () {
     browse: [
       /* 按需求：浏览产品只呈现产品本身，不显示描述（行业描述统一收在「应用行业」Tab） */
       { img:"images/core_medical_1.webp", icon:"ID",
-        t:"prod1_title",
+        photos:["images/core_medical_1.webp","images/prod_enteral.webp","images/prod_injection.webp"],
+        t:"prod1_title", d:"home_prod1_desc",
         tags:["prod1_tag1","prod1_tag2","prod1_tag3","prod1_tag4"] },
       { img:"images/core_medical_2.webp", icon:"IVD",
-        t:"prod2_title",
+        photos:["images/core_medical_2.webp","images/ivd_mold_1.webp","images/core_mold_3.webp"],
+        t:"prod2_title", d:"home_prod2_desc",
         tags:["prod2_tag1","prod2_tag2","prod2_tag3","prod2_tag4"] },
       { img:"images/prod_custom.webp", icon:"RS",
-        t:"home_prod4_title",
+        photos:["images/prod_custom.webp","images/prod_injection.webp"],
+        t:"home_prod4_title", d:"home_prod4_desc",
         tags:["prod4_tag1","prod4_tag2","prod4_tag3","prod4_tag4"] },
       { img:"images/workshop_1.webp", icon:"PK",
-        t:"home_prod5_title",
+        photos:["images/workshop_1.webp","images/workshop_2.webp"],
+        t:"home_prod5_title", d:"home_prod5_desc",
         tags:["prod5_tag1","prod5_tag2","prod5_tag3","prod5_tag4"] }
     ],
     /* ⚠️ 本段仍是「旧结构」（技术债：本该像 browse/industries 那样用 i18n 键）。
@@ -3503,26 +3610,20 @@ document.addEventListener("hondvo:lang", function () {
       var root = document.getElementById(ACC_MAP[tab]);
       if (!root) return;
       if (root.dataset.accBuilt && !force) return;
-      root.dataset.accBuilt = "1";
       var groups = PROD_ACC[tab] || [];
-      root.innerHTML = groups.map(function(g, gi){
-        var title = accTitle(g);
-        var desc = accDesc(g);
-        var pos = desc ? '<div class="t-sub">' + escProd(desc) + '</div>' : "";
-        var tags = accTags(g).map(function(t){ return "<span>" + escProd(t) + "</span>"; }).join("");
-        var photos = [1, 2].map(function(i){
-          return '<div class="photo-slot" data-cap="' + escProd(title) + ' Photo ' + i + '"><span class="lbl">' + escProd(title) + ' Photo ' + i + '</span></div>';
-        }).join("");
-        return '<div class="prod-item" id="prod-' + tab + '-' + gi + '" data-acc-item="1">'
-          + '<div class="prod-head" data-acc-head="1"><div class="prod-ico">' + escProd(g.icon || "") + '</div>'
-          + '<div class="prod-t"><div class="t-zh">' + escProd(title) + '</div>'
-          + pos + '</div>'
-          + '<span class="prod-chev">&#9656;</span></div>'
-          + '<div class="cap-body">' + (tags ? '<div class="cap-tags">' + tags + '</div>' : "")
-          + '<div class="cap-photos">' + photos + '</div></div>'
-          + '</div>';
-      }).join("");
-      // 折叠已交由统一的 [data-acc-head] 委托处理（P1-13）
+
+      /* 2026-11-19 市场部：三个 Tab 统一为「图在上、文案在下」。
+         Browse 有 2–3 张图（轮播）；Discover / Application Areas 目前各 1 张（静态块，版面一致）。 */
+      if (typeof window.HONDVO_buildFlow !== "function") return;   // 防御：主 IIFE 未就绪时下次还能重试
+      window.HONDVO_buildFlow(root, groups.map(function(g){
+        return {
+          title: accTitle(g),
+          desc: accDesc(g),
+          tags: accTags(g),
+          photos: (g.photos && g.photos.length) ? g.photos : (g.img ? [g.img] : [])
+        };
+      }));
+      root.dataset.accBuilt = "1";
     });
   }
 

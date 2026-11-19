@@ -3158,3 +3158,12 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   .cert-nav { transition: none; }
 }
 
+
+
+/* ═══════════ 2026-11-19 市场部：产品页 hero 撤六张能力卡 → 单列压缩 ═══════════ */
+.prod-hero { padding: 40px clamp(24px, 5vw, 80px) 38px; }
+.prod-hero-grid { display: block; }
+.prod-hero-copy { max-width: 760px; }
+@media (max-width: 900px) {
+  .prod-hero { padding: 30px 20px 28px; }
+}

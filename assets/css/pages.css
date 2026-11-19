@@ -674,3 +674,55 @@ html.launch-armed.launch-leave .hnav{
 @media (max-width: 768px){ .partners-map { padding: 0 20px; } }
 
 
+
+
+/* ═══════════ 2026-11-19 市场部：图在上、文案在下（三 Tab + 模具） ═══════════
+   约束（用户 2026-11-19 定）：不出现左右箭头、不出现 01/04 序号、不出现右下角页码。
+   多图才出圆点（可点），单图静态。
+   ⚠️ 动态注入不加 .reveal —— 会永远停在 opacity:0。 */
+.flow-block { max-width: 940px; margin: 0 auto 84px; }
+.flow-block:last-child { margin-bottom: 0; }
+
+.fb-figure { margin: 0; }
+.fb-stage { position: relative; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: #F1F4F8; box-shadow: 0 30px 70px -38px rgba(20, 32, 48, .45); }
+.fb-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .7s ease; }
+.fb-slide.on { opacity: 1; }
+.fb-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.fb-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+.fb-dots i { width: 5px; height: 5px; border-radius: 999px; background: #D3D8DF; cursor: pointer; transition: width .25s ease, background .25s ease; }
+.fb-dots i.on { width: 22px; background: var(--brand, #D87830); }
+
+.fb-body { padding-top: 30px; }
+.fb-body h3 { font-size: clamp(22px, 2.3vw, 28px); line-height: 1.3; letter-spacing: -.015em; font-weight: 700; color: #1B2530; margin: 0 0 14px; }
+.fb-body > p { font-size: 15.5px; line-height: 1.85; color: #5B6470; max-width: 780px; margin: 0 0 20px; }
+.fb-body .cap-tags { margin: 0; }
+
+@media (max-width: 900px) {
+  .flow-block { margin-bottom: 56px; }
+  .fb-stage { aspect-ratio: 4 / 3; border-radius: 14px; }
+  .fb-body { padding-top: 22px; }
+  .fb-body h3 { font-size: 20px; }
+  .fb-body > p { font-size: 14px; line-height: 1.8; }
+}
+
+/* 设备抽屉内：卡片轨道（名称在上、图片在下、类型/精度/产地） */
+.eq-rail { display: flex; gap: 12px; overflow-x: auto; padding: 2px 2px 14px; scroll-snap-type: x proximity; touch-action: pan-x; scrollbar-width: none; -ms-overflow-style: none; }
+.eq-rail::-webkit-scrollbar { display: none; }
+.eq-card { flex: 0 0 190px; scroll-snap-align: start; border: 1px solid var(--neutral-200, #eef0f3); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 9px; background: #fff; }
+.eq-card .eq-nm { font-size: 13px; font-weight: 700; line-height: 1.3; min-height: 34px; }
+.eq-card .eq-ph { aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: #F1F4F7; position: relative; }
+.eq-card .eq-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.eq-card .eq-ph.no-img::after { content: attr(data-ph); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #9AA1A9; font-size: 11px; text-align: center; padding: 8px; background: repeating-linear-gradient(45deg, #F1F4F7, #F1F4F7 8px, #E9EEF3 8px, #E9EEF3 16px); }
+.eq-card .eq-meta { font-size: 10.5px; color: var(--muted, #7a828c); display: flex; justify-content: space-between; gap: 6px; }
+.eq-card .eq-org { font-size: 10px; color: #A6ACB5; }
+/* 轨道比表格矮得多：展开高度收窄，过渡不再拖沓 */
+.eq-item.open .eq-body { max-height: 420px; }
+@media (max-width: 900px) { .eq-card { flex: 0 0 165px; } }
+
+/* ═══════════ 2026-11-19：IATF 徽章删除后只剩 2 个，3 列网格会空一格 → 改居中弹性 ═══════════ */
+.mcert-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+.mcert-row > .mcert { flex: 1 1 300px; max-width: 380px; }
+@media (max-width: 700px) {
+  .mcert-row > .mcert { flex: 1 1 100%; max-width: none; }
+}
