@@ -325,6 +325,23 @@
       }
       return String(v[lang] || v.en || v.zh || '');
     }
+    /* 标签取值：历史数据是内嵌 [{zh,en},…]（只有 2 语言，6 个语言站显示英文），
+       2026-11-20 起改成 i18n 键（值形如 "Infusion pumps,Syringes,Seals"）。
+       两种都兼容 —— 否则旧数据会渲染成 [object Object]。 */
+    function tagList(v){
+      if(v == null || v === '') return [];
+      if(typeof v === 'string'){
+        var s = local(v);
+        return s ? String(s).split(',').map(function(x){ return x.trim(); }).filter(Boolean) : [];
+      }
+      if(Object.prototype.toString.call(v) === '[object Array]'){
+        return v.map(function(t){ return local(t); }).filter(Boolean);
+      }
+      return [];
+    }
+    function tagHtml(v){
+      return tagList(v).map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('');
+    }
     function srcOf(p){ return typeof p === 'string' ? p : String((p && p.src) || ''); }
 
     host.innerHTML = blocks.map(function(b){
@@ -343,13 +360,13 @@
           }).join('') + '</div>'
         : '';
       var first = photos[0];
-      var tg = (first && first.tags) || b.tags || [];
+      var tgv = (first && first.tags) || b.tags;
       return '<div class="flow-block"'+(b.id?' id="'+esc(b.id)+'"':'')+'>'
         + '<figure class="fb-figure"><div class="fb-stage">'+slides+zones+'</div>'+dots+'</figure>'
         + '<div class="fb-body">'
         +   '<h3>'+esc(b.title)+'</h3>'
         +   '<p class="fb-desc">'+esc(local(first && first.desc) || b.desc || '')+'</p>'
-        +   '<div class="fb-tags">'+tg.map(function(t){ return '<span>'+esc(local(t))+'</span>'; }).join('')+'</div>'
+        +   '<div class="fb-tags">'+tagHtml(tgv)+'</div>'
         + '</div></div>';
     }).join('');
 
@@ -367,8 +384,8 @@
         var p = photos[i] || {};
         var d = local(p.desc) || blocks[bi].desc || '';
         if(descEl) descEl.textContent = d;
-        var tg = p.tags || blocks[bi].tags || [];
-        if(tagsEl) tagsEl.innerHTML = tg.map(function(t){ return '<span>'+esc(local(t))+'</span>'; }).join('');
+        var tgv2 = p.tags || blocks[bi].tags;
+        if(tagsEl) tagsEl.innerHTML = tagHtml(tgv2);
       }
       function go(n){ i = (i+n+slides.length) % slides.length; paint(); }
       function play(){ stop(); timer = setInterval(function(){ go(1); }, 3000); }
@@ -3618,46 +3635,46 @@ document.addEventListener("hondvo:lang", function () {
         photos:[
           {src:"images/core_medical_1.webp",
            desc:'slide_browse_0_0_desc',
-           tags:[{zh:'输液泵',en:'Infusion pumps'},{zh:'注射器',en:'Syringes'},{zh:'密封件',en:'Seals'}]},
+           tags:'slide_browse_0_0_tags'},
           {src:"images/prod_enteral.webp",
            desc:'slide_browse_0_1_desc',
-           tags:[{zh:'肠内喂养',en:'Enteral feeding'},{zh:'洁净注塑',en:'Cleanroom molding'},{zh:'生物相容',en:'Biocompatible'}]},
+           tags:'slide_browse_0_1_tags'},
           {src:"images/prod_injection.webp",
            desc:'slide_browse_0_2_desc',
-           tags:[{zh:'精密注塑',en:'Precision molding'},{zh:'尺寸稳定',en:'Dimensional stability'},{zh:'批次追溯',en:'Batch traceability'}]}]},
+           tags:'slide_browse_0_2_tags'}]},
       { img:"images/core_medical_2.webp", icon:"IVD",
         t:"prod2_title", d:"home_prod2_desc",
         tags:["prod2_tag1","prod2_tag2","prod2_tag3","prod2_tag4"],
         photos:[
           {src:"images/core_medical_2.webp",
            desc:'slide_browse_1_0_desc',
-           tags:[{zh:'试管',en:'Test tubes'},{zh:'标本杯',en:'Specimen cups'},{zh:'微孔板',en:'Microplates'}]},
+           tags:'slide_browse_1_0_tags'},
           {src:"images/ivd_mold_1.webp",
            desc:'slide_browse_1_1_desc',
-           tags:[{zh:'微流控',en:'Microfluidics'},{zh:'试剂盒',en:'Reagent kits'},{zh:'高精度型腔',en:'Precision cavities'}]},
+           tags:'slide_browse_1_1_tags'},
           {src:"images/core_mold_3.webp",
            desc:'slide_browse_1_2_desc',
-           tags:[{zh:'微米公差',en:'Micron tolerance'},{zh:'长寿命模具',en:'Long-life tooling'}]}]},
+           tags:'slide_browse_1_2_tags'}]},
       { img:"images/prod_custom.webp", icon:"RS",
         t:"home_prod4_title", d:"home_prod4_desc",
         tags:["prod4_tag1","prod4_tag2","prod4_tag3","prod4_tag4"],
         photos:[
           {src:"images/prod_custom.webp",
            desc:'slide_browse_2_0_desc',
-           tags:[{zh:'呼吸机外壳',en:'Ventilator housings'},{zh:'雾化器',en:'Nebulizers'},{zh:'面罩',en:'Masks'}]},
+           tags:'slide_browse_2_0_tags'},
           {src:"images/prod_injection.webp",
            desc:'slide_browse_2_1_desc',
-           tags:[{zh:'阀体',en:'Valve bodies'},{zh:'接头',en:'Connectors'},{zh:'低泄漏',en:'Low leakage'}]}]},
+           tags:'slide_browse_2_1_tags'}]},
       { img:"images/workshop_1.webp", icon:"PK",
         t:"home_prod5_title", d:"home_prod5_desc",
         tags:["prod5_tag1","prod5_tag2","prod5_tag3","prod5_tag4"],
         photos:[
           {src:"images/workshop_1.webp",
            desc:'slide_browse_3_0_desc',
-           tags:[{zh:'食品级',en:'Food grade'},{zh:'医疗级',en:'Medical grade'},{zh:'直接接触',en:'Direct contact'}]},
+           tags:'slide_browse_3_0_tags'},
           {src:"images/workshop_2.webp",
            desc:'slide_browse_3_1_desc',
-           tags:[{zh:'母婴护理',en:'Baby & maternal'},{zh:'柔和触感',en:'Soft touch'},{zh:'耐用',en:'Durable'}]}]}
+           tags:'slide_browse_3_1_tags'}]}
     ],
     /* ⚠️ 本段仍是「旧结构」（技术债：本该像 browse/industries 那样用 i18n 键）。
        2026-10-14 用户实测：切中文后这里**整块是英文** —— 因为 zh/en 两个字段写的都是英文，
