@@ -82,38 +82,109 @@
     return e;
   }
 
-  /* ── 新闻：#page-news .news-list ──（结构沿用静态卡片，才能吃到同一套 CSS） */
+  /* ── 新闻中心：#page-news .news-stage ──（2026-11-20 重做，参照威高新闻中心）
+     首条做头条（左大图 + 右信息区），其余做卡片网格（缩略图 + 日期 + 标题）。
+     ⚠️ 整卡是 <a>：旧版只有标题文字是链接，点卡片空白处毫无反应，
+        被反馈成「有的点不动」——点击热区必须覆盖整块。
+     没有动态内容时不动 .news-list 静态兜底（渐进增强）。 */
+  /* 封面兜底：后台没填 meta.cover 时按顺序取这些**实拍场景图**。
+     ⚠️ 绝不能拿证书图兜底 —— 曾把 cert_1_page1（其实是 IATF 证书）
+        兜给了 ISO 13485 那条新闻，图文对不上，且 IATF 已被整体下线。 */
+  var NEWS_COVER_FALLBACK = [
+    'images/workshop_1.webp',
+    'images/workshop_2.webp',
+    'images/core_mold_3.webp',
+    'images/core_medical_1.webp'
+  ];
+
+  /** 封面：优先后台 meta.cover；没填就按顺序取预置素材，保证卡片不出现空图位 */
+  function newsCover(it, idx) {
+    var c = (it.meta && it.meta.cover) || '';
+    if (c) return /^(https?:)?\/\//.test(c) || c.charAt(0) === '/' ? c : '/' + c.replace(/^\.?\//, '');
+    return NEWS_COVER_FALLBACK[idx % NEWS_COVER_FALLBACK.length];
+  }
+
+  function newsDate(it) {
+    var d = (it.meta && it.meta.date) || String(it.publishedAt || '').slice(0, 10) || '';
+    return d ? d.replace(/-/g, '.') : '';
+  }
+
+  function newsSummary(it) {
+    return field(it, 'summary') || cut(plain(field(it, 'body')), 180);
+  }
+
+  function newsHref(it) {
+    return '/news/' + encodeURIComponent(it.slug || '') + '/';
+  }
+
   function renderNews() {
-    var box = document.querySelector('#page-news .news-list');
-    if (!box) return false;
+    var stage = document.querySelector('#page-news .news-stage');
+    if (!stage) return false;
     var items = (data.items || []).filter(function (i) { return i.type === 'news'; });
     if (!items.length) return false;              /* 没有动态内容 ⇒ 保留静态卡片 */
 
     var frag = document.createDocumentFragment();
-    items.forEach(function (it) {
-      var item = el('div', 'news-item');
-      item.tabIndex = 0;
 
-      var meta = el('div', 'meta');
-      var date = (it.meta && it.meta.date) || String(it.publishedAt || '').slice(0, 10) || '';
-      if (date) meta.appendChild(el('span', 'date', date));
+    /* ── 头条 ── */
+    var top = items[0];
+    var feat = el('a', 'news-feature');
+    feat.href = newsHref(top);
+    var nfImg = el('div', 'nf-img');
+    var im = document.createElement('img');
+    im.src = newsCover(top, 0);
+    im.alt = field(top, 'title');
+    im.loading = 'eager';
+    nfImg.appendChild(im);
 
-      var wrap = document.createElement('div');
-      var h4 = el('h4');
-      var a = el('a', null, field(it, 'title'));
-      a.href = '/news/' + encodeURIComponent(it.slug || '') + '/';
-      h4.appendChild(a);
-      wrap.appendChild(h4);
-      /* 摘要优先；没填摘要就从正文正文里取一段，别让卡片只剩标题 */
-      var sum = field(it, 'summary') || cut(plain(field(it, 'body')), 180);
-      if (sum) wrap.appendChild(el('p', null, sum));
+    var nfInfo = el('div', 'nf-info');
+    var d0 = newsDate(top);
+    if (d0) {
+      var t0 = el('time', 'nf-date', d0);
+      t0.setAttribute('datetime', (top.meta && top.meta.date) || '');
+      nfInfo.appendChild(t0);
+    }
+    nfInfo.appendChild(el('h3', null, field(top, 'title')));
+    nfInfo.appendChild(el('div', 'nf-rule'));
+    var sm = newsSummary(top);
+    if (sm) nfInfo.appendChild(el('p', 'nf-sum', sm));
+    nfInfo.appendChild(el('span', 'nf-more', i18nText('news_read_more', 'Read more')));
 
-      item.appendChild(meta);
-      item.appendChild(wrap);
-      frag.appendChild(item);
-    });
-    box.innerHTML = '';
-    box.appendChild(frag);
+    feat.appendChild(nfImg);
+    feat.appendChild(nfInfo);
+    frag.appendChild(feat);
+
+    /* ── 其余卡片 ── */
+    var rest = items.slice(1);
+    if (rest.length) {
+      var grid = el('div', 'news-grid');
+      rest.forEach(function (it, i) {
+        var a = el('a', 'news-card-v2');
+        a.href = newsHref(it);
+
+        var imgBox = el('div', 'nc-img');
+        var img = document.createElement('img');
+        img.src = newsCover(it, i + 1);
+        img.alt = field(it, 'title');
+        img.loading = 'lazy';
+        imgBox.appendChild(img);
+        a.appendChild(imgBox);
+
+        var body = el('div', 'nc-body');
+        var dd = newsDate(it);
+        if (dd) {
+          var tt = el('time', 'nc-date', dd);
+          tt.setAttribute('datetime', (it.meta && it.meta.date) || '');
+          body.appendChild(tt);
+        }
+        body.appendChild(el('h4', null, field(it, 'title')));
+        a.appendChild(body);
+        grid.appendChild(a);
+      });
+      frag.appendChild(grid);
+    }
+
+    stage.innerHTML = '';
+    stage.appendChild(frag);
     return true;
   }
 
