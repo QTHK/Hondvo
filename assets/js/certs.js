@@ -81,19 +81,22 @@
     if (!grid || grid.dataset.loop === '1') return;
     var cards = [].slice.call(grid.children).filter(function (c) { return c && c.nodeType === 1; });
     if (!cards.length) return;
-    var one = grid.scrollWidth;
-    if (one <= 0) return;
     var cw = grid.clientWidth;
+    if (cw <= 0) return;
 
-    /* 2026-11-20：原来是"一份放得下就不复制"⇒ 删掉 IATF 后只剩 3 张、刚好铺满一屏，
-       ensureLoop 直接 return ⇒ 证书完全不动，用户要的"首尾相连循环"消失；
-       只复制 1 份时若 one 略小于 cw，滚到头也回不去，会退化成"到底停住→跳回第一个"
-       —— 正是用户抱怨的那种行为。
-       正确判据：折回需要一个完整周期可走，即 (copies-1)*one >= cw ⇒ copies >= cw/one + 1。 */
+    /* ⚠️ 一份内容的宽度**不能**用 grid.scrollWidth：
+       内容不满容器时 scrollWidth === clientWidth，会把"一份"高估成整屏宽
+       ⇒ copies 算成 2 ⇒ 只复制 1 份 ⇒ 可滚距离不足一个周期 ⇒ 滚到底停住不动。
+       （2026-11-20 实测：3 张证书 scrollWidth=1220=clientWidth，实际内容只有 1076。）
+       用首尾卡片的 offsetLeft/offsetWidth 量真实占位。 */
+    var first = cards[0], last = cards[cards.length - 1];
+    var one = (last.offsetLeft + last.offsetWidth) - first.offsetLeft;
+    if (one <= 0) return;
+
+    /* 无缝折回要求可滚距离覆盖一个周期：copies*one - cw >= one ⇒ copies >= cw/one + 1 */
     var copies = Math.ceil(cw / one) + 1;
     if (copies < 2) copies = 2;
     if (copies > 4) copies = 4;                     /* 上限：别把 3 张复制成十几张 */
-    if (copies === 2 && one * 2 - cw < 8) return;   /* 两份都滚不动，复制没意义 */
 
     for (var k = 1; k < copies; k++) {
       for (var i = 0; i < cards.length; i++) {
