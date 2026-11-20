@@ -5,7 +5,7 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-19T09:09:46.662Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T01:26:13.365Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -853,8 +853,6 @@ const I18N = {
 
   "ft_faq_sub": {"en":"Newsletter"},
 
-  "ft_faq_links": {"en":"Links"},
-
   "ft_contact_reach": {"en":"Contact Info"},
 
   "ft_copyright": {"en":"© 2026 HONDVO Technology (Dongguan) Co., Ltd. & HONDVO TOOLING LIMITED (Dongguan) Co., Ltd."},
@@ -1001,10 +999,6 @@ const I18N = {
 
   "m7_jobs_apply": {"en":"Apply Now"},
 
-  "m7_links_title": {"en":"Friendly Links"},
-
-  "m7_links_sub": {"en":"Partners and industry resources"},
-
   "m7_sub_title": {"en":"Newsletter"},
 
   "m7_sub_sub": {"en":"Subscribe to our latest news and product updates"},
@@ -1126,8 +1120,6 @@ const I18N = {
   "faq_a21": {"en":"Yes. We provide full after-sales support including tooling maintenance, spare cavities/wear parts, and mold repair services."},
 
   "m7_dl_ph": {"en":"Product manuals and technical documents are being compiled; please contact us for the materials you need."},
-
-  "m7_links_ph": {"en":"Partners and industry resources are being compiled — please check back soon."},
 
   "m7_jobs_ph": {"en":"No open positions at the moment. Send your CV to info@hondvotechnology.com and we will contact you when a suitable role opens."},
 
@@ -1275,8 +1267,6 @@ const I18N = {
 
   "hnav_faq_after": {"en":"Friendly Links"},
 
-  "hnav_faq_after_items": {"en":"Friendly Links"},
-
   "hnav_faq_cta_t": {"en":"More questions?"},
 
   "hnav_faq_cta_s": {"en":"Talk to a sales engineer"},
@@ -1416,7 +1406,7 @@ const FOOTER_HTML = `
 
       <div class="col"><h4 data-lang-key="ft_news">News</h4><a href="#page-news" data-lang-key="ft_news_company">Company News</a><a href="#page-news" data-lang-key="ft_news_industry">Industry News</a></div>
 
-      <div class="col"><h4 data-lang-key="ft_faq">FAQ</h4><a href="#page-faq" data-lang-key="ft_faq_qa">FAQ</a><a href="#page-faq" data-scroll-to="faq-downloads" data-lang-key="ft_faq_dl">Downloads</a><a href="#page-faq" data-scroll-to="faq-subscribe" data-lang-key="ft_faq_sub">Newsletter</a><a href="#page-faq" data-scroll-to="faq-links" data-lang-key="ft_faq_links">Links</a></div>
+      <div class="col"><h4 data-lang-key="ft_faq">FAQ</h4><a href="#page-faq" data-lang-key="ft_faq_qa">FAQ</a><a href="#page-faq" data-scroll-to="faq-downloads" data-lang-key="ft_faq_dl">Downloads</a><a href="#page-faq" data-scroll-to="faq-subscribe" data-lang-key="ft_faq_sub">Newsletter</a></div>
 
       <div class="col"><h4 data-lang-key="ft_contact">Contact Us</h4><a href="#page-careers" data-lang-key="ft_contact_job">Careers</a><a href="#page-contact" data-lang-key="ft_contact_reach">Contact Info</a></div>
 
