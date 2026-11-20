@@ -952,18 +952,27 @@ html.launch-armed.launch-leave .hnav{
   .nd-pager .nd-next{text-align:left}
 }
 
-/* ═══════════ 2026-11-20 模具能力 / 设备抽屉内部去装饰 ═══════════
-   .cap-acc / .eq-acc 本身就是白卡片（白底 + 边框 + 20px 圆角 + 阴影）。
-   2026-11-20 给 .flow-block 加了卡片样式后，这里就变成「卡片套卡片」：
-   内层卡片 940 居中，两侧露出一圈外层白底 + 圆角，看着像两个白块（用户截图指出）。
-   容器内部一律去装饰，只保留内容本身。 */
-.cap-acc .flow-block,
-.eq-acc .flow-block {
+/* ═══════════ 2026-11-20 模具中心卡片 = 与「产品与服务」完全一致 ═══════════
+   问题出在「卡片套卡片」：.cap-acc 是整块白卡片，里面的 .flow-block 又各自是卡片，
+   于是 940 的内层卡居中摆放、两侧露出外层白底，看着像两个白块。
+   ⚠️ 上一轮把卡片装饰从 .flow-block 上摘掉了 —— 方向反了：结果变成
+      「一个大白框里塞 4 张裸图」，与产品与服务页的「每张图一张独立白卡」不是一回事。
+   正确做法：**拆掉外层 .cap-acc 的白卡**，让每个 .flow-block 保留完整卡片装饰。 */
+.cap-acc {
   background: transparent;
   border: 0;
   border-radius: 0;
   box-shadow: none;
-  margin-bottom: 22px;
+  overflow: visible;
+}
+.cap-acc .flow-block,
+.eq-acc .flow-block {
+  background: #fff;
+  border: 1px solid #EDF0F4;
+  border-radius: 24px;
+  box-shadow: 0 26px 64px -44px rgba(20, 32, 48, .42);
+  overflow: hidden;
+  margin-bottom: 28px;
 }
 .cap-acc .flow-block:last-child,
 .eq-acc .flow-block:last-child { margin-bottom: 0; }
