@@ -3553,8 +3553,12 @@ function setupGlobalInteractions(){
 function syncLangLabel() {
   try {
     const ll = document.getElementById("lang-label");
-    const d = dict();
-    if (ll && d && d.lang) ll.textContent = d.lang;
+    if (!ll) return;
+    /* 2026-11-20：改成显示语言**代码**（EN / ZH / DE …），与新闻详情页的语言按钮一致。
+       原来取 d.lang（语言全称，如 English / 简体中文），一行标签宽度随语言跳动，
+       且与详情页的 EN 胶囊不统一。 */
+    const code = document.documentElement.getAttribute('lang') || 'en';
+    ll.textContent = String(code).slice(0, 2).toUpperCase();
   } catch (err) {
     console.warn("[hnav lang-label]", err);
   }

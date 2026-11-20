@@ -164,17 +164,13 @@ html.launch-armed.launch-leave .hnav{
 
 /* ===== 语言按钮：纯文字 + caret（轻量版 · 还原 v17 之前 · 无背景/无边框/无阴影）===== */
 .hnav-lang{
+  /* 容器只负责定位与箭头旋转；视觉全部交给里面的 .hnav-lang-btn 胶囊 */
   position:relative;
-  display:inline-flex;align-items:center;gap:5px;
-  height:38px;padding:0 4px;
-  font-size:14px;font-weight:600;letter-spacing:.01em;
-  color:var(--text);
+  display:inline-flex;align-items:center;
+  height:38px;
   background:transparent;border:0;
-  cursor:pointer;
-  transition:color var(--t-fast) var(--ease);
 }
-.hnav-lang:hover{color:var(--brand-strong)}
-.hnav-lang.open{color:var(--brand-strong)}
+.hnav-lang-btn svg{width:13px;height:13px;flex:0 0 auto;opacity:.75}
 
 /* ===== 询价 CTA（Uiverse Creatlydev Payments 风 · 品牌橙 + 白底 · 图标+文字横卡 · hover 橙条滑入） ===== */
 .hnav-cta-new{
@@ -240,14 +236,20 @@ html.launch-armed.launch-leave .hnav{
   transition:opacity 200ms var(--ease), transform 200ms var(--ease);
 }
 /* 顶栏语言按钮本体（去掉浏览器默认 button 边框）*/
+/* 2026-11-20：改成与新闻详情页一致的「语言代码胶囊」（白底 + 1px 边框 + 圆角 + 箭头）。
+   原来是透明无边框的纯文字（English + 小箭头），放在 CTA 与搜索钮之间视觉权重太弱，
+   而且语言全称会随语言长短把导航挤得忽宽忽窄。 */
 .hnav-lang-btn{
-  border:0;background:transparent;padding:0;
-  font:inherit;color:inherit;cursor:pointer;
-  display:inline-flex;align-items:center;gap:5px;
-  outline:none;
-  transition:color var(--t-fast) var(--ease);
+  display:inline-flex;align-items:center;gap:6px;
+  height:38px;padding:0 12px;
+  border:1px solid #E4E9EF;border-radius:8px;
+  background:#fff;
+  font:inherit;font-size:13px;font-weight:600;letter-spacing:.02em;
+  color:#414B57;cursor:pointer;outline:none;
+  transition:border-color .18s ease,background .18s ease,color .18s ease;
 }
-.hnav-lang-btn:hover{color:var(--brand-strong)}
+.hnav-lang-btn:hover{border-color:#CFD7E1;background:#F8FAFC;color:#1B2530}
+.hnav-lang.open .hnav-lang-btn{border-color:var(--brand,#D87830);color:var(--brand-strong,#A34B10)}
 .hnav-lang-btn.is-switching #lang-label{opacity:0;transform:translateY(-3px)}
 .hnav-lang svg{transition:transform var(--t) var(--ease)}
 .hnav-lang.open svg{transform:rotate(180deg)}
