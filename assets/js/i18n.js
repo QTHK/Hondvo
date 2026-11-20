@@ -5,7 +5,7 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T02:07:33.147Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T02:22:36.913Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -1241,7 +1241,7 @@ const I18N = {
 
   "hnav_faq_discover": {"en":"Newsletter"},
 
-  "hnav_faq_discover_items": {"en":"Downloads,Newsletter"},
+  "hnav_faq_discover_items": {"en":"Newsletter"},
 
   "hnav_faq_after": {"en":"Friendly Links"},
 
@@ -1275,7 +1275,7 @@ const I18N = {
 
   "hnav_contact_discover": {"en":"Support"},
 
-  "hnav_contact_discover_items": {"en":"Technical Support,Download Center,FAQ"},
+  "hnav_contact_discover_items": {"en":"Technical Support,FAQ"},
 
   "hnav_contact_loc": {"en":"Locations"},
 
@@ -1380,11 +1380,11 @@ const FOOTER_HTML = `
 
       <div class="col"><h4 data-lang-key="ft_mold">Mold Center</h4><a href="#page-mold" data-lang-key="ft_mold_design">Mold Design</a><a href="#page-mold" data-lang-key="ft_mold_machining">Precision Machining</a><a href="#page-mold" data-lang-key="ft_mold_injection">Injection Production</a><a href="#page-mold" data-lang-key="ft_mold_quality">Quality Control</a></div>
 
-      <div class="col"><h4 data-lang-key="ft_qual">Qualifications</h4><a href="#page-qualifications" data-lang-key="ft_qual_13485">ISO 13485</a><a href="#page-qualifications" data-lang-key="ft_qual_16949">IATF 16949</a><a href="#page-qualifications" data-lang-key="ft_qual_9001">ISO 9001</a><a href="#page-qualifications" data-lang-key="ft_qual_env">Production Environment</a><a href="#page-qualifications" data-lang-key="ft_qual_iqoq">IQ/OQ/PQ Validation</a></div>
+      <div class="col"><h4 data-lang-key="ft_qual">Qualifications</h4><a href="#page-qualifications" data-lang-key="ft_qual_13485">ISO 13485</a><a href="#page-qualifications" data-lang-key="ft_qual_16949">D-U-N-S</a><a href="#page-qualifications" data-lang-key="ft_qual_9001">ISO 9001</a><a href="#page-qualifications" data-lang-key="ft_qual_env">Production Environment</a><a href="#page-qualifications" data-lang-key="ft_qual_iqoq">IQ/OQ/PQ Validation</a></div>
 
       <div class="col"><h4 data-lang-key="ft_news">News</h4><a href="#page-news" data-lang-key="ft_news_company">Company News</a><a href="#page-news" data-lang-key="ft_news_industry">Industry News</a></div>
 
-      <div class="col"><h4 data-lang-key="ft_faq">FAQ</h4><a href="#page-faq" data-lang-key="ft_faq_qa">FAQ</a><a href="#page-faq" data-scroll-to="faq-downloads" data-lang-key="ft_faq_dl">Downloads</a><a href="#page-faq" data-scroll-to="faq-subscribe" data-lang-key="ft_faq_sub">Newsletter</a></div>
+      <div class="col"><h4 data-lang-key="ft_faq">FAQ</h4><a href="#page-faq" data-lang-key="ft_faq_qa">FAQ</a><a href="#page-faq" data-scroll-to="faq-subscribe" data-lang-key="ft_faq_sub">Newsletter</a></div>
 
       <div class="col"><h4 data-lang-key="ft_contact">Contact Us</h4><a href="#page-careers" data-lang-key="ft_contact_job">Careers</a><a href="#page-contact" data-lang-key="ft_contact_reach">Contact Info</a></div>
 
@@ -1398,7 +1398,7 @@ const FOOTER_HTML = `
 
         <span>|</span>
 
-        <span>ISO 13485 / ISO 9001 / IATF 16949</span>
+        <span>ISO 13485 / ISO 9001 / D-U-N-S</span>
 
         <span>|</span>
 
