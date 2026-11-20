@@ -3357,9 +3357,10 @@ function bindLists(){
             { page:"page-contact", id:"ct-offices" },
             { page:"page-contact", id:"ct-contact-line" }
           ],
+          /* 2026-11-20：资料下载板块已删除，导航"下载中心"入口同步移除（原第 2 项指向 faq-downloads，已是死锚点）。
+             列表项数必须与 hnav_contact_discover_items 的逗号分隔项数一致，否则会错位。 */
           contact_discover_items: [
             { page:"page-contact", id:"contact-form" },
-            { page:"page-faq", id:"faq-downloads" },
             { page:"page-faq", id:"faq-qa" }
           ],
           contact_loc_items: [
