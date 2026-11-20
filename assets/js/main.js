@@ -3248,7 +3248,7 @@ function bindLists(){
         var PAGE_FALLBACK = {
           mold_browse_items:"page-mold", mold_discover_items:"page-mold", mold_learn_items:"page-mold",
           qual_browse_items:"page-qualifications", qual_discover_items:"page-qualifications", qual_manage_items:"page-qualifications",
-          faq_browse_items:"page-faq", faq_discover_items:"page-faq", faq_after_items:"page-faq",
+          faq_browse_items:"page-faq", faq_discover_items:"page-faq",
           about_browse_items:"page-about", about_discover_items:"page-about", about_contact_items:"page-about",
           contact_browse_items:"page-contact", contact_discover_items:"page-contact", contact_loc_items:"page-contact",
           contact_join_items:"page-careers"
@@ -3335,9 +3335,6 @@ function bindLists(){
           faq_discover_items: [
             { page:"page-faq", id:"faq-downloads" },
             { page:"page-faq", id:"faq-subscribe" }
-          ],
-          faq_after_items: [
-            { page:"page-faq", id:"faq-links" }
           ],
           /* —— 关于我们：公司 / 团队与案例 / 联络方式 —— */
           about_browse_items: [
