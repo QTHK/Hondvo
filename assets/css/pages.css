@@ -965,3 +965,7 @@ html.launch-armed.launch-leave .hnav{
 }
 .cap-acc .flow-block:last-child,
 .eq-acc .flow-block:last-child { margin-bottom: 0; }
+
+/* 语言按钮里的箭头：<svg> 没写宽高时默认 300×150，在 flex 里会被压成一团看不清 */
+.nd-lang summary svg{width:14px;height:14px;flex:0 0 auto;opacity:.72;transition:transform .2s ease}
+.nd-lang[open] summary svg{transform:rotate(180deg)}
