@@ -44,34 +44,10 @@
       apply();
     }
 
-    var box = document.querySelector('.nd-lang');
-    if (box) {
-      /* 静态 HTML 默认把 en 标成当前语言；实际可能是带 ?lang=zh 进来的，这里同步过来 */
-      var dls = box.querySelectorAll('.nd-lang-menu a[data-lang]');
-      for (var i = 0; i < dls.length; i++) {
-        if (dls[i].getAttribute('data-lang') === lang) dls[i].setAttribute('aria-current', 'true');
-        else dls[i].removeAttribute('aria-current');
-      }
-      var sumTxt = box.querySelector('summary span');
-      if (sumTxt) sumTxt.textContent = String(lang).toUpperCase();
-
-      /* 点空白处 / 按 Esc 收起；<details> 原生展开，这里只补「外部点击关闭」 */
-      document.addEventListener('click', function (e) {
-        if (!box.contains(e.target)) box.removeAttribute('open');
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') box.removeAttribute('open');
-      });
-      /* 选语言：带 ?lang=xx 重新加载本页（静态页没有前端路由，重载最可靠） */
-      box.addEventListener('click', function (e) {
-        var a = e.target && e.target.closest ? e.target.closest('a[data-lang]') : null;
-        if (!a) return;
-        e.preventDefault();
-        var u = new URL(location.href);
-        u.search = '?lang=' + encodeURIComponent(a.getAttribute('data-lang'));
-        location.href = u.toString();
-      });
-    }
+    /* 2026-11-20：详情页**不再提供页内语言切换**（用户要求"跟随主站语言，不需要在里面切换"）。
+       原来那段 .nd-lang 下拉的交互代码随之删除；语言只由 pickLang() 决定：
+       ?lang= → sessionStorage.hondvo_lang（主站切换时写入，站内跳转必然保留）→ 浏览器语言。
+       想换语言请回主站切换，主站是唯一语言入口。 */
   })();
 
   if (lang === 'en') return;   /* 静态页就是英文，不必多跑一趟 */
