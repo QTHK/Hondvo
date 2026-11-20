@@ -5,13 +5,11 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T01:26:13.365Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T02:07:33.147Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
   "faq_dd_qa": {"en":"FAQ"},
-
-  "faq_dd_downloads": {"en":"Downloads"},
 
   "faq_dd_subscribe": {"en":"Newsletter"},
 
@@ -317,19 +315,11 @@ const I18N = {
 
   "mold_hero_eyebrow": {"en":"Precision Medical Manufacturing"},
 
-  "mold_cap_kicker": {"en":"Mold Capabilities"},
-
   "mold_cap_title": {"en":"Molds Focused on Medical Devices"},
-
-  "mold_cap_sub": {"en":"Click to browse the mold photo gallery"},
-
-  "mold_flow_kicker": {"en":"Manufacturing Process"},
 
   "mold_flow_title": {"en":"How Medical Molds Are Made"},
 
   "mold_flow_sub": {"en":"The full chain from design to validated mass production"},
-
-  "mold_qa_kicker": {"en":"Quality System"},
 
   "mold_qa_title": {"en":"How Medical Mold Quality Is Controlled"},
 
@@ -399,7 +389,7 @@ const I18N = {
 
   "qual_eq_title": {"en":"Comprehensive Production Equipment"},
 
-  "qual_eq_sub": {"en":"Full-process equipment covering precision machining, injection molding and inspection; click a category to expand details"},
+  "qual_eq_sub": {"en":"Full-process equipment covering precision machining, injection molding and inspection"},
 
   "news_hero": {"en":"News"},
 
@@ -849,8 +839,6 @@ const I18N = {
 
   "ft_faq_qa": {"en":"FAQ"},
 
-  "ft_faq_dl": {"en":"Downloads"},
-
   "ft_faq_sub": {"en":"Newsletter"},
 
   "ft_contact_reach": {"en":"Contact Info"},
@@ -1015,14 +1003,6 @@ const I18N = {
 
   "m7_sub_fail": {"en":"Subscription failed, please try again later"},
 
-  "m7_dl_title": {"en":"Downloads"},
-
-  "m7_dl_sub": {"en":"Product brochures, certificates and technical documents"},
-
-  "m7_dl_btn": {"en":"Download"},
-
-  "m7_dl_count": {"en":"downloads"},
-
   "faq_cat_1": {"en":"Core Capabilities"},
 
   "faq_cat_2": {"en":"Quality & Regulatory (Medical)"},
@@ -1118,8 +1098,6 @@ const I18N = {
   "faq_q21": {"en":"What after-sales support do you provide — tooling maintenance, spare cavities, repairs?"},
 
   "faq_a21": {"en":"Yes. We provide full after-sales support including tooling maintenance, spare cavities/wear parts, and mold repair services."},
-
-  "m7_dl_ph": {"en":"Product manuals and technical documents are being compiled; please contact us for the materials you need."},
 
   "m7_jobs_ph": {"en":"No open positions at the moment. Send your CV to info@hondvotechnology.com and we will contact you when a suitable role opens."},
 
@@ -1261,7 +1239,7 @@ const I18N = {
 
   "hnav_faq_browse_items": {"en":"Core Capabilities,Quality & Regulatory (Medical),Sourcing & Compliance,Tooling & Engineering,Production & QC,Business & Relationship"},
 
-  "hnav_faq_discover": {"en":"Downloads & Newsletter"},
+  "hnav_faq_discover": {"en":"Newsletter"},
 
   "hnav_faq_discover_items": {"en":"Downloads,Newsletter"},
 
