@@ -537,12 +537,20 @@
     return rail.children[n].offsetLeft - rail.children[0].offsetLeft;
   }
 
+  /* 2026-11-20：设备轨道速度与证书自动轮播对齐（certs.js 是每 32ms 推 2px ≈ 62.5px/s）。
+     用户反馈"太快了，做到跟证书一样就行"——原先按帧累加 2px，帧率高时能跑到 180px/s。
+     改成**按时间推进**：不管 60Hz 还是 144Hz，都是 62px/s。 */
+  var EQ_SPEED = 62;   // px/s
   function eqRailStart(rail, key){
     if(eqTickers[key] && eqTickers[key].on) return;
-    var st = eqTickers[key] = { on: true, acc: 0 };
-    (function tick(){
+    var st = eqTickers[key] = { on: true, acc: 0, last: null };
+    (function tick(ts){
       if(!st.on) return;
-      st.acc += 2.0;
+      if(st.last == null) st.last = ts;
+      /* 上限 120ms：标签页切回来时 rAF 的时间差会很大，不夹住会"跳"一大段 */
+      var dt = Math.max(0, Math.min(ts - st.last, 120));
+      st.last = ts;
+      st.acc += EQ_SPEED * dt / 1000;
       var step = Math.floor(st.acc);
       if(step){
         st.acc -= step;
@@ -551,7 +559,7 @@
         if(cyc > 0 && rail.scrollLeft >= cyc) rail.scrollLeft -= cyc;   // 两段内容相同，折回无接缝
       }
       requestAnimationFrame(tick);
-    })();
+    })(0);
   }
   function eqRailStop(key){ if(eqTickers[key]) eqTickers[key].on = false; }
   function syncEqRails(){

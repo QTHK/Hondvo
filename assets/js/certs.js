@@ -79,16 +79,29 @@
   function ensureLoop() {
     var grid = document.getElementById(GRID_ID);
     if (!grid || grid.dataset.loop === '1') return;
-    var one = grid.scrollWidth;
-    if (one <= grid.clientWidth + 4) return;   /* 一份就能放下，不需要循环 */
-
-    var cards = [].slice.call(grid.children);
+    var cards = [].slice.call(grid.children).filter(function (c) { return c && c.nodeType === 1; });
     if (!cards.length) return;
-    for (var i = 0; i < cards.length; i++) {
-      var n = cards[i].cloneNode(true);
-      n.setAttribute('aria-hidden', 'true');   /* 读屏软件不要重复念一遍 */
-      n.removeAttribute('id');                 /* 避免 id 重复 */
-      grid.appendChild(n);
+    var one = grid.scrollWidth;
+    if (one <= 0) return;
+    var cw = grid.clientWidth;
+
+    /* 2026-11-20：原来是"一份放得下就不复制"⇒ 删掉 IATF 后只剩 3 张、刚好铺满一屏，
+       ensureLoop 直接 return ⇒ 证书完全不动，用户要的"首尾相连循环"消失；
+       只复制 1 份时若 one 略小于 cw，滚到头也回不去，会退化成"到底停住→跳回第一个"
+       —— 正是用户抱怨的那种行为。
+       正确判据：折回需要一个完整周期可走，即 (copies-1)*one >= cw ⇒ copies >= cw/one + 1。 */
+    var copies = Math.ceil(cw / one) + 1;
+    if (copies < 2) copies = 2;
+    if (copies > 4) copies = 4;                     /* 上限：别把 3 张复制成十几张 */
+    if (copies === 2 && one * 2 - cw < 8) return;   /* 两份都滚不动，复制没意义 */
+
+    for (var k = 1; k < copies; k++) {
+      for (var i = 0; i < cards.length; i++) {
+        var n = cards[i].cloneNode(true);
+        n.setAttribute('aria-hidden', 'true');   /* 读屏软件不要重复念一遍 */
+        n.removeAttribute('id');                 /* 避免 id 重复 */
+        grid.appendChild(n);
+      }
     }
     grid.dataset.loop = '1';
     grid.dataset.loopCount = String(cards.length);

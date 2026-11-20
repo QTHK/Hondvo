@@ -878,15 +878,37 @@ html.launch-armed.launch-leave .hnav{
    旧版是手写的极简页：只有一个 HONDVO 文字 + News 链接，没有导航/页脚/配图，
    被反馈「进去之后页面很简陋」。这里补成与站点同族的文章页。 */
 .nd-page{background:#fff}
-.nd-page body{margin:0}
 
-.nd-topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:30px;height:72px;padding:0 40px;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);border-bottom:1px solid #EDF0F4}
-.nd-brand img{height:30px;display:block}
-.nd-topnav{display:flex;gap:26px;margin-left:auto}
-.nd-topnav a{font-size:14px;font-weight:500;color:#3D4652;text-decoration:none;white-space:nowrap;transition:color .2s}
-.nd-topnav a:hover,.nd-topnav a.on{color:var(--brand,#D87830)}
-.nd-cta{background:var(--brand,#D87830);color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-size:13.5px;font-weight:600;white-space:nowrap;transition:background .2s}
-.nd-cta:hover{background:#C06A26}
+/* ── 顶栏 ── 与主站同族：白底 + 毛玻璃 + 细分隔线；层级 = 品牌 → 导航 → 动作区。
+   2026-11-20 重做：原来是 72px 一行 flex，logo 只有 30px、导航贴着品牌，
+   视觉上像"临时拼的"。现在给了明确分栏、导航悬停底、当前项下划线、
+   语言切换（原生 details，零依赖可键盘操作）与带箭头的 CTA。 */
+.nd-topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid rgba(20,32,48,.07);transition:box-shadow .25s ease,background .25s ease}
+.nd-topbar.is-stuck{box-shadow:0 8px 26px -14px rgba(20,32,48,.26);background:rgba(255,255,255,.97)}
+.nd-bar{display:flex;align-items:center;gap:30px;max-width:1180px;margin:0 auto;padding:0 28px;height:76px}
+.nd-brand{display:flex;align-items:center;flex:0 0 auto}
+.nd-brand img{height:34px;width:auto;display:block}
+.nd-topnav{display:flex;align-items:center;gap:3px}
+.nd-topnav a{position:relative;padding:10px 12px;font-size:14px;font-weight:500;color:#414B57;text-decoration:none;border-radius:7px;white-space:nowrap;transition:color .18s ease,background .18s ease}
+.nd-topnav a:hover{color:#14181D;background:#F5F7FA}
+.nd-topnav a.on{color:var(--brand,#D87830)}
+.nd-topnav a.on::after{content:"";position:absolute;left:12px;right:12px;bottom:3px;height:2px;border-radius:2px;background:var(--brand,#D87830)}
+.nd-actions{display:flex;align-items:center;gap:12px;margin-left:auto;flex:0 0 auto}
+
+/* 语言切换：<details> 原生展开，不引入任何库 */
+.nd-lang{position:relative}
+.nd-lang summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:8px;font-size:13px;font-weight:600;color:#414B57;border:1px solid #E4E9EF;background:#fff;transition:border-color .18s,background .18s,color .18s}
+.nd-lang summary::-webkit-details-marker{display:none}
+.nd-lang summary:hover{border-color:#CFD7E1;background:#F8FAFC}
+.nd-lang[open] summary{border-color:var(--brand,#D87830);color:var(--brand,#D87830)}
+.nd-lang-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:172px;background:#fff;border:1px solid #E7ECF2;border-radius:12px;box-shadow:0 22px 48px -24px rgba(20,32,48,.4);padding:6px;margin:0;list-style:none}
+.nd-lang-menu li a{display:block;padding:9px 12px;border-radius:8px;font-size:13.5px;color:#39424E;text-decoration:none;transition:background .15s,color .15s}
+.nd-lang-menu li a:hover{background:#FFF6EE;color:var(--brand,#D87830)}
+.nd-lang-menu li a[aria-current="true"]{color:var(--brand,#D87830);font-weight:600}
+
+.nd-cta{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 18px;border-radius:9px;background:var(--brand,#D87830);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 8px 20px -10px rgba(216,120,48,.7);transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.nd-cta:hover{background:#C66B25;transform:translateY(-1px);box-shadow:0 12px 26px -12px rgba(216,120,48,.85)}
+.nd-cta svg{width:15px;height:15px;flex:0 0 auto}
 
 .nd-main{padding:0 24px 70px}
 .nd-page .nd-cover{max-width:1180px;margin:34px auto 0;border-radius:18px}
@@ -912,12 +934,34 @@ html.launch-armed.launch-leave .hnav{
 
 .nd-foot{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;max-width:1180px;margin:0 auto;padding:26px 24px;border-top:1px solid #EDF0F4;font-size:12.5px;color:#8A9099}
 
+@media(max-width:1040px){
+  .nd-bar{gap:18px;padding:0 22px}
+  .nd-topnav a{padding:9px 8px;font-size:13.5px}
+}
 @media(max-width:900px){
   .nd-topnav{display:none}
-  .nd-topbar{padding:0 20px;gap:16px}
-  .nd-cta{margin-left:auto}
+  .nd-bar{height:64px;gap:12px;padding:0 18px}
+  .nd-brand img{height:28px}
+  .nd-lang summary{height:36px;padding:0 10px}
+  .nd-cta{height:36px;padding:0 14px;font-size:13px}
   .nd-main{padding:0 16px 50px}
   .nd-wrap{padding:32px 0 0}
   .nd-pager{grid-template-columns:1fr}
   .nd-pager .nd-next{text-align:left}
 }
+
+/* ═══════════ 2026-11-20 模具能力 / 设备抽屉内部去装饰 ═══════════
+   .cap-acc / .eq-acc 本身就是白卡片（白底 + 边框 + 20px 圆角 + 阴影）。
+   2026-11-20 给 .flow-block 加了卡片样式后，这里就变成「卡片套卡片」：
+   内层卡片 940 居中，两侧露出一圈外层白底 + 圆角，看着像两个白块（用户截图指出）。
+   容器内部一律去装饰，只保留内容本身。 */
+.cap-acc .flow-block,
+.eq-acc .flow-block {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 22px;
+}
+.cap-acc .flow-block:last-child,
+.eq-acc .flow-block:last-child { margin-bottom: 0; }
