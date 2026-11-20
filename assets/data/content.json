@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-20T02:22:45.198Z",
+  "generatedAt": "2026-11-20T02:51:59.577Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -234,10 +234,11 @@
       "slug": "hondvo-technology-passed-iso-13485-annual-surveillance-audit",
       "sort": 20260728,
       "meta": {
-        "date": "2026-07-28"
+        "date": "2026-07-28",
+        "cover": "images/workshop_1.webp"
       },
       "publishedAt": "2026-10-14 03:54:20",
-      "updatedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-11-20 02:48:30",
       "texts": {
         "en": {
           "body": "HONDVO Technology (Dongguan) Co., Ltd. has successfully passed the annual surveillance audit of its ISO 13485 medical device quality management system. The audit covered the full injection molding production process, including raw material incoming inspection, process control, cleanroom environment monitoring, traceability and final release.\n\nThe auditor reviewed documented procedures, production records and calibration files, and conducted on-site interviews with process owners. No major non-conformities were raised. The result confirms that HONDVO&#39;s quality system continues to meet the requirements of ISO 13485 and remains ready to support medical device customers in regulated markets.\n\nHONDVO will continue to invest in process validation, Cpk/Ppk capability monitoring and operator training to keep the system effective and audit-ready at all times.",
@@ -287,10 +288,11 @@
       "slug": "two-new-toyo-cs-230-all-electric-injection-machines-put-into-production",
       "sort": 20260615,
       "meta": {
-        "date": "2026-06-15"
+        "date": "2026-06-15",
+        "cover": "images/workshop_2.webp"
       },
       "publishedAt": "2026-10-14 03:54:20",
-      "updatedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-11-20 02:48:30",
       "texts": {
         "en": {
           "body": "To meet growing order volumes from medical device customers, HONDVO has installed two new TOYO CS-230 all-electric injection molding machines. Both machines are now in production inside the Class 100,000 cleanroom.\n\nAll-electric molding brings lower contamination risk, higher repeatability and better energy efficiency compared with hydraulic equipment. The new machines will be dedicated to high-precision components such as infusion parts, syringe components and IVD consumables, where dimensional stability and clean appearance are critical.\n\nEach machine has been qualified under HONDVO&#39;s IQ/OQ/PQ program before release, with installation records, process window definition and three-batch performance validation archived for traceability.",
@@ -340,10 +342,11 @@
       "slug": "hondvo-showcases-at-cmef-2026-china-international-medical-equipment-fair",
       "sort": 20260510,
       "meta": {
-        "date": "2026-05-10"
+        "date": "2026-05-10",
+        "cover": "images/core_medical_1.webp"
       },
       "publishedAt": "2026-10-14 03:54:20",
-      "updatedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-11-20 02:48:30",
       "texts": {
         "en": {
           "body": "HONDVO Technology and HONDVO Tooling showcased their medical molding capabilities at CMEF 2026, one of the largest medical equipment exhibitions in Asia.\n\nThe booth highlighted precision injection components for infusion therapy, enteral nutrition, IVD sampling and respiratory care, together with examples of medical-grade tooling. Visitors from Europe, North America and Southeast Asia showed particular interest in HONDVO&#39;s ability to combine mold development and volume molding under one quality system.\n\nThe event provided valuable face-to-face time with existing partners and new prospects. Discussions focused on design-for-manufacturing support, regulatory documentation and long-term capacity planning for 2027.",
@@ -393,10 +396,11 @@
       "slug": "swiss-hauser-s35-jig-grinder-installation-commissioning-completed",
       "sort": 20260422,
       "meta": {
-        "date": "2026-04-22"
+        "date": "2026-04-22",
+        "cover": "images/core_mold_3.webp"
       },
       "publishedAt": "2026-10-14 03:54:20",
-      "updatedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-11-20 02:48:30",
       "texts": {
         "en": {
           "body": "The Swiss-made Hauser S35 jig grinder has completed installation and commissioning at HONDVO Tooling. The machine extends the company&#39;s capability in high-precision cavity finishing and post-machining correction.\n\nWith positioning accuracy at the micron level, the Hauser S35 is used for critical mold components where cavity tolerance and surface finish directly affect the quality of molded medical parts. It strengthens HONDVO&#39;s in-house ability to handle complex core inserts, electrode fitting and fine surface correction without outsourcing.\n\nThe equipment was accepted against agreed acceptance criteria and entered the preventive maintenance and calibration schedule from day one.",
@@ -446,10 +450,11 @@
       "slug": "hondvo-tooling-passed-iatf-16949-recertification-audit",
       "sort": 20260308,
       "meta": {
-        "date": "2026-03-08"
+        "date": "2026-03-08",
+        "cover": "images/workshop_2.webp"
       },
       "publishedAt": "2026-10-14 03:54:20",
-      "updatedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-11-20 02:48:30",
       "texts": {
         "en": {
           "body": "HONDVO Tooling successfully passed the recertification audit of its automotive quality management system. The audit confirmed the effectiveness of the company&#39;s process controls, change management and continuous improvement mechanisms.\n\nAlthough HONDVO&#39;s website now focuses on medical device manufacturing, the automotive-grade disciplines developed through IATF 16949 — structured problem solving, layered process audits and rigorous traceability — continue to benefit medical mold projects. These practices are applied to tooling design reviews, machining process control and final mold validation.\n\nThe recertification is an internal capability milestone rather than a change in the website&#39;s stated scope, which remains centered on Class II medical device components and precision molds.",
@@ -499,10 +504,11 @@
       "slug": "class-100k-cleanroom-passed-international-client-annual-on-site-audit",
       "sort": 20260220,
       "meta": {
-        "date": "2026-02-20"
+        "date": "2026-02-20",
+        "cover": "images/workshop_1.webp"
       },
       "publishedAt": "2026-10-14 03:54:20",
-      "updatedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-11-20 02:48:30",
       "texts": {
         "en": {
           "body": "HONDVO&#39;s Class 100,000 injection molding cleanroom passed the annual on-site audit conducted by an international medical device client.\n\nThe client reviewed environmental monitoring records, personnel and material flow, cleaning and sanitation procedures, and in-process controls. Particular attention was paid to particle counts, temperature and humidity trends, and the separation of molded parts from non-clean areas.\n\nNo major findings were raised. The audit outcome supports continued supply of cleanroom-molded components for the client&#39;s regulated product lines and reflects HONDVO&#39;s commitment to maintaining a controlled production environment.",
@@ -552,10 +558,11 @@
       "slug": "new-german-roders-high-speed-machining-center-delivered-to-mold-center",
       "sort": 20260112,
       "meta": {
-        "date": "2026-01-12"
+        "date": "2026-01-12",
+        "cover": "images/core_mold_3.webp"
       },
       "publishedAt": "2026-10-14 03:54:20",
-      "updatedAt": "2026-10-14 03:54:20",
+      "updatedAt": "2026-11-20 02:48:30",
       "texts": {
         "en": {
           "body": "A new German-made RODERS high-speed machining center has been delivered to HONDVO&#39;s mold center, expanding capacity for precision cavity machining and high-finish surface work.\n\nHigh-speed machining allows finer surface finishes and shorter cycle times on complex mold geometries. Combined with the center&#39;s existing EDM and CMM equipment, the new machine shortens the route from rough machining to finished, inspected cavity.\n\nThe addition supports both medical mold projects and high-precision inserts used in volume injection molding, giving customers shorter lead times without relaxing dimensional or surface requirements.",

@@ -667,5 +667,6 @@ window.__I18N_PACK={lang:"de",dict:{
   "slide_industries_2_0_desc":"Atemtherapieszenarien erfordern eine Abdichtung des Luftkreislaufs, geringe Leckage und langfristige Zuverlässigkeit.",
   "slide_industries_2_1_desc":"Der Ventilkörper, die Gelenke und die Maskenkomponenten werden im Serienspritzguss nach medizinischen Standards gefertigt.",
   "slide_industries_3_0_desc":"Teile für die Mutter- und Säuglingspflege sowie Lebensmittelkontaktteile bestehen aus sicheren Materialien und fühlen sich weich an.",
-  "slide_industries_3_1_desc":"Die 100.000-stufige Reinraumwerkstatt unterstützt die Massenproduktion auf Verbraucherebene, und die Chargen sind stabil und rückverfolgbar."
+  "slide_industries_3_1_desc":"Die 100.000-stufige Reinraumwerkstatt unterstützt die Massenproduktion auf Verbraucherebene, und die Chargen sind stabil und rückverfolgbar.",
+  "news_read_more":"Weiterlesen"
 }};

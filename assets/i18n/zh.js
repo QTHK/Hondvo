@@ -667,5 +667,6 @@ window.__I18N_PACK={lang:"zh",dict:{
   "slide_industries_2_0_desc":"呼吸治疗场景要求气路密封、低泄漏与长期可靠性。",
   "slide_industries_2_1_desc":"阀体、接头与面罩部件按医疗级标准批量注塑。",
   "slide_industries_3_0_desc":"母婴护理与食品接触类部件，材料安全、触感柔和。",
-  "slide_industries_3_1_desc":"十万级洁净车间支撑消费级量产，批次稳定可追溯。"
+  "slide_industries_3_1_desc":"十万级洁净车间支撑消费级量产，批次稳定可追溯。",
+  "news_read_more":"阅读全文"
 }};

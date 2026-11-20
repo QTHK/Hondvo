@@ -667,5 +667,6 @@ window.__I18N_PACK={lang:"fr",dict:{
   "slide_industries_2_0_desc":"Les scénarios de thérapie respiratoire nécessitent une étanchéité du circuit d’air, de faibles fuites et une fiabilité à long terme.",
   "slide_industries_2_1_desc":"Le corps de la valve, les joints et les composants du masque sont moulés par injection par lots selon les normes de qualité médicale.",
   "slide_industries_3_0_desc":"Les pièces de soins maternels et infantiles et celles en contact avec les aliments sont faites de matériaux sûrs et doux au toucher.",
-  "slide_industries_3_1_desc":"L'atelier propre de niveau 100 000 prend en charge la production de masse au niveau du consommateur, et les lots sont stables et traçables."
+  "slide_industries_3_1_desc":"L'atelier propre de niveau 100 000 prend en charge la production de masse au niveau du consommateur, et les lots sont stables et traçables.",
+  "news_read_more":"Lire la suite"
 }};

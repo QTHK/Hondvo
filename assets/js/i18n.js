@@ -5,7 +5,7 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T02:22:36.913Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T02:51:46.548Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -1343,7 +1343,9 @@ const I18N = {
 
   "slide_industries_3_0_desc": {"en":"Baby care and food-contact parts with safe materials and a soft touch."},
 
-  "slide_industries_3_1_desc": {"en":"Class 100,000 cleanrooms support consumer-scale production with stable, traceable batches."}
+  "slide_industries_3_1_desc": {"en":"Class 100,000 cleanrooms support consumer-scale production with stable, traceable batches."},
+
+  "news_read_more": {"en":"Read more"}
 };
 
 /* ═══════════ SHARED FOOTER (injected into every .site-footer-mount) ═══════════ */

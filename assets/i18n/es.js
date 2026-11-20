@@ -667,5 +667,6 @@ window.__I18N_PACK={lang:"es",dict:{
   "slide_industries_2_0_desc":"Los escenarios de terapia respiratoria requieren sellado del circuito de aire, bajas fugas y confiabilidad a largo plazo.",
   "slide_industries_2_1_desc":"El cuerpo de la válvula, las juntas y los componentes de la máscara se moldean por inyección por lotes de acuerdo con los estándares de grado médico.",
   "slide_industries_3_0_desc":"Las piezas para el cuidado materno infantil y en contacto con alimentos están fabricadas con materiales seguros y suaves al tacto.",
-  "slide_industries_3_1_desc":"El taller limpio de 100.000 niveles admite la producción en masa a nivel del consumidor y los lotes son estables y rastreables."
+  "slide_industries_3_1_desc":"El taller limpio de 100.000 niveles admite la producción en masa a nivel del consumidor y los lotes son estables y rastreables.",
+  "news_read_more":"Leer más"
 }};
