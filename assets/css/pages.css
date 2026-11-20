@@ -683,28 +683,32 @@ html.launch-armed.launch-leave .hnav{
    约束（用户 2026-11-19 定）：不出现左右箭头、不出现 01/04 序号、不出现右下角页码。
    多图才出圆点（可点），单图静态。
    ⚠️ 动态注入不加 .reveal —— 会永远停在 opacity:0。 */
-.flow-block { max-width: 940px; margin: 0 auto 84px; }
+/* 2026-11-20：整个版块收成一张卡片（图 + 说明条一体）。
+   原因：之前图片是圆角大图、文字是裸文本浮在下方，看起来「不知道这段字属于谁」。
+   现在图片与说明共用同一张卡片的圆角与边框 ⇒ 归属关系靠容器表达，不靠留白猜。 */
+.flow-block { max-width: 940px; margin: 0 auto 64px; background: #fff; border: 1px solid #EDF0F4; border-radius: 24px; overflow: hidden; box-shadow: 0 26px 64px -44px rgba(20, 32, 48, .42); }
 .flow-block:last-child { margin-bottom: 0; }
 
-.fb-figure { margin: 0; }
-.fb-stage { position: relative; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: #F1F4F8; box-shadow: 0 30px 70px -38px rgba(20, 32, 48, .45); }
+.fb-figure { margin: 0; position: relative; }
+.fb-stage { position: relative; aspect-ratio: 16 / 9; border-radius: 0; overflow: hidden; background: #F1F4F8; }
 .fb-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .7s ease; }
 .fb-slide.on { opacity: 1; }
 .fb-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.fb-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
-.fb-dots i { width: 5px; height: 5px; border-radius: 999px; background: #D3D8DF; cursor: pointer; transition: width .25s ease, background .25s ease; }
-.fb-dots i.on { width: 22px; background: var(--brand, #D87830); }
+/* 圆点浮在图片底部，不再单独占一条空白带（否则卡片中间会出现一条突兀的空行） */
+.fb-dots { position: absolute; left: 0; right: 0; bottom: 16px; display: flex; justify-content: center; gap: 8px; margin: 0; }
+.fb-dots i { width: 5px; height: 5px; border-radius: 999px; background: rgba(255, 255, 255, .6); box-shadow: 0 0 0 1px rgba(20, 32, 48, .14); cursor: pointer; transition: width .25s ease, background .25s ease; }
+.fb-dots i.on { width: 22px; background: var(--brand, #D87830); box-shadow: none; }
 
-.fb-body { padding-top: 30px; }
+.fb-body { padding: 30px 34px 34px; border-top: 1px solid #F1F3F6; }
 .fb-body h3 { font-size: clamp(22px, 2.3vw, 28px); line-height: 1.3; letter-spacing: -.015em; font-weight: 700; color: #1B2530; margin: 0 0 14px; }
 .fb-body > p { font-size: 15.5px; line-height: 1.85; color: #5B6470; max-width: 780px; margin: 0 0 20px; }
 .fb-body .cap-tags, .fb-body .fb-tags { margin: 0; }
 
 @media (max-width: 900px) {
-  .flow-block { margin-bottom: 56px; }
-  .fb-stage { aspect-ratio: 4 / 3; border-radius: 14px; }
-  .fb-body { padding-top: 22px; }
+  .flow-block { margin-bottom: 48px; border-radius: 18px; }
+  .fb-stage { aspect-ratio: 4 / 3; border-radius: 0; }
+  .fb-body { padding: 24px 22px 26px; }
   .fb-body h3 { font-size: 20px; }
   .fb-body > p { font-size: 14px; line-height: 1.8; }
 }
@@ -731,8 +735,9 @@ html.launch-armed.launch-leave .hnav{
 }
 
 
-/* ═══════════ 2026-11-19 v3：图与文案拉开距离 + 隐形左右热区 ═══════════ */
-.fb-body { padding-top: 48px; }
+/* ═══════════ 2026-11-19 v3：隐形左右热区 ═══════════
+   ⚠️ 原此处还有一条 `.fb-body{padding-top:48px}`，2026-11-20 版块改卡片后
+      会覆盖掉卡片内边距（左右 padding 归零）⇒ 已删除，内边距统一由上方 .fb-body 定义。 */
 .fb-zone { position: absolute; top: 0; bottom: 0; width: 50%; border: 0; padding: 0; background: transparent; cursor: pointer; z-index: 2; }
 .fb-zone.prev { left: 0; }
 .fb-zone.next { right: 0; }
@@ -766,7 +771,7 @@ html.launch-armed.launch-leave .hnav{
 .eqd-facts dd { margin: 0; font-size: 14px; font-weight: 600; color: #1F2328; }
 .eqd-desc { font-size: 14px; line-height: 1.8; color: #5B6470; margin: 0; }
 @media (max-width: 760px) {
-  .fb-body { padding-top: 32px; }
+  .fb-body { padding: 24px 20px 26px; }
   .eqd-box { grid-template-columns: 1fr; }
   .eqd-photo { min-height: 240px; }
   .eqd-info { padding: 26px 22px; }
@@ -787,6 +792,8 @@ html.launch-armed.launch-leave .hnav{
 
 /* 核心价值：去大数字，图标卡片（2026-11-20） */
 .value-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:8px}
+/* 2026-11-20：弘欧精神（3 项）复用价值卡样式，3 列等分 */
+.value-grid--3{grid-template-columns:repeat(3,1fr)}
 .value-card{padding:30px 22px 28px;background:#fff;border:1px solid var(--neutral-200,#eef0f3);border-radius:18px;text-align:center;box-shadow:0 10px 30px rgba(28,32,36,.06);transition:transform .25s ease,box-shadow .25s ease}
 .value-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(28,32,36,.10)}
 .vc-icon{display:inline-flex;width:52px;height:52px;align-items:center;justify-content:center;color:var(--brand,#D87830);margin-bottom:18px}

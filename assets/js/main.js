@@ -542,7 +542,7 @@
     var st = eqTickers[key] = { on: true, acc: 0 };
     (function tick(){
       if(!st.on) return;
-      st.acc += 3.0;
+      st.acc += 2.0;
       var step = Math.floor(st.acc);
       if(step){
         st.acc -= step;
