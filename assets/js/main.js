@@ -503,7 +503,12 @@
         rail.addEventListener('mouseleave', function(){ if(item.classList.contains('open')) eqRailStart(rail, 'eq-' + key); });
       }
     });
-    if(openIdx>-1 && eqAcc.children[openIdx]) eqAcc.children[openIdx].classList.add('open');
+    /* 2026-11-20：默认展开第一个分类。
+       之前 6 个抽屉全收起 ⇒ 进页面只看到一排折叠条，轨道即使能滚也没人看得见，
+       于是被反复反馈"这里不滚动"（前两次都在修滚动本身，方向错了）。
+       只默认开一条，仍守住"同一时刻最多一条轨道在动"的性能前提。 */
+    var _autoOpen = openIdx > -1 ? openIdx : 0;
+    if(eqAcc.children[_autoOpen]) eqAcc.children[_autoOpen].classList.add('open');
     window.setTimeout(syncEqRails, 0);
   }
   renderEquipment();
