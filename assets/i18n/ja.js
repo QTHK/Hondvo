@@ -668,5 +668,15 @@ window.__I18N_PACK={lang:"ja",dict:{
   "slide_industries_2_1_desc":"バルブ本体、ジョイント、マスクのコンポーネントは、医療グレードの基準に従ってバッチ射出成形されます。",
   "slide_industries_3_0_desc":"母子ケアと食品に触れる部分は安全な素材とソフトな感触で作られています。",
   "slide_industries_3_1_desc":"100,000 レベルのクリーン ワークショップは消費者レベルの大量生産をサポートし、バッチは安定していて追跡可能です。",
-  "news_read_more":"続きを読む"
+  "news_read_more":"続きを読む",
+  "slide_browse_0_0_tags":"輸液ポンプ,シリンジ,シール部品",
+  "slide_browse_0_1_tags":"経腸栄養,クリーンルーム成形,生体適合性",
+  "slide_browse_0_2_tags":"精密成形,寸法安定性,ロットトレーサビリティ",
+  "slide_browse_1_0_tags":"試験管,検体カップ,マイクロプレート",
+  "slide_browse_1_1_tags":"マイクロ流体,試薬キット,高精度キャビティ",
+  "slide_browse_1_2_tags":"ミクロン公差,長寿命金型",
+  "slide_browse_2_0_tags":"人工呼吸器ハウジング,ネブライザー,マスク",
+  "slide_browse_2_1_tags":"バルブボディ,コネクタ,低リーク",
+  "slide_browse_3_0_tags":"食品グレード,医療グレード,直接接触",
+  "slide_browse_3_1_tags":"ベビー・マタニティ,ソフトタッチ,耐久性"
 }};

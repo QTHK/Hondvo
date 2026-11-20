@@ -668,5 +668,15 @@ window.__I18N_PACK={lang:"zh",dict:{
   "slide_industries_2_1_desc":"阀体、接头与面罩部件按医疗级标准批量注塑。",
   "slide_industries_3_0_desc":"母婴护理与食品接触类部件，材料安全、触感柔和。",
   "slide_industries_3_1_desc":"十万级洁净车间支撑消费级量产，批次稳定可追溯。",
-  "news_read_more":"阅读全文"
+  "news_read_more":"阅读全文",
+  "slide_browse_0_0_tags":"输液泵,注射器,密封件",
+  "slide_browse_0_1_tags":"肠内喂养,洁净注塑,生物相容",
+  "slide_browse_0_2_tags":"精密注塑,尺寸稳定,批次追溯",
+  "slide_browse_1_0_tags":"试管,标本杯,微孔板",
+  "slide_browse_1_1_tags":"微流控,试剂盒,高精度型腔",
+  "slide_browse_1_2_tags":"微米公差,长寿命模具",
+  "slide_browse_2_0_tags":"呼吸机外壳,雾化器,面罩",
+  "slide_browse_2_1_tags":"阀体,接头,低泄漏",
+  "slide_browse_3_0_tags":"食品级,医疗级,直接接触",
+  "slide_browse_3_1_tags":"母婴护理,柔和触感,耐用"
 }};

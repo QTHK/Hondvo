@@ -668,5 +668,15 @@ window.__I18N_PACK={lang:"de",dict:{
   "slide_industries_2_1_desc":"Der Ventilkörper, die Gelenke und die Maskenkomponenten werden im Serienspritzguss nach medizinischen Standards gefertigt.",
   "slide_industries_3_0_desc":"Teile für die Mutter- und Säuglingspflege sowie Lebensmittelkontaktteile bestehen aus sicheren Materialien und fühlen sich weich an.",
   "slide_industries_3_1_desc":"Die 100.000-stufige Reinraumwerkstatt unterstützt die Massenproduktion auf Verbraucherebene, und die Chargen sind stabil und rückverfolgbar.",
-  "news_read_more":"Weiterlesen"
+  "news_read_more":"Weiterlesen",
+  "slide_browse_0_0_tags":"Infusionspumpen,Spritzen,Dichtungen",
+  "slide_browse_0_1_tags":"Enterale Ernährung,Reinraum-Spritzguss,Biokompatibel",
+  "slide_browse_0_2_tags":"Präzisionsspritzguss,Maßhaltigkeit,Chargenrückverfolgbarkeit",
+  "slide_browse_1_0_tags":"Reagenzgläser,Probenbecher,Mikrotiterplatten",
+  "slide_browse_1_1_tags":"Mikrofluidik,Reagenzien-Kits,Präzisionsformnester",
+  "slide_browse_1_2_tags":"Mikron-Toleranz,Langlebiges Werkzeug",
+  "slide_browse_2_0_tags":"Beatmungsgeräte-Gehäuse,Vernebler,Masken",
+  "slide_browse_2_1_tags":"Ventilkörper,Anschlüsse,Geringe Leckage",
+  "slide_browse_3_0_tags":"Lebensmittelecht,Medizinische Qualität,Direkter Kontakt",
+  "slide_browse_3_1_tags":"Baby & Mutter,Weiche Haptik,Langlebig"
 }};

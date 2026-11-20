@@ -668,5 +668,15 @@ window.__I18N_PACK={lang:"es",dict:{
   "slide_industries_2_1_desc":"El cuerpo de la válvula, las juntas y los componentes de la máscara se moldean por inyección por lotes de acuerdo con los estándares de grado médico.",
   "slide_industries_3_0_desc":"Las piezas para el cuidado materno infantil y en contacto con alimentos están fabricadas con materiales seguros y suaves al tacto.",
   "slide_industries_3_1_desc":"El taller limpio de 100.000 niveles admite la producción en masa a nivel del consumidor y los lotes son estables y rastreables.",
-  "news_read_more":"Leer más"
+  "news_read_more":"Leer más",
+  "slide_browse_0_0_tags":"Bombas de infusión,Jeringas,Sellos",
+  "slide_browse_0_1_tags":"Nutrición enteral,Moldeo en sala limpia,Biocompatible",
+  "slide_browse_0_2_tags":"Moldeo de precisión,Estabilidad dimensional,Trazabilidad por lote",
+  "slide_browse_1_0_tags":"Tubos de ensayo,Vasos para muestras,Microplacas",
+  "slide_browse_1_1_tags":"Microfluídica,Kits de reactivos,Cavidades de precisión",
+  "slide_browse_1_2_tags":"Tolerancia micrométrica,Utillaje de larga vida",
+  "slide_browse_2_0_tags":"Carcasas de ventiladores,Nebulizadores,Mascarillas",
+  "slide_browse_2_1_tags":"Cuerpos de válvula,Conectores,Baja fuga",
+  "slide_browse_3_0_tags":"Grado alimentario,Grado médico,Contacto directo",
+  "slide_browse_3_1_tags":"Bebé y maternidad,Tacto suave,Duradero"
 }};

@@ -668,5 +668,15 @@ window.__I18N_PACK={lang:"fr",dict:{
   "slide_industries_2_1_desc":"Le corps de la valve, les joints et les composants du masque sont moulés par injection par lots selon les normes de qualité médicale.",
   "slide_industries_3_0_desc":"Les pièces de soins maternels et infantiles et celles en contact avec les aliments sont faites de matériaux sûrs et doux au toucher.",
   "slide_industries_3_1_desc":"L'atelier propre de niveau 100 000 prend en charge la production de masse au niveau du consommateur, et les lots sont stables et traçables.",
-  "news_read_more":"Lire la suite"
+  "news_read_more":"Lire la suite",
+  "slide_browse_0_0_tags":"Pompes à perfusion,Seringues,Joints d’étanchéité",
+  "slide_browse_0_1_tags":"Nutrition entérale,Moulage en salle blanche,Biocompatible",
+  "slide_browse_0_2_tags":"Moulage de précision,Stabilité dimensionnelle,Traçabilité des lots",
+  "slide_browse_1_0_tags":"Tubes à essai,Gobelets à prélèvement,Microplaques",
+  "slide_browse_1_1_tags":"Microfluidique,Kits de réactifs,Empreintes de précision",
+  "slide_browse_1_2_tags":"Tolérance micronique,Outillage longue durée",
+  "slide_browse_2_0_tags":"Boîtiers de ventilateurs,Nébuliseurs,Masques",
+  "slide_browse_2_1_tags":"Corps de vannes,Connecteurs,Faible fuite",
+  "slide_browse_3_0_tags":"Qualité alimentaire,Qualité médicale,Contact direct",
+  "slide_browse_3_1_tags":"Bébé et maternité,Toucher doux,Durable"
 }};

@@ -5,7 +5,7 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T02:51:46.548Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-20T03:35:27.484Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -1345,7 +1345,27 @@ const I18N = {
 
   "slide_industries_3_1_desc": {"en":"Class 100,000 cleanrooms support consumer-scale production with stable, traceable batches."},
 
-  "news_read_more": {"en":"Read more"}
+  "news_read_more": {"en":"Read more"},
+
+  "slide_browse_0_0_tags": {"en":"Infusion pumps,Syringes,Seals"},
+
+  "slide_browse_0_1_tags": {"en":"Enteral feeding,Cleanroom molding,Biocompatible"},
+
+  "slide_browse_0_2_tags": {"en":"Precision molding,Dimensional stability,Batch traceability"},
+
+  "slide_browse_1_0_tags": {"en":"Test tubes,Specimen cups,Microplates"},
+
+  "slide_browse_1_1_tags": {"en":"Microfluidics,Reagent kits,Precision cavities"},
+
+  "slide_browse_1_2_tags": {"en":"Micron tolerance,Long-life tooling"},
+
+  "slide_browse_2_0_tags": {"en":"Ventilator housings,Nebulizers,Masks"},
+
+  "slide_browse_2_1_tags": {"en":"Valve bodies,Connectors,Low leakage"},
+
+  "slide_browse_3_0_tags": {"en":"Food grade,Medical grade,Direct contact"},
+
+  "slide_browse_3_1_tags": {"en":"Baby & maternal,Soft touch,Durable"}
 };
 
 /* ═══════════ SHARED FOOTER (injected into every .site-footer-mount) ═══════════ */

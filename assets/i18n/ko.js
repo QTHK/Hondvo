@@ -668,5 +668,15 @@ window.__I18N_PACK={lang:"ko",dict:{
   "slide_industries_2_1_desc":"밸브 본체, 조인트 및 마스크 구성 요소는 의료 등급 표준에 따라 일괄 사출 성형됩니다.",
   "slide_industries_3_0_desc":"산모 및 유아용품, 식품 접촉 부품은 안전한 소재와 부드러운 촉감을 사용하여 제작되었습니다.",
   "slide_industries_3_1_desc":"100,000 수준의 클린 작업장은 소비자 수준의 대량 생산을 지원하며 배치는 안정적이고 추적 가능합니다.",
-  "news_read_more":"자세히 보기"
+  "news_read_more":"자세히 보기",
+  "slide_browse_0_0_tags":"수액 펌프,주사기,씰",
+  "slide_browse_0_1_tags":"경장 영양,클린룸 사출,생체 적합성",
+  "slide_browse_0_2_tags":"정밀 사출,치수 안정성,배치 추적성",
+  "slide_browse_1_0_tags":"시험관,검체 컵,마이크로플레이트",
+  "slide_browse_1_1_tags":"미세유체,시약 키트,고정밀 캐비티",
+  "slide_browse_1_2_tags":"마이크론 공차,장수명 금형",
+  "slide_browse_2_0_tags":"인공호흡기 하우징,네뷸라이저,마스크",
+  "slide_browse_2_1_tags":"밸브 바디,커넥터,저누설",
+  "slide_browse_3_0_tags":"식품 등급,의료 등급,직접 접촉",
+  "slide_browse_3_1_tags":"유아 및 산모,소프트 터치,내구성"
 }};
