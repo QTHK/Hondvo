@@ -99,7 +99,11 @@
       if (date) meta.appendChild(el('span', 'date', date));
 
       var wrap = document.createElement('div');
-      wrap.appendChild(el('h4', null, field(it, 'title')));
+      var h4 = el('h4');
+      var a = el('a', null, field(it, 'title'));
+      a.href = '/news/' + encodeURIComponent(it.slug || '') + '/';
+      h4.appendChild(a);
+      wrap.appendChild(h4);
       /* 摘要优先；没填摘要就从正文正文里取一段，别让卡片只剩标题 */
       var sum = field(it, 'summary') || cut(plain(field(it, 'body')), 180);
       if (sum) wrap.appendChild(el('p', null, sum));

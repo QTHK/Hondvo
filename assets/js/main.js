@@ -3333,7 +3333,6 @@ function bindLists(){
             { page:"page-faq", id:"fq-group-6" }
           ],
           faq_discover_items: [
-            { page:"page-faq", id:"faq-downloads" },
             { page:"page-faq", id:"faq-subscribe" }
           ],
           /* —— 关于我们：公司 / 团队与案例 / 联络方式 —— */
