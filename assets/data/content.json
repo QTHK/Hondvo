@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-20T03:46:06.130Z",
+  "generatedAt": "2026-11-27T06:08:05.323Z",
   "sourceLang": "en",
   "langs": [
     "en",
@@ -17,7 +17,7 @@
     "case"
   ],
   "counts": {
-    "news": 7,
+    "news": 6,
     "case": 3
   },
   "items": [
@@ -441,60 +441,6 @@
           "body": "La rectificadora de coordenadas Hauser S35, de fabricación suiza, ha completado su instalación y puesta en marcha en HONDVO Tooling. La máquina amplía la capacidad de la empresa en acabado de cavidades de alta precisión y corrección posterior al mecanizado.\n\nCon una precisión de posicionamiento a nivel micrométrico, la Hauser S35 se utiliza para componentes críticos del molde en los que la tolerancia de cavidad y el acabado superficial afectan directamente a la calidad de las piezas médicas moldeadas. Refuerza la capacidad interna de HONDVO para abordar insertos de núcleo complejos, el ajuste de electrodos y la corrección fina de superficies sin recurrir a la subcontratación.\n\nEl equipo fue aceptado conforme a los criterios de aceptación acordados y entró en el programa de mantenimiento preventivo y calibración desde el primer día.",
           "summary": "La rectificadora de coordenadas Hauser S35 con precisión de 0,001 mm ha completado su instalación y puesta en marcha en el taller de moldes, mejorando aún más la capacidad de fabricación de moldes de precisión.",
           "title": "Instalación y puesta en marcha de la rectificadora de coordenadas suiza Hauser S35 completada"
-        }
-      }
-    },
-    {
-      "id": 6,
-      "type": "news",
-      "slug": "hondvo-tooling-passed-iatf-16949-recertification-audit",
-      "sort": 20260308,
-      "meta": {
-        "date": "2026-03-08",
-        "cover": "images/workshop_2.webp"
-      },
-      "publishedAt": "2026-10-14 03:54:20",
-      "updatedAt": "2026-11-20 02:48:30",
-      "texts": {
-        "en": {
-          "body": "HONDVO Tooling successfully passed the recertification audit of its automotive quality management system. The audit confirmed the effectiveness of the company&#39;s process controls, change management and continuous improvement mechanisms.\n\nAlthough HONDVO&#39;s website now focuses on medical device manufacturing, the automotive-grade disciplines developed through IATF 16949 — structured problem solving, layered process audits and rigorous traceability — continue to benefit medical mold projects. These practices are applied to tooling design reviews, machining process control and final mold validation.\n\nThe recertification is an internal capability milestone rather than a change in the website&#39;s stated scope, which remains centered on Class II medical device components and precision molds.",
-          "summary": "HONDVO TOOLING successfully passed the IATF 16949 automotive quality management system recertification audit. System effectiveness was highly praised by auditors, continuing to meet stringent automotive supply chain requirements.",
-          "title": "HONDVO TOOLING Passed IATF 16949 Recertification Audit"
-        },
-        "zh": {
-          "body": "弘欧模具顺利通过汽车行业质量管理体系再认证审核。审核确认了公司在过程控制、变更管理与持续改进机制方面的有效性。\n\n虽然弘欧官网现以医疗器械制造为展示重点，但通过 IATF 16949 建立起来的汽车级管理纪律——结构化问题分析、分层过程审核与严格追溯——仍在持续反哺医疗模具项目，应用于模具设计评审、加工过程控制与最终模具验证。\n\n本次再认证属于内部能力里程碑，并不改变网站的展示范围：官网仍聚焦于 Class II 医疗器械部件与精密模具。",
-          "summary": "弘欧精密模具顺利通过 IATF 16949 汽车行业质量管理体系换证审核，体系运行有效性获审核组高度评价，持续满足汽车供应链严苛要求。",
-          "title": "弘欧精密模具通过 IATF 16949 换证审核"
-        },
-        "de": {
-          "body": "HONDVO Tooling hat das Rezertifizierungsaudit seines Qualitätsmanagementsystems für die Automobilindustrie erfolgreich bestanden. Das Audit bestätigte die Wirksamkeit der Prozesskontrollen, des Änderungsmanagements und der Mechanismen zur kontinuierlichen Verbesserung.\n\nObwohl der Internetauftritt von HONDVO heute auf die Medizinproduktefertigung ausgerichtet ist, kommen die durch IATF 16949 entwickelten Disziplinen der Automobilqualität — strukturierte Problemlösung, mehrstufige Prozessaudits und strenge Rückverfolgbarkeit — weiterhin medizinischen Formenprojekten zugute. Diese Praktiken fließen in Design-Reviews für Werkzeuge, die Steuerung der Bearbeitungsprozesse und die abschließende Formenvalidierung ein.\n\nDie Rezertifizierung ist ein interner Meilenstein der Leistungsfähigkeit und keine Änderung des auf der Website genannten Tätigkeitsbereichs, der weiterhin auf Komponenten für Medizinprodukte der Klasse II und Präzisionsformen ausgerichtet ist.",
-          "summary": "HONDVO TOOLING hat das IATF 16949-Rezertifizierungsaudit für Qualitätsmanagement in der Automobilindustrie erfolgreich bestanden. Die Wirksamkeit des Systems wurde vom Auditteam hoch bewertet; die strengen Anforderungen der automobilen Lieferkette werden weiterhin erfüllt.",
-          "title": "HONDVO TOOLING hat das IATF 16949-Rezertifizierungsaudit bestanden"
-        },
-        "ru": {
-          "body": "HONDVO Tooling успешно прошла аудит ресертификации своей системы менеджмента качества для автомобильной промышленности. Аудит подтвердил результативность управления процессами, менеджмента изменений и механизмов постоянного улучшения.\n\nХотя сайт HONDVO сегодня ориентирован на производство медицинских изделий, дисциплины автомобильного уровня, освоенные благодаря IATF 16949 — структурированное решение проблем, многоуровневые аудиты процессов и строгая прослеживаемость — по-прежнему приносят пользу проектам медицинских пресс-форм. Эти практики применяются при анализе конструкции оснастки, управлении процессами механообработки и финальной валидации пресс-форм.\n\nРесертификация — это внутренняя веха возможностей, а не изменение заявленной на сайте области деятельности, которая по-прежнему сосредоточена на компонентах медицинских изделий класса II и прецизионных пресс-формах.",
-          "summary": "HONDVO TOOLING успешно прошла ресертификационный аудит системы менеджмента качества IATF 16949 для автомобильной промышленности. Эффективность системы получила высокую оценку аудиторов; строгие требования автомобильной цепочки поставок продолжают выполняться.",
-          "title": "HONDVO TOOLING успешно прошла ресертификационный аудит IATF 16949"
-        },
-        "fr": {
-          "body": "HONDVO Tooling a passé avec succès l'audit de recertification de son système de management de la qualité automobile. L'audit a confirmé l'efficacité des contrôles de procédé, de la gestion des changements et des mécanismes d'amélioration continue.\n\nBien que le site de HONDVO soit aujourd'hui centré sur la fabrication de dispositifs médicaux, les disciplines de niveau automobile développées grâce à l'IATF 16949 — résolution structurée de problèmes, audits de procédé à plusieurs niveaux et traçabilité rigoureuse — continuent de bénéficier aux projets de moules médicaux. Ces pratiques s'appliquent aux revues de conception d'outillage, à la maîtrise des procédés d'usinage et à la validation finale des moules.\n\nLa recertification constitue un jalon interne de capacité et non une modification du périmètre annoncé sur le site, qui reste centré sur les composants de dispositifs médicaux de classe II et les moules de précision.",
-          "summary": "HONDVO TOOLING a réussi l'audit de recertification IATF 16949 pour le SMQ automobile. L'efficacité du système a été hautement appréciée par les auditeurs, continuant à satisfaire aux exigences strictes de la chaîne d'approvisionnement automobile.",
-          "title": "HONDVO TOOLING a réussi l'audit de recertification IATF 16949"
-        },
-        "ja": {
-          "body": "HONDVO Tooling は、自動車品質マネジメントシステムの再認証審査に合格しました。本審査により、工程管理、変更管理、継続的改善の仕組みの有効性が確認されました。\n\nHONDVO のウェブサイトは現在、医療機器製造に焦点を当てていますが、IATF 16949 を通じて培った自動車品質の規律 — 構造化された問題解決、階層別工程監査、厳格なトレーサビリティ — は、医療用金型プロジェクトに引き続き活かされています。これらの実践は、金型設計レビュー、加工工程管理、最終金型バリデーションに適用されています。\n\n本再認証は社内の能力到達点であり、ウェブサイトに記載された事業範囲の変更ではありません。事業範囲はクラス II 医療機器部品および精密金型を中心としています。",
-          "summary": "弘欧精密模具はIATF 16949自動車産業品質マネジメントシステムの更新審査に合格しました。システムの有効性について審査チームから高い評価を受け、自動車サプライチェーンの厳格な要求事項を継続的に満たしています。",
-          "title": "弘欧精密模具、IATF 16949更新審査に合格"
-        },
-        "ko": {
-          "body": "HONDVO Tooling은 자동차 품질경영시스템 재인증 심사를 통과했습니다. 이번 심사로 공정관리, 변경관리, 지속적 개선 체계의 유효성이 확인되었습니다.\n\nHONDVO 웹사이트는 현재 의료기기 제조에 초점을 두고 있지만, IATF 16949를 통해 구축한 자동차 수준의 규율 — 구조화된 문제해결, 계층별 공정심사, 엄격한 추적성 — 은 의료용 금형 프로젝트에 계속 활용되고 있습니다. 이러한 관행은 금형 설계 검토, 가공 공정관리, 최종 금형 밸리데이션에 적용됩니다.\n\n이번 재인증은 내부 역량의 이정표이며, 웹사이트에 명시된 사업 범위의 변경이 아닙니다. 사업 범위는 클래스 II 의료기기 부품과 정밀 금형에 계속 초점을 두고 있습니다.",
-          "summary": "HONDVO TOOLING은 IATF 16949 자동차 산업 품질경영시스템 갱신 심사를 성공적으로 통과했습니다. 시스템 운영의 유효성은 심사팀으로부터 높은 평가를 받았으며, 자동차 공급망의 엄격한 요구사항을 지속적으로 충족하고 있습니다.",
-          "title": "HONDVO TOOLING, IATF 16949 갱신 심사 통과"
-        },
-        "es": {
-          "body": "HONDVO Tooling ha superado con éxito la auditoría de recertificación de su sistema de gestión de la calidad automotriz. La auditoría confirmó la eficacia de los controles de proceso, la gestión de cambios y los mecanismos de mejora continua de la empresa.\n\nAunque el sitio web de HONDVO se centra hoy en la fabricación de dispositivos médicos, las disciplinas de nivel automotriz desarrolladas a través de IATF 16949 —resolución estructurada de problemas, auditorías de proceso por niveles y trazabilidad rigurosa— siguen beneficiando a los proyectos de moldes médicos. Estas prácticas se aplican a las revisiones de diseño de utillaje, al control de los procesos de mecanizado y a la validación final del molde.\n\nLa recertificación es un hito interno de capacidad y no un cambio en el alcance declarado en el sitio web, que sigue centrado en componentes para dispositivos médicos de clase II y moldes de precisión.",
-          "summary": "HONDVO TOOLING superó con éxito la auditoría de recertificación del sistema de gestión de calidad automotriz IATF 16949. La eficacia del sistema fue altamente valorada por los auditores, cumpliendo continuamente con los estrictos requisitos de la cadena de suministro automotriz.",
-          "title": "HONDVO TOOLING superó la auditoría de recertificación IATF 16949"
         }
       }
     },
