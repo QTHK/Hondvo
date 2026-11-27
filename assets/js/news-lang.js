@@ -63,11 +63,45 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
-  /* 与后端 lib/news-pages.js 的 bodyToHtml 同口径：纯文本按空行分段 */
+  /* 与后端 lib/news-pages.js 的 bodyToHtml 同口径：纯文本按空行分段。
+     ⚠️ 2026-11-27 补净化：这个文件是**唯一**把 content.json 的正文直接塞进 innerHTML 的地方，
+        而静态页那条路径（en）有后端白名单清洗，非英语这条没有 —— 等于绕过了防线。
+        这里用浏览器自身的解析器做白名单，删标签、剥事件属性、拦 javascript: 协议。 */
+  var ALLOW_TAGS = {
+    P: 1, BR: 1, STRONG: 1, B: 1, EM: 1, I: 1, U: 1, S: 1, UL: 1, OL: 1, LI: 1,
+    H2: 1, H3: 1, H4: 1, BLOCKQUOTE: 1, A: 1, SPAN: 1, HR: 1, TABLE: 1, THEAD: 1,
+    TBODY: 1, TR: 1, TD: 1, TH: 1
+  };
+
+  function cleanHtml(html) {
+    if (!document.createElement) return '';
+    var tpl = document.createElement('template');
+    tpl.innerHTML = String(html || '');
+    (function walk(node) {
+      var kids = Array.prototype.slice.call(node.childNodes || []);
+      for (var i = 0; i < kids.length; i++) {
+        var c = kids[i];
+        if (c.nodeType === 8) { node.removeChild(c); continue; }   /* 注释 */
+        if (c.nodeType !== 1) continue;                            /* 文本节点原样保留（已是文本，不会二次解析） */
+        if (!ALLOW_TAGS[c.tagName]) { node.removeChild(c); continue; }
+        var attrs = Array.prototype.slice.call(c.attributes || []);
+        for (var j = 0; j < attrs.length; j++) {
+          var name = attrs[j].name.toLowerCase();
+          if (name.indexOf('on') === 0 || name === 'style') { c.removeAttribute(attrs[j].name); continue; }
+          if ((name === 'href' || name === 'src') && /^\s*(javascript|data):/i.test(attrs[j].value)) {
+            c.removeAttribute(attrs[j].name);
+          }
+        }
+        walk(c);
+      }
+    })(tpl.content);
+    return tpl.innerHTML;
+  }
+
   function toHtml(body) {
     var s = String(body || '').trim();
     if (!s) return '';
-    if (/<(p|div|ul|ol|h[1-6]|blockquote|table|figure)\b/i.test(s)) return s;
+    if (/<(p|div|ul|ol|h[1-6]|blockquote|table|figure)\b/i.test(s)) return cleanHtml(s);
     return s.split(/\n{2,}/)
       .map(function (t) { return t.trim(); })
       .filter(Boolean)

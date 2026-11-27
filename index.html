@@ -81,9 +81,9 @@
 
 <title data-lang-key="page_title">HONDVO Technology - Precision Medical Device Components &amp; Precision Mold Manufacturing</title>
 
-<link rel="stylesheet" href="assets/css/main.css?v=f9e9cd78">
-<link rel="stylesheet" href="assets/css/pages.css?v=8b3e7f7b">
-<link rel="stylesheet" href="assets/css/home-dyn.css?v=c4241fc5">
+<link rel="stylesheet" href="assets/css/main.css?v=41a18c7e">
+<link rel="stylesheet" href="assets/css/pages.css?v=749db757">
+<link rel="stylesheet" href="assets/css/home-dyn.css?v=7aae5fb8">
 <!-- ═══════════ JSON-LD Structured Data (Organization) ═══════════ -->
 
 <script type="application/ld+json">
@@ -1866,13 +1866,13 @@
          版图点亮职责移交配套脚本 map-partner.js。两者必须同时引入、缺一不可：
          map.js 负责底图/标记/飞线，map-partner.js 负责点亮/标签避让/入场动效。
      ============================================================ -->
-<script src="assets/js/sanitize.js?v=fb7a2007" defer></script>
+<script src="assets/js/sanitize.js?v=85c987b3" defer></script>
 <script src="assets/js/i18n.js" defer></script>
-<script src="assets/js/i18n-pack.js?v=32279d3a" defer></script>
-<script src="assets/js/inquiry-meta.js?v=d207ab0f" defer></script>
-<script src="assets/js/render.js?v=b0258cbd" defer></script>
+<script src="assets/js/i18n-pack.js?v=f0e1bce7" defer></script>
+<script src="assets/js/inquiry-meta.js?v=049e8845" defer></script>
+<script src="assets/js/render.js?v=bec65f2f" defer></script>
 <script src="assets/js/main.js?v=5fd07160" defer></script>
-<script src="assets/js/home-dyn.js?v=f5859a94" defer></script>
+<script src="assets/js/home-dyn.js?v=9ba62ff3" defer></script>
 <!-- 地图模块按需加载（2026-11-05）：
      map.js 130KB + map-partner.js 18KB 原本在每个页面首屏都下载，但只在「关于我们」页用。
      改为进入 #page-about（点击链接或首次直接落地该 hash）时才加载，首屏省约 48KB gzip。
@@ -1887,7 +1887,7 @@
     /* 2026-11-05：动态创建的 script 带不上构建期指纹（hash-assets.py 只管 HTML 里静态写的），
        而 nginx 对 .js 缓存 1 小时 ⇒ 修完 bug 用户强刷前仍拿旧文件。
        这里手动挂一个版本号，改这两个文件时记得同步 +1。 */
-    a.src = 'assets/js/map.js?v=20261105c';
+    a.src = 'assets/js/map.js?v=1eedf8a6';
     a.onload = function () {
       /* 后台「合作伙伴地图」发布的数据（2026-11-05）：
          map.js 内置 9 国，后台发布后由 __setPartnerCountries 覆盖内置数组。
@@ -1898,7 +1898,7 @@
          与 content.js「拿不到 content.json 就保留静态卡片」是同一套降级哲学。 */
       function partnerScript() {
         var b = document.createElement('script');
-        b.src = 'assets/js/map-partner.js?v=20261105c';
+        b.src = 'assets/js/map-partner.js?v=f3e057a2';
         document.head.appendChild(b);
       }
       if (typeof window.__setPartnerCountries !== 'function') { partnerScript(); return; }
@@ -1928,18 +1928,18 @@
 })();
 </script>
 <!-- libphonenumber（179KB）改为按需加载：phone-intl.js 在进入联系页 / 聚焦电话框 / 打开询盘弹窗时才拉取。 -->
-<script src="assets/js/phone-intl.js?v=5c0a577b" defer></script>
-<script src="assets/js/email-hint.js?v=2d05a49c" defer></script>
-<script src="assets/js/hero-video.js?v=da5e1ab1" defer></script>
+<script src="assets/js/phone-intl.js?v=047ca0cf" defer></script>
+<script src="assets/js/email-hint.js?v=64b3bb94" defer></script>
+<script src="assets/js/hero-video.js?v=88348792" defer></script>
 <!-- M3 内容渲染（2026-10-14）：读 assets/data/content.json 渲染新闻/案例。
      由后台「一键上线」生成该文件；文件不存在时静默保留上面的静态卡片。 -->
-<script src="assets/js/content.js?v=3b6c9ee2" defer></script>
+<script src="assets/js/content.js?v=6afca703" defer></script>
 
 <!-- M5 资质证书渲染（2026-11-06）：读 assets/data/certifications.json 渲染证书区。
      拿不到文件就保留上面那 3 张静态卡片 —— 与 content.js 同一套降级哲学。 -->
 <script src="assets/js/certs.js?v=e87903be" defer></script>
 <!-- 新闻详情（history 路由 /news/<slug>/，2026-11-20） -->
-<script src="assets/js/news-detail.js?v=1" defer></script>
+<script src="assets/js/news-detail.js?v=3caf279e" defer></script>
 <!-- ================================================================== -->
 </body>
 

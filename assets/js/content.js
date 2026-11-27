@@ -123,6 +123,19 @@
     var items = (data.items || []).filter(function (i) { return i.type === 'news'; });
     if (!items.length) return false;              /* 没有动态内容 ⇒ 保留静态卡片 */
 
+    /* 2026-11-27：**前端自己排一次**，不再依赖产物顺序。
+       产物顺序由 contents.sort 决定，而 sort 是"后台录入时派生"的 —— 只要有一处漏填/历史数据
+       不规范，头条就会锁在旧新闻上（实测：新增新闻永远排最后）。这里按发布日期兜底，
+       日期相同再退回 sort / id，保证"最新的一条一定是头条"。 */
+    items.sort(function (a, b) {
+      var da = (a.meta && a.meta.date) || '';
+      var db = (b.meta && b.meta.date) || '';
+      if (da !== db) return db.localeCompare(da);
+      var sa = Number(a.sort) || 0, sb = Number(b.sort) || 0;
+      if (sa !== sb) return sb - sa;
+      return (Number(b.id) || 0) - (Number(a.id) || 0);
+    });
+
     var frag = document.createDocumentFragment();
 
     /* ── 头条 ── */
