@@ -5,9 +5,9 @@
       "slug": "13485",
       "slot": "cert_13485",
       "file": "cert_2_page1.webp",
-      "issuer": "",
-      "issuedAt": "",
-      "expiresAt": "",
+      "issuer": "Bureau Veritas",
+      "issuedAt": "2025-10-08",
+      "expiresAt": "2028-10-07",
       "names": {
         "en": "ISO 13485 Medical Device Quality Management System",
         "zh": "ISO 13485 医疗器械质量管理体系",
@@ -24,9 +24,9 @@
       "slug": "9001",
       "slot": "cert_9001",
       "file": "cert_3_page1.webp",
-      "issuer": "",
-      "issuedAt": "",
-      "expiresAt": "",
+      "issuer": "GICG",
+      "issuedAt": "2026-11-19",
+      "expiresAt": "2029-09-30",
       "names": {
         "en": "ISO 9001 Quality Management System",
         "zh": "ISO 9001 质量管理体系",
@@ -59,5 +59,5 @@
     }
   ],
   "count": 3,
-  "generatedAt": "2026-11-27T06:10:16.888Z"
+  "generatedAt": "2026-11-27T08:36:00.596Z"
 }

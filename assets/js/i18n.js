@@ -5,7 +5,7 @@
    ============================================================ */
 /* ═══════════ I18N SYSTEM (direct replacement) ═══════════ */
 
-/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-27T06:10:15.445Z）。
+/* ⚠️ 本字典由 HONDVO 后台「发布台」生成（2026-11-27T08:35:59.030Z）。
    如需修改文案请回到后台改 —— 直接编辑本文件会在下次发布时被覆盖。 */
 const I18N = {
 
@@ -329,10 +329,6 @@ const I18N = {
 
   "cert_13485_e": {"en":"Medical Device QMS"},
 
-  "cert_iatf_t": {"en":"IATF 16949"},
-
-  "cert_iatf_e": {"en":"Automotive QMS"},
-
   "cert_9001_t": {"en":"ISO 9001"},
 
   "cert_9001_e": {"en":"Quality Management"},
@@ -438,8 +434,6 @@ const I18N = {
   "ct_sub_text": {"en":"For business cooperation inquiries, please contact us via phone or email<br>We will arrange a professional team to follow up with you"},
 
   "ct_qr_label": {"en":"Scan to add WeCom"},
-
-  "cert_iatf": {"en":"IATF 16949 Automotive Quality Management System"},
 
   "cert_13485": {"en":"ISO 13485 Medical Device Quality Management System"},
 
