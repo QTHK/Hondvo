@@ -1,0 +1,403 @@
+{
+  "order": [
+    "cnc",
+    "edm",
+    "wire",
+    "grinder",
+    "injection",
+    "qc"
+  ],
+  "data": {
+    "cnc": {
+      "name": "CNC 数控加工设备",
+      "nameEn": "CNC Machining Centers",
+      "items": [
+        {
+          "slug": "hauser-s35",
+          "name": "Hauser S35",
+          "model": "坐标磨",
+          "origin": "瑞士",
+          "precision": "0.001mm",
+          "qty": 1
+        },
+        {
+          "slug": "hauser-s50l",
+          "name": "Hauser S50L",
+          "model": "坐标磨",
+          "origin": "瑞士",
+          "precision": "0.001mm",
+          "qty": 1
+        },
+        {
+          "slug": "mazak-qte-200l",
+          "name": "Mazak QTE 200L",
+          "model": "CNC车床",
+          "origin": "日本",
+          "precision": "±0.002mm",
+          "qty": 1
+        },
+        {
+          "slug": "kellenberger-k10",
+          "name": "Kellenberger K10",
+          "model": "数控磨床",
+          "origin": "瑞士",
+          "precision": "±0.0005mm",
+          "qty": 1
+        },
+        {
+          "slug": "makino-v90s",
+          "name": "MAKINO V90S",
+          "model": "五轴龙门",
+          "origin": "日本",
+          "precision": "0.005mm",
+          "qty": 1
+        },
+        {
+          "slug": "yasda-ymc430",
+          "name": "YASDA YMC430",
+          "model": "高速CNC",
+          "origin": "日本",
+          "precision": "0.001mm",
+          "qty": 2
+        },
+        {
+          "slug": "yasda-ymc650",
+          "name": "YASDA YMC650",
+          "model": "高速CNC",
+          "origin": "日本",
+          "precision": "0.001mm",
+          "qty": 1
+        },
+        {
+          "slug": "roders-rxp501",
+          "name": "RODERS RXP501",
+          "model": "CNC",
+          "origin": "德国",
+          "precision": "0.002mm",
+          "qty": 1
+        },
+        {
+          "slug": "roders-rxp601dsh",
+          "name": "RODERS RXP601DSH",
+          "model": "五轴CNC",
+          "origin": "德国",
+          "precision": "0.002mm",
+          "qty": 1
+        },
+        {
+          "slug": "fanuc-a-t14if",
+          "name": "FANUC A-T14iF",
+          "model": "CNC",
+          "origin": "日本",
+          "precision": "0.005mm",
+          "qty": 1
+        },
+        {
+          "slug": "fanuc-a-d21mib",
+          "name": "FANUC a-D21MiB",
+          "model": "CNC",
+          "origin": "日本",
+          "precision": "0.005mm",
+          "qty": 2
+        },
+        {
+          "slug": "hurco-vmx42hsi",
+          "name": "HURCO VMX42HSi",
+          "model": "CNC",
+          "origin": "美国",
+          "precision": "0.005mm",
+          "qty": 2
+        },
+        {
+          "slug": "awea-sp-2016",
+          "name": "AWEA SP-2016",
+          "model": "龙门",
+          "origin": "台湾",
+          "precision": "0.01mm",
+          "qty": 1
+        },
+        {
+          "slug": "wele-rb-212",
+          "name": "WELE RB-212",
+          "model": "龙门",
+          "origin": "台湾",
+          "precision": "0.01mm",
+          "qty": 1
+        },
+        {
+          "slug": "ycm-ncv-102am",
+          "name": "YCM NCV-102AM",
+          "model": "CNC铣",
+          "origin": "台湾",
+          "precision": "—",
+          "qty": 2
+        },
+        {
+          "slug": "ycm-nxv-1020am",
+          "name": "YCM NXV-1020AM",
+          "model": "CNC铣",
+          "origin": "台湾",
+          "precision": "—",
+          "qty": 1
+        },
+        {
+          "slug": "keruisi-k-540a",
+          "name": "KERUISI K-540A",
+          "model": "CNC",
+          "origin": "中国",
+          "precision": "0.005mm",
+          "qty": 2
+        },
+        {
+          "slug": "keruisi-k540ih",
+          "name": "KERUISI K540iH",
+          "model": "CNC",
+          "origin": "中国",
+          "precision": "0.005mm",
+          "qty": 2
+        }
+      ]
+    },
+    "edm": {
+      "name": "EDM 电火花加工设备",
+      "nameEn": "EDM Machines",
+      "items": [
+        {
+          "slug": "agiecharmilles-form-p350",
+          "name": "AgieCharmilles Form P350",
+          "model": "成型机",
+          "origin": "瑞士",
+          "precision": "0.002mm",
+          "qty": 3
+        },
+        {
+          "slug": "sodick-ad32ls",
+          "name": "Sodick AD32Ls",
+          "model": "成型机",
+          "origin": "日本",
+          "precision": "0.005mm",
+          "qty": 2
+        },
+        {
+          "slug": "makino-edge3i",
+          "name": "MAKINO EDGE3i",
+          "model": "成型机",
+          "origin": "日本",
+          "precision": "0.005mm",
+          "qty": 1
+        },
+        {
+          "slug": "makino-edge2i",
+          "name": "MAKINO EDGE2i",
+          "model": "成型机",
+          "origin": "日本",
+          "precision": "0.003mm",
+          "qty": 1
+        }
+      ]
+    },
+    "wire": {
+      "name": "线切割设备",
+      "nameEn": "Wire-Cut EDM",
+      "items": [
+        {
+          "slug": "seibu-m50hp",
+          "name": "Seibu M50HP",
+          "model": "慢走丝",
+          "origin": "日本",
+          "precision": "—",
+          "qty": 2
+        },
+        {
+          "slug": "sodick-aq550ls",
+          "name": "SODICK AQ550LS",
+          "model": "慢走丝",
+          "origin": "日本",
+          "precision": "0.003mm",
+          "qty": 1
+        },
+        {
+          "slug": "sodick-aq360ls",
+          "name": "SODICK AQ360LS",
+          "model": "慢走丝",
+          "origin": "日本",
+          "precision": "0.005mm",
+          "qty": 1
+        },
+        {
+          "slug": "sanniu",
+          "name": "SANNIU",
+          "model": "慢走丝",
+          "origin": "台湾",
+          "precision": "—",
+          "qty": 3
+        }
+      ]
+    },
+    "grinder": {
+      "name": "精密磨床设备",
+      "nameEn": "Precision Grinders",
+      "items": [
+        {
+          "slug": "okamoto-126dx",
+          "name": "Okamoto 126DX",
+          "model": "精密磨床",
+          "origin": "日本",
+          "precision": "0.002mm",
+          "qty": 1
+        },
+        {
+          "slug": "okamoto-95dx",
+          "name": "Okamoto 95DX",
+          "model": "精密磨床",
+          "origin": "日本",
+          "precision": "0.005mm",
+          "qty": 1
+        },
+        {
+          "slug": "okamoto-acc-450st",
+          "name": "Okamoto ACC-450ST",
+          "model": "精密磨床",
+          "origin": "日本",
+          "precision": "0.002mm",
+          "qty": 2
+        },
+        {
+          "slug": "permanet-618s",
+          "name": "PERMANET 618S",
+          "model": "精密磨床",
+          "origin": "台湾",
+          "precision": "0.005mm",
+          "qty": 1
+        },
+        {
+          "slug": "permanet-hf618s",
+          "name": "PERMANET HF618S",
+          "model": "精密磨床",
+          "origin": "台湾",
+          "precision": "0.01mm",
+          "qty": 1
+        }
+      ]
+    },
+    "injection": {
+      "name": "注塑机",
+      "nameEn": "Injection Molding Machines",
+      "items": [
+        {
+          "slug": "sumitomo-se50ev",
+          "name": "SUMITOMO SE50EV",
+          "model": "电动",
+          "origin": "日本",
+          "precision": "500KN",
+          "qty": 2
+        },
+        {
+          "slug": "sumitomo-se100ev",
+          "name": "SUMITOMO SE100EV",
+          "model": "电动",
+          "origin": "日本",
+          "precision": "1000KN",
+          "qty": 4
+        },
+        {
+          "slug": "sumitomo-se180ev",
+          "name": "SUMITOMO SE180EV",
+          "model": "电动",
+          "origin": "日本",
+          "precision": "1800KN",
+          "qty": 4
+        },
+        {
+          "slug": "toyo-cs-230",
+          "name": "TOYO CS-230",
+          "model": "电动",
+          "origin": "日本",
+          "precision": "2300KN",
+          "qty": 2
+        },
+        {
+          "slug": "toyo-cs-280",
+          "name": "TOYO CS-280",
+          "model": "电动",
+          "origin": "日本",
+          "precision": "2800KN",
+          "qty": 1
+        },
+        {
+          "slug": "haitian-90-800",
+          "name": "HAITIAN 90~800",
+          "model": "通用",
+          "origin": "中国",
+          "precision": "900~8000KN",
+          "qty": 4
+        },
+        {
+          "slug": "balzea-v200sd",
+          "name": "BALZEA V200SD",
+          "model": "立式",
+          "origin": "—",
+          "precision": "2000KN",
+          "qty": 1
+        },
+        {
+          "slug": "zsv160-120-lsr",
+          "name": "ZSV160/120-LSR",
+          "model": "液态硅胶专用",
+          "origin": "—",
+          "precision": "—",
+          "qty": 3
+        }
+      ]
+    },
+    "qc": {
+      "name": "品质检测设备",
+      "nameEn": "Quality Inspection Equipment",
+      "items": [
+        {
+          "slug": "hexagon-viewmax-d4",
+          "name": "HEXAGON VIEWMAX D4",
+          "model": "CMM+3D扫描",
+          "origin": "—",
+          "precision": "0.005mm",
+          "qty": 1
+        },
+        {
+          "slug": "hexagon-global-s-5-07-05",
+          "name": "HEXAGON Global S 5.07.05",
+          "model": "CMM",
+          "origin": "—",
+          "precision": "0.0012mm",
+          "qty": 1
+        },
+        {
+          "slug": "hexagon-classic-686",
+          "name": "HEXAGON Classic 686",
+          "model": "CMM",
+          "origin": "—",
+          "precision": "0.0017mm",
+          "qty": 1
+        },
+        {
+          "slug": "nikon-vma-4540",
+          "name": "NIKON VMA-4540",
+          "model": "2.5D CMM",
+          "origin": "—",
+          "precision": "0.0012mm",
+          "qty": 1
+        },
+        {
+          "slug": "hexagon-rigelscan-ultra",
+          "name": "HEXAGON RigelScan Ultra",
+          "model": "手持3D扫描",
+          "origin": "—",
+          "precision": "0.02mm",
+          "qty": 1
+        }
+      ]
+    }
+  },
+  "count": 44,
+  "units": 70,
+  "generatedAt": "2026-11-27T08:46:50.717Z"
+}

@@ -475,6 +475,22 @@
     photoPh:{zh:'Equipment photo',en:'Equipment photo',de:'Gerätefoto',ru:'Фото оборудования',fr:'Photo de l’équipement',ja:'設備写真',ko:'장비 사진',es:'Foto del equipo'}
   };
   function equipPick(map, key, lang){ var e = map[key]; return e ? (e[lang] || e.en || e.zh || key) : key; }
+  /* 2026-11-27 M4：设备表改由后台维护，发布产物 assets/data/equipment.json 覆盖静态数据。
+     读不到/解析失败一律保留 MOLD.equip 静态 44 台 —— 官网不能因为一个 JSON 挂掉。 */
+  var EQUIP = null;
+  function equipSrc(){ return EQUIP || MOLD.equip; }
+  function normalizeEquip(j){
+    if(!j || !j.order || !j.order.length || !j.data) return null;
+    var order=[], data={};
+    j.order.forEach(function(code){
+      var g=j.data[code]; if(!g || !g.items || !g.items.length) return;
+      order.push(code);
+      data[code]={ zh:g.name||code, en:g.nameEn||g.name||code, items:g.items.map(function(it){
+        return { n:it.name, id:it.slug, m:it.model||'', o:it.origin||'', p:it.precision||'', q:it.qty };
+      })};
+    });
+    return order.length ? { order:order, data:data } : null;
+  }
   var eqAcc = document.getElementById('qualEqAcc');
   function renderEquipment(){
     if(!eqAcc) return;
@@ -485,8 +501,8 @@
     var openEl = eqAcc.querySelector('.eq-item.open');
     var openIdx = openEl ? Array.prototype.indexOf.call(eqAcc.children, openEl) : -1;
     eqAcc.innerHTML = '';
-    MOLD.equip.order.forEach(function(key){
-      var c = MOLD.equip.data[key];
+    equipSrc().order.forEach(function(key){
+      var c = equipSrc().data[key];
       var title = equipPick(equipCopy, key, lang) || c.zh;
       var total = c.items.reduce(function(s,d){ return s + (parseInt(d.q,10)||1); }, 0);
       /* 2026-11-19 市场部：抽屉内由「五列表格」改为「名称在上、图片在下」的卡片轨道。 */
@@ -530,6 +546,21 @@
   }
   renderEquipment();
   document.addEventListener('hondvo:lang', renderEquipment);
+
+  /* 2026-11-27 M4：设备表已入库，官网读发布产物 assets/data/equipment.json。
+     拿不到 / 解析失败 / 结构为空 ⇒ 继续用上面的静态 44 台（官网不能因为一个 JSON 挂掉）。 */
+  (function loadEquipData(){
+    if(typeof fetch !== 'function') return;
+    fetch('assets/data/equipment.json', { cache: 'no-cache' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        var n = normalizeEquip(j);
+        if(!n) return;
+        EQUIP = n;
+        renderEquipment();
+      })
+      .catch(function(){ /* 保留静态兜底 */ });
+  })();
 
   /* 抽屉展开后才滚动；切换/收起立即停 —— 同一时刻最多一条轨道在动（44 张卡不一起跑）。
      2026-11-19：改为无缝循环 —— 克隆一份卡片接在后面，越过一份宽度就折回，
@@ -615,7 +646,7 @@
     document.body.style.overflow = '';
   }
   function openEqDetail(gkey, di){
-    var gdata = MOLD.equip.data[gkey];
+    var gdata = equipSrc().data[gkey];
     var d = gdata && gdata.items[di];
     if(!d) return;
     var lang = moldLang();
