@@ -32,6 +32,87 @@
 
   var lang = pickLang();
 
+  /* ── 框架文案（2026-11-27）───────────────────────────────────────
+     为什么要有这一块：
+       静态页只出源语言 en，之前 news-lang.js 只换标题/摘要/正文 ——
+       结果是"德语正文 + 英文导航/按钮/上下篇"，中文用户点进详情页也一样。
+       框架文案（导航 7 项 / 报价 / 面包屑 / 返回 / 上下篇 / 列表页标题）
+       数量固定、不随内容变化，所以内嵌在这里，不额外发请求。
+
+     ⚠️ 键名必须与后端 lib/news-pages.js 里的 data-nl 一致，改一处要同步另一处。
+     ⚠️ 只做 textContent 替换：任何 key 缺失时保留页面原有英文，不会出现空白按钮。 */
+  var L10N = {
+    zh: {
+      nav_products: '产品与服务', nav_mold: '模具中心', nav_qual: '资质实力',
+      nav_about: '关于我们', nav_news: '新闻动态', nav_contact: '联系我们', nav_faq: '常见问题',
+      cta_quote: '获取报价', crumb_news: '新闻动态', back_news: '← 返回新闻列表',
+      pager_newer: '← 更新', pager_older: '更早 →',
+      list_kicker: '新闻中心', list_h1: '新闻动态',
+      list_sub: '来自弘欧科技（东莞）有限公司的审核、产能与设备进展。'
+    },
+    de: {
+      nav_products: 'Produkte & Services', nav_mold: 'Formenbau', nav_qual: 'Zertifizierungen',
+      nav_about: 'Über uns', nav_news: 'News', nav_contact: 'Kontakt', nav_faq: 'FAQ',
+      cta_quote: 'Angebot anfordern', crumb_news: 'News', back_news: '← Zurück zu News',
+      pager_newer: '← Neuer', pager_older: 'Älter →',
+      list_kicker: 'Newsroom', list_h1: 'News & Updates',
+      list_sub: 'Audits, Kapazität und Ausstattung der HONDVO Technology (Dongguan) Co., Ltd.'
+    },
+    ru: {
+      nav_products: 'Продукция и услуги', nav_mold: 'Производство пресс-форм', nav_qual: 'Сертификация',
+      nav_about: 'О компании', nav_news: 'Новости', nav_contact: 'Контакты', nav_faq: 'Вопросы и ответы',
+      cta_quote: 'Запросить цену', crumb_news: 'Новости', back_news: '← Назад к новостям',
+      pager_newer: '← Новее', pager_older: 'Старее →',
+      list_kicker: 'Пресс-центр', list_h1: 'Новости и события',
+      list_sub: 'Аудиты, мощности и оборудование компании HONDVO Technology (Dongguan) Co., Ltd.'
+    },
+    fr: {
+      nav_products: 'Produits et services', nav_mold: 'Centre moules', nav_qual: 'Certifications',
+      nav_about: 'À propos', nav_news: 'Actualités', nav_contact: 'Contact', nav_faq: 'FAQ',
+      cta_quote: 'Demander un devis', crumb_news: 'Actualités', back_news: '← Retour aux actualités',
+      pager_newer: '← Plus récent', pager_older: 'Plus ancien →',
+      list_kicker: 'Salle de presse', list_h1: 'Actualités',
+      list_sub: 'Audits, capacités et équipements de HONDVO Technology (Dongguan) Co., Ltd.'
+    },
+    ja: {
+      nav_products: '製品・サービス', nav_mold: '金型センター', nav_qual: '資格・実績',
+      nav_about: '会社概要', nav_news: 'ニュース', nav_contact: 'お問い合わせ', nav_faq: 'よくある質問',
+      cta_quote: 'お見積り', crumb_news: 'ニュース', back_news: '← ニュース一覧へ',
+      pager_newer: '← 新しい', pager_older: '古い →',
+      list_kicker: 'ニュースルーム', list_h1: 'ニュース・更新情報',
+      list_sub: '弘欧科技（東莞）有限公司の審査・生産能力・設備に関する最新情報。'
+    },
+    ko: {
+      nav_products: '제품 및 서비스', nav_mold: '금형 센터', nav_qual: '인증 및 역량',
+      nav_about: '회사 소개', nav_news: '뉴스', nav_contact: '문의', nav_faq: '자주 묻는 질문',
+      cta_quote: '견적 요청', crumb_news: '뉴스', back_news: '← 뉴스 목록으로',
+      pager_newer: '← 최신', pager_older: '이전 →',
+      list_kicker: '뉴스룸', list_h1: '뉴스 및 업데이트',
+      list_sub: 'HONDVO Technology (Dongguan) Co., Ltd.의 심사, 생산 능력 및 설비 소식.'
+    },
+    es: {
+      nav_products: 'Productos y servicios', nav_mold: 'Centro de moldes', nav_qual: 'Certificaciones',
+      nav_about: 'Sobre nosotros', nav_news: 'Noticias', nav_contact: 'Contacto', nav_faq: 'Preguntas frecuentes',
+      cta_quote: 'Solicitar cotización', crumb_news: 'Noticias', back_news: '← Volver a noticias',
+      pager_newer: '← Más reciente', pager_older: 'Más antiguo →',
+      list_kicker: 'Sala de prensa', list_h1: 'Noticias y novedades',
+      list_sub: 'Auditorías, capacidad y equipos de HONDVO Technology (Dongguan) Co., Ltd.'
+    }
+  };
+
+  function applyL10n(dict) {
+    var nodes = document.querySelectorAll('[data-nl]');
+    for (var i = 0; i < nodes.length; i++) {
+      var k = nodes[i].getAttribute('data-nl');
+      if (dict && dict[k]) nodes[i].textContent = dict[k];
+    }
+    /* 列表页：标题跟着语言走（详情页没有 .ni-h1，标题在正文替换时单独设，
+       否则会先闪一下"新闻动态 | HONDVO"再被真实标题覆盖） */
+    if (dict && dict.list_h1 && document.querySelector('.ni-h1')) {
+      document.title = dict.list_h1 + ' | HONDVO';
+    }
+  }
+
   /* ── 顶栏交互（与语言无关，必须在下面的 en 提前返回之前执行）── */
   (function initShell() {
     var bar = document.querySelector('.nd-topbar');
@@ -49,6 +130,12 @@
        ?lang= → sessionStorage.hondvo_lang（主站切换时写入，站内跳转必然保留）→ 浏览器语言。
        想换语言请回主站切换，主站是唯一语言入口。 */
   })();
+
+  /* 非英语：先本地化框架文案（不等 content.json，导航不会闪英文），再替换正文 */
+  if (lang !== 'en') {
+    document.documentElement.setAttribute('lang', lang);
+    applyL10n(L10N[lang] || {});
+  }
 
   if (lang === 'en') return;   /* 静态页就是英文，不必多跑一趟 */
 
