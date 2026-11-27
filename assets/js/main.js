@@ -405,23 +405,52 @@
   /* renderProdAcc 在另一个 IIFE 里（产品页 tab 逻辑），跨作用域只能走全局 */
   window.HONDVO_buildFlow = buildFlow;
 
+  /* 2026-11-27 M4：模具能力卡已入库，官网读发布产物 assets/data/mold-cards.json。
+     读不到 / 结构异常 ⇒ 继续用下面的 MOLD.caps + moldCopy 静态兜底。 */
+  var MOLDP = null;
+
   function renderMoldCaps(){
     if(!capAcc) return;
     var lang=moldLang();
-    var blocks = MOLD.caps.map(function(c){
-      var copy = moldCopyFor(c.key, lang);
-      return {
-        id: 'mold-cap-' + c.key,          // 保留导航下拉的稳定锚点
-        title: copy ? copy.title : c.zh,
-        desc: copy ? copy.desc : c.desc,
-        tags: copy ? copy.tags : c.tags,
-        photos: c.photos || []
-      };
-    });
+    var blocks = (MOLDP && MOLDP.items && MOLDP.items.length)
+      ? MOLDP.items.map(function(it){
+          /* 产物已按 8 语言给全（缺译由后端回落源语言），这里只需挑当前语言 */
+          var t = (it.texts && (it.texts[lang] || it.texts.en)) || {};
+          return {
+            id: 'mold-cap-' + it.slug,    // 与静态结构同一套锚点
+            title: t.title || '',
+            desc: t.desc || '',
+            tags: Array.isArray(t.tags) ? t.tags : [],
+            photos: Array.isArray(it.photos) ? it.photos : []
+          };
+        })
+      : MOLD.caps.map(function(c){
+          var copy = moldCopyFor(c.key, lang);
+          return {
+            id: 'mold-cap-' + c.key,          // 保留导航下拉的稳定锚点
+            title: copy ? copy.title : c.zh,
+            desc: copy ? copy.desc : c.desc,
+            tags: copy ? copy.tags : c.tags,
+            photos: c.photos || []
+          };
+        });
     buildFlow(capAcc, blocks);
   }
   renderMoldCaps();
   document.addEventListener('hondvo:lang', renderMoldCaps);
+
+  /* 能力卡产物：拿到就用，拿不到保持静态 4 张（同设备表的兜底口径） */
+  (function loadMoldData(){
+    if(typeof fetch !== 'function') return;
+    fetch('assets/data/mold-cards.json', { cache: 'no-cache' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        if(!j || !j.items || !j.items.length) return;
+        MOLDP = j;
+        renderMoldCaps();
+      })
+      .catch(function(){ /* 保留静态兜底 */ });
+  })();
   // 2026-11-19：模具中心改为独立轮播，原「点缩略图开灯箱」的委托已无对应节点，移除。
 
   // 区块三：加工设备（互斥折叠 + 表格），徽标 = 数量求和（2026-09-04 迁移：模具中心 → 资质实力页）
