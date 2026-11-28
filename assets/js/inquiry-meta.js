@@ -206,14 +206,17 @@
         if (!j || !Array.isArray(j.inquiryType) || !j.inquiryType.length) return;
         var allowed = {};
         j.inquiryType.forEach(function(x){ if (x.langKey) allowed[x.langKey] = 1; });
-        Object.keys(INQUIRY_MAP).forEach(function(k){ if (!allowed[k]) delete INQUIRY_MAP[k]; });
+        /* 只处理"原本就是业务类型"的选项（在 INQUIRY_MAP 里有映射的），
+           占位项 ct_type_0（请选择）与标签 ct_type_label 不在映射里，必须原样保留。
+           ⚠️ 之前只判 `!allowed[lk]` 连占位项一起删了 —— 下拉会变成没有默认项。 */
         var sel = document.getElementById('ct-type');
         if (sel) {
           Array.prototype.slice.call(sel.options).forEach(function(o){
             var lk = o.getAttribute('data-lang-key');
-            if (lk && !allowed[lk] && o.parentNode) o.parentNode.removeChild(o);
+            if (lk && INQUIRY_MAP[lk] && !allowed[lk] && o.parentNode) o.parentNode.removeChild(o);
           });
         }
+        Object.keys(INQUIRY_MAP).forEach(function(k){ if (!allowed[k]) delete INQUIRY_MAP[k]; });
       })
       .catch(function(){ /* 保留内置映射 */ });
   })();
