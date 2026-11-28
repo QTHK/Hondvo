@@ -193,4 +193,28 @@
     intakeEndpoint: intakeEndpoint,
     pushToSheet: pushToSheet
   };
+
+  /* 2026-11-27 M8：枚举由后台「表单配置」维护（发布产物 assets/data/form-config.json）。
+     只做两件事：① 停用的业务类型从映射里移除 ② 对应下拉选项一并移除。
+     ⚠️ 新增类型仍需官网 HTML 里先有对应 option（data-lang-key），否则无处挂载 —— M8-P2 再解决。
+     ⚠️ 用 delete 原地改 INQUIRY_MAP，不换对象引用 —— HONDVO_meta 持有同一个对象。 */
+  (function loadFormConfig(){
+    if (typeof fetch !== 'function') return;
+    fetch('assets/data/form-config.json', { cache: 'no-cache' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        if (!j || !Array.isArray(j.inquiryType) || !j.inquiryType.length) return;
+        var allowed = {};
+        j.inquiryType.forEach(function(x){ if (x.langKey) allowed[x.langKey] = 1; });
+        Object.keys(INQUIRY_MAP).forEach(function(k){ if (!allowed[k]) delete INQUIRY_MAP[k]; });
+        var sel = document.getElementById('ct-type');
+        if (sel) {
+          Array.prototype.slice.call(sel.options).forEach(function(o){
+            var lk = o.getAttribute('data-lang-key');
+            if (lk && !allowed[lk] && o.parentNode) o.parentNode.removeChild(o);
+          });
+        }
+      })
+      .catch(function(){ /* 保留内置映射 */ });
+  })();
 })();

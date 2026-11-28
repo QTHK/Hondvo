@@ -1,0 +1,45 @@
+{
+  "inquiryType": [
+    {
+      "key": "medical_parts",
+      "zh": "医疗器械注塑件",
+      "langKey": "ct_type_1"
+    },
+    {
+      "key": "mold_making",
+      "zh": "精密模具制造",
+      "langKey": "ct_type_2"
+    },
+    {
+      "key": "one_stop",
+      "zh": "模具+注塑一站式",
+      "langKey": "ct_type_3"
+    },
+    {
+      "key": "other",
+      "zh": "其他咨询",
+      "langKey": "ct_type_4"
+    }
+  ],
+  "productLine": [
+    {
+      "key": "mold",
+      "zh": "模具",
+      "langKey": "pc_mold_title"
+    },
+    {
+      "key": "finished_parts",
+      "zh": "成品件",
+      "langKey": "pc_product_title"
+    },
+    {
+      "key": "oem",
+      "zh": "OEM",
+      "langKey": "pc_oem_title"
+    }
+  ],
+  "antispam": {
+    "honeypot": "botcheck"
+  },
+  "generatedAt": "2026-11-28T02:26:42.562Z"
+}
