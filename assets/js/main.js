@@ -4036,6 +4036,38 @@ document.addEventListener("hondvo:lang", function () {
 
   window.addEventListener("hashchange", function(){ applyProductHash(); });
 
+  /* M4-P3（2026-11-27）：产品线 / 应用行业的图标与图片序列由后台维护，
+     产物 assets/data/product-lines.json 只覆盖**结构与图**，文案键（t/d/tags）不动 —— 文案仍在 i18n。
+     拿不到产物就保持静态结构（官网不能因一个 JSON 挂掉）。 */
+  function applyProdLines(j){
+    if(!j) return false;
+    var changed = false;
+    ["browse","industries"].forEach(function(tab){
+      var items = j[tab];
+      if(!Array.isArray(items) || !items.length) return;
+      var list = PROD_ACC[tab] || [];
+      items.forEach(function(src){
+        var idx = parseInt(String(src.slug || "").split("-").pop(), 10) - 1;
+        if(!(idx >= 0 && idx < list.length)) return;
+        if(src.icon) list[idx].icon = src.icon;
+        if(src.img) list[idx].img = src.img;
+        if(src.photos && src.photos.length) list[idx].photos = src.photos;
+        changed = true;
+      });
+    });
+    return changed;
+  }
+  (function loadProdLines(){
+    if(typeof fetch !== "function") return;
+    fetch("assets/data/product-lines.json", { cache: "no-cache" })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        if(!applyProdLines(j)) return;
+        try { renderProdAcc(true); } catch(e){ /* 兜底：保留既有渲染 */ }
+      })
+      .catch(function(){ /* 保留静态兜底 */ });
+  })();
+
   function init3(){
     bindProdTabLinks();
     renderProdAcc();

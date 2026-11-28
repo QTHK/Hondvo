@@ -1,0 +1,221 @@
+{
+  "browse": [
+    {
+      "slug": "browse-1",
+      "icon": "ID",
+      "img": "images/core_medical_1.webp",
+      "photos": [
+        {
+          "src": "images/core_medical_1.webp",
+          "descKey": "slide_browse_0_0_desc",
+          "tagsKey": "slide_browse_0_0_tags"
+        },
+        {
+          "src": "images/prod_enteral.webp",
+          "descKey": "slide_browse_0_1_desc",
+          "tagsKey": "slide_browse_0_1_tags"
+        },
+        {
+          "src": "images/prod_injection.webp",
+          "descKey": "slide_browse_0_2_desc",
+          "tagsKey": "slide_browse_0_2_tags"
+        }
+      ],
+      "titleKey": "prod1_title",
+      "descKey": "home_prod1_desc",
+      "tagsKeys": [
+        "prod1_tag1",
+        "prod1_tag2",
+        "prod1_tag3",
+        "prod1_tag4"
+      ]
+    },
+    {
+      "slug": "browse-2",
+      "icon": "IVD",
+      "img": "images/core_medical_2.webp",
+      "photos": [
+        {
+          "src": "images/core_medical_2.webp",
+          "descKey": "slide_browse_1_0_desc",
+          "tagsKey": "slide_browse_1_0_tags"
+        },
+        {
+          "src": "images/ivd_mold_1.webp",
+          "descKey": "slide_browse_1_1_desc",
+          "tagsKey": "slide_browse_1_1_tags"
+        },
+        {
+          "src": "images/core_mold_3.webp",
+          "descKey": "slide_browse_1_2_desc",
+          "tagsKey": "slide_browse_1_2_tags"
+        }
+      ],
+      "titleKey": "prod2_title",
+      "descKey": "home_prod2_desc",
+      "tagsKeys": [
+        "prod2_tag1",
+        "prod2_tag2",
+        "prod2_tag3",
+        "prod2_tag4"
+      ]
+    },
+    {
+      "slug": "browse-3",
+      "icon": "RS",
+      "img": "images/prod_custom.webp",
+      "photos": [
+        {
+          "src": "images/prod_custom.webp",
+          "descKey": "slide_browse_2_0_desc",
+          "tagsKey": "slide_browse_2_0_tags"
+        },
+        {
+          "src": "images/prod_injection.webp",
+          "descKey": "slide_browse_2_1_desc",
+          "tagsKey": "slide_browse_2_1_tags"
+        }
+      ],
+      "titleKey": "home_prod4_title",
+      "descKey": "home_prod4_desc",
+      "tagsKeys": [
+        "prod4_tag1",
+        "prod4_tag2",
+        "prod4_tag3",
+        "prod4_tag4"
+      ]
+    },
+    {
+      "slug": "browse-4",
+      "icon": "PK",
+      "img": "images/workshop_1.webp",
+      "photos": [
+        {
+          "src": "images/workshop_1.webp",
+          "descKey": "slide_browse_3_0_desc",
+          "tagsKey": "slide_browse_3_0_tags"
+        },
+        {
+          "src": "images/workshop_2.webp",
+          "descKey": "slide_browse_3_1_desc",
+          "tagsKey": "slide_browse_3_1_tags"
+        }
+      ],
+      "titleKey": "home_prod5_title",
+      "descKey": "home_prod5_desc",
+      "tagsKeys": [
+        "prod5_tag1",
+        "prod5_tag2",
+        "prod5_tag3",
+        "prod5_tag4"
+      ]
+    }
+  ],
+  "industries": [
+    {
+      "slug": "industries-1",
+      "icon": "ID",
+      "img": "images/core_medical_1.webp",
+      "photos": [
+        {
+          "src": "images/core_medical_1.webp",
+          "descKey": "slide_industries_0_0_desc",
+          "tagsKey": ""
+        },
+        {
+          "src": "images/prod_enteral.webp",
+          "descKey": "slide_industries_0_1_desc",
+          "tagsKey": ""
+        }
+      ],
+      "titleKey": "home_sec_1_t",
+      "descKey": "home_sec_1_scene",
+      "tagsKeys": [
+        "home_sec_1_l1",
+        "home_sec_1_l2",
+        "home_sec_1_l3",
+        "home_sec_1_l4"
+      ]
+    },
+    {
+      "slug": "industries-2",
+      "icon": "IVD",
+      "img": "images/core_medical_2.webp",
+      "photos": [
+        {
+          "src": "images/core_medical_2.webp",
+          "descKey": "slide_industries_1_0_desc",
+          "tagsKey": ""
+        },
+        {
+          "src": "images/ivd_mold_2.webp",
+          "descKey": "slide_industries_1_1_desc",
+          "tagsKey": ""
+        }
+      ],
+      "titleKey": "home_sec_2_t",
+      "descKey": "home_sec_2_scene",
+      "tagsKeys": [
+        "home_sec_2_l1",
+        "home_sec_2_l2",
+        "home_sec_2_l3",
+        "home_sec_2_l4",
+        "home_sec_2_l5"
+      ]
+    },
+    {
+      "slug": "industries-3",
+      "icon": "RS",
+      "img": "images/prod_custom.webp",
+      "photos": [
+        {
+          "src": "images/prod_custom.webp",
+          "descKey": "slide_industries_2_0_desc",
+          "tagsKey": ""
+        },
+        {
+          "src": "images/prod_injection.webp",
+          "descKey": "slide_industries_2_1_desc",
+          "tagsKey": ""
+        }
+      ],
+      "titleKey": "home_sec_3_t",
+      "descKey": "home_sec_3_scene",
+      "tagsKeys": [
+        "home_sec_3_l1",
+        "home_sec_3_l2",
+        "home_sec_3_l3",
+        "home_sec_3_l4",
+        "home_sec_3_l5",
+        "home_sec_3_l6"
+      ]
+    },
+    {
+      "slug": "industries-4",
+      "icon": "PK",
+      "img": "images/workshop_1.webp",
+      "photos": [
+        {
+          "src": "images/workshop_1.webp",
+          "descKey": "slide_industries_3_0_desc",
+          "tagsKey": ""
+        },
+        {
+          "src": "images/workshop_2.webp",
+          "descKey": "slide_industries_3_1_desc",
+          "tagsKey": ""
+        }
+      ],
+      "titleKey": "home_sec_4_t",
+      "descKey": "home_sec_4_scene",
+      "tagsKeys": [
+        "home_sec_4_l1",
+        "home_sec_4_l2",
+        "home_sec_4_l3",
+        "home_sec_4_l4"
+      ]
+    }
+  ],
+  "generatedAt": "2026-11-28T02:12:56.589Z",
+  "count": 8
+}
